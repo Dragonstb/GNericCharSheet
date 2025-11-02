@@ -1,0 +1,13 @@
+{
+    "name": "GNeric Char Sheet",
+    "version": "0.0.1",
+    "manifest_version": 1,
+    "description": "Generic character sheets.",
+    "action": {
+      "title": "GNeric Char Sheet",
+      "icon": "/icon.svg",
+      "popover": "/src/index.html",
+      "height": 600,
+      "width": 400
+    }
+}
