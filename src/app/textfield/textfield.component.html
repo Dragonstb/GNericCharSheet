@@ -1,0 +1,6 @@
+<textarea #textPanel [id]="id" [rows]="rows"  width="30%" class="boxed" [disabled]="!textEditable"></textarea>
+<div #editPanel>
+    <button (click)="addRow()">+</button>
+    <button (click)="deleteRow()" [disabled]="rows<2">-</button>
+    <button (click)="deleteTextfield()">X</button>
+</div>

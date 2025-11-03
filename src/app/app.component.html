@@ -1,3 +1,8 @@
 <main class="main">
   <div>Hello, GNericCharSheet</div>
+  <div>
+    <input type="checkbox" name="elemEdit" id="elemEdit" (change)="setElemsEditable($event)" checked />
+    <label for="elemEdit">Elements editable</label>
+  </div>
+  <gneric-textfield (deleteTextfieldEvent)="deleteTextfield($event)"/>
 </main>
