@@ -8,7 +8,7 @@ import { Component, ElementRef, output, ViewChild } from "@angular/core";
 export class GnericTextfield {
 
     id: string = "comp-01-01";
-    fullId: string = "Textfield-"+this.id;
+    fullId: string = "textfield-"+this.id;
     rows: number = 10;
     textEditable: boolean = true;
     deleteTextfieldEvent = output<string>();

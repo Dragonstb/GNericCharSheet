@@ -1,13 +1,13 @@
 <fieldset #fieldSet class="editable">
     <legend #legend>{{fullId}}</legend>
     <textarea #textPanel [id]="id" [rows]="rows"  width="30%" class="boxed" ></textarea>
-    <div #editPanel>
+    <div #editPanel id="{{id}}-editPanel">
         <div>
             <span class="aria-visible" aria-live="polite" >Currently {{rows}} rows</span>
             <button (click)="addRow()" >Expand by one row</button>
         </div>
         <div>
-            <button (click)="deleteRow()" [disabled]="rows<2" >Shrink by one row</button>
+            <button (click)="deleteRow()" [disabled]="rows>-5" id="{{id}}-shrink">Shrink by one row</button>
         </div>
         <div>
             <button (click)="deleteTextfield()">Dispose textfield</button>
