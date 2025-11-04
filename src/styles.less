@@ -2,10 +2,33 @@
     display: none;
 }
 
+.aria-visible {
+    // stuff that is invisible but accessible to assitive technologies
+    font-size: 0;
+}
+
 .boxed {
     border: 2px solid #bbb;
 }
 
 textarea {
     resize: none;
+}
+
+fieldset {
+
+    border: none;
+    padding: 0;
+    margin: 0;
+
+    // TODO: enable less processing
+    // .editable {
+    //     border: 1px solid #999;
+    //     padding: 10px;
+    // }
+}
+
+fieldset.editable {
+    border: 1px solid #999;
+    padding: 10px;
 }
