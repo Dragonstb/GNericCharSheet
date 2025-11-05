@@ -2,8 +2,7 @@ import { Component, ElementRef, output, ViewChild } from "@angular/core";
 
 @Component({
     selector: 'gneric-textfield',
-    templateUrl: './textfield.component.html',
-    styleUrl: './textfield.component.less'
+    templateUrl: './textfield.component.html'
 })
 export class GnericTextfield {
 
