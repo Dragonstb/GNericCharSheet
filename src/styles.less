@@ -19,6 +19,7 @@
 @obr-light-prim-light: rgb(173, 132, 255);
 @obr-light-prim-dark: rgb(107, 71, 178);
 @obr-light-prim-contrast: #fff;
+@light-prim-disabled: rgb(66, 58, 83);
 @obr-light-sec-main: #dd33ff;
 @obr-light-sec-light: rgb(227, 91, 255);
 @obr-light-sec-dark: rgb(154, 35, 178);
@@ -31,6 +32,11 @@
     color: @obr-dark-text-prim;
     background-color: @obr-dark-bg-default;
     box-sizing: border-box;
+
+    &.light {
+        color: @obr-light-text-prim;
+        background-color: @obr-light-bg-default;
+    }
 }
 
 .hidden {
@@ -45,6 +51,10 @@
 .boxed {
     border: 2px solid @obr-dark-text-prim;
     padding: 4px;
+
+    &.light{
+        border-color: @obr-light-text-prim;
+    }
 }
 
 .ctrl-elem {
@@ -73,6 +83,24 @@ button {
         color: @obr-dark-text-disabled;
         background-color: @dark-prim-disabled;
     }
+
+    &.light {
+        color: @obr-light-prim-contrast;
+        background-color: @obr-light-prim-main;
+        border-left-color: @obr-light-prim-light;
+        border-top-color: @obr-light-prim-light;
+        border-right-color: @obr-light-prim-dark;
+        border-bottom-color: @obr-light-prim-dark;
+
+        &:hover {
+            background-color: @obr-light-prim-light;
+        }
+    
+        &:disabled {
+            color: @obr-light-text-disabled;
+            background-color: @light-prim-disabled;
+        }
+    }
 }
 
 textarea {
@@ -88,11 +116,13 @@ fieldset {
 
     &.editable {
         border: 1px solid @obr-dark-text-prim;
-        // padding: 10px;
+
+        &.light {
+            border-color: @obr-light-text-prim;
+        }
     }
 }
 
 legend {
-
     margin: 10px;
 }
