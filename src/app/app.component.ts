@@ -1,5 +1,6 @@
 import { Component, viewChildren } from '@angular/core';
 import { GnericTextfield } from './textfield/textfield.component';
+import OBR from '@owlbear-rodeo/sdk';
 
 @Component({
   selector: 'app-root',
@@ -21,5 +22,14 @@ export class AppComponent {
 
   deleteTextfield(elemId: string) {
     console.log(elemId);
+  }
+
+  ngOnInit() {
+    OBR.onReady(()=>{
+        const theme = OBR.theme.getTheme();
+        console.dir(theme);
+      }
+    )
+    OBR.theme.onChange((theme)=>console.dir(theme));
   }
 }

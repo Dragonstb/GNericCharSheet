@@ -1,3 +1,38 @@
+@obr-dark-bg-paper: #222639;
+@obr-dark-bg-default: #1e2231;
+@obr-dark-prim-main: #bb99ff;
+@obr-dark-prim-light: rgb(200, 173, 255);
+@obr-dark-prim-dark: rgb(130, 107, 178);
+@obr-dark-prim-contrast: rgba(0, 0, 0, 0.87);
+@dark-prim-disabled: rgb(97, 89, 114);
+@obr-dark-sec-main: #ee99ff;
+@obr-dark-sec-light: rgb(241, 173, 255);
+@obr-dark-sec-dark: rgb(166, 107, 178);
+@obr-dark-sec-contrast: rgba(0, 0, 0, 0.87);
+@obr-dark-text-prim: #fff;
+@obr-dark-text-sec: rgba(255, 255, 255, 0.7);
+@obr-dark-text-disabled: rgba(255, 255, 255, 0.5);
+
+@obr-light-bg-paper: #f1f3f9;
+@obr-light-bg-default: #dde1ee;
+@obr-light-prim-main: #9966ff;
+@obr-light-prim-light: rgb(173, 132, 255);
+@obr-light-prim-dark: rgb(107, 71, 178);
+@obr-light-prim-contrast: #fff;
+@obr-light-sec-main: #dd33ff;
+@obr-light-sec-light: rgb(227, 91, 255);
+@obr-light-sec-dark: rgb(154, 35, 178);
+@obr-light-sec-contrast: #fff;
+@obr-light-text-prim: rgba(0, 0, 0, 0.87);
+@obr-light-text-sec: rgba(0, 0, 0, 0.6);
+@obr-light-text-disabled: rgba(0, 0, 0, 0.38);
+
+* {
+    color: @obr-dark-text-prim;
+    background-color: @obr-dark-bg-default;
+    box-sizing: border-box;
+}
+
 .hidden {
     display: none;
 }
@@ -8,13 +43,36 @@
 }
 
 .boxed {
-    border: 2px solid #999;
+    border: 2px solid @obr-dark-text-prim;
     padding: 4px;
 }
 
-* {
-    color: black;
-    box-sizing: border-box;
+.ctrl-elem {
+    margin-left: 10px;
+}
+
+button {
+
+    color: @obr-dark-prim-contrast;
+    background-color: @obr-dark-prim-main;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 5px;
+    border-left-color: @obr-dark-prim-light;
+    border-top-color: @obr-dark-prim-light;
+    border-right-color: @obr-dark-prim-dark;
+    border-bottom-color: @obr-dark-prim-dark;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    
+    &:hover {
+        background-color: @obr-dark-prim-light;
+    }
+
+    &:disabled {
+        color: @obr-dark-text-disabled;
+        background-color: @dark-prim-disabled;
+    }
 }
 
 textarea {
@@ -29,7 +87,12 @@ fieldset {
     margin: 0;
 
     &.editable {
-        border: 1px solid #999;
-        padding: 10px;
+        border: 1px solid @obr-dark-text-prim;
+        // padding: 10px;
     }
+}
+
+legend {
+
+    margin: 10px;
 }
