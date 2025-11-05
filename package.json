@@ -9,7 +9,6 @@
     "test": "ng test"
   },
   "private": true,
-  "type": "module",
   "dependencies": {
     "@angular/common": "^20.3.9",
     "@angular/compiler": "^20.3.9",

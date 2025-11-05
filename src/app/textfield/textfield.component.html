@@ -7,7 +7,7 @@
             <button (click)="addRow()" >Expand by one row</button>
         </div>
         <div>
-            <button (click)="deleteRow()" [disabled]="rows>-5" id="{{id}}-shrink">Shrink by one row</button>
+            <button (click)="deleteRow()" [disabled]="rows<2" id="{{id}}-shrink">Shrink by one row</button>
         </div>
         <div>
             <button (click)="deleteTextfield()">Dispose textfield</button>

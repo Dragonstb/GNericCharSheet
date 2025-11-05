@@ -1,5 +1,5 @@
 import { Component, viewChildren } from '@angular/core';
-import { GnericTextfield } from './textfield/textfield.component.js';
+import { GnericTextfield } from './textfield/textfield.component';
 
 @Component({
   selector: 'app-root',

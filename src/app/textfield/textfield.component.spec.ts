@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { GnericTextfield } from "./textfield.component.js";
+import { GnericTextfield } from "./textfield.component";
 import { DebugElement } from "@angular/core";
 import { By } from "@angular/platform-browser";
 
@@ -67,7 +67,7 @@ describe( 'DiceHeapComponent', () => {
             textfield.deleteRow();
         }
         const btn = dbgElem.query( By.css('#'+id+'-shrink') );
-        expect( btn.attributes['disabled'] ).toBe('');
+        expect( btn.attributes['disabled'] ).toBeFalsy();
     });
 
     it( 'Should activate the shrink button when getting back a second row', () => {
