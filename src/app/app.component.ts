@@ -20,16 +20,13 @@ export class AppComponent {
     });
   }
 
+  reactOnChange(json: object) {
+    console.log('change detected');
+    console.dir(json);
+  }
+
   deleteTextfield(elemId: string) {
     console.log(elemId);
   }
 
-  ngOnInit() {
-    OBR.onReady(()=>{
-        const theme = OBR.theme.getTheme();
-        console.dir(theme);
-      }
-    )
-    OBR.theme.onChange((theme)=>console.dir(theme));
-  }
 }

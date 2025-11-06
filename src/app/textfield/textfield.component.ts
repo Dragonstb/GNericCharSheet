@@ -1,4 +1,5 @@
 import { Component, ElementRef, output, ViewChild } from "@angular/core";
+import { ElemTypes } from "../elemtypes";
 
 @Component({
     selector: 'gneric-textfield',
@@ -9,8 +10,10 @@ export class GnericTextfield {
     id: string = "comp-01-01";
     fullId: string = "textfield-"+this.id;
     rows: number = 10;
-    textEditable: boolean = true;
+
     deleteTextfieldEvent = output<string>();
+    gNericElemChangedEvent = output<object>();
+
     @ViewChild('textPanel', {static: true}) textPanel!: ElementRef<HTMLTextAreaElement>;
     @ViewChild('editPanel', {static: true}) editPanel!: ElementRef<HTMLDivElement>;
     @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
@@ -18,16 +21,17 @@ export class GnericTextfield {
 
     addRow() {
         ++this.rows;
+        this.fireElemChangedEvent();
     }
 
     deleteRow() {
         if(this.rows > 1) {
             --this.rows;
+            this.fireElemChangedEvent();
         }
     }
 
     setEditable(editable: boolean) {
-        this.textEditable = editable;
         if(editable) {
             this.editPanel.nativeElement.classList.remove('hidden');
             this.legend.nativeElement.classList.remove('hidden');
@@ -38,6 +42,16 @@ export class GnericTextfield {
             this.legend.nativeElement.classList.add('hidden');
             this.fieldSet.nativeElement.classList.remove('editable');
         }
+    }
+
+    fireElemChangedEvent() {
+        const json = {
+            id: this.id,
+            type: ElemTypes.textfield,
+            text: this.textPanel.nativeElement.value,
+            rows: this.rows
+        };
+        this.gNericElemChangedEvent.emit(json);
     }
 
     deleteTextfield() {

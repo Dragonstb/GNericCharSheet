@@ -4,5 +4,7 @@
     <input type="checkbox" name="elemEdit" id="elemEdit" (change)="setElemsEditable($event)" checked />
     <label for="elemEdit">Elements editable</label>
   </div>
-  <gneric-textfield (deleteTextfieldEvent)="deleteTextfield($event)"/>
+  <gneric-textfield
+    (deleteTextfieldEvent)="deleteTextfield($event)"
+    (gNericElemChangedEvent)="reactOnChange($event)"/>
 </main>

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { GnericTextfield } from "./textfield.component";
 import { DebugElement } from "@angular/core";
 import { By } from "@angular/platform-browser";
+import { ElemTypes } from "../elemtypes";
 
 describe( 'DiceHeapComponent', () => {
     let fixture: ComponentFixture<GnericTextfield>;
@@ -152,7 +153,47 @@ describe( 'DiceHeapComponent', () => {
         expect( btn.classes['editable'] ).toBeTruthy();
     });
 
+    // _______________  fire change event  _______________
     
+    it( 'Should fire a change event when pressing the increase button', () => {
+        let fired = false;
+        textfield.gNericElemChangedEvent.subscribe( () => {fired = true;} );
+        textfield.addRow();
+        expect( fired ).toBeTrue();
+    });
+
+    it( 'Should fire a change event when pressing the shrink button', () => {
+        let fired = false;
+        textfield.gNericElemChangedEvent.subscribe( () => {fired = true;} );
+        textfield.deleteRow();
+        expect( fired ).toBeTrue();
+    });
+
+    it( 'Should fire a change event when changing the text content', () => {
+        let fired = false;
+        textfield.gNericElemChangedEvent.subscribe( () => {fired = true;} );
+        textfield.textPanel.nativeElement.dispatchEvent(new InputEvent('input'));
+        expect( fired ).toBeTrue();
+    });
+
+    it( 'Should bubble the correct json when the change event is fired', () => {
+        let json = undefined;
+        const rows = 5;
+        const text = "Hello";
+        textfield.rows = rows;
+        textfield.textPanel.nativeElement.value = text;
+        textfield.gNericElemChangedEvent.subscribe( (evt) => {json = evt;} );
+        textfield.textPanel.nativeElement.dispatchEvent(new InputEvent('input'));
+        expect( json ).toBeTruthy();
+        if(json) {
+            expect( json['id'] ).toBe(id);
+            expect( json['rows'] ).toBe(rows);
+            expect( json['text'] ).toBe(text);
+            expect( json['type'] ).toBe(ElemTypes.textfield);
+        }
+    });
+
+
     // _______________  accessors  _______________
 
     it( 'Should return the correct id', () => {
