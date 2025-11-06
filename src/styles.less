@@ -126,3 +126,23 @@ fieldset {
 legend {
     margin: 10px;
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid @obr-dark-text-prim;
+    padding-left: 4px;
+    padding-right: 4px;
+
+    &.light {
+        border-color: @obr-light-text-prim;
+    }
+
+    & > input[type="text"] {
+        width: 100%;
+        border: none;
+    }
+}
