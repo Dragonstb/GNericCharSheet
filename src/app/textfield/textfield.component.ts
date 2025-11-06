@@ -60,6 +60,39 @@ export class GnericTextfield {
         this.deleteTextfieldEvent.emit(this.id);
     }
 
+    isTextfieldModelForMe(model: any): boolean {
+        if(!model) {
+            return false;
+        }
+
+        if(!model.hasOwnProperty('id') || !model.id || typeof model.id !== 'string' || model.id !== this.id) {
+            return false;
+        }
+
+        if(!model.hasOwnProperty('type') || !model.type || typeof model.type !== 'string' || model.type !== ElemTypes.textfield) {
+            return false;
+        }
+
+        if(!model.hasOwnProperty('rows') || !model.rows || typeof model.rows !== 'number' || model.rows < 1) {
+            return false;
+        }
+
+        if(!model.hasOwnProperty('text') || (!model.text && model.text !== '') || typeof model.text !== 'string') {
+            return false;
+        }
+
+        return true;
+    }
+
+    setModel(model: any) {
+        if(!this.isTextfieldModelForMe(model)) {
+            return;
+        }
+
+        this.rows = model.rows;
+        this.textPanel.nativeElement.value = model.text;
+    }
+
     getId(): string {
         return this.id;
     }

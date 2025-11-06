@@ -214,6 +214,154 @@ describe( 'GNericTextfield', () => {
         }
     });
 
+    // _______________  update model  _______________
+
+    it( 'Should update the element with a proper new model', () => {
+        let json = {
+            id: id,
+            type: ElemTypes.textfield,
+            rows: 5,
+            text: 'Hello World'
+        };
+        textfield.setModel(json);
+        expect(textfield.rows).toBe( json['rows'] );
+        expect(textfield.textPanel.nativeElement.value).toBe( json['text'] );
+    });
+
+    it( 'Should accept a proper new model', () => {
+        let json = {
+            id: id,
+            type: ElemTypes.textfield,
+            rows: 5,
+            text: 'Hello World'
+        };
+        expect(textfield.isTextfieldModelForMe(json)).toBeTrue();
+    });
+
+    it( 'Should reject a falsy model', () => {
+        expect(textfield.isTextfieldModelForMe(undefined)).toBeFalse();
+    });
+
+    it( 'Should reject a model with wrong id', () => {
+        let json = {
+            id: id+"nope",
+            type: ElemTypes.textfield,
+            rows: 5,
+            text: 'Hello World'
+        };
+        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+    });
+
+    it( 'Should reject a model with falsy id', () => {
+        let json = {
+            id: undefined,
+            type: ElemTypes.textfield,
+            rows: 5,
+            text: 'Hello World'
+        };
+        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+    });
+
+    it( 'Should reject a model with id of wrong type', () => {
+        let json = {
+            id: 3,
+            type: ElemTypes.textfield,
+            rows: 5,
+            text: 'Hello World'
+        };
+        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+    });
+
+    it( 'Should reject a model with wrong element type', () => {
+        let json = {
+            id: id,
+            type: 'nonono',
+            rows: 5,
+            text: 'Hello World'
+        };
+        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+    });
+
+    it( 'Should reject a model with falsy element type', () => {
+        let json = {
+            id: id,
+            type: undefined,
+            rows: 5,
+            text: 'Hello World'
+        };
+        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+    });
+
+    it( 'Should reject a model with type-mismatching element type', () => {
+        let json = {
+            id: id,
+            type: 12,
+            rows: 5,
+            text: 'Hello World'
+        };
+        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+    });
+
+    it( 'Should reject a model with wrong row count', () => {
+        let json = {
+            id: id,
+            type: ElemTypes.textfield,
+            rows: -5,
+            text: 'Hello World'
+        };
+        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+    });
+
+    it( 'Should reject a model with falsy row count', () => {
+        let json = {
+            id: id,
+            type: ElemTypes.textfield,
+            rows: undefined,
+            text: 'Hello World'
+        };
+        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+    });
+
+    it( 'Should reject a model with type-mismatching row count', () => {
+        let json = {
+            id: id,
+            type: ElemTypes.textfield,
+            rows: 'many',
+            text: 'Hello World'
+        };
+        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+    });
+    
+    it( 'Should reject a model with falsy text', () => {
+        let json = {
+            id: id,
+            type: ElemTypes.textfield,
+            rows: 5,
+            text: undefined
+        };
+        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+    });
+
+    it( 'Should reject a model with type-mismatching text', () => {
+        let json = {
+            id: id,
+            type: ElemTypes.textfield,
+            rows: 5,
+            text: 12
+        };
+        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+    });
+
+    it( 'Should accept a model with empty text', () => {
+        let json = {
+            id: id,
+            type: ElemTypes.textfield,
+            rows: 5,
+            text: ''
+        };
+        expect(textfield.isTextfieldModelForMe(json)).toBeTrue();
+    });
+
 
     // _______________  accessors  _______________
 

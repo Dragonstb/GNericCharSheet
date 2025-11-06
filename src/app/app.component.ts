@@ -1,6 +1,7 @@
-import { Component, viewChildren } from '@angular/core';
+import { Component, inject, viewChildren } from '@angular/core';
 import { GnericTextfield } from './textfield/textfield.component';
 import OBR from '@owlbear-rodeo/sdk';
+import { BroadCaster } from '../services/broadcaster';
 
 @Component({
   selector: 'app-root',
@@ -8,8 +9,9 @@ import OBR from '@owlbear-rodeo/sdk';
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })
-export class AppComponent {
+export class GNericMainComponent {
   title = 'GNericCharSheet';
+  broadcaster: BroadCaster = inject(BroadCaster);
   textfields = viewChildren(GnericTextfield);
 
   setElemsEditable(event: Event) {
@@ -21,12 +23,23 @@ export class AppComponent {
   }
 
   reactOnChange(json: object) {
-    console.log('change detected');
-    console.dir(json);
+    this.broadcaster.handleOutgoingMessage(json);
   }
 
   deleteTextfield(elemId: string) {
     console.log(elemId);
   }
 
+  setModel(model: any) {
+    this.textfields()[0].setModel(model);
+  }
+
+  ngOnInit() {
+    this.broadcaster.setApp(this);
+    OBR.onReady(
+      ()=>{
+        this.broadcaster.setReady();
+      }
+    );
+  }
 }
