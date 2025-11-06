@@ -10,6 +10,7 @@ export class GnericTextfield {
     id: string = "comp-01-01";
     fullId: string = "textfield-"+this.id;
     rows: number = 10;
+    readOnly: boolean = false;
 
     deleteTextfieldEvent = output<string>();
     gNericElemChangedEvent = output<object>();
@@ -32,6 +33,7 @@ export class GnericTextfield {
     }
 
     setEditable(editable: boolean) {
+        this.readOnly = !editable;
         if(editable) {
             this.editPanel.nativeElement.classList.remove('hidden');
             this.legend.nativeElement.classList.remove('hidden');

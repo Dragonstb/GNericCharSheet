@@ -4,7 +4,7 @@ import { DebugElement } from "@angular/core";
 import { By } from "@angular/platform-browser";
 import { ElemTypes } from "../elemtypes";
 
-describe( 'DiceHeapComponent', () => {
+describe( 'GNericTextfield', () => {
     let fixture: ComponentFixture<GnericTextfield>;
     let textfield: GnericTextfield;
     let natElem: HTMLElement;
@@ -66,29 +66,32 @@ describe( 'DiceHeapComponent', () => {
         const tooManyRows = textfield.rows-1;
         for (let idx = 0; idx < tooManyRows; idx++) {   
             textfield.deleteRow();
+            fixture.detectChanges();
         }
         const btn = dbgElem.query( By.css('#'+id+'-shrink') );
-        expect( btn.attributes['disabled'] ).toBeFalsy();
+        expect( btn.attributes['disabled'] ).toBe('');
     });
 
     it( 'Should activate the shrink button when getting back a second row', () => {
         const tooManyRows = textfield.rows-1;
         for (let idx = 0; idx < tooManyRows; idx++) {   
             textfield.deleteRow();
+            fixture.detectChanges();
         }
         textfield.addRow();
+        fixture.detectChanges();
         const btn = dbgElem.query( By.css('#'+id+'-shrink') );
-        expect( btn.attributes['disabled'] ).toBeFalsy();
+        expect( btn.attributes['disabled'] ).toBeUndefined();
     });
 
     it( 'Should not disable the shrink button when having more than one row', () => {
         const tooManyRows = textfield.rows-2;
         for (let idx = 0; idx < tooManyRows; idx++) {   
             textfield.deleteRow();
+            fixture.detectChanges();
         }
-        // const btn = dbgElem.query( By.css('#'+id+'-shrink') );
         const btn = dbgElem.query( By.css('#'+id+'-shrink') );
-        expect( btn.attributes['disabled'] ).toBeFalsy();
+        expect( btn.attributes['disabled'] ).toBeUndefined();
     });
 
     it( 'Should have the correct hint for the number of rows after shrinking/expanding', () => {
@@ -109,7 +112,7 @@ describe( 'DiceHeapComponent', () => {
         expect( fired ).toBeTrue();
     });
 
-    // _______________  set editable  _______________
+    // _______________  set not editable  _______________
 
     it('Should hide the edit panel visible when not editable', () => {
         textfield.setEditable(true);
@@ -132,6 +135,16 @@ describe( 'DiceHeapComponent', () => {
         expect( btn.classes['editable'] ).toBeFalsy();
     });
 
+    it('Textarea should be read only when not editable', () => {
+        textfield.setEditable(true);
+        textfield.setEditable(false);
+        fixture.detectChanges();
+        const btn = dbgElem.query( By.css('textarea') );
+        expect( btn.attributes['readonly'] ).toBe('');
+    });
+
+    // _______________  set editable  _______________
+
     it('Should show the edit panel visible when editable', () => {
         textfield.setEditable(false);
         textfield.setEditable(true);
@@ -151,6 +164,14 @@ describe( 'DiceHeapComponent', () => {
         textfield.setEditable(true);
         const btn = dbgElem.query( By.css('fieldset') );
         expect( btn.classes['editable'] ).toBeTruthy();
+    });
+
+    it('Textarea should not be read only when editable', () => {
+        textfield.setEditable(false);
+        textfield.setEditable(true);
+        fixture.detectChanges();
+        const btn = dbgElem.query( By.css('textarea') );
+        expect( btn.attributes['readonly'] ).toBeUndefined();
     });
 
     // _______________  fire change event  _______________
