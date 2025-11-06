@@ -1,14 +1,26 @@
-<table #table class="boxed">
-    <tr>
-        <td><input type="text" name="a1" id="a1"></td>
-        <td><input type="text" name="2a" id="a2"></td>
-    </tr>
-    <tr>
-        <td><input type="text" name="a3" id="a3"></td>
-        <td><input type="text" name="a4" id="a4"></td>
-    </tr>
-    <tr>
-        <td><input type="text" name="a5" id="a5"></td>
-        <td><input type="text" name="a6" id="a6"></td>
-    </tr>
+<table class="boxed">
+    <tbody #tableBody >
+        <tr>
+            <td><input type="text" (focus)="setSelectedCell($event)"></td>
+            <td><input type="text" (focus)="setSelectedCell($event)"></td>
+        </tr>
+        <tr>
+            <td><input type="text" (focus)="setSelectedCell($event)"></td>
+            <td><input type="text" (focus)="setSelectedCell($event)"></td>
+        </tr>
+        <tr>
+            <td><input type="text" (focus)="setSelectedCell($event)"></td>
+            <td><input type="text" (focus)="setSelectedCell($event)"></td>
+        </tr>
+    </tbody>
 </table>
+<div>
+    <button [disabled]="curRow<0 || curCol<0" (click)="addRowBeforeCurrent()">add row before current</button>
+    <button [disabled]="curRow<0 || curCol<0">add row after current</button>
+    <button>remove current row</button>
+</div>
+<div>
+    <button [disabled]="curRow<0 || curCol<0" (click)="addColumnBeforeCurrent()">add column before current</button>
+    <button [disabled]="curRow<0 || curCol<0">add column after current</button>
+    <button>remove current column</button>
+</div>
