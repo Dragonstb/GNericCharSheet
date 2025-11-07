@@ -1,9 +1,16 @@
+<div class="shifterBox">
+    @for(left of lefts; track left) {
+        @if(!$first) {
+            <button class="shifter" [style]="left.text" (cdkDragStarted)="startDraggingShifter($index)" (cdkDragEnded)="endDraggingShifter($index)" cdkDragBoundary=".shifterBox" cdkDragLockAxis="x" cdkDrag>&lt;&gt;</button>
+        }
+    }
+</div>
 <table class="boxed">
     <tbody #tableBody >
         @for(row of content; track row) {
             <tr>
                 @for(col of row; track col) {
-                    <td><input type="text" (focus)="setSelectedCell($event)" [value]="col.text"></td>
+                    <td [style]="col.widthStyle()"><input type="text" (focus)="setSelectedCell($event)" [(value)]="col.text"></td>
                 }
             </tr>
         }
