@@ -1,26 +1,21 @@
 <table class="boxed">
     <tbody #tableBody >
-        <tr>
-            <td><input type="text" (focus)="setSelectedCell($event)"></td>
-            <td><input type="text" (focus)="setSelectedCell($event)"></td>
-        </tr>
-        <tr>
-            <td><input type="text" (focus)="setSelectedCell($event)"></td>
-            <td><input type="text" (focus)="setSelectedCell($event)"></td>
-        </tr>
-        <tr>
-            <td><input type="text" (focus)="setSelectedCell($event)"></td>
-            <td><input type="text" (focus)="setSelectedCell($event)"></td>
-        </tr>
+        @for(row of content; track row) {
+            <tr>
+                @for(col of row; track col) {
+                    <td><input type="text" (focus)="setSelectedCell($event)" [value]="col.text"></td>
+                }
+            </tr>
+        }
     </tbody>
 </table>
 <div>
     <button [disabled]="curRow<0 || curCol<0" (click)="addRowBeforeCurrent()">add row before current</button>
-    <button [disabled]="curRow<0 || curCol<0">add row after current</button>
-    <button>remove current row</button>
+    <button [disabled]="curRow<0 || curCol<0" (click)="addRowAfterCurrent()">add row after current</button>
+    <button [disabled]="getRows()<2" (click)="removeCurrentRow()">remove current row</button>
 </div>
 <div>
-    <button [disabled]="curRow<0 || curCol<0" (click)="addColumnBeforeCurrent()">add column before current</button>
-    <button [disabled]="curRow<0 || curCol<0">add column after current</button>
-    <button>remove current column</button>
+    <button [disabled]="curRow<0 || curCol<0 || getCols()>=maxCols" (click)="addColumnBeforeCurrent()">add column before current</button>
+    <button [disabled]="curRow<0 || curCol<0 || getCols()>=maxCols" (click)="addColumnAfterCurrent()">add column after current</button>
+    <button [disabled]="getCols()<2" (click)="removeCurrentColumn()">remove current column</button>
 </div>

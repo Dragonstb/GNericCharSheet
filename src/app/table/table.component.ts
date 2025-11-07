@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
+import { CellModel } from "./cellmodel";
 
 @Component({
     selector: 'gneric-table',
@@ -8,10 +9,13 @@ export class GNericTable {
 
     maxCols: number = 6;
 
-    rows: number = 3;
-    cols: number = 2;
     curRow: number = -1;
     curCol: number = -1;
+    content: CellModel[][] = [
+        [new CellModel('r1c1'), new CellModel('r1c2')],
+        [new CellModel('r2c1'), new CellModel('r2c2')],
+        [new CellModel('r3c1'), new CellModel('r3c2')],
+    ];
     @ViewChild('tableBody', {static: true}) tableBody!: ElementRef<HTMLTableSectionElement>;
 
     setEditable(editable: boolean): void {
@@ -22,41 +26,51 @@ export class GNericTable {
         this.addRowAtIndex(this.curRow);
     }
 
-    addRowAtIndex(idx: number): void {
-        const tbl = this.tableBody.nativeElement;
-        tbl.childNodes.forEach( (trow) => {
-            const elem = trow as HTMLTableRowElement;
-            if(elem.rowIndex == idx) {
-                console.log('insert here');
-            }
-            console.log(elem.rowIndex);
-        });
+    addRowAfterCurrent(): void {
+        this.addRowAtIndex(this.curRow+1);
+    }
 
-        // ++this.rows;
+    addRowAtIndex(idx: number): void {
+        let newRow: CellModel[] = [];
+        for (let column = 0; column < this.getCols(); column++) {
+            newRow.push(new CellModel(''));
+        }
+        this.content.splice(idx, 0, newRow);
+    }
+
+    removeCurrentRow(): void {
+        this.content.splice(this.curRow, 1);
+        if(this.curRow >= this.content.length) {
+            this.curRow = this.content.length-1;
+        }
     }
 
     addColumnBeforeCurrent(): void {
         this.addColumnAtIndex(this.curCol);
     }
 
+    addColumnAfterCurrent(): void {
+        this.addColumnAtIndex(this.curCol+1);
+    }
+
     addColumnAtIndex(idx: number): void {
-        if(this.cols>=this.maxCols) {
+        if(this.getCols()>=this.maxCols) {
             return;
         }
 
-        const tbl = this.tableBody.nativeElement;
-        tbl.childNodes.forEach( (trow) => {
-            trow.childNodes.forEach( (cell) => {
-                const elem = cell as HTMLTableCellElement;
-                if(elem.cellIndex == idx) {
-                    console.log('insert here');
-                }
-                console.log(elem.cellIndex);
-            });
-            console.log('----------------');
+        this.content.forEach((row) => {
+            const cell = new CellModel('');
+            row.splice(idx, 0, cell);
         });
+    }
 
-        // ++this.cols;
+    removeCurrentColumn(): void {
+        this.content.forEach((row)=>{
+            row.splice(this.curCol, 1);
+        });
+        if(this.curCol >= this.getCols()) {
+            this.curCol = this.getCols()-1;
+        }
     }
 
     setSelectedCell(event: Event): void {
@@ -67,4 +81,11 @@ export class GNericTable {
         this.curCol = cell.cellIndex;
     }
 
+    getRows(): number {
+        return this.content.length;
+    }
+
+    getCols(): number {
+        return this.content[0].length;
+    }
 }
