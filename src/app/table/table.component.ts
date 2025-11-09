@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
 import { CellModel } from "./cellmodel";
-import { CdkDrag } from "@angular/cdk/drag-drop";
+import { CdkDrag, CdkDragMove } from "@angular/cdk/drag-drop";
 
 @Component({
     selector: 'gneric-table',
@@ -15,6 +15,12 @@ export class GNericTable {
     equalDistributed: boolean = true;
     lefts: any[] = [{text:'left: 50%;'}, {text:'left: 100%;'}];
 
+    minDist: number | undefined = undefined;
+    maxDist: number | undefined = undefined;
+    slope: number | undefined = undefined;
+    iniLeftW: number | undefined = undefined;
+    iniRightW: number | undefined = undefined;
+
     curRow: number = -1;
     curCol: number = -1;
     content: CellModel[][] = [
@@ -22,7 +28,9 @@ export class GNericTable {
         [new CellModel('r2c1'), new CellModel('r2c2')],
         [new CellModel('r3c1'), new CellModel('r3c2')],
     ];
+
     @ViewChild('tableBody', {static: true}) tableBody!: ElementRef<HTMLTableSectionElement>;
+    @ViewChild('dragContainer') dragContainer: ElementRef<HTMLDivElement> | undefined;
 
     setEditable(editable: boolean): void {
         
@@ -193,7 +201,6 @@ export class GNericTable {
         const row = cell.parentElement as HTMLTableRowElement;
         this.curRow = row.rowIndex;
         this.curCol = cell.cellIndex;
-        console.log(this.curRow+' '+this.curCol+": "+this.content[this.curRow][this.curCol].getWidth()+' '+this.content[this.curRow][this.curCol].widthStyle());
     }
 
     rearrangeShifters(): void {
@@ -223,11 +230,53 @@ export class GNericTable {
     }
 
     startDraggingShifter(index: number): void {
-        console.log('Now dragging: '+index);
+        if(!this.dragContainer) {
+            return;
+        }
+
+        const contW = this.dragContainer.nativeElement.offsetWidth;
+        this.slope = 100 / contW;
+
+        const leftIdx = index-1;
+        const rightIdx = index;
+
+        this.iniLeftW = this.content[0][leftIdx].getWidth();
+        this.iniRightW = this.content[0][rightIdx].getWidth();
+
+        this.minDist = Math.min(-(this.iniLeftW-this.minWidth)/this.slope, 0);
+        this.maxDist = Math.max((this.iniRightW-this.minWidth)/this.slope, 0);
     }
 
     endDraggingShifter(index: number): void {
-        console.log('Now stopping: '+index);
+        this.slope = undefined;
+        this.minDist = undefined;
+        this.maxDist = undefined;
+        this.iniLeftW = undefined;
+        this.iniRightW = undefined;
+        this.rearrangeShifters();
+    }
+
+    moveDraggingShifter(event: CdkDragMove, index: number): void {
+        if(!this.slope || this.minDist === undefined || this.maxDist === undefined || !this.iniLeftW || !this.iniRightW) {
+            return;
+        }
+
+        let dist = event.distance.x;
+        if(dist < this.minDist) {
+            dist = this.minDist;
+        }
+        else if(dist > this.maxDist) {
+            dist = this.maxDist;
+        }
+
+        const shift = Math.floor(this.slope*dist);
+        const newLeftW = this.iniLeftW + shift;
+        const newRightW = this.iniRightW - shift;
+
+        this.content.forEach(row => {
+            row[index-1].setWidth(newLeftW);
+            row[index].setWidth(newRightW);
+        });
     }
 
     getRows(): number {
