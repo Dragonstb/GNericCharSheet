@@ -286,4 +286,8 @@ export class GNericTable {
     getCols(): number {
         return this.content[0].length;
     }
+
+    ngOnInit() {
+        this.rearrangeShifters();
+    }
 }
