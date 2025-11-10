@@ -1,3 +1,4 @@
 export enum ElemTypes {
-    textfield = 'textfield'
+    textfield = 'textfield',
+    table = 'table'
 }

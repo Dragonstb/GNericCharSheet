@@ -1,7 +1,8 @@
-import { Component, ElementRef, ViewChild } from "@angular/core";
+import { Component, ElementRef, output, ViewChild } from "@angular/core";
 import { CdkDrag } from "@angular/cdk/drag-drop";
 import { TableAlterer } from "./tablealterer";
 import { WidthController } from "./widthcontroller";
+import { ElemTypes } from "../elemtypes";
 
 @Component({
     selector: 'gneric-table',
@@ -25,7 +26,7 @@ export class GNericTable {
     curCol: number = -1;
 
     alterer: TableAlterer = new TableAlterer();
-    widthController: WidthController = new WidthController(this.alterer);
+    widthController: WidthController = new WidthController(this);
 
     @ViewChild('tableBody', {static: true}) tableBody!: ElementRef<HTMLTableSectionElement>;
     @ViewChild('dragContainer', {static: true}) dragContainer: ElementRef<HTMLDivElement> | undefined;
@@ -34,6 +35,9 @@ export class GNericTable {
     @ViewChild('legend', {static: true}) legend!: ElementRef<HTMLLegendElement>;
 
     windowResizeHandler = ()=>this.adaptNewSize();
+
+    deleteTableEvent = output<string>();
+    gNericElemChangedEvent = output<object>();
 
     setEditable(editable: boolean): void {
         this.editable = editable;
@@ -56,10 +60,12 @@ export class GNericTable {
         this.alterer.addRowAtIndex(this.curRow);
         ++this.curRow;
         this.updateLockInfo(this.cellLocked);
+        this.fireElemChangedEvent();
     }
 
     addRowAfterCurrent(): void {
         this.alterer.addRowAtIndex(this.curRow+1);
+        this.fireElemChangedEvent();
     }
 
     removeCurrentRow(): void {
@@ -68,6 +74,7 @@ export class GNericTable {
             this.curRow = this.alterer.getRows()-1;
         }
         this.updateLockInfo(false);
+        this.fireElemChangedEvent();
     }
 
     addColumnBeforeCurrent(): void {
@@ -127,6 +134,7 @@ export class GNericTable {
         this.alterer.setColumnWidths(widths);
 
         this.widthController.rearrangeShifters();
+        this.fireElemChangedEvent();
     }
     
     removeCurrentColumn(): void {
@@ -168,6 +176,7 @@ export class GNericTable {
 
         this.updateLockInfo(false);
         this.widthController.rearrangeShifters();
+        this.fireElemChangedEvent();
     }
 
     setSelectedCell(event: Event): void {
@@ -255,5 +264,38 @@ export class GNericTable {
 
     ngOnDestroy() {
         window.removeEventListener("resize", this.windowResizeHandler);
+    }
+
+    deleteTable(): void {
+        this.deleteTableEvent.emit(this.id);
+    }
+
+    fireElemChangedEvent(): void {
+        const widths = this.alterer.getColumnWidths();
+        let texts: string[][] = [];
+        this.tableBody.nativeElement.childNodes.forEach(row => {
+            let rowModel: string[] = [];
+            (row as HTMLTableRowElement).childNodes.forEach(col => {
+                const input = (col as HTMLTableCellElement).firstChild as HTMLInputElement;
+                if(input) {
+                    // there is a container column not displayed which would contribute here
+                    // but unlike our real columns, it does not have a child
+                    rowModel.push(input.value);
+                }
+            });
+            if(rowModel.length > 0) {
+                // there is one container row not displayed which would add here
+                // but our real rows always have at least one column
+                texts.push(rowModel);
+            }
+        });
+
+        const json = {
+            id: this.id,
+            type: ElemTypes.table,
+            widths: widths,
+            texts: texts
+        }
+        this.gNericElemChangedEvent.emit(json);
     }
 }

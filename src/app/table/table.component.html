@@ -14,6 +14,9 @@
         <div>
             <button [disabled]="widthController.equalDistributed" (click)="widthController.distrubuteColumnsEqually()">Equal column width</button>
         </div>
+        <div>
+            <button (click)="deleteTable()">Delete table</button>
+        </div>
         <div aria-live="polite">{{lockInfo}}</div>
     </div>
     <table class="boxed">
@@ -21,7 +24,7 @@
             @for(row of alterer.content; track row) {
                 <tr>
                     @for(col of row; track col) {
-                        <td [style]="col.widthStyle()"><input type="text" (focus)="setSelectedCell($event)" (contextmenu)="setAndLockSelectedCell($event)" [(value)]="col.text"></td>
+                        <td [style]="col.widthStyle()"><input type="text" (focus)="setSelectedCell($event)" (contextmenu)="setAndLockSelectedCell($event)" [(value)]="col.text" (input)="fireElemChangedEvent()"></td>
                     }
                 </tr>
             }

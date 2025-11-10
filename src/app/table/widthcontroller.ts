@@ -1,9 +1,11 @@
 import { TableAlterer } from "./tablealterer";
 import { CdkDragMove } from "@angular/cdk/drag-drop";
 import { ElementRef } from "@angular/core";
+import { GNericTable } from "./table.component";
 
 export class WidthController {
 
+    table: GNericTable;
     alterer: TableAlterer;
     minDist: number | undefined = undefined;
     maxDist: number | undefined = undefined;
@@ -16,8 +18,9 @@ export class WidthController {
 
     tableBody!: ElementRef<HTMLTableSectionElement>;
 
-    constructor(alterer: TableAlterer) {
-        this.alterer = alterer;
+    constructor(table: GNericTable) {
+        this.table = table;
+        this.alterer = table.alterer;
     }
 
     rearrangeShifters(): void {
@@ -66,6 +69,7 @@ export class WidthController {
         this.iniLeftW = undefined;
         this.iniRightW = undefined;
         this.rearrangeShifters();
+        this.table.fireElemChangedEvent();
     }
 
     moveDraggingShifter(event: CdkDragMove, index: number): void {
@@ -119,5 +123,6 @@ export class WidthController {
         this.alterer.setColumnWidths(widths);
         this.setEquallyDistributed(true);
         this.rearrangeShifters();
+        this.table.fireElemChangedEvent();
     }
 }

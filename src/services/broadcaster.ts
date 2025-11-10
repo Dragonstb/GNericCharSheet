@@ -30,7 +30,6 @@ export class BroadCaster {
     handleOutgoingMessage(msg: object) {
         if(this.ready) {
             if(msg) {
-                console.log('broadcasing');
                 const letter: string = JSON.stringify(msg);
                 OBR.broadcast.sendMessage(this.channel, letter);
             }

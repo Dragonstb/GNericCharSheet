@@ -3,6 +3,7 @@ import { GnericTextfield } from './textfield/textfield.component';
 import OBR from '@owlbear-rodeo/sdk';
 import { BroadCaster } from '../services/broadcaster';
 import { GNericTable } from './table/table.component';
+import { ElemTypes } from './elemtypes';
 
 @Component({
   selector: 'app-root',
@@ -36,10 +37,29 @@ export class GNericMainComponent {
   deleteTextfield(elemId: string) {
     console.log(elemId);
   }
+  
+  deleteTable(elemId: string) {
+    console.log('deleting '+elemId);
+  }
 
   setModel(model: any) {
-    if(this.textfields().length > 0) {
-      this.textfields()[0].setModel(model);
+    if(model.type){
+      switch(model.type) {
+        case ElemTypes.textfield:
+          if(this.textfields().length > 0) {
+            this.textfields()[0].setModel(model);
+          }
+          break;
+        case ElemTypes.table:
+          console.log('received table model');
+          break;
+        default:
+          console.log('received model without type');
+          break;
+      }
+    }
+    else{
+      console.log('received model without type');
     }
   }
 
