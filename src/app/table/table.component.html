@@ -1,32 +1,37 @@
-<div #dragContainer class="shifterBox">
-    @for(left of widthController.lefts; track left) {
-        @if(!$first) {
-            <button class="shifter" [style]="left" (cdkDragStarted)="startDraggingShifter($index)" (cdkDragEnded)="widthController.endDraggingShifter()" (cdkDragMoved)="widthController.moveDraggingShifter($event, $index)" cdkDragBoundary=".shifterBox" cdkDragLockAxis="x" cdkDrag>&lt;&gt;</button>
+<fieldset #fieldSet class="editable">
+    <legend #legend class="ctrl-elem">{{fullId}}</legend>
+    <div #editPanel class="ctrl-elem">
+        <div>
+            <button [disabled]="curRow<0 || curCol<0" (click)="addRowBeforeCurrent()">add row before current</button>
+            <button [disabled]="curRow<0 || curCol<0" (click)="addRowAfterCurrent()">add row after current</button>
+            <button [disabled]="alterer.getRows()<2" (click)="removeCurrentRow()">remove current row</button>
+        </div>
+        <div>
+            <button [disabled]="curRow<0 || curCol<0 || alterer.getCols()>=maxCols" (click)="addColumnBeforeCurrent()">add column before current</button>
+            <button [disabled]="curRow<0 || curCol<0 || alterer.getCols()>=maxCols" (click)="addColumnAfterCurrent()">add column after current</button>
+            <button [disabled]="alterer.getCols()<2" (click)="removeCurrentColumn()">remove current column</button>
+        </div>
+        <div>
+            <button [disabled]="widthController.equalDistributed" (click)="widthController.distrubuteColumnsEqually()">Equal column width</button>
+        </div>
+        <div aria-live="polite">{{lockInfo}}</div>
+    </div>
+    <table class="boxed">
+        <tbody #tableBody >
+            @for(row of alterer.content; track row) {
+                <tr>
+                    @for(col of row; track col) {
+                        <td [style]="col.widthStyle()"><input type="text" (focus)="setSelectedCell($event)" (contextmenu)="setAndLockSelectedCell($event)" [(value)]="col.text"></td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div #dragContainer class="shifterBox">
+        @for(left of widthController.lefts; track left) {
+            @if(!$first) {
+                <button class="shifter" [style]="left" (cdkDragStarted)="startDraggingShifter($index)" (cdkDragEnded)="widthController.endDraggingShifter()" (cdkDragMoved)="widthController.moveDraggingShifter($event, $index)" cdkDragBoundary=".shifterBox" cdkDragLockAxis="x" cdkDrag>&lt;&gt;</button>
+            }
         }
-    }
-</div>
-<table class="boxed">
-    <tbody #tableBody >
-        @for(row of alterer.content; track row) {
-            <tr>
-                @for(col of row; track col) {
-                    <td [style]="col.widthStyle()"><input type="text" (focus)="setSelectedCell($event)" (contextmenu)="setAndLockSelectedCell($event)" [(value)]="col.text"></td>
-                }
-            </tr>
-        }
-    </tbody>
-</table>
-<div aria-live="polite">{{lockInfo}}</div>
-<div>
-    <button [disabled]="curRow<0 || curCol<0" (click)="addRowBeforeCurrent()">add row before current</button>
-    <button [disabled]="curRow<0 || curCol<0" (click)="addRowAfterCurrent()">add row after current</button>
-    <button [disabled]="alterer.getRows()<2" (click)="removeCurrentRow()">remove current row</button>
-</div>
-<div>
-    <button [disabled]="curRow<0 || curCol<0 || alterer.getCols()>=maxCols" (click)="addColumnBeforeCurrent()">add column before current</button>
-    <button [disabled]="curRow<0 || curCol<0 || alterer.getCols()>=maxCols" (click)="addColumnAfterCurrent()">add column after current</button>
-    <button [disabled]="alterer.getCols()<2" (click)="removeCurrentColumn()">remove current column</button>
-</div>
-<div>
-    <button [disabled]="widthController.equalDistributed" (click)="widthController.distrubuteColumnsEqually()">Equal column width</button>
-</div>
+    </div>
+</fieldset>

@@ -13,9 +13,13 @@ export class GNericTable {
 
     private notLockedInfo: string = "Current cell is last focused one.";
 
+    id: string = 'comp-02-02';
+    fullId: string = 'table-'+this.id;
+
     maxCols: number = 6;
     cellLocked: boolean = false;
     lockInfo = this.notLockedInfo;
+    editable: boolean = true;
 
     curRow: number = -1;
     curCol: number = -1;
@@ -24,12 +28,28 @@ export class GNericTable {
     widthController: WidthController = new WidthController(this.alterer);
 
     @ViewChild('tableBody', {static: true}) tableBody!: ElementRef<HTMLTableSectionElement>;
-    @ViewChild('dragContainer') dragContainer: ElementRef<HTMLDivElement> | undefined;
+    @ViewChild('dragContainer', {static: true}) dragContainer: ElementRef<HTMLDivElement> | undefined;
+    @ViewChild('editPanel', {static: true}) editPanel!: ElementRef<HTMLDivElement>;
+    @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
+    @ViewChild('legend', {static: true}) legend!: ElementRef<HTMLLegendElement>;
 
     windowResizeHandler = ()=>this.adaptNewSize();
 
     setEditable(editable: boolean): void {
-        
+        this.editable = editable;
+        this.setCurrentClass(editable);
+        if(editable) {
+            this.editPanel.nativeElement.classList.remove('hidden');
+            this.legend.nativeElement.classList.remove('hidden');
+            this.dragContainer?.nativeElement.classList.remove('hidden');
+            this.fieldSet.nativeElement.classList.add('editable');
+        }
+        else {
+            this.editPanel.nativeElement.classList.add('hidden');
+            this.legend.nativeElement.classList.add('hidden');
+            this.dragContainer?.nativeElement.classList.add('hidden');
+            this.fieldSet.nativeElement.classList.remove('editable');
+        }
     }
 
     addRowBeforeCurrent(): void {
@@ -161,13 +181,19 @@ export class GNericTable {
         this.setCurrentClass(false);
         this.curRow = row.rowIndex;
         this.curCol = cell.cellIndex;
-        this.setCurrentClass(true);
+        if(this.editable) {
+            this.setCurrentClass(true);
+        }
     }
 
     setAndLockSelectedCell(event: Event): void {
         /* NOTE: Event 'contextmenu' not available for iOS devices as of Nov 2025, see
          * https://developer.mozilla.org/en-US/docs/Web/API/Element/contextmenu_event#browser_compatibility
          */
+        if(!this.editable) {
+            return;
+        }
+
         event.preventDefault();
         const target = event.target as HTMLInputElement;
         const cell = target.parentElement as HTMLTableCellElement;
@@ -199,6 +225,10 @@ export class GNericTable {
             return;
         }
         const cell = row.childNodes[this.curCol] as HTMLTableCellElement;
+        if(!cell) {
+            return;
+        }
+
         if(current) {
             cell.classList.add('current');
             cell.childNodes.forEach((child) => {(child as HTMLElement).classList.add('current')});
