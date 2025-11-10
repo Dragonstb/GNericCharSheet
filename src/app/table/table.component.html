@@ -10,12 +10,13 @@
         @for(row of content; track row) {
             <tr>
                 @for(col of row; track col) {
-                    <td [style]="col.widthStyle()"><input type="text" (focus)="setSelectedCell($event)" [(value)]="col.text"></td>
+                    <td [style]="col.widthStyle()"><input type="text" (focus)="setSelectedCell($event)" (contextmenu)="setAndLockSelectedCell($event)" [(value)]="col.text"></td>
                 }
             </tr>
         }
     </tbody>
 </table>
+<div aria-live="polite">{{lockInfo}}</div>
 <div>
     <button [disabled]="curRow<0 || curCol<0" (click)="addRowBeforeCurrent()">add row before current</button>
     <button [disabled]="curRow<0 || curCol<0" (click)="addRowAfterCurrent()">add row after current</button>
@@ -25,4 +26,7 @@
     <button [disabled]="curRow<0 || curCol<0 || getCols()>=maxCols" (click)="addColumnBeforeCurrent()">add column before current</button>
     <button [disabled]="curRow<0 || curCol<0 || getCols()>=maxCols" (click)="addColumnAfterCurrent()">add column after current</button>
     <button [disabled]="getCols()<2" (click)="removeCurrentColumn()">remove current column</button>
+</div>
+<div>
+    <button [disabled]="equalDistributed" (click)="distrubuteColumnsEqually()">Equal column width</button>
 </div>

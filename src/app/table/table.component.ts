@@ -10,10 +10,14 @@ import { CdkDrag, CdkDragMove } from "@angular/cdk/drag-drop";
 })
 export class GNericTable {
 
+    private notLockedInfo: string = "Current cell is last focused one.";
+
     maxCols: number = 6;
     minWidth: number = 10;
     equalDistributed: boolean = true;
+    cellLocked: boolean = false;
     lefts: any[] = [{text:'left: 50%;'}, {text:'left: 100%;'}];
+    lockInfo = this.notLockedInfo;
 
     minDist: number | undefined = undefined;
     maxDist: number | undefined = undefined;
@@ -52,6 +56,10 @@ export class GNericTable {
             newRow.push(new CellModel('', width));
         }
         this.content.splice(idx, 0, newRow);
+        if(idx<=this.curRow) {
+            ++this.curRow;
+            this.updateLockInfo(this.cellLocked);
+        }
     }
     
     removeCurrentRow(): void {
@@ -59,6 +67,7 @@ export class GNericTable {
         if(this.curRow >= this.content.length) {
             this.curRow = this.content.length-1;
         }
+        this.updateLockInfo(false);
     }
 
     addColumnBeforeCurrent(): void {
@@ -128,6 +137,11 @@ export class GNericTable {
                 row[col].setWidth(widths[col]);                
             }
         });
+
+        if(idx<=this.curCol) {
+            ++this.curCol;
+            this.updateLockInfo(this.cellLocked);
+        }
         this.rearrangeShifters();
     }
     
@@ -180,6 +194,8 @@ export class GNericTable {
         if(this.curCol >= this.getCols()) {
             this.curCol = this.getCols()-1;
         }
+
+        this.updateLockInfo(false);
         this.rearrangeShifters();
     }
 
@@ -195,12 +211,74 @@ export class GNericTable {
         return widths;
     }
 
+    distrubuteColumnsEqually(): void {
+        const widths = this.getEqualWidths(100, this.getCols());
+        this.content.forEach(row => {
+            for (let col = 0; col < row.length; col++) {
+                row[col].setWidth(widths[col]);                
+            }
+        });
+        this.equalDistributed = true;
+        this.rearrangeShifters();
+    }
+
     setSelectedCell(event: Event): void {
+        if(this.cellLocked) {
+            return;
+        }
+
         const target = event.target as HTMLInputElement;
         const cell = target.parentElement as HTMLTableCellElement;
         const row = cell.parentElement as HTMLTableRowElement;
+        this.setCurrentClass(false);
         this.curRow = row.rowIndex;
         this.curCol = cell.cellIndex;
+        this.setCurrentClass(true);
+    }
+
+    setAndLockSelectedCell(event: Event): void {
+        /* NOTE: Event 'contextmenu' not available for iOS devices as of Nov 2025, see
+         * https://developer.mozilla.org/en-US/docs/Web/API/Element/contextmenu_event#browser_compatibility
+         */
+        event.preventDefault();
+        const target = event.target as HTMLInputElement;
+        const cell = target.parentElement as HTMLTableCellElement;
+        const row = cell.parentElement as HTMLTableRowElement;
+
+        const rowIndex = row.rowIndex;
+        const colIndex = cell.cellIndex;
+        if(rowIndex != this.curRow || colIndex != this.curCol || !this.cellLocked) {
+            this.setCurrentClass(false);
+            this.curRow = rowIndex;
+            this.curCol = colIndex;
+            this.updateLockInfo(true);
+            this.setCurrentClass(true);
+        }
+        else {
+            this.updateLockInfo(false)
+            this.setCurrentClass(false);
+        }
+    }
+
+    updateLockInfo(locked: boolean): void {
+        this.lockInfo = locked? "Current cell locked to row "+(this.curRow+1)+", column "+(this.curCol+1) : this.notLockedInfo;
+        this.cellLocked = locked;
+    }
+
+    setCurrentClass(current: boolean): void {
+        const row = this.tableBody.nativeElement.childNodes[this.curRow] as HTMLTableRowElement;
+        if(!row) {
+            return;
+        }
+        const cell = row.childNodes[this.curCol] as HTMLTableCellElement;
+        if(current) {
+            cell.classList.add('current');
+            cell.childNodes.forEach((child) => {(child as HTMLElement).classList.add('current')});
+        }
+        else {
+            cell.classList.remove('current');
+            cell.childNodes.forEach((child) => {(child as HTMLElement).classList.remove('current')});
+        }
     }
 
     rearrangeShifters(): void {
@@ -260,6 +338,7 @@ export class GNericTable {
         if(!this.slope || this.minDist === undefined || this.maxDist === undefined || !this.iniLeftW || !this.iniRightW) {
             return;
         }
+        this.equalDistributed = false;
 
         let dist = event.distance.x;
         if(dist < this.minDist) {
