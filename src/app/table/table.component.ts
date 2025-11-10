@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
 import { CellModel } from "./cellmodel";
 import { CdkDrag, CdkDragMove } from "@angular/cdk/drag-drop";
+import { TableAlterer } from "./tablealterer";
 
 @Component({
     selector: 'gneric-table',
@@ -27,11 +28,8 @@ export class GNericTable {
 
     curRow: number = -1;
     curCol: number = -1;
-    content: CellModel[][] = [
-        [new CellModel('r1c1'), new CellModel('r1c2')],
-        [new CellModel('r2c1'), new CellModel('r2c2')],
-        [new CellModel('r3c1'), new CellModel('r3c2')],
-    ];
+
+    alterer: TableAlterer = new TableAlterer();
 
     @ViewChild('tableBody', {static: true}) tableBody!: ElementRef<HTMLTableSectionElement>;
     @ViewChild('dragContainer') dragContainer: ElementRef<HTMLDivElement> | undefined;
@@ -43,37 +41,27 @@ export class GNericTable {
     }
 
     addRowBeforeCurrent(): void {
-        this.addRowAtIndex(this.curRow);
+        this.alterer.addRowAtIndex(this.curRow);
+        ++this.curRow;
+        this.updateLockInfo(this.cellLocked);
     }
 
     addRowAfterCurrent(): void {
-        this.addRowAtIndex(this.curRow+1);
+        this.alterer.addRowAtIndex(this.curRow+1);
     }
 
-    addRowAtIndex(idx: number): void {
-        let newRow: CellModel[] = [];
-        let row = this.content[0];
-        for (let column = 0; column < this.getCols(); column++) {
-            const width = row[column].getWidth();
-            newRow.push(new CellModel('', width));
-        }
-        this.content.splice(idx, 0, newRow);
-        if(idx<=this.curRow) {
-            ++this.curRow;
-            this.updateLockInfo(this.cellLocked);
-        }
-    }
-    
     removeCurrentRow(): void {
-        this.content.splice(this.curRow, 1);
-        if(this.curRow >= this.content.length) {
-            this.curRow = this.content.length-1;
+        this.alterer.removeRowAtIndex(this.curRow);
+        if(this.curRow >= this.getRows()) {
+            this.curRow = this.getRows()-1;
         }
         this.updateLockInfo(false);
     }
 
     addColumnBeforeCurrent(): void {
         this.addColumnAtIndex(this.curCol);
+        ++this.curCol;
+        this.updateLockInfo(this.cellLocked);
     }
 
     addColumnAfterCurrent(): void {
@@ -85,20 +73,12 @@ export class GNericTable {
             return;
         }
 
+        const oldWidths = this.alterer.getColumnWidths();
         let widths: number[] = [];
         if(this.equalDistributed) {
-            // each cell the same width; remainder is distributed among the first cols
             widths = this.getEqualWidths(100, this.getCols()+1);
-            // const w = Math.floor(100 / (this.getCols()+1));
-            // const r = 100 % (this.getCols()+1);
-            // for (let index = 0; index < this.getCols()+1; index++) {
-            //     const val = index < r ? w+1 : w;
-            //     widths.push(val);
-            // }
         }
         else {
-            const row = this.content[0];
-            
             let sum = 0;
             let diff = -1;
             let numSqueezedCols;
@@ -107,14 +87,14 @@ export class GNericTable {
                 numSqueezedCols = 1; // in the end: the current column, the new one, and the included neighbouring ones
                 ++diff;
                 for (let index = Math.max(this.curCol-diff, 0); index <= Math.min(this.curCol+diff, this.getCols()-1); index++) {
-                    sum += row[index].getWidth();
+                    sum += oldWidths[index];
                     ++numSqueezedCols;
                 }
             } while (sum < numSqueezedCols*this.minWidth && diff < this.maxCols/2);
 
             // keep widths left of squeezed area
             for (let index = 0; index < this.curCol-diff; index++) {
-                widths.push(row[index].getWidth());
+                widths.push(oldWidths[index]);
             }
             
             // squeeze into squeezed area
@@ -126,72 +106,58 @@ export class GNericTable {
             }
             
             // keep widths rigth of squeezed area
-            for (let index = this.curCol+diff+1; index < row.length; index++) {
-                widths.push(row[index].getWidth());
+            for (let index = this.curCol+diff+1; index < oldWidths.length; index++) {
+                widths.push(oldWidths[index]);
             }
         }
 
-
+        /*
         this.content.forEach((row) => {
             const cell = new CellModel('');
             row.splice(idx, 0, cell);
             for (let col = 0; col < row.length; col++) {
                 row[col].setWidth(widths[col]);                
             }
-        });
+        });*/
 
-        if(idx<=this.curCol) {
-            ++this.curCol;
-            this.updateLockInfo(this.cellLocked);
-        }
+        this.alterer.addColumnAtIndex(idx);
+        this.alterer.setColumnWidths(widths);
+
         this.rearrangeShifters();
     }
     
     removeCurrentColumn(): void {
-
         const numCols = this.getCols();
         let widths = this.getEqualWidths(100, numCols-1);
 
-        // distribute freed space among the adjacent columns (if present)
-        const freed = this.content[0][this.curCol].getWidth();
-        let toRight = Math.floor(freed/2);
-        let toLeft = freed % 2 == 0 ? toRight : toRight+1; // spare percent goes to the left
-        
-        this.content.forEach((row)=>{
+        if(!this.equalDistributed) {
+            widths = this.alterer.getColumnWidths();
+            const freed = widths[this.curCol];
+            let toRight = Math.floor(freed/2);
+            let toLeft = freed % 2 == 0 ? toRight : toRight+1; // spare percent goes to the left
 
-            // update cell width
-            if(this.equalDistributed) {
-                let counter = 0;
-                for (let idx = 0; idx < numCols; idx++) {
-                    if(idx != this.curCol) {
-                        row[idx].setWidth(widths[counter])
-                        ++counter;
-                    }                    
-                }
+            if(this.curCol == 0) {
+                // transfer entire width of first column to second column
+                widths[1] += freed;
             }
-            else {
-                if(this.curCol == 0) {
-                    const curW = row[1].getWidth();
-                    row[1].setWidth(curW+freed);
-                }
-                else if(this.curCol == numCols-1) {
-                    const idx = this.curCol-1
-                    const curW = row[idx].getWidth();
-                    row[idx].setWidth(curW+freed);
-                }
-                else{
-                    let idx = this.curCol-1
-                    let curW = row[idx].getWidth();
-                    row[idx].setWidth(curW+toLeft);
-                    idx = this.curCol+1
-                    curW = row[idx].getWidth();
-                    row[idx].setWidth(curW+toRight);
-                }
+            else if(this.curCol == numCols-1) {
+                // transfer entire wisths of last column to penultimate one
+                const idx = this.curCol-1
+                widths[idx] += freed;
             }
+            else{
+                // split widths as equallt as possible to neighbouring columns
+                let idx = this.curCol-1
+                widths[idx] += toLeft;
 
-            // remove row
-            row.splice(this.curCol, 1);
-        });
+                idx = this.curCol+1
+                widths[idx] += toRight;
+            }
+        }
+        widths.splice(this.curCol, 1);
+
+        this.alterer.removeColumnAtIndex(this.curCol);
+        this.alterer.setColumnWidths(widths);
 
         if(this.curCol >= this.getCols()) {
             this.curCol = this.getCols()-1;
@@ -215,11 +181,7 @@ export class GNericTable {
 
     distrubuteColumnsEqually(): void {
         const widths = this.getEqualWidths(100, this.getCols());
-        this.content.forEach(row => {
-            for (let col = 0; col < row.length; col++) {
-                row[col].setWidth(widths[col]);                
-            }
-        });
+        this.alterer.setColumnWidths(widths);
         this.equalDistributed = true;
         this.rearrangeShifters();
     }
@@ -314,8 +276,9 @@ export class GNericTable {
         const leftIdx = index-1;
         const rightIdx = index;
 
-        this.iniLeftW = this.content[0][leftIdx].getWidth();
-        this.iniRightW = this.content[0][rightIdx].getWidth();
+        let widths = this.alterer.getColumnWidths();
+        this.iniLeftW = widths[leftIdx];
+        this.iniRightW = widths[rightIdx];
 
         this.minDist = Math.min(-(this.iniLeftW-this.minWidth)/this.slope, 0);
         this.maxDist = Math.max((this.iniRightW-this.minWidth)/this.slope, 0);
@@ -348,10 +311,9 @@ export class GNericTable {
         const newLeftW = this.iniLeftW + shift;
         const newRightW = this.iniRightW - shift;
 
-        this.content.forEach(row => {
-            row[index-1].setWidth(newLeftW);
-            row[index].setWidth(newRightW);
-        });
+        let widths = this.alterer.getColumnWidths();
+        this.alterer.setColumnWidth(index-1, newLeftW);
+        this.alterer.setColumnWidth(index, newRightW);
     }
 
     adaptNewSize(): void {
@@ -359,11 +321,11 @@ export class GNericTable {
     }
 
     getRows(): number {
-        return this.content.length;
+        return this.alterer.getRows();
     }
 
     getCols(): number {
-        return this.content[0].length;
+        return this.alterer.getCols();
     }
 
     ngOnInit() {

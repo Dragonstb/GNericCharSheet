@@ -7,7 +7,7 @@
 </div>
 <table class="boxed">
     <tbody #tableBody >
-        @for(row of content; track row) {
+        @for(row of alterer.content; track row) {
             <tr>
                 @for(col of row; track col) {
                     <td [style]="col.widthStyle()"><input type="text" (focus)="setSelectedCell($event)" (contextmenu)="setAndLockSelectedCell($event)" [(value)]="col.text"></td>
