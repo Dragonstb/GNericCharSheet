@@ -16,7 +16,7 @@ export class GNericTable {
     minWidth: number = 10;
     equalDistributed: boolean = true;
     cellLocked: boolean = false;
-    lefts: any[] = [{text:'left: 50%;'}, {text:'left: 100%;'}];
+    lefts: string[] = ['left: 0%;', 'left: 50%;'];
     lockInfo = this.notLockedInfo;
 
     minDist: number | undefined = undefined;
@@ -35,6 +35,8 @@ export class GNericTable {
 
     @ViewChild('tableBody', {static: true}) tableBody!: ElementRef<HTMLTableSectionElement>;
     @ViewChild('dragContainer') dragContainer: ElementRef<HTMLDivElement> | undefined;
+
+    windowResizeHandler = ()=>this.adaptNewSize();
 
     setEditable(editable: boolean): void {
         
@@ -284,7 +286,7 @@ export class GNericTable {
     rearrangeShifters(): void {
         setTimeout(()=>{
             const cw = 27;
-            let lefts: any[] = [];
+            let lefts: string[] = [];
             const row = this.tableBody.nativeElement.firstChild as HTMLTableRowElement;
             let sum = 0;
             let counter = 0;
@@ -292,17 +294,11 @@ export class GNericTable {
                 const cell = col as HTMLTableCellElement;
                 if(cell.offsetLeft) {
                     sum += cell.offsetLeft;
-                    lefts.push({id: counter, text: 'left: '+(cell.offsetLeft-counter*cw+cw/2)+'px;'});
+                    lefts.push('left: '+(cell.offsetLeft-counter*cw+cw/2)+'px;');
                     counter++;
                 }
             });
-            
-            // let sum = 0;
-            // this.content[0].forEach(cell => {
-                //     sum += cell.width;
-                //     lefts.push('left: '+sum+'%;');
-                // });
-                
+                            
             this.lefts = lefts;
         });
     }
@@ -358,6 +354,10 @@ export class GNericTable {
         });
     }
 
+    adaptNewSize(): void {
+        this.rearrangeShifters();
+    }
+
     getRows(): number {
         return this.content.length;
     }
@@ -368,5 +368,10 @@ export class GNericTable {
 
     ngOnInit() {
         this.rearrangeShifters();
+        window.addEventListener("resize", this.windowResizeHandler);
+    }
+
+    ngOnDestroy() {
+        window.removeEventListener("resize", this.windowResizeHandler);
     }
 }

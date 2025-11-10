@@ -1,7 +1,7 @@
 <div #dragContainer class="shifterBox">
     @for(left of lefts; track left) {
         @if(!$first) {
-            <button class="shifter" [style]="left.text" (cdkDragStarted)="startDraggingShifter($index)" (cdkDragEnded)="endDraggingShifter($index)" (cdkDragMoved)="moveDraggingShifter($event, $index)" cdkDragBoundary=".shifterBox" cdkDragLockAxis="x" cdkDrag>&lt;&gt;</button>
+            <button class="shifter" [style]="left" (cdkDragStarted)="startDraggingShifter($index)" (cdkDragEnded)="endDraggingShifter($index)" (cdkDragMoved)="moveDraggingShifter($event, $index)" cdkDragBoundary=".shifterBox" cdkDragLockAxis="x" cdkDrag>&lt;&gt;</button>
         }
     }
 </div>
