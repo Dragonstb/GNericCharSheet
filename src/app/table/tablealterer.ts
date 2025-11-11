@@ -65,4 +65,20 @@ export class TableAlterer {
         return this.content[0].length;
     }
 
+    setContent(model: any) {
+        const texts = model.texts;
+        const widths = model.widths;
+        let cells: CellModel[][] = [];
+
+        for (const row of texts) {
+            let rowModel: CellModel[] = [];
+            for (let idx = 0; idx < row.length; idx++) {
+                const cell = new CellModel(row[idx], widths[idx]);
+                rowModel.push(cell);
+            }
+            cells.push(rowModel);
+        }
+
+        this.content = cells;
+    }
 }

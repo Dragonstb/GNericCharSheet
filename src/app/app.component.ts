@@ -51,10 +51,12 @@ export class GNericMainComponent {
           }
           break;
         case ElemTypes.table:
-          console.log('received table model');
+          if(this.tables().length > 0) {
+            this.tables()[0].setModel(model);
+          }
           break;
         default:
-          console.log('received model without type');
+          console.log('received model of unexpected type');
           break;
       }
     }

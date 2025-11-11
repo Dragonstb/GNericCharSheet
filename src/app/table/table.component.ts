@@ -298,4 +298,91 @@ export class GNericTable {
         }
         this.gNericElemChangedEvent.emit(json);
     }
+
+    isTableModelForMe(model: any): boolean {
+        if(!model) {
+            return false;
+        }
+
+        if(!model.hasOwnProperty('id') || !model.id || typeof model.id !== 'string' || model.id !== this.id) {
+            return false;
+        }
+
+        if(!model.hasOwnProperty('type') || !model.type || typeof model.type !== 'string' || model.type !== ElemTypes.table) {
+            return false;
+        }
+
+        if(!this.isProperWidths(model) || !this.isProperTexts(model)) {
+            return false;
+        }
+
+        if(model.widths.length !== model.texts[0].length) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    isProperWidths(model: any): boolean {
+        if(!model.hasOwnProperty('widths') || !model.widths){
+            return false;
+        }
+
+        let widths = model.widths;
+        if(typeof widths !== 'object' || !Array.isArray(widths) || widths.length < 1) {
+            return false;
+        }
+
+        for (const x of widths) {
+            if(typeof x !== 'number' || x<this.widthController.getMinWidth() || x>100) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    isProperTexts(model: any): boolean {
+        if(!model.hasOwnProperty('texts') || !model.texts){
+            return false;
+        }
+
+        let texts = model.texts;
+        if(typeof texts !== 'object' || !Array.isArray(texts) || texts.length < 1) {
+            return false;
+        }
+
+        for (const row of texts) {
+            if(!row || typeof row !== 'object' || !Array.isArray(row)) {
+                return false;
+            }
+        }
+
+        const cols = texts[0].length;
+        for (const row of texts) {
+            if(row.length != cols) {
+                return false;
+            }
+
+            for (const entry of row) {
+                if((!entry && entry !== "") || typeof entry !== 'string') {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    setModel(model: any): void {
+        if(!this.isTableModelForMe(model)) {
+            return;
+        }
+
+        this.setCurrentClass(false);
+        this.updateLockInfo(false);
+        this.cellLocked = false;
+        this.alterer.setContent(model);
+        this.widthController.rearrangeShifters();
+    }
 }
