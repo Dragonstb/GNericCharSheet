@@ -333,10 +333,16 @@ export class GNericTable {
             return false;
         }
 
+        let sum = 0;
         for (const x of widths) {
             if(typeof x !== 'number' || x<this.widthController.getMinWidth() || x>100) {
                 return false;
             }
+            sum += x;
+        }
+
+        if(sum !== 100) {
+            return false;
         }
 
         return true;
@@ -353,7 +359,7 @@ export class GNericTable {
         }
 
         for (const row of texts) {
-            if(!row || typeof row !== 'object' || !Array.isArray(row)) {
+            if(!row || typeof row !== 'object' || !Array.isArray(row) || row.length === 0) {
                 return false;
             }
         }
@@ -375,14 +381,38 @@ export class GNericTable {
     }
 
     setModel(model: any): void {
+        // TODO: less invasive updating
         if(!this.isTableModelForMe(model)) {
             return;
         }
+
+        let equal = this.isEquallyDistributed(model.widths);
 
         this.setCurrentClass(false);
         this.updateLockInfo(false);
         this.cellLocked = false;
         this.alterer.setContent(model);
+        this.widthController.equalDistributed = equal;
         this.widthController.rearrangeShifters();
+    }
+
+    isEquallyDistributed(widths: number[]): boolean {
+        if(widths.length < 2) {
+            return true;
+        }
+
+        let diff = widths[0] - widths[widths.length-1];
+        if(diff > 1 || diff < 0) {
+            return false;
+        }
+        
+        for (let idx = 0; idx < widths.length-1; idx++) {
+            diff = widths[idx] - widths[idx+1];
+            if(diff > 1 || diff < 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
