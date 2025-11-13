@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild, ElementRef } from "@angular/core";
 import { GNericRPMRow } from "./rpmrow.component";
 import { GNericDamage } from "./damage";
 import { GNericRPRowStats } from "./rprowstatus";
@@ -10,12 +10,27 @@ import { GNericRPRowStats } from "./rprowstatus";
 })
 export class GNericRessourcePointsManager {
 
+    id = "comp-03-03";
+    fullId = "ressource-points-"+this.id;
+
     rows: GNericRPRowStats[] = [
         new GNericRPRowStats(0, 4),
         new GNericRPRowStats(1, 4),
         new GNericRPRowStats(2, 4),
     ];
     damage = new GNericDamage();
+    editable: boolean = true;
+    @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
+
+    setEditable(editable: boolean): void {
+        this.editable = editable;
+        if(editable) {
+            this.fieldSet.nativeElement.classList.add('editable');
+        }
+        else {
+            this.fieldSet.nativeElement.classList.remove('editable');
+        }
+    }
 
     addRow(): void {
         this.rows.push(new GNericRPRowStats(this.rows.length, this.getPointsPerRow()));

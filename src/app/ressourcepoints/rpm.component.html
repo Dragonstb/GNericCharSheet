@@ -1,18 +1,29 @@
-<div>
-    <button (click)="addRow()">add row</button>
-    <button [disabled]="rows.length<2" (click)="removeRow()">remove row</button>
-</div>
-<div>
-    <button (click)="addCol()">add column</button>
-    <button [disabled]="getPointsPerRow()<2" (click)="removeCol()">remove column</button>
-</div>
-<div class="boxed nopadding">
-    @for(row of rows; track row.id) {
-        @if(!$last) {
-            <gneric-rpmrow [status]="row.status" class="thinbottomborder blockdisplay"/>
-        }
-        @else {
-            <gneric-rpmrow [status]="row.status" />
-        }
+<fieldset #fieldSet class="editable">
+    @if(!editable) {
+        <label for="{{id}}-dmg-input">Damage:</label>
+        <input id="{{id}}-dmg-input" type="text">
     }
-</div>
+    @else {
+        <legend #legend class="ctrl-elem">{{fullId}}</legend>
+        <div class="ctrl-elem">
+            <div>
+                <button (click)="addRow()">add row</button>
+                <button [disabled]="rows.length<2" (click)="removeRow()">remove row</button>
+            </div>
+            <div>
+                <button (click)="addCol()">add column</button>
+                <button [disabled]="getPointsPerRow()<2" (click)="removeCol()">remove column</button>
+            </div>
+        </div>
+    }
+    <div class="boxed nopadding">
+        @for(row of rows; track row.id) {
+            @if(!$last) {
+                <gneric-rpmrow [status]="row.status" class="thinbottomborder blockdisplay"/>
+            }
+            @else {
+                <gneric-rpmrow [status]="row.status" />
+            }
+        }
+    </div>
+</fieldset>

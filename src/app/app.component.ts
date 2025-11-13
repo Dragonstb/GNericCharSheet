@@ -30,6 +30,10 @@ export class GNericMainComponent {
     this.tables().forEach(tbl => {
       tbl.setEditable(checked);
     });
+
+    this.rpms().forEach(rpm => {
+      rpm.setEditable(checked);
+    });
   }
 
   reactOnChange(json: object) {
