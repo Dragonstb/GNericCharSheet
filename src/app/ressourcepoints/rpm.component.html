@@ -1,18 +1,18 @@
 <div>
     <button (click)="addRow()">add row</button>
-    <button [disabled]="rowNos.length<2" (click)="removeRow()">remove row</button>
+    <button [disabled]="rows.length<2" (click)="removeRow()">remove row</button>
 </div>
 <div>
     <button (click)="addCol()">add column</button>
-    <button [disabled]="!moreThanOnePoint" (click)="removeCol()">remove column</button>
+    <button [disabled]="getPointsPerRow()<2" (click)="removeCol()">remove column</button>
 </div>
 <div class="boxed nopadding">
-    @for(rowNo of rowNos; track rowNo.id) {
+    @for(row of rows; track row.id) {
         @if(!$last) {
-            <gneric-rpmrow [(status)]="rowNo.status" class="thinbottomborder blockdisplay"/>
+            <gneric-rpmrow [status]="row.status" class="thinbottomborder blockdisplay"/>
         }
         @else {
-            <gneric-rpmrow [(status)]="rowNo.status" />
+            <gneric-rpmrow [status]="row.status" />
         }
     }
 </div>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChildren, viewChildren } from "@angular/core";
+import { Component } from "@angular/core";
 import { GNericRPMRow } from "./rpmrow.component";
 import { GNericDamage } from "./damage";
 import { GNericRPRowStats } from "./rprowstatus";
@@ -10,56 +10,53 @@ import { GNericRPRowStats } from "./rprowstatus";
 })
 export class GNericRessourcePointsManager {
 
-    points: number = 4;
-    moreThanOnePoint: boolean = true;
-    rowNos: GNericRPRowStats[] = [
-        new GNericRPRowStats(0, this.points),
-        new GNericRPRowStats(1, this.points),
-        new GNericRPRowStats(2, this.points),
+    rows: GNericRPRowStats[] = [
+        new GNericRPRowStats(0, 4),
+        new GNericRPRowStats(1, 4),
+        new GNericRPRowStats(2, 4),
     ];
-    rows = viewChildren(GNericRPMRow);
-    damage = new GNericDamage([4,2]);
+    damage = new GNericDamage();
 
     addRow(): void {
-        this.rowNos.push(new GNericRPRowStats(this.rowNos.length, this.points));
+        this.rows.push(new GNericRPRowStats(this.rows.length, this.getPointsPerRow()));
         this.redistributeDamage();
     }
 
     removeRow(): void {
-        if(this.rowNos.length > 1) {
-            this.rowNos.splice(this.rowNos.length-1, 1);
+        if(this.rows.length > 1) {
+            this.rows.splice(this.rows.length-1, 1);
         }
         this.redistributeDamage();
     }
 
     addCol(): void {
-        this.rows().forEach(row => {
+        this.rows.forEach(row => {
             row.addPoint();    
         });
 
-        this.moreThanOnePoint = true;
         this.redistributeDamage();
-        this.points = this.rows()[0].getNumPoints();
     }
     
     removeCol(): void {
-        if(this.rows()[0].getNumPoints() < 2) {
+        if(this.rows[0].getNumPoints() < 2) {
             return;
         }
         
-        this.rows().forEach(row => {
+        this.rows.forEach(row => {
             row.removePoint();
         });
         
-        this.moreThanOnePoint = this.rows()[0].getNumPoints() > 1;
         this.redistributeDamage();
-        this.points = this.rows()[0].getNumPoints();
     }
 
     redistributeDamage(): void {
         let useDmg = this.damage;
-        this.rows().forEach(row =>{
+        this.rows.forEach(row =>{
             useDmg = row.distributeDamage(useDmg);
         });
+    }
+
+    getPointsPerRow() {
+        return this.rows[0].getNumPoints();
     }
 }
