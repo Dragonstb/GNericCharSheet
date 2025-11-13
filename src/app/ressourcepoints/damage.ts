@@ -28,8 +28,24 @@ export class GNericDamage {
             return 0;
         }
     }
+    
+    setTieredDamage(tier: number, damage: number): void {
+        if(tier > 0 && tier <= this.dmg.length) {
+            this.dmg[tier-1] = damage;
+        }
+    }
 
     getNumTiers(): number {
         return this.dmg.length;
+    }
+
+    isNoDamage(): boolean {
+        for (const x of this.dmg) {
+            if(x > 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
