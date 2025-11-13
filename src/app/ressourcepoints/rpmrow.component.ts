@@ -17,4 +17,16 @@ export class GNericRPMRow {
     status: RPStatus[] = [
         new RPStatus(0), new RPStatus(1), new RPStatus(2), new RPStatus(3)
     ]
+
+    addPoint(): void {
+        this.status.push(new RPStatus(this.status.length));
+    }
+
+    removePoint(): void {
+        this.status.pop();
+    }
+
+    getNumPoints(): number {
+        return this.status.length;
+    }
 }

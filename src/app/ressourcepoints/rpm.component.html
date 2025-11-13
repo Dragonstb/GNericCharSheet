@@ -1,3 +1,11 @@
+<div>
+    <button (click)="addRow()">add row</button>
+    <button [disabled]="rowNos.length<2" (click)="removeRow()">remove row</button>
+</div>
+<div>
+    <button (click)="addCol()">add column</button>
+    <button [disabled]="!moreThanOnePoint" (click)="removeCol()">remove column</button>
+</div>
 <div class="boxed nopadding">
     @for(rowNo of rowNos; track rowNo) {
         @if(!$last) {
