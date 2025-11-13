@@ -1,0 +1,10 @@
+<div class="boxed nopadding">
+    @for(rowNo of rowNos; track rowNo) {
+        @if(!$last) {
+            <gneric-rpmrow class="thinbottomborder blockdisplay"/>
+        }
+        @else {
+            <gneric-rpmrow />
+        }
+    }
+</div>

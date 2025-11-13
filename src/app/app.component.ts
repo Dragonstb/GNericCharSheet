@@ -4,11 +4,11 @@ import OBR from '@owlbear-rodeo/sdk';
 import { BroadCaster } from '../services/broadcaster';
 import { GNericTable } from './table/table.component';
 import { ElemTypes } from './elemtypes';
-import { GNericRPMRow } from './ressourcepoints/rpmrow.component';
+import { GNericRessourcePointsManager } from './ressourcepoints/rpm.component';
 
 @Component({
   selector: 'app-root',
-  imports: [GNericRPMRow],
+  imports: [GNericRessourcePointsManager],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })
@@ -17,7 +17,7 @@ export class GNericMainComponent {
   broadcaster: BroadCaster = inject(BroadCaster);
   textfields = viewChildren(GnericTextfield);
   tables = viewChildren(GNericTable);
-  rpmrows = viewChildren(GNericRPMRow);
+  rpms = viewChildren(GNericRessourcePointsManager);
 
   setElemsEditable(event: Event) {
     const checkbox = event.target as HTMLInputElement;

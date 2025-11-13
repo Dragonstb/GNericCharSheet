@@ -1,9 +1,30 @@
-<div>Hello</div>
-<div>
-    <gneric-cross1 />
-    <gneric-cross2 />
-    <gneric-cross3 />
-    <gneric-cross4 />
-    <gneric-cross5 />
-    <gneric-cross6 />
+<div class="flexbox">
+    <input type="text" class="noborder">
+    <div class="flexbox wrapping">
+        @for(stat of status; track stat.id) {
+            <p class="rpbox">
+                @switch(stat.tier) {
+                    @case(1) {
+                        <gneric-cross1 class="flexbox" />
+                    }
+                    @case(2) {
+                        <gneric-cross2 class="flexbox" />
+                    }
+                    @case(3) {
+                        <gneric-cross3 class="flexbox" />
+                    }
+                    @case(4) {
+                        <gneric-cross4 class="flexbox" />
+                    }
+                    @case(5) {
+                        <gneric-cross5 class="flexbox" />
+                    }
+                    @case(6) {
+                        <gneric-cross6 class="flexbox" />
+                    }
+                    @default {}
+                }
+            </p>
+        }
+    </div>
 </div>

@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 
 @Component({
     selector: 'gneric-cross5',
-    template:'<svg class="svgicon" width="20px" height="20px" \
+    template:'<svg class="svgicon" \
         viewBox="0 0 10 10" \
         xmlns="http://www.w3.org/2000/svg" \
         xmlns:svg="http://www.w3.org/2000/svg"> \

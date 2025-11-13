@@ -48,6 +48,10 @@
     font-size: 0;
 }
 
+.blockdisplay {
+    display: block;
+}
+
 .boxed {
     border: 2px solid @obr-dark-text-prim;
     padding: 4px;
@@ -61,6 +65,37 @@
     margin-left: 10px;
 }
 
+.flexbox {
+    display: flex;
+}
+
+.noborder {
+    border: none;
+}
+
+.nopadding {
+    padding: 0;
+}
+
+.thinbottomborder {
+    border-bottom: 1px solid @obr-dark-text-prim;
+
+    &.light {
+        border-color: @obr-light-text-prim;
+    }
+}
+
+.rpbox {
+    border: 1px solid @obr-dark-text-prim;
+    width: 25px;
+    height: 25px;
+    margin: 0;
+
+    &.light {
+        border-color: @obr-light-text-prim;
+    }
+}
+
 .svgicon {
     stroke: @obr-dark-text-prim;
     fill: @obr-dark-text-prim;
@@ -69,6 +104,10 @@
         stroke: @obr-light-text-prim;
         fill: @obr-light-text-prim;
     }
+}
+
+.wrapping {
+    flex-wrap: wrap;
 }
 
 button {

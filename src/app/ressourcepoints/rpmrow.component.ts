@@ -5,6 +5,7 @@ import { GNericCross3 } from "./cross3.component";
 import { GNericCross4 } from "./cross4.component";
 import { GNericCross5 } from "./cross5.component";
 import { GNericCross6 } from "./cross6.component";
+import { RPStatus } from "./rpstatus";
 
 @Component ({
     selector: 'gneric-rpmrow',
@@ -13,4 +14,7 @@ import { GNericCross6 } from "./cross6.component";
 })
 export class GNericRPMRow {
 
+    status: RPStatus[] = [
+        new RPStatus(0), new RPStatus(1), new RPStatus(2), new RPStatus(3)
+    ]
 }
