@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChildren, viewChildren } from "@angular/core";
 import { GNericRPMRow } from "./rpmrow.component";
-import { isReadonlyKeywordOrPlusOrMinusToken } from "typescript";
 import { GNericDamage } from "./damage";
+import { GNericRPRowStats } from "./rprowstatus";
 
 @Component({
     selector: 'gneric-rpm',
@@ -10,13 +10,18 @@ import { GNericDamage } from "./damage";
 })
 export class GNericRessourcePointsManager {
 
+    points: number = 4;
     moreThanOnePoint: boolean = true;
-    rowNos: number[] = [0,1,2];
+    rowNos: GNericRPRowStats[] = [
+        new GNericRPRowStats(0, this.points),
+        new GNericRPRowStats(1, this.points),
+        new GNericRPRowStats(2, this.points),
+    ];
     rows = viewChildren(GNericRPMRow);
     damage = new GNericDamage([4,2]);
 
     addRow(): void {
-        this.rowNos.push(this.rowNos.length);
+        this.rowNos.push(new GNericRPRowStats(this.rowNos.length, this.points));
         this.redistributeDamage();
     }
 
@@ -34,19 +39,21 @@ export class GNericRessourcePointsManager {
 
         this.moreThanOnePoint = true;
         this.redistributeDamage();
+        this.points = this.rows()[0].getNumPoints();
     }
     
     removeCol(): void {
         if(this.rows()[0].getNumPoints() < 2) {
             return;
         }
-
+        
         this.rows().forEach(row => {
             row.removePoint();
         });
-
+        
         this.moreThanOnePoint = this.rows()[0].getNumPoints() > 1;
         this.redistributeDamage();
+        this.points = this.rows()[0].getNumPoints();
     }
 
     redistributeDamage(): void {

@@ -7,12 +7,12 @@
     <button [disabled]="!moreThanOnePoint" (click)="removeCol()">remove column</button>
 </div>
 <div class="boxed nopadding">
-    @for(rowNo of rowNos; track rowNo) {
+    @for(rowNo of rowNos; track rowNo.id) {
         @if(!$last) {
-            <gneric-rpmrow class="thinbottomborder blockdisplay"/>
+            <gneric-rpmrow [(status)]="rowNo.status" class="thinbottomborder blockdisplay"/>
         }
         @else {
-            <gneric-rpmrow />
+            <gneric-rpmrow [(status)]="rowNo.status" />
         }
     }
 </div>
