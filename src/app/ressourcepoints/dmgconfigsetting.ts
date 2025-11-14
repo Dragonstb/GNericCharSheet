@@ -1,9 +1,11 @@
-import { FormControl } from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
 
 export class GNericDmgConfigSetting {
     tier: number;
-    checked = new FormControl(false);
-    keyLetter = new FormControl('');
+    form = new FormGroup({
+        checked: new FormControl(false),
+        keyLetter: new FormControl('')
+    });
     oldChecked: boolean;
     oldKey: string;
 
@@ -11,17 +13,24 @@ export class GNericDmgConfigSetting {
         this.tier = tier;
         this.oldChecked = checked;
         this.oldKey = key;
-        this.checked.setValue(this.oldChecked);
-        this.keyLetter.setValue(this.oldKey);
+        this.form.setValue({
+            checked: this.oldChecked,
+            keyLetter: this.oldKey
+        })
     }
     
     restoreSettings(): void {
-        this.checked.setValue(this.oldChecked);
-        this.keyLetter.setValue(this.oldKey);
+        this.form.setValue({
+            checked: this.oldChecked,
+            keyLetter: this.oldKey
+        })
     }
 
     rememberSettings(): void {
-        this.oldChecked = this.checked.value ? this.checked.value : false;
-        this.oldKey = this.keyLetter.value !== null ? this.keyLetter.value : '?';
+        const chk = this.form.value.checked;
+        this.oldChecked = chk ? chk : false;
+
+        const key = this.form.value.keyLetter;
+        this.oldKey = (key || key === '') ? key : '?';
     }
 }

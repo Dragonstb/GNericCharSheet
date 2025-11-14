@@ -14,10 +14,12 @@
                 tier {{tier.tier}}
             </legend>
             <div>
-                <label for="check-{{tier.tier}}">enabled:</label>
-                <input type="checkbox" id="check-{{tier.tier}}" [formControl]="tier.checked">
-                <label for="key-{{tier.tier}}">key:</label>
-                <input type="text" id="key-{{tier.tier}}" maxlength="1" [formControl]="tier.keyLetter">
+                <form [formGroup]="tier.form">
+                    <label for="check-{{tier.tier}}">enabled:</label>
+                    <input type="checkbox" id="check-{{tier.tier}}" formControlName="checked" />
+                    <label for="key-{{tier.tier}}">key:</label>
+                    <input type="text" id="key-{{tier.tier}}" maxlength="1" formControlName="keyLetter" />
+                </form>
             </div>
         </fieldset>
     }
