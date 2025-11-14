@@ -25,6 +25,6 @@
     }
     <div>
         <button (click)="cancel()">cancel</button>
-        <button (click)="confirm()">confirm</button>
+        <button (click)="confirm()" [disabled]="!form.valid">confirm</button>
     </div>
 </dialog>

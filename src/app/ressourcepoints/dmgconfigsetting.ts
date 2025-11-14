@@ -1,10 +1,10 @@
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 export class GNericDmgConfigSetting {
     tier: number;
     form = new FormGroup({
         checked: new FormControl(false),
-        keyLetter: new FormControl('')
+        keyLetter: new FormControl('', [Validators.maxLength(1)])
     });
     oldChecked: boolean;
     oldKey: string;

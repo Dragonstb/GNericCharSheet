@@ -1,12 +1,13 @@
-import { Component, ViewChild, ElementRef } from "@angular/core";
+import { Component, ViewChild, ElementRef, inject } from "@angular/core";
 import { GNericDmgConfigSetting } from "./dmgconfigsetting";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormArray, FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { GNericCross1 } from "./cross1.component";
 import { GNericCross2 } from "./cross2.component";
 import { GNericCross3 } from "./cross3.component";
 import { GNericCross4 } from "./cross4.component";
 import { GNericCross5 } from "./cross5.component";
 import { GNericCross6 } from "./cross6.component";
+import { dmgConfValidator } from "./dmgconfvalid.directive";
 
 @Component({
     selector: 'gneric-dcm',
@@ -26,6 +27,12 @@ export class GNericDmgConfModal {
 
     @ViewChild('dialog') dialog!: ElementRef<HTMLDialogElement>;
 
+    private formBuilder = inject(FormBuilder);
+    form = this.formBuilder.group(
+        {tierSettings: this.formBuilder.array([])},
+        {validators: dmgConfValidator}
+    );
+
     openDmgTierConfigModal() {
         this.dialog.nativeElement.showModal();
     }
@@ -44,4 +51,10 @@ export class GNericDmgConfModal {
         this.dialog.nativeElement.close();
     }
 
+    ngOnInit() {
+        let tierSettings = this.form.get('tierSettings') as FormArray;
+        this.tiers.forEach(tier => {
+            tierSettings.push(tier.form);
+        });
+    }
 }
