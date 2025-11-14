@@ -28,6 +28,9 @@
 @obr-light-text-sec: rgba(0, 0, 0, 0.6);
 @obr-light-text-disabled: rgba(0, 0, 0, 0.38);
 
+@ok-dark: #030;
+@ok-light: #0b0;
+
 * {
     color: @obr-dark-text-prim;
     background-color: @obr-dark-bg-default;
@@ -103,6 +106,16 @@
     &.light {
         stroke: @obr-light-text-prim;
         fill: @obr-light-text-prim;
+    }
+}
+
+.svgokicon {
+    stroke: @ok-light;
+    fill: @ok-light;
+
+    &.light {
+        stroke: @ok-dark;
+        fill: @ok-dark;
     }
 }
 

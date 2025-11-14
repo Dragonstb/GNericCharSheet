@@ -2,17 +2,20 @@ import { Component, ViewChild, ElementRef } from "@angular/core";
 import { GNericRPMRow } from "./rpmrow.component";
 import { GNericDamage } from "./damage";
 import { GNericRPRowStats } from "./rprowstatus";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
 
 @Component({
     selector: 'gneric-rpm',
     templateUrl: './rpm.component.html',
-    imports: [GNericRPMRow]
+    imports: [GNericRPMRow, ReactiveFormsModule]
 })
 export class GNericRessourcePointsManager {
 
     id = "comp-03-03";
     fullId = "ressource-points-"+this.id;
 
+    pattern = /^[+\-=]?([A-Za-z]?\d+)([A-Za-z]\d+)*$/;
+    dmgInput: FormControl = new FormControl('');
     rows: GNericRPRowStats[] = [
         new GNericRPRowStats(0, 4),
         new GNericRPRowStats(1, 4),
@@ -21,6 +24,9 @@ export class GNericRessourcePointsManager {
     damage = new GNericDamage();
     editable: boolean = true;
     @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
+    @ViewChild('checkmark') checkmark: ElementRef | undefined;
+
+    tierMap: Map<string, number> = new Map();
 
     setEditable(editable: boolean): void {
         this.editable = editable;
@@ -73,5 +79,122 @@ export class GNericRessourcePointsManager {
 
     getPointsPerRow() {
         return this.rows[0].getNumPoints();
+    }
+
+    onDmgInput() {
+        if(!this.checkmark) {
+            return;
+        }
+        
+        // TODO: toggle info also for screen readers, not only visually
+        const ok = this.pattern.test(this.dmgInput.value.toLowerCase());
+        const isHidden = this.checkmark.nativeElement.classList.contains('hidden');
+        if(ok && isHidden) {
+            this.checkmark.nativeElement.classList.remove('hidden');
+        }
+        else if(!ok && !isHidden) {
+            this.checkmark.nativeElement.classList.add('hidden');
+        }
+    }
+
+    onSubmitDamage() {
+        const inString = this.dmgInput.value.toLowerCase();
+        if(!this.pattern.test(inString)) {
+            return;
+        }
+
+        const regex = /[^+\-=]+/;
+        const use = inString.match(regex)[0];
+
+        const splitPattern = /([A-Za-z]?\d+)/g;
+        let groups = [];
+        let matches;
+        while((matches = splitPattern.exec(use)) !== null) {
+            groups.push(matches[0]);
+        }
+
+        const checkPattern = /^\d/;
+        const delta = new GNericDamage();
+        for (const grp of groups) {
+            let key = grp[0];
+            if(checkPattern.test(grp)) {
+                key = '';
+            }
+
+            const damageString = grp.substring(key.length);
+            const damageNumber = Number(damageString);
+            if(!damageNumber) {
+                // TODO: log
+                continue;
+            }
+            
+            const damageTier = this.tierMap.get(key);
+            if(!damageTier) {
+                // TODO: log
+                continue;
+            }
+
+            delta.setTieredDamage(damageTier, damageNumber);
+        }
+
+
+        switch(inString[0]) {
+            case '-':
+                this.damage.addDamage(delta);
+                break;
+            case '=':
+                this.damage = delta;
+                break;
+            default:
+                this.damage.subtractDamage(delta);
+        }
+        this.redistributeDamage();
+
+        this.dmgInput.setValue('');
+        if(this.checkmark) {
+            this.checkmark.nativeElement.classList.add('hidden');
+        }
+    }
+
+    mapDamageTier(key: string, tier: number): void {
+        if((!key && key !== '') || key.length > 1) {
+            return;
+        }
+
+        if(!tier || tier < 1 || tier > this.damage.getNumTiers()) {
+            return;
+        }
+
+        // unmap former letter
+        for (const [oldKey, val] of this.tierMap) {
+            if(val === tier) {
+                this.tierMap.delete(oldKey);
+                break;
+            }            
+        }
+
+        this.tierMap.set(key.toLowerCase(), tier);
+    }
+
+    updateRegexPattern() {
+        let arr: string[] = ['^[+\\-=]?(['];
+        for (const key of this.tierMap.keys()) {
+            arr.push(key);
+        }
+        arr.push(']?\\d+)([');
+        for (const key of this.tierMap.keys()) {
+            arr.push(key);
+        }
+        arr.push(']\\d+)*$');
+
+        const str = arr.join('');
+        this.pattern = new RegExp(str);
+    }
+
+    ngOnInit() {
+        this.mapDamageTier('c', 3);
+        this.mapDamageTier('m', 2);
+        this.mapDamageTier('', 1);
+        this.updateRegexPattern();
     }
 }

@@ -1,7 +1,16 @@
 <fieldset #fieldSet class="editable">
     @if(!editable) {
         <label for="{{id}}-dmg-input">Damage:</label>
-        <input id="{{id}}-dmg-input" type="text">
+        <input id="{{id}}-dmg-input" type="text" [formControl]="dmgInput" (input)="onDmgInput()" (keyup.enter)="onSubmitDamage()">
+        <svg #checkmark width="15px" height="15px" class="svgokicon hidden"
+            viewBox="0 0 10 10"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:svg="http://www.w3.org/2000/svg">
+            <path
+               style="fill:none;stroke:inherit;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+               d="M 9,1 4,8.7 1,6.2" />
+        </svg>
+
     }
     @else {
         <legend #legend class="ctrl-elem">{{fullId}}</legend>

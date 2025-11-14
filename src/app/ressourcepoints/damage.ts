@@ -20,6 +20,13 @@ export class GNericDamage {
         }
     }
 
+    subtractDamage(damage: GNericDamage): void {
+        for (let idx = 0; idx < this.dmg.length; idx++) {
+            const newDamage = Math.max(this.dmg[idx] - damage.dmg[idx], 0);
+            this.setDmg(idx, newDamage);
+        }
+    }
+
     getTieredDamage(tier: number): number {
         if(tier > 0 && tier <= this.dmg.length) {
             return this.dmg[tier-1];
