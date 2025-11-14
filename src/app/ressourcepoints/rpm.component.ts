@@ -3,11 +3,12 @@ import { GNericRPMRow } from "./rpmrow.component";
 import { GNericDamage } from "./damage";
 import { GNericRPRowStats } from "./rprowstatus";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { GNericDmgConfModal } from "./dmgconfmodal.component";
 
 @Component({
     selector: 'gneric-rpm',
     templateUrl: './rpm.component.html',
-    imports: [GNericRPMRow, ReactiveFormsModule]
+    imports: [GNericRPMRow, GNericDmgConfModal, ReactiveFormsModule]
 })
 export class GNericRessourcePointsManager {
 
@@ -25,6 +26,7 @@ export class GNericRessourcePointsManager {
     editable: boolean = true;
     @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
     @ViewChild('checkmark') checkmark: ElementRef | undefined;
+    @ViewChild('modal') modal!: GNericDmgConfModal;
 
     tierMap: Map<string, number> = new Map();
 
@@ -197,4 +199,5 @@ export class GNericRessourcePointsManager {
         this.mapDamageTier('', 1);
         this.updateRegexPattern();
     }
+
 }

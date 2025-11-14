@@ -16,6 +16,9 @@
         <legend #legend class="ctrl-elem">{{fullId}}</legend>
         <div class="ctrl-elem">
             <div>
+                <button (click)="modal.openDmgTierConfigModal()">configure damage tiers</button>
+            </div>
+            <div>
                 <button (click)="addRow()">add row</button>
                 <button [disabled]="rows.length<2" (click)="removeRow()">remove row</button>
             </div>
@@ -36,3 +39,4 @@
         }
     </div>
 </fieldset>
+<gneric-dcm #modal />

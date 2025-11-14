@@ -1,0 +1,28 @@
+<dialog #dialog>
+    <h2>Configure damage tiers</h2>
+    @for(tier of tiers; track tier.tier) {
+        <fieldset class="editable">
+            <legend class="flexbox">
+                @switch(tier.tier) {
+                    @case(1){<gneric-cross1 class="size15" />}
+                    @case(2){<gneric-cross2 class="size15" />}
+                    @case(3){<gneric-cross3 class="size15" />}
+                    @case(4){<gneric-cross4 class="size15" />}
+                    @case(5){<gneric-cross5 class="size15" />}
+                    @case(6){<gneric-cross6 class="size15" />}
+                }
+                tier {{tier.tier}}
+            </legend>
+            <div>
+                <label for="check-{{tier.tier}}">enabled:</label>
+                <input type="checkbox" id="check-{{tier.tier}}" [formControl]="tier.checked">
+                <label for="key-{{tier.tier}}">key:</label>
+                <input type="text" id="key-{{tier.tier}}" maxlength="1" [formControl]="tier.keyLetter">
+            </div>
+        </fieldset>
+    }
+    <div>
+        <button (click)="cancel()">cancel</button>
+        <button (click)="confirm()">confirm</button>
+    </div>
+</dialog>
