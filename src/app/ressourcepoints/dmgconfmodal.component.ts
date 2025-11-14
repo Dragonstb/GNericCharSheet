@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, inject } from "@angular/core";
+import { Component, ViewChild, ElementRef, inject, output } from "@angular/core";
 import { GNericDmgConfigSetting } from "./dmgconfigsetting";
 import { FormArray, FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { GNericCross1 } from "./cross1.component";
@@ -26,6 +26,7 @@ export class GNericDmgConfModal {
     ]
 
     @ViewChild('dialog') dialog!: ElementRef<HTMLDialogElement>;
+    setDmgConfigEvent = output<Map<string, number>>();
 
     private formBuilder = inject(FormBuilder);
     form = this.formBuilder.group(
@@ -45,10 +46,26 @@ export class GNericDmgConfModal {
     }
     
     confirm(): void {
+        let newMap: Map<string, number> = new Map();
+        this.tiers.forEach(tier => {
+            if(tier.form.value.checked) {
+                const key = tier.form.value.keyLetter;
+                if(key || key === '') {
+                    newMap.set(key.toLowerCase(), tier.tier);
+                }
+                else {
+                    // TODO: notify error
+                    return;
+                }
+            }
+        });
+
         this.tiers.forEach(tier => {
             tier.rememberSettings();
         });
         this.dialog.nativeElement.close();
+
+        this.setDmgConfigEvent.emit(newMap);
     }
 
     ngOnInit() {

@@ -193,6 +193,23 @@ export class GNericRessourcePointsManager {
         this.pattern = new RegExp(str);
     }
 
+    updateDmgConfig(newMap: Map<string, number>): void {
+        // set damage of now obsolete tiers to 0
+        forloop:
+        for (const oldVal of this.tierMap.values()) {
+            for (const newVal of newMap.values()) {
+                if(newVal === oldVal) {
+                    continue forloop;
+                }
+            }
+            this.damage.setTieredDamage(oldVal, 0);
+        }
+
+        this.tierMap = newMap;
+        this.updateRegexPattern();
+        this.redistributeDamage();
+    }
+
     ngOnInit() {
         this.mapDamageTier('c', 3);
         this.mapDamageTier('m', 2);
