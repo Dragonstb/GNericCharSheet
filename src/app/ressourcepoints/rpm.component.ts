@@ -211,9 +211,7 @@ export class GNericRessourcePointsManager {
     }
 
     ngOnInit() {
-        this.mapDamageTier('c', 3);
-        this.mapDamageTier('m', 2);
-        this.mapDamageTier('', 1);
+        this.mapDamageTier('', 3);
         this.updateRegexPattern();
     }
 
