@@ -48,6 +48,10 @@ export class GNericMainComponent {
     console.log('deleting '+elemId);
   }
 
+  deleteRPM(elemId: string) {
+    console.log('deleting '+elemId);
+  }
+
   setModel(model: any) {
     if(model.type){
       switch(model.type) {

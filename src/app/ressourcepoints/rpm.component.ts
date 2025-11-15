@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, computed, ViewChildren, viewChildren } from "@angular/core";
+import { Component, ViewChild, ElementRef, computed, ViewChildren, viewChildren, output } from "@angular/core";
 import { GNericRPMRow } from "./rpmrow.component";
 import { GNericDamage } from "./damage";
 import { GNericRPRowStats } from "./rprowstatus";
@@ -32,6 +32,8 @@ export class GNericRessourcePointsManager {
     @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
     @ViewChild('checkmark') checkmark: ElementRef | undefined;
     @ViewChild('modal') modal!: GNericDmgConfModal;
+
+    deleteRPMEvent = output<string>();
 
     tierMap: Map<string, number> = new Map();
 
@@ -220,6 +222,10 @@ export class GNericRessourcePointsManager {
 
     updateTextVisibility(): void {
         this.textVisible = Boolean(this.showTextsCheckbox.value);
+    }
+
+    fireDeleteRPMEvent(): void {
+        this.deleteRPMEvent.emit(this.id);
     }
 
     ngOnInit() {
