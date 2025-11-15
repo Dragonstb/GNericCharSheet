@@ -1,5 +1,7 @@
 <div class="flexbox">
-    <input type="text" class="noborder">
+    @if(showText) {
+        <input #text type="text" class="noborder" />
+    }
     <div class="flexbox wrapping">
         @for(stat of status; track stat.id) {
             <p class="rpbox">

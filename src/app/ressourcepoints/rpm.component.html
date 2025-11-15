@@ -26,15 +26,19 @@
                 <button (click)="addCol()">add column</button>
                 <button [disabled]="getPointsPerRow()<2" (click)="removeCol()">remove column</button>
             </div>
+            <div>
+                <input type="checkbox" id="showText-{{id}}" [formControl]="showTextsCheckbox" (change)="updateTextVisibility()">
+                <label for="showText-{{id}}">Show texts</label>
+            </div>
         </div>
     }
     <div class="boxed nopadding">
         @for(row of rows; track row.id) {
             @if(!$last) {
-                <gneric-rpmrow [status]="row.status" class="thinbottomborder blockdisplay"/>
+                <gneric-rpmrow [status]="row.status" [showText]="textVisible" class="thinbottomborder blockdisplay"/>
             }
             @else {
-                <gneric-rpmrow [status]="row.status" />
+                <gneric-rpmrow [status]="row.status" [showText]="textVisible" />
             }
         }
     </div>

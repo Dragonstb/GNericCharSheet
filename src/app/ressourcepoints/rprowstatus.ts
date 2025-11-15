@@ -1,5 +1,6 @@
 import { RPStatus } from "./rpstatus";
 import { GNericDamage } from "./damage";
+import { FormControl } from "@angular/forms";
 
 export class GNericRPRowStats {
 
@@ -7,6 +8,7 @@ export class GNericRPRowStats {
     status: RPStatus[] = [
         new RPStatus(0)
     ]
+    text = new FormControl();
 
     constructor(id: number, points: number) {
         this.id = id;

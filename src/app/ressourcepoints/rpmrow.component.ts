@@ -1,4 +1,4 @@
-import { Component, Input, signal, Signal } from "@angular/core";
+import { Component, ElementRef, Input, signal, Signal, ViewChild } from "@angular/core";
 import { GNericCross1 } from "./cross1.component";
 import { GNericCross2 } from "./cross2.component";
 import { GNericCross3 } from "./cross3.component";
@@ -6,8 +6,6 @@ import { GNericCross4 } from "./cross4.component";
 import { GNericCross5 } from "./cross5.component";
 import { GNericCross6 } from "./cross6.component";
 import { RPStatus } from "./rpstatus";
-import { GNericDamage } from "./damage";
-import { GNericRPRowStats } from "./rprowstatus";
 
 @Component ({
     selector: 'gneric-rpmrow',
@@ -18,5 +16,6 @@ import { GNericRPRowStats } from "./rprowstatus";
 export class GNericRPMRow {
 
     @Input() status: RPStatus[] = [];
+    @Input() showText: boolean = true;
 
 }

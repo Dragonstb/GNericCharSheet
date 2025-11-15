@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from "@angular/core";
+import { Component, ViewChild, ElementRef, computed, ViewChildren, viewChildren } from "@angular/core";
 import { GNericRPMRow } from "./rpmrow.component";
 import { GNericDamage } from "./damage";
 import { GNericRPRowStats } from "./rprowstatus";
@@ -14,6 +14,9 @@ export class GNericRessourcePointsManager {
 
     id = "comp-03-03";
     fullId = "ressource-points-"+this.id;
+
+    showTextsCheckbox = new FormControl({checked: true});
+    textVisible = Boolean(this.showTextsCheckbox.value);
 
     pattern = /^[+\-=]?([A-Za-z]?\d+)([A-Za-z]\d+)*$/;
     dmgInput: FormControl = new FormControl('');
@@ -208,6 +211,10 @@ export class GNericRessourcePointsManager {
         this.tierMap = newMap;
         this.updateRegexPattern();
         this.redistributeDamage();
+    }
+
+    updateTextVisibility(): void {
+        this.textVisible = Boolean(this.showTextsCheckbox.value);
     }
 
     ngOnInit() {
