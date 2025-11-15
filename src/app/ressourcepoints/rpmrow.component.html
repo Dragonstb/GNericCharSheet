@@ -1,9 +1,14 @@
 <div class="flexbox">
     @if(showText) {
-        <input #text type="text" class="noborder" />
+        @if(textEditable) {
+            <input #text type="text" class="noborder" [formControl]="status.text" />
+        }
+        @else {
+            <input #text type="text" class="noborder" readonly="" [formControl]="status.text" />
+        }
     }
     <div class="flexbox wrapping">
-        @for(stat of status; track stat.id) {
+        @for(stat of status.status; track stat.id) {
             <p class="rpbox">
                 @switch(stat.tier) {
                     @case(1) {

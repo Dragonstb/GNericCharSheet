@@ -35,10 +35,10 @@
     <div class="boxed nopadding">
         @for(row of rows; track row.id) {
             @if(!$last) {
-                <gneric-rpmrow [status]="row.status" [showText]="textVisible" class="thinbottomborder blockdisplay"/>
+                <gneric-rpmrow [status]="row" [showText]="textVisible" [textEditable]="editable" class="thinbottomborder blockdisplay"/>
             }
             @else {
-                <gneric-rpmrow [status]="row.status" [showText]="textVisible" />
+                <gneric-rpmrow [status]="row" [showText]="textVisible" [textEditable]="editable" />
             }
         }
     </div>
