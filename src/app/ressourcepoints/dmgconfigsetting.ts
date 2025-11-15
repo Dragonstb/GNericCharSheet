@@ -4,7 +4,7 @@ export class GNericDmgConfigSetting {
     tier: number;
     form = new FormGroup({
         checked: new FormControl(false),
-        keyLetter: new FormControl('', [Validators.maxLength(1)])
+        keyLetter: new FormControl('', [Validators.maxLength(1), Validators.pattern('[a-z]?')])
     });
     oldChecked: boolean;
     oldKey: string;

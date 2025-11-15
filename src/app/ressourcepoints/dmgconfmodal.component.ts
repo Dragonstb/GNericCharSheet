@@ -17,9 +17,9 @@ import { dmgConfValidator } from "./dmgconfvalid.directive";
 export class GNericDmgConfModal {
 
     tiers: GNericDmgConfigSetting[] = [
-        new GNericDmgConfigSetting(1, true, ''),
-        new GNericDmgConfigSetting(2, true, 'm'),
-        new GNericDmgConfigSetting(3, true, 'c'),
+        new GNericDmgConfigSetting(1),
+        new GNericDmgConfigSetting(2),
+        new GNericDmgConfigSetting(3, true, ''),
         new GNericDmgConfigSetting(4),
         new GNericDmgConfigSetting(5),
         new GNericDmgConfigSetting(6)
