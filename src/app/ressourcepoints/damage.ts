@@ -42,6 +42,15 @@ export class GNericDamage {
         }
     }
 
+    absorb(): void {
+        let absorbedPoints = 0;
+        for (let idx = this.getNumTiers()-1; idx >= 0; idx--) {
+            const remainder = this.dmg[idx] - absorbedPoints;
+            this.dmg[idx] = Math.max(remainder, 0);
+            absorbedPoints += this.dmg[idx];
+        }
+    }
+
     getNumTiers(): number {
         return this.dmg.length;
     }

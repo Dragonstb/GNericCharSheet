@@ -30,6 +30,10 @@
                 <input type="checkbox" id="showText-{{id}}" [formControl]="showTextsCheckbox" (change)="updateTextVisibility()">
                 <label for="showText-{{id}}">Show texts</label>
             </div>
+            <div>
+                <input type="checkbox" id="absorbDamage-{{id}}" [formControl]="absorbCheckbox">
+                <label for="absorbDamage-{{id}}">Higher tiered damage absorbs lower tiered damage</label>
+            </div>
         </div>
     }
     <div class="boxed nopadding">

@@ -18,6 +18,8 @@ export class GNericRessourcePointsManager {
     showTextsCheckbox = new FormControl({checked: true});
     textVisible = Boolean(this.showTextsCheckbox.value);
 
+    absorbCheckbox = new FormControl();
+
     pattern = /^[+\-=]?([A-Za-z]?\d+)([A-Za-z]\d+)*$/;
     dmgInput: FormControl = new FormControl('');
     rows: GNericRPRowStats[] = [
@@ -142,6 +144,9 @@ export class GNericRessourcePointsManager {
             delta.setTieredDamage(damageTier, damageNumber);
         }
 
+        if(Boolean(this.absorbCheckbox.value)) {
+            delta.absorb();
+        }
 
         switch(inString[0]) {
             case '-':
