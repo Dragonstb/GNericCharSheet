@@ -64,4 +64,13 @@ export class GNericRPRowStats {
     getText(): string {
         return this.text.value;
     }
+
+    setText(text: string): void {
+        if(text) {
+            this.text.setValue(text);
+        }
+        else {
+            this.text.setValue(null);
+        }
+    }
 }

@@ -51,39 +51,58 @@ export class GNericRessourcePointsManager {
     }
 
     addRow(): void {
-        this.rows.push(new GNericRPRowStats(this.rows.length, this.getPointsPerRow()));
+        this.silentlyAddRow();
         this.redistributeDamage();
         this.fireElemChangeEvent();
+    }
+
+    silentlyAddRow(): void {
+        this.rows.push(new GNericRPRowStats(this.rows.length, this.getPointsPerRow()));
     }
 
     removeRow(): void {
-        if(this.rows.length > 1) {
+        if(this.silentlyRemoveRow()) {
+            this.redistributeDamage();
+            this.fireElemChangeEvent();
+        }
+    }
+
+    silentlyRemoveRow(): boolean {
+        const doIt = this.rows.length > 1;
+        if(doIt) {
             this.rows.splice(this.rows.length-1, 1);
         }
-        this.redistributeDamage();
-        this.fireElemChangeEvent();
+        return doIt;
     }
 
     addCol(): void {
-        this.rows.forEach(row => {
-            row.addPoint();    
-        });
-
+        this.silentlyAddCol();
         this.redistributeDamage();
         this.fireElemChangeEvent();
     }
+
+    silentlyAddCol(): void {
+        this.rows.forEach(row => {
+            row.addPoint();    
+        });
+    }
     
     removeCol(): void {
-        if(this.rows[0].getNumPoints() < 2) {
-            return;
+        if(this.silentlyRemoveCol()) {
+            this.redistributeDamage();
+            this.fireElemChangeEvent();
+        }
+    }
+
+    silentlyRemoveCol(): boolean {
+        if(this.getPointsPerRow() < 2) {
+            return false;
         }
         
         this.rows.forEach(row => {
             row.removePoint();
         });
-        
-        this.redistributeDamage();
-        this.fireElemChangeEvent();
+        return true;
     }
 
     redistributeDamage(): void {
@@ -263,6 +282,49 @@ export class GNericRessourcePointsManager {
         };
 
         this.gNericElemChangedEvent.emit(model);
+    }
+
+    setModel(model: any): void {
+
+        // TODO: validate input
+
+        // adapt number of rows and cols
+        let ok: boolean = true;
+        while(this.getPointsPerRow() > model.cols && ok) {
+            ok = this.silentlyRemoveCol();
+        }
+        while(this.getPointsPerRow() < model.cols) {
+            this.silentlyAddCol();
+        }
+
+        ok = true;
+        while(this.rows.length > model.rows && ok) {
+            ok = this.silentlyRemoveRow();
+        }
+        while(this.rows.length < model.rows) {
+            this.silentlyAddRow();
+        }
+
+        // adapt damage and tier mapping
+        if(!this.damage.isEqualDamage(model.damage)) {
+            this.damage = new GNericDamage(model.damage);
+        }
+        this.tierMap = new Map<string, number>();
+        for (const key in model.tierMap) {
+            this.tierMap.set(key, model.tierMap[key]);
+        }
+
+        // adapt settings
+        this.showTextsCheckbox.setValue(model.showTexts);
+        this.textVisible = model.showTexts;
+        this.absorbCheckbox.setValue(model.useAbsorbtion);
+        for (let idx = 0; idx < this.rows.length; idx++) {
+            this.rows[idx].setText(model.texts[idx]);
+        }
+
+        // update
+        this.updateRegexPattern();
+        this.redistributeDamage();
     }
 
     ngOnInit() {

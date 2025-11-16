@@ -65,6 +65,20 @@ export class GNericDamage {
         return true;
     }
 
+    isEqualDamage(other: number[]): boolean {
+        if(this.dmg.length != other.length) {
+            return false;
+        }
+
+        for (const x of this.dmg) {
+            if(x > 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     getValues(): number[] {
         return this.dmg.slice();
     }

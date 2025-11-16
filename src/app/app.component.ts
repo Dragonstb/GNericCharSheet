@@ -37,7 +37,8 @@ export class GNericMainComponent {
   }
 
   reactOnChange(json: object) {
-    this.broadcaster.handleOutgoingMessage(json);
+    console.dir(json);
+    // this.broadcaster.handleOutgoingMessage(json);
   }
 
   deleteTextfield(elemId: string) {
