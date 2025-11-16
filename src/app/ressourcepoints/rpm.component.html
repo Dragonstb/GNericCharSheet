@@ -31,7 +31,7 @@
                 <label for="showText-{{id}}">Show texts</label>
             </div>
             <div>
-                <input type="checkbox" id="absorbDamage-{{id}}" [formControl]="absorbCheckbox">
+                <input type="checkbox" id="absorbDamage-{{id}}" [formControl]="absorbCheckbox" (change)="fireElemChangeEvent()">
                 <label for="absorbDamage-{{id}}">Higher tiered damage absorbs lower tiered damage</label>
             </div>
         </div>
@@ -39,10 +39,10 @@
     <div class="boxed nopadding">
         @for(row of rows; track row.id) {
             @if(!$last) {
-                <gneric-rpmrow [status]="row" [showText]="textVisible" [textEditable]="editable" class="thinbottomborder blockdisplay"/>
+                <gneric-rpmrow [status]="row" [showText]="textVisible" [textEditable]="editable" class="thinbottomborder blockdisplay" (input)="fireElemChangeEvent()" />
             }
             @else {
-                <gneric-rpmrow [status]="row" [showText]="textVisible" [textEditable]="editable" />
+                <gneric-rpmrow [status]="row" [showText]="textVisible" [textEditable]="editable" (input)="fireElemChangeEvent()" />
             }
         }
     </div>

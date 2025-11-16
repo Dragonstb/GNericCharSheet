@@ -64,4 +64,8 @@ export class GNericDamage {
 
         return true;
     }
+
+    getValues(): number[] {
+        return this.dmg.slice();
+    }
 }

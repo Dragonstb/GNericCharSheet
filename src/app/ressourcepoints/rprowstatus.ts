@@ -60,4 +60,8 @@ export class GNericRPRowStats {
 
         return remainder;
     }
+
+    getText(): string {
+        return this.text.value;
+    }
 }

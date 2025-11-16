@@ -4,6 +4,8 @@ import { GNericDamage } from "./damage";
 import { GNericRPRowStats } from "./rprowstatus";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { GNericDmgConfModal } from "./dmgconfmodal.component";
+import { ElemTypes } from "../elemtypes";
+import { map } from "rxjs";
 
 @Component({
     selector: 'gneric-rpm',
@@ -15,7 +17,7 @@ export class GNericRessourcePointsManager {
     id = "comp-03-03";
     fullId = "ressource-points-"+this.id;
 
-    showTextsCheckbox = new FormControl({checked: true});
+    showTextsCheckbox = new FormControl(true);
     textVisible = Boolean(this.showTextsCheckbox.value);
 
     absorbCheckbox = new FormControl();
@@ -34,6 +36,7 @@ export class GNericRessourcePointsManager {
     @ViewChild('modal') modal!: GNericDmgConfModal;
 
     deleteRPMEvent = output<string>();
+    gNericElemChangedEvent = output<object>();
 
     tierMap: Map<string, number> = new Map();
 
@@ -50,6 +53,7 @@ export class GNericRessourcePointsManager {
     addRow(): void {
         this.rows.push(new GNericRPRowStats(this.rows.length, this.getPointsPerRow()));
         this.redistributeDamage();
+        this.fireElemChangeEvent();
     }
 
     removeRow(): void {
@@ -57,6 +61,7 @@ export class GNericRessourcePointsManager {
             this.rows.splice(this.rows.length-1, 1);
         }
         this.redistributeDamage();
+        this.fireElemChangeEvent();
     }
 
     addCol(): void {
@@ -65,6 +70,7 @@ export class GNericRessourcePointsManager {
         });
 
         this.redistributeDamage();
+        this.fireElemChangeEvent();
     }
     
     removeCol(): void {
@@ -77,6 +83,7 @@ export class GNericRessourcePointsManager {
         });
         
         this.redistributeDamage();
+        this.fireElemChangeEvent();
     }
 
     redistributeDamage(): void {
@@ -166,6 +173,8 @@ export class GNericRessourcePointsManager {
         if(this.checkmark) {
             this.checkmark.nativeElement.classList.add('hidden');
         }
+
+        this.fireElemChangeEvent();
     }
 
     mapDamageTier(key: string, tier: number): void {
@@ -218,14 +227,42 @@ export class GNericRessourcePointsManager {
         this.tierMap = newMap;
         this.updateRegexPattern();
         this.redistributeDamage();
+        this.fireElemChangeEvent();
     }
 
     updateTextVisibility(): void {
         this.textVisible = Boolean(this.showTextsCheckbox.value);
+        this.fireElemChangeEvent();
     }
 
     fireDeleteRPMEvent(): void {
         this.deleteRPMEvent.emit(this.id);
+    }
+
+    fireElemChangeEvent(): void {
+        const mapping: any = {};
+        for (const [key, val] of this.tierMap) {
+            mapping[String(key)] = val;
+        }
+
+        const texts: string[] = [];
+        this.rows.forEach(row => {
+            texts.push(row.getText());
+        });
+
+        const model = {
+            id: this.id,
+            type: ElemTypes.rpm,
+            rows: this.rows.length,
+            cols: this.getPointsPerRow(),
+            showTexts: this.textVisible,
+            useAbsorbtion: Boolean(this.absorbCheckbox.value),
+            tierMap: mapping,
+            texts: texts,
+            damage: this.damage.getValues()
+        };
+
+        this.gNericElemChangedEvent.emit(model);
     }
 
     ngOnInit() {

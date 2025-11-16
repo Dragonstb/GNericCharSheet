@@ -1,4 +1,5 @@
 export enum ElemTypes {
     textfield = 'textfield',
-    table = 'table'
+    table = 'table',
+    rpm = 'rpm'
 }
