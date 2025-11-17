@@ -1,11 +1,11 @@
-import { Component, ViewChild, ElementRef, computed, ViewChildren, viewChildren, output } from "@angular/core";
+import { Component, ViewChild, ElementRef, output, inject } from "@angular/core";
 import { GNericRPMRow } from "./rpmrow.component";
 import { GNericDamage } from "./damage";
 import { GNericRPRowStats } from "./rprowstatus";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { GNericDmgConfModal } from "./dmgconfmodal.component";
 import { ElemTypes } from "../elemtypes";
-import { map } from "rxjs";
+import { ValidatorService } from "../../services/validator";
 
 @Component({
     selector: 'gneric-rpm',
@@ -39,6 +39,8 @@ export class GNericRessourcePointsManager {
     gNericElemChangedEvent = output<object>();
 
     tierMap: Map<string, number> = new Map();
+
+    validator = inject(ValidatorService);
 
     setEditable(editable: boolean): void {
         this.editable = editable;
@@ -286,7 +288,10 @@ export class GNericRessourcePointsManager {
 
     setModel(model: any): void {
 
-        // TODO: validate input
+        if(!this.validateModel(model)) {
+            // TODO: console.log('GNeric Char Sheet: received invalid model for ressource point manager, ignoring it.');
+            return;
+        }
 
         // adapt number of rows and cols
         let ok: boolean = true;
@@ -332,4 +337,99 @@ export class GNericRessourcePointsManager {
         this.updateRegexPattern();
     }
 
+    validateModel(model: any): boolean {
+        if(!this.validator.isModel(model) || !this.validator.isForMe(this.id, ElemTypes.rpm, model)) {
+            return false;
+        }
+
+        if(!this.validator.hasNumberArray('damage', model)) {
+            return false;
+        }
+
+        if(!this.validator.hasStringArray('texts', model)) {
+            return false;
+        }
+
+        if(!model.hasOwnProperty('rows') || !model.rows || typeof model.rows !== 'number') {
+            return false;
+        }
+
+        if(!model.hasOwnProperty('cols') || !model.cols || typeof model.cols !== 'number') {
+            return false;
+        }
+
+        if(!model.hasOwnProperty('showTexts') || typeof model.showTexts !== 'boolean') {
+            return false;
+        }
+
+        if(!model.hasOwnProperty('useAbsorbtion') || typeof model.useAbsorbtion !== 'boolean') {
+            return false;
+        }
+
+        if(!model.hasOwnProperty('tierMap') || !model.tierMap || typeof model.tierMap !== 'object') {
+            return false;
+        }
+
+        // check constraints
+
+        if(model.rows < 1 || model.cols < 1) {
+            return false;
+        }
+
+        if(model.rows !== model.texts.length) {
+            return false;
+        }
+
+        if(model.damage.length !== this.damage.getNumTiers()) {
+            return false;
+        }
+
+        for (const dmg of model.damage) {
+            if(dmg < 0) {
+                return false;
+            }
+        }
+
+        // check constraints of mapping
+
+        // TODO: this is basically the same code as used in the form validator of the RPM damage config modal
+        let uniqueKeys = true; // each key once among all active tiers
+        let activatedOne = false; // at least one tier must be active
+        let justProperTiers = true; // only valid tiers are mapped
+        let uniqueTiers = true; // each tier is used only once
+    
+        let keysInUse: string[] = [];
+        let tiersInUse: number[] = [];
+        for (const key in model.tierMap) {
+            if(key.length < 2 && keysInUse.indexOf(key) < 0) {
+                keysInUse.push(key);
+                activatedOne = true;
+            }
+            else {
+                uniqueKeys = false;
+                break;
+            }
+
+            const val = model.tierMap[key];
+            if(val >= 1 && val <= this.damage.getNumTiers()) {
+                if(tiersInUse.indexOf(val) < 0) {
+                    tiersInUse.push(val);
+                }
+                else {
+                    uniqueTiers = false;
+                    break;
+                }
+            }
+            else {
+                justProperTiers = false;
+                break;
+            }
+        }
+
+        if(!uniqueKeys || !activatedOne || !justProperTiers || !uniqueTiers || keysInUse.length > this.damage.getNumTiers()) {
+            return false;
+        }
+
+        return true;
+    }
 }
