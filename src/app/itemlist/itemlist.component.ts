@@ -1,5 +1,7 @@
 import { Component, signal } from "@angular/core";
 import { GNericItemEntry } from "./itementry.component";
+import { GNericItemModel } from "./itemmodel";
+import { FormControl } from "@angular/forms";
 
 @Component({
     selector: 'gneric-itemlist',
@@ -8,9 +10,22 @@ import { GNericItemEntry } from "./itementry.component";
 })
 export class GNericItemList {
 
+    items: GNericItemModel[] = [
+        new GNericItemModel('1', 'Sword', 'Attack + 2\nAttack speed: 3\nDamage: 2d6'),
+        new GNericItemModel('2', 'Axe', 'Attack + 4\nAttack speed: 1\nDamage: 2d6+3'),
+        new GNericItemModel('3', 'Shield', 'Defense + 2\nAttack speed: -1'),
+    ];
+
+    listname = new FormControl('Items');
+
     editable = signal(true);
+    expanded = signal(true);
 
     setEditable(editable: boolean): void {
         this.editable.set(editable);
-    } 
+    }
+
+    toggleExpansion(): void {
+        this.expanded.update(val => !val);
+    }
 }

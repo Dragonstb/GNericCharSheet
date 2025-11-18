@@ -9,6 +9,7 @@
 @obr-dark-sec-light: rgb(241, 173, 255);
 @obr-dark-sec-dark: rgb(166, 107, 178);
 @obr-dark-sec-contrast: rgba(0, 0, 0, 0.87);
+@dark-sec-disabled: rgb(93, 75, 97);
 @obr-dark-text-prim: #fff;
 @obr-dark-text-sec: rgba(255, 255, 255, 0.7);
 @obr-dark-text-disabled: rgba(255, 255, 255, 0.5);
@@ -24,6 +25,7 @@
 @obr-light-sec-light: rgb(227, 91, 255);
 @obr-light-sec-dark: rgb(154, 35, 178);
 @obr-light-sec-contrast: #fff;
+@light-sec-disabled: rgb(77, 44, 83);
 @obr-light-text-prim: rgba(0, 0, 0, 0.87);
 @obr-light-text-sec: rgba(0, 0, 0, 0.6);
 @obr-light-text-disabled: rgba(0, 0, 0, 0.38);
@@ -52,7 +54,7 @@
     align-items: center;
     width: 100%;
 
-    > span, svg {
+    > span, svg, h4 {
         color: @obr-dark-prim-contrast;
         fill: @obr-dark-prim-contrast;
         stroke: @obr-dark-prim-contrast;
@@ -62,12 +64,27 @@
             fill: @obr-light-prim-contrast;
             stroke: @obr-light-prim-contrast;
         }
+
+    }
+    
+    &.secondarycol {
+        > span, svg, h4 {
+            color: @obr-dark-sec-contrast;
+            fill: @obr-dark-sec-contrast;
+            stroke: @obr-dark-sec-contrast;
+            
+            &.light {
+                color: @obr-light-sec-contrast;
+                fill: @obr-light-sec-contrast;
+                stroke: @obr-light-sec-contrast;
+            }
+        }
     }
 
-    // > svg {
-    //     fill: red;
-    //     stroke: red;
-    // }
+    > h4 {
+        margin-top: 7px;
+        margin-bottom: 7px;
+    }
 }
 
 .aria-visible {
@@ -130,6 +147,11 @@
 .size15 {
     width: 15px;
     height: 15px;
+}
+
+.size20 {
+    width: 20px;
+    height: 20px;
 }
 
 .svgicon {
@@ -195,6 +217,43 @@ button {
             color: @obr-light-text-disabled;
             background-color: @light-prim-disabled;
         }
+    }
+    
+    &.secondarycol {
+        color: @obr-dark-sec-contrast;
+        background-color: @obr-dark-sec-main;
+        border-left-color: @obr-dark-sec-light;
+        border-top-color: @obr-dark-sec-light;
+        border-right-color: @obr-dark-sec-dark;
+        border-bottom-color: @obr-dark-sec-dark;
+        
+        &:hover {
+            background-color: @obr-dark-sec-light;
+        }
+    
+        &:disabled {
+            color: @obr-dark-text-disabled;
+            background-color: @dark-sec-disabled;
+        }
+    
+        &.light {
+            color: @obr-light-sec-contrast;
+            background-color: @obr-light-sec-main;
+            border-left-color: @obr-light-sec-light;
+            border-top-color: @obr-light-sec-light;
+            border-right-color: @obr-light-sec-dark;
+            border-bottom-color: @obr-light-sec-dark;
+    
+            &:hover {
+                background-color: @obr-light-sec-light;
+            }
+        
+            &:disabled {
+                color: @obr-light-text-disabled;
+                background-color: @light-sec-disabled;
+            }
+        }
+
     }
 }
 
