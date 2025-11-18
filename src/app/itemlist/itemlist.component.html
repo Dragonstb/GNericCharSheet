@@ -20,12 +20,12 @@
     @if(expanded()) {
         <div id="item-list-{{listname.value}}">
         @for(item of items; track item.getId()) {
-            <gneric-itementry [model]="item" [editable]="editable()" />
+            <gneric-itementry (deleteEntryEvent)="deleteItem(item.getId())" [model]="item" [editable]="editable()" />
         }
         </div>
+        <div>
+            <button (click)="handleAddNewEntry()">add new entry to {{listname.value}}</button>
+        </div>
     }
-    <div>
-        <button (click)="handleAddNewEntry()">add new entry to {{listname.value}}</button>
-    </div>
 </div>
 <gneric-additemmodal #modal (newItemEvent)="addNewItem($event)" [listname]="listname.value" />

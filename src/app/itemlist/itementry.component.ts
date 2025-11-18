@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, output } from "@angular/core";
 import { GNericItemModel } from "./itemmodel";
 import { ReactiveFormsModule } from "@angular/forms";
 
@@ -13,7 +13,13 @@ export class GNericItemEntry {
     @Input() editable: boolean = false;
     expanded: boolean = false;
 
+    deleteEntryEvent = output();
+
     toggleExpansion(): void {
         this.expanded = !this.expanded;
+    }
+
+    fireDeleteEntryEvent(): void {
+        this.deleteEntryEvent.emit();
     }
 }

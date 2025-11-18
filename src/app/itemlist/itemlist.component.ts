@@ -40,4 +40,13 @@ export class GNericItemList {
         this.items.push(item);
     }
 
+    deleteItem(itemId: string): void {
+        for (let idx = 0; idx < this.items.length; idx++) {
+            const item = this.items[idx];
+            if(item.getId() === itemId) {
+                this.items.splice(idx, 1);
+                break;
+            }
+        }
+    }
 }
