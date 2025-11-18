@@ -36,4 +36,8 @@ export class GNericItemList {
         this.modal.openDialog();
     }
 
+    addNewItem(item: GNericItemModel): void {
+        this.items.push(item);
+    }
+
 }

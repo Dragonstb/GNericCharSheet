@@ -28,4 +28,4 @@
         <button (click)="handleAddNewEntry()">add new entry to {{listname.value}}</button>
     </div>
 </div>
-<gneric-additemmodal #modal />
+<gneric-additemmodal #modal (newItemEvent)="addNewItem($event)" [listname]="listname.value" />

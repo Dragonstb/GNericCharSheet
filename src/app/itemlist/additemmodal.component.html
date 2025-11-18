@@ -1,7 +1,17 @@
 <dialog #dialog>
-    <h2>Hello new item</h2>
+    <h2>Add item to {{listname}}</h2>
+    <form [formGroup]="form">
+        <div>
+            <label for="add-item-name">item name:</label>
+            <input type="text" id="add-item-name" formControlName="name">
+        </div>
+        <div>
+            <label for="add-item-text">item description</label>
+            <textarea id="add-item-text" rows="7" formControlName="text"></textarea>
+        </div>
+    </form>
     <div>
         <button (click)="cancel()">cancel</button>
-        <button (click)="addNewItem()">add</button>
+        <button (click)="addNewItem()" [disabled]="!form.valid">add</button>
     </div>
 </dialog>
