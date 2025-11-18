@@ -1,14 +1,17 @@
-import { Component, signal } from "@angular/core";
+import { Component, signal, ViewChild } from "@angular/core";
 import { GNericItemEntry } from "./itementry.component";
 import { GNericItemModel } from "./itemmodel";
 import { FormControl } from "@angular/forms";
+import { GNericAddItemModal } from "./additemmodal.component";
 
 @Component({
     selector: 'gneric-itemlist',
     templateUrl: './itemlist.component.html',
-    imports: [GNericItemEntry]
+    imports: [GNericItemEntry, GNericAddItemModal]
 })
 export class GNericItemList {
+
+    @ViewChild('modal') modal!: GNericAddItemModal;
 
     items: GNericItemModel[] = [
         new GNericItemModel('1', 'Sword', 'Attack + 2\nAttack speed: 3\nDamage: 2d6'),
@@ -28,4 +31,9 @@ export class GNericItemList {
     toggleExpansion(): void {
         this.expanded.update(val => !val);
     }
+
+    handleAddNewEntry(): void {
+        this.modal.openDialog();
+    }
+
 }
