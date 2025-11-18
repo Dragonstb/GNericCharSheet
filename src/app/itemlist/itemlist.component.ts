@@ -1,4 +1,4 @@
-import { Component, signal, ViewChild } from "@angular/core";
+import { Component, output, signal, ViewChild } from "@angular/core";
 import { GNericItemEntry } from "./itementry.component";
 import { GNericItemModel } from "./itemmodel";
 import { FormControl } from "@angular/forms";
@@ -11,7 +11,12 @@ import { GNericAddItemModal } from "./additemmodal.component";
 })
 export class GNericItemList {
 
+    id: string = 'comp-04-04';
+    fullId: string = 'itemlist-'+this.id;
+
     @ViewChild('modal') modal!: GNericAddItemModal;
+
+    deleteItemListEvent = output<string>();
 
     items: GNericItemModel[] = [
         new GNericItemModel('1', 'Sword', 'Attack + 2\nAttack speed: 3\nDamage: 2d6'),
@@ -48,5 +53,9 @@ export class GNericItemList {
                 break;
             }
         }
+    }
+
+    fireDeleteItemlistEvent(): void {
+        this.deleteItemListEvent.emit(this.id);
     }
 }

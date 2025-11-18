@@ -59,6 +59,10 @@ export class GNericMainComponent {
     console.log('deleting '+elemId);
   }
 
+  deleteItemList(elemId: string) {
+    console.log('deleting item list '+elemId);
+  }
+
   setModel(model: any) {
     if(model.type){
       switch(model.type) {
