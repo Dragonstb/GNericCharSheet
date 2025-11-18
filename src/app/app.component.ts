@@ -37,8 +37,7 @@ export class GNericMainComponent {
   }
 
   reactOnChange(json: object) {
-    console.dir(json);
-    // this.broadcaster.handleOutgoingMessage(json);
+    this.broadcaster.handleOutgoingMessage(json);
   }
 
   deleteTextfield(elemId: string) {
@@ -64,6 +63,11 @@ export class GNericMainComponent {
         case ElemTypes.table:
           if(this.tables().length > 0) {
             this.tables()[0].setModel(model);
+          }
+          break;
+        case ElemTypes.rpm:
+          if(this.rpms().length > 0) {
+            this.rpms()[0].setModel(model);
           }
           break;
         default:

@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, output, inject } from "@angular/core";
+import { Component, ViewChild, ElementRef, output, inject, NgZone } from "@angular/core";
 import { GNericRPMRow } from "./rpmrow.component";
 import { GNericDamage } from "./damage";
 import { GNericRPRowStats } from "./rprowstatus";
@@ -13,6 +13,8 @@ import { ValidatorService } from "../../services/validator";
     imports: [GNericRPMRow, GNericDmgConfModal, ReactiveFormsModule]
 })
 export class GNericRessourcePointsManager {
+
+    ngZone = inject(NgZone);
 
     id = "comp-03-03";
     fullId = "ressource-points-"+this.id;
@@ -268,9 +270,9 @@ export class GNericRessourcePointsManager {
 
         const texts: string[] = [];
         this.rows.forEach(row => {
-            texts.push(row.getText());
+            texts.push(row.getText() ?? '');
         });
-
+        
         const model = {
             id: this.id,
             type: ElemTypes.rpm,
@@ -287,51 +289,58 @@ export class GNericRessourcePointsManager {
     }
 
     setModel(model: any): void {
-
         if(!this.validateModel(model)) {
             // TODO: console.log('GNeric Char Sheet: received invalid model for ressource point manager, ignoring it.');
             return;
         }
-
-        // adapt number of rows and cols
-        let ok: boolean = true;
-        while(this.getPointsPerRow() > model.cols && ok) {
-            ok = this.silentlyRemoveCol();
-        }
-        while(this.getPointsPerRow() < model.cols) {
-            this.silentlyAddCol();
-        }
-
-        ok = true;
-        while(this.rows.length > model.rows && ok) {
-            ok = this.silentlyRemoveRow();
-        }
-        while(this.rows.length < model.rows) {
-            this.silentlyAddRow();
-        }
-
-        // adapt damage and tier mapping
-        if(!this.damage.isEqualDamage(model.damage)) {
-            this.damage = new GNericDamage(model.damage);
-        }
+        
         this.tierMap = new Map<string, number>();
         for (const key in model.tierMap) {
             this.tierMap.set(key, model.tierMap[key]);
         }
+        
+        // adapt damage and tier mapping
+        if(!this.damage.isEqualDamage(model.damage)) {
+            this.damage = new GNericDamage(model.damage);
+        }
 
         // adapt settings
         this.showTextsCheckbox.setValue(model.showTexts);
-        this.textVisible = model.showTexts;
         this.absorbCheckbox.setValue(model.useAbsorbtion);
         for (let idx = 0; idx < this.rows.length; idx++) {
             this.rows[idx].setText(model.texts[idx]);
         }
-
-        // update
+        
         this.updateRegexPattern();
-        this.redistributeDamage();
-    }
+        try {
+            this.ngZone.runGuarded(()=>{
+                this.textVisible = model.showTexts;
 
+                // adapt number of rows and cols
+                let ok: boolean = true;
+                while(this.getPointsPerRow() > model.cols && ok) {
+                    ok = this.silentlyRemoveCol();
+                }
+                while(this.getPointsPerRow() < model.cols) {
+                    this.silentlyAddCol();
+                }
+            
+                ok = true;
+                while(this.rows.length > model.rows && ok) {
+                    ok = this.silentlyRemoveRow();
+                }
+                while(this.rows.length < model.rows) {
+                    this.silentlyAddRow();
+                }
+
+                // paint some crosses
+                this.redistributeDamage();
+            });
+        } catch (error) {
+            console.log('GNeric Char Sheet: error on model update in Ressource Point Manager');
+        }
+    }
+    
     ngOnInit() {
         this.mapDamageTier('', 3);
         this.updateRegexPattern();
