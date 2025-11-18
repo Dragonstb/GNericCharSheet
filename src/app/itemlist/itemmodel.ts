@@ -24,4 +24,12 @@ export class GNericItemModel {
             return ['No description. Set element editable to add one.'];
         }
     }
+
+    getModel(): object {
+        return {
+            id: this.id ?? '',
+            name: this.name.value ?? '',
+            text: this.text.value ?? ''
+        };
+    }
 }

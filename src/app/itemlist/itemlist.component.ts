@@ -1,8 +1,10 @@
-import { Component, output, signal, ViewChild } from "@angular/core";
+import { Component, inject, output, signal, ViewChild } from "@angular/core";
 import { GNericItemEntry } from "./itementry.component";
 import { GNericItemModel } from "./itemmodel";
 import { FormControl } from "@angular/forms";
 import { GNericAddItemModal } from "./additemmodal.component";
+import { ElemTypes } from "../elemtypes";
+import { ValidatorService } from "../../services/validator";
 
 @Component({
     selector: 'gneric-itemlist',
@@ -17,6 +19,8 @@ export class GNericItemList {
     @ViewChild('modal') modal!: GNericAddItemModal;
 
     deleteItemListEvent = output<string>();
+
+    validator = inject(ValidatorService);
 
     items: GNericItemModel[] = [
         new GNericItemModel('1', 'Sword', 'Attack + 2\nAttack speed: 3\nDamage: 2d6'),
@@ -57,5 +61,36 @@ export class GNericItemList {
 
     fireDeleteItemlistEvent(): void {
         this.deleteItemListEvent.emit(this.id);
+    }
+
+    fireElemChangeEvent(): void {
+        let items: object[] = [];
+        this.items.forEach(item => {
+            items.push(item.getModel());
+        });
+        const listname = this.listname.value ?? '';
+
+        const model = {
+            id: this.id,
+            type: ElemTypes.itemlist,
+            listname: listname,
+            items: items
+        }
+
+        // TODO: fire event
+    }
+
+    validateInput(model: any): boolean {
+        if(!this.validator.isModel(model) || !this.validator.isForMe(this.id, ElemTypes.itemlist, model)) {
+            return false;
+        }
+
+        if(!model.hasOwnProperty('listname') || (!model.listname && model.listname !== '') || typeof model.listname !== 'string') {
+            return false;
+        }
+
+        // TODO: validate items
+
+        return true;
     }
 }
