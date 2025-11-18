@@ -5,10 +5,11 @@ import { BroadCaster } from '../services/broadcaster';
 import { GNericTable } from './table/table.component';
 import { ElemTypes } from './elemtypes';
 import { GNericRessourcePointsManager } from './ressourcepoints/rpm.component';
+import { GNericItemList } from './itemlist/itemlist.component';
 
 @Component({
   selector: 'app-root',
-  imports: [GNericRessourcePointsManager],
+  imports: [GNericItemList],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })
@@ -18,6 +19,7 @@ export class GNericMainComponent {
   textfields = viewChildren(GnericTextfield);
   tables = viewChildren(GNericTable);
   rpms = viewChildren(GNericRessourcePointsManager);
+  itemlists = viewChildren(GNericItemList);
 
   setElemsEditable(event: Event) {
     const checkbox = event.target as HTMLInputElement;
@@ -34,10 +36,15 @@ export class GNericMainComponent {
     this.rpms().forEach(rpm => {
       rpm.setEditable(checked);
     });
+
+    this.itemlists().forEach(list => {
+      list.setEditable(checked);
+    });
   }
 
   reactOnChange(json: object) {
-    this.broadcaster.handleOutgoingMessage(json);
+    console.dir(json);
+    // this.broadcaster.handleOutgoingMessage(json);
   }
 
   deleteTextfield(elemId: string) {

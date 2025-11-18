@@ -46,6 +46,30 @@
     display: none;
 }
 
+.accordeonhead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    > span, svg {
+        color: @obr-dark-prim-contrast;
+        fill: @obr-dark-prim-contrast;
+        stroke: @obr-dark-prim-contrast;
+        
+        &.light {
+            color: @obr-light-prim-contrast;
+            fill: @obr-light-prim-contrast;
+            stroke: @obr-light-prim-contrast;
+        }
+    }
+
+    // > svg {
+    //     fill: red;
+    //     stroke: red;
+    // }
+}
+
 .aria-visible {
     // stuff that is invisible but accessible to assitive technologies
     font-size: 0;
@@ -70,6 +94,10 @@
 
 .flexbox {
     display: flex;
+}
+
+.inheritbg {
+    background-color: inherit;
 }
 
 .noborder {
