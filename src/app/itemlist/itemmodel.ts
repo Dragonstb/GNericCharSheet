@@ -15,4 +15,13 @@ export class GNericItemModel {
     getId(): string {
         return this.id;
     }
+
+    getLines(): string[] {
+        if(this.text.value) {
+            return this.text.value.split('\n');
+        }
+        else {
+            return ['No description. Set element editable to add one.'];
+        }
+    }
 }

@@ -19,7 +19,9 @@
 @if(expanded) {
     <div id="item-{{model.getId()}}">
         @if(!editable) {
-            <textarea rows="7" [formControl]="model.text" readonly="" class="noborder"></textarea>
+            @for(line of model.getLines(); track $index) {
+                <div>{{line}}</div>
+            }
         }
         @else{
             <div>
