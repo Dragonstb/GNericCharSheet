@@ -70,8 +70,8 @@ export class GNericDamage {
             return false;
         }
 
-        for (const x of this.dmg) {
-            if(x > 0) {
+        for (let idx = 0; idx < other.length; idx++) {
+            if(this.dmg[idx] != other[idx]) {
                 return false;
             }
         }
