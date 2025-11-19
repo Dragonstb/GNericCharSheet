@@ -93,11 +93,11 @@ export class GNericItemList {
             return false;
         }
 
-        if(!model.hasOwnProperty('listname') || (!model.listname && model.listname !== '') || typeof model.listname !== 'string') {
+        if(!model.hasOwnProperty('listname') || !model.listname || typeof model.listname !== 'string') {
             return false;
         }
 
-        if(!model.hasOwnProperty('items') || !model.items || typeof model.items !== 'object' || Array.isArray(model.items)) {
+        if(!model.hasOwnProperty('items') || !model.items || typeof model.items !== 'object' || !Array.isArray(model.items)) {
             return false;
         }
 
