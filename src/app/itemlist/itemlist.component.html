@@ -24,7 +24,7 @@
         @if(expanded()) {
             <div id="item-list-{{listname.value}}">
             @for(item of items; track item.getId()) {
-                <gneric-itementry (deleteEntryEvent)="deleteItem(item.getId())" [model]="item" [editable]="editable()" />
+                <gneric-itementry (gNericElemChangedEvent)="fireEntryChangeEvent($event)" (deleteEntryEvent)="deleteItem(item.getId())" [model]="item" [editable]="editable()" />
             }
             </div>
             <div>

@@ -1,4 +1,5 @@
 import { FormControl } from "@angular/forms";
+import { ElemTypes } from "../elemtypes";
 
 export class GNericItemModel {
 
@@ -28,8 +29,14 @@ export class GNericItemModel {
     getModel(): object {
         return {
             id: this.id ?? '',
+            type: ElemTypes.itementry,
             name: this.name.value ?? '',
             text: this.text.value ?? ''
         };
+    }
+
+    setNameAndText(name: string, text: string): void {
+        this.name.setValue(name ?? '');
+        this.text.setValue(text ?? '');
     }
 }

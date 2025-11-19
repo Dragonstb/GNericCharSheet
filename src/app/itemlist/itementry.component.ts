@@ -1,6 +1,7 @@
 import { Component, Input, output } from "@angular/core";
 import { GNericItemModel } from "./itemmodel";
 import { ReactiveFormsModule } from "@angular/forms";
+import { ElemTypes } from "../elemtypes";
 
 @Component({
     selector: 'gneric-itementry',
@@ -14,6 +15,7 @@ export class GNericItemEntry {
     expanded: boolean = false;
 
     deleteEntryEvent = output();
+    gNericElemChangedEvent = output<object>();
 
     toggleExpansion(): void {
         this.expanded = !this.expanded;
@@ -21,5 +23,9 @@ export class GNericItemEntry {
 
     fireDeleteEntryEvent(): void {
         this.deleteEntryEvent.emit();
+    }
+
+    fireElemChangeEvent(): void {
+        this.gNericElemChangedEvent.emit(this.model.getModel());
     }
 }

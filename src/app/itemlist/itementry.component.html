@@ -26,9 +26,9 @@
         @else{
             <div>
                 <label for="item-name-{{model.getId()}}">Name:</label>
-                <input type="text" id="item-name-{{model.getId()}}" [formControl]="model.name">
+                <input type="text" id="item-name-{{model.getId()}}" (input)="fireElemChangeEvent()" [formControl]="model.name">
             </div>
-            <textarea rows="7" [formControl]="model.text"></textarea>
+            <textarea rows="7" (input)="fireElemChangeEvent()" [formControl]="model.text"></textarea>
         }
     </div>
     <button (click)="fireDeleteEntryEvent()">delete {{model.name.value}}</button>
