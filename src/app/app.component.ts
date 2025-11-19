@@ -81,6 +81,16 @@ export class GNericMainComponent {
             this.rpms()[0].setModel(model);
           }
           break;
+          case ElemTypes.itemlist:
+            if(this.itemlists().length > 0) {
+              this.itemlists()[0].setModel(model);
+            }
+          break;
+          case ElemTypes.itementry:
+            if(this.itemlists().length > 0) {
+              this.itemlists()[0].setModel(model);
+            }
+          break;
         default:
           console.log('received model of unexpected type');
           break;

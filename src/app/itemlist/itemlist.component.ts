@@ -1,4 +1,4 @@
-import { Component, inject, output, signal, ViewChild } from "@angular/core";
+import { Component, inject, NgZone, output, signal, ViewChild } from "@angular/core";
 import { GNericItemEntry } from "./itementry.component";
 import { GNericItemModel } from "./itemmodel";
 import { FormControl } from "@angular/forms";
@@ -22,6 +22,7 @@ export class GNericItemList {
     gNericElemChangedEvent = output<object>();
 
     validator = inject(ValidatorService);
+    ngZone = inject(NgZone);
 
     items: GNericItemModel[] = [
         new GNericItemModel('1', 'Sword', 'Attack + 2\nAttack speed: 3\nDamage: 2d6'),
@@ -48,6 +49,7 @@ export class GNericItemList {
 
     addNewItem(item: GNericItemModel): void {
         this.items.push(item);
+        this.fireListChangeEvent();
     }
 
     deleteItem(itemId: string): void {
@@ -55,6 +57,7 @@ export class GNericItemList {
             const item = this.items[idx];
             if(item.getId() === itemId) {
                 this.items.splice(idx, 1);
+                this.fireListChangeEvent();
                 break;
             }
         }
@@ -85,8 +88,8 @@ export class GNericItemList {
         // TODO: fire event
     }
 
-    validateInput(model: any): boolean {
-        if(!this.validator.isModel(model) || !this.validator.isForMe(this.id, ElemTypes.itemlist, model)) {
+    validateListModel(model: any): boolean {
+        if(!this.validator.isForMe(this.id, ElemTypes.itemlist, model)) {
             return false;
         }
 
@@ -94,7 +97,34 @@ export class GNericItemList {
             return false;
         }
 
-        // TODO: validate items
+        if(!model.hasOwnProperty('items') || !model.items || typeof model.items !== 'object' || Array.isArray(model.items)) {
+            return false;
+        }
+
+        const arr = model.items;
+        const duplicateKeyCheck: Set<string> = new Set();
+        for (const item of arr) {
+            if(!item) {
+                return false;
+            }
+
+            if(!item.hasOwnProperty('id') || !item.id || typeof item.id !== 'string') {
+                return false;
+            }
+            const itemId = item.id;
+            if(duplicateKeyCheck.has(itemId)) {
+                return false;
+            }
+            duplicateKeyCheck.add(itemId);
+
+            if(!item.hasOwnProperty('name') || typeof item.name !== 'string') {
+                return false;
+            }
+
+            if(!item.hasOwnProperty('text') || typeof item.text !== 'string') {
+                return false;
+            }
+        }
 
         return true;
     }
@@ -109,14 +139,34 @@ export class GNericItemList {
         }
 
         switch(model.type) {
-            case ElemTypes.itemlist: break;
-            case ElemTypes.itementry: break;
+            case ElemTypes.itemlist: this.setListModel(model); break;
+            case ElemTypes.itementry: this.setEntryModel(model); break;
             // everything else: do nothing
         }
     }
 
     setListModel(model: any) {
+        if(!this.validateListModel(model)) {
+            return;
+        }
 
+        const newItems: GNericItemModel[] = [];
+        for (const item of model.items) {
+            const name = item.name ?? '';
+            const text = item.text ?? '';
+            const newItem = new GNericItemModel(item.id, name, text);
+            newItems.push(newItem);
+        }
+
+        try {
+            this.ngZone.runGuarded(() => {
+                this.items = newItems;
+            });
+        } catch (error) {
+            console.log('GNeric Char Sheet: error on model update in Item List');
+        }
+
+        this.listname.setValue(model.listname);
     }
 
     setEntryModel(model: any) {
