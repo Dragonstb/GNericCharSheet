@@ -108,22 +108,48 @@ export class GNericItemList {
                 return false;
             }
 
-            if(!item.hasOwnProperty('id') || !item.id || typeof item.id !== 'string') {
+            // if(!item.hasOwnProperty('id') || !item.id || typeof item.id !== 'string') {
+            //     return false;
+            // }
+
+            if(!this.validateEntryModel(item)) {
                 return false;
             }
+
             const itemId = item.id;
             if(duplicateKeyCheck.has(itemId)) {
                 return false;
             }
             duplicateKeyCheck.add(itemId);
 
-            if(!item.hasOwnProperty('name') || typeof item.name !== 'string') {
-                return false;
-            }
+            // if(!item.hasOwnProperty('name') || typeof item.name !== 'string') {
+            //     return false;
+            // }
 
-            if(!item.hasOwnProperty('text') || typeof item.text !== 'string') {
-                return false;
-            }
+            // if(!item.hasOwnProperty('text') || typeof item.text !== 'string') {
+            //     return false;
+            // }
+        }
+
+        return true;
+    }
+
+    validateEntryModel(model: any): boolean {
+        // id === '' is not ok here
+        if(!model.hasOwnProperty('id') || !model.id || typeof model.id !== 'string') {
+            return false;
+        }
+
+        if(!model.hasOwnProperty('type') || model.type !== ElemTypes.itementry) {
+            return false;
+        }
+
+        if(!model.hasOwnProperty('name') || typeof model.name !== 'string') {
+            return false;
+        }
+
+        if(!model.hasOwnProperty('text') || typeof model.text !== 'string') {
+            return false;
         }
 
         return true;
@@ -170,17 +196,14 @@ export class GNericItemList {
     }
 
     setEntryModel(model: any) {
-        // id === '' is not ok here
-        if(!model.hasOwnProperty('id') || !model.type || typeof model.type !== 'string') {
+        if(!this.validateEntryModel(model)) {
             // TODO: log
             return;
         }
 
         for (const item of this.items) {
             if(item.getId() == model.id) {
-                const name = model.name ?? '';
-                const text = model.text ?? '';
-                item.setNameAndText(name, text);
+                item.setNameAndText(model.name, model.text);
                 break;
             }
         }
