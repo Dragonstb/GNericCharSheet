@@ -81,4 +81,18 @@ export class TableAlterer {
 
         this.content = cells;
     }
+
+    getContent(): string[][] {
+        const arr: string[][] = [];
+        for (const row of this.content) {
+            const contentRow: string[] = [];
+            for (const cell of row) {
+                contentRow.push(cell.getText());
+            }
+            arr.push(contentRow);
+        }
+
+        return arr;
+    }
+
 }

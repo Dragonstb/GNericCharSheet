@@ -309,144 +309,421 @@ describe( 'GNericTable', () => {
         }
     });
 
-    it( 'Should accept a proper new model', () => {
-        const x = table.widthController.getMinWidth();
-        const widths = [30, 40, 30];
-        const texts = [
-            ["1-1", "1-2", "1-3"],
-            ["2-1", "2-2", "2-3"],
-            ["3-1", "3-2", "3-3"],
+    it( 'Should not update the component with a model where the id is missing', () => {
+        const oldWidths = table.alterer.getColumnWidths();
+        const oldEqualDist = table.widthController.equalDistributed;
+        const oldRows = table.alterer.getRows();
+        const oldCols = table.alterer.getCols();
+        const oldTexts = table.alterer.getContent();
+
+        const newWidths = oldEqualDist ? [20,40,20,20] : [25,25,25,25]
+        const newTexts = [
+            ['1', '2', '3', '4'],
+            ['5', '6', '7', '8']
         ];
+        if(oldRows === newTexts.length) {
+            newTexts.push(['a', 'b', 'c', 'd']);
+        }
+
         let model = {
-            id: id,
             type: ElemTypes.table,
-            widths: widths,
-            texts: texts
+            widths: newWidths,
+            texts: newTexts
         };
-        expect(table.isTableModelForMe(model)).toBeTrue();
+    
+        table.setModel(model);
+        fixture.detectChanges();
+
+        expect(table.widthController.equalDistributed).toBe(oldEqualDist);
+        const body = table.tableBody.nativeElement as HTMLTableSectionElement;
+        expect(body.childElementCount).toBe(oldRows);
+
+        for (let rowIdx = 0; rowIdx < body.childElementCount; rowIdx++) {
+            const row = body.childNodes[rowIdx] as HTMLTableRowElement;
+            expect(row.childElementCount).toBe(oldCols);
+            for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
+                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
+
+                const input = cell.firstChild as HTMLInputElement;
+                expect(input.value).toBe(oldTexts[rowIdx][colIdx]);
+            }
+        }
     });
 
-    it( 'Should reject a falsy model', () => {
-        expect(table.isTableModelForMe(undefined)).toBeFalse();
-    });
+    it( 'Should not update the component with a model where the id is falsy', () => {
+        const oldWidths = table.alterer.getColumnWidths();
+        const oldEqualDist = table.widthController.equalDistributed;
+        const oldRows = table.alterer.getRows();
+        const oldCols = table.alterer.getCols();
+        const oldTexts = table.alterer.getContent();
 
-    it( 'Should reject a model with wrong id', () => {
-        const x = table.widthController.getMinWidth();
-        const widths = [30, 40, 30];
-        const texts = [
-            ["1-1", "1-2", "1-3"],
-            ["2-1", "2-2", "2-3"],
-            ["3-1", "3-2", "3-3"],
+        const newWidths = oldEqualDist ? [20,40,20,20] : [25,25,25,25]
+        const newTexts = [
+            ['1', '2', '3', '4'],
+            ['5', '6', '7', '8']
         ];
-        let model = {
-            id: id+"mistake",
-            type: ElemTypes.table,
-            widths: widths,
-            texts: texts
-        };
-        expect(table.isTableModelForMe(model)).toBeFalse();
-    });
+        if(oldRows === newTexts.length) {
+            newTexts.push(['a', 'b', 'c', 'd']);
+        }
 
-    it( 'Should reject a model with falsy id', () => {
-        const x = table.widthController.getMinWidth();
-        const widths = [30, 40, 30];
-        const texts = [
-            ["1-1", "1-2", "1-3"],
-            ["2-1", "2-2", "2-3"],
-            ["3-1", "3-2", "3-3"],
-        ];
         let model = {
             id: undefined,
             type: ElemTypes.table,
-            widths: widths,
-            texts: texts
+            widths: newWidths,
+            texts: newTexts
         };
-        expect(table.isTableModelForMe(model)).toBeFalse();
+    
+        table.setModel(model);
+        fixture.detectChanges();
+
+        expect(table.widthController.equalDistributed).toBe(oldEqualDist);
+        const body = table.tableBody.nativeElement as HTMLTableSectionElement;
+        expect(body.childElementCount).toBe(oldRows);
+
+        for (let rowIdx = 0; rowIdx < body.childElementCount; rowIdx++) {
+            const row = body.childNodes[rowIdx] as HTMLTableRowElement;
+            expect(row.childElementCount).toBe(oldCols);
+            for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
+                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
+
+                const input = cell.firstChild as HTMLInputElement;
+                expect(input.value).toBe(oldTexts[rowIdx][colIdx]);
+            }
+        }
     });
 
-    it( 'Should reject a model with id of wrong type', () => {
-        const x = table.widthController.getMinWidth();
-        const widths = [30, 40, 30];
-        const texts = [
-            ["1-1", "1-2", "1-3"],
-            ["2-1", "2-2", "2-3"],
-            ["3-1", "3-2", "3-3"],
+    it( 'Should not update the component with a model where the id is the one of the component', () => {
+        const oldWidths = table.alterer.getColumnWidths();
+        const oldEqualDist = table.widthController.equalDistributed;
+        const oldRows = table.alterer.getRows();
+        const oldCols = table.alterer.getCols();
+        const oldTexts = table.alterer.getContent();
+
+        const newWidths = oldEqualDist ? [20,40,20,20] : [25,25,25,25]
+        const newTexts = [
+            ['1', '2', '3', '4'],
+            ['5', '6', '7', '8']
         ];
+        if(oldRows === newTexts.length) {
+            newTexts.push(['a', 'b', 'c', 'd']);
+        }
+
         let model = {
-            id: 3,
+            id: id+"something",
             type: ElemTypes.table,
-            widths: widths,
-            texts: texts
+            widths: newWidths,
+            texts: newTexts
         };
-        expect(table.isTableModelForMe(model)).toBeFalse();
+    
+        table.setModel(model);
+        fixture.detectChanges();
+
+        expect(table.widthController.equalDistributed).toBe(oldEqualDist);
+        const body = table.tableBody.nativeElement as HTMLTableSectionElement;
+        expect(body.childElementCount).toBe(oldRows);
+
+        for (let rowIdx = 0; rowIdx < body.childElementCount; rowIdx++) {
+            const row = body.childNodes[rowIdx] as HTMLTableRowElement;
+            expect(row.childElementCount).toBe(oldCols);
+            for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
+                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
+
+                const input = cell.firstChild as HTMLInputElement;
+                expect(input.value).toBe(oldTexts[rowIdx][colIdx]);
+            }
+        }
     });
 
-    it( 'Should reject a model with wrong element type', () => {
-        const x = table.widthController.getMinWidth();
-        const widths = [30, 40, 30];
-        const texts = [
-            ["1-1", "1-2", "1-3"],
-            ["2-1", "2-2", "2-3"],
-            ["3-1", "3-2", "3-3"],
+    it( 'Should not update the component with a model where the id is not a string', () => {
+        const oldWidths = table.alterer.getColumnWidths();
+        const oldEqualDist = table.widthController.equalDistributed;
+        const oldRows = table.alterer.getRows();
+        const oldCols = table.alterer.getCols();
+        const oldTexts = table.alterer.getContent();
+
+        const newWidths = oldEqualDist ? [20,40,20,20] : [25,25,25,25]
+        const newTexts = [
+            ['1', '2', '3', '4'],
+            ['5', '6', '7', '8']
         ];
+        if(oldRows === newTexts.length) {
+            newTexts.push(['a', 'b', 'c', 'd']);
+        }
+
+        let model = {
+            id: 2,
+            type: ElemTypes.table,
+            widths: newWidths,
+            texts: newTexts
+        };
+    
+        table.setModel(model);
+        fixture.detectChanges();
+
+        expect(table.widthController.equalDistributed).toBe(oldEqualDist);
+        const body = table.tableBody.nativeElement as HTMLTableSectionElement;
+        expect(body.childElementCount).toBe(oldRows);
+
+        for (let rowIdx = 0; rowIdx < body.childElementCount; rowIdx++) {
+            const row = body.childNodes[rowIdx] as HTMLTableRowElement;
+            expect(row.childElementCount).toBe(oldCols);
+            for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
+                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
+
+                const input = cell.firstChild as HTMLInputElement;
+                expect(input.value).toBe(oldTexts[rowIdx][colIdx]);
+            }
+        }
+    });
+
+    it( 'Should not update the component with a model where the type is missing', () => {
+        const oldWidths = table.alterer.getColumnWidths();
+        const oldEqualDist = table.widthController.equalDistributed;
+        const oldRows = table.alterer.getRows();
+        const oldCols = table.alterer.getCols();
+        const oldTexts = table.alterer.getContent();
+
+        const newWidths = oldEqualDist ? [20,40,20,20] : [25,25,25,25]
+        const newTexts = [
+            ['1', '2', '3', '4'],
+            ['5', '6', '7', '8']
+        ];
+        if(oldRows === newTexts.length) {
+            newTexts.push(['a', 'b', 'c', 'd']);
+        }
+
         let model = {
             id: id,
-            type: 'nonono',
-            widths: widths,
-            texts: texts
+            widths: newWidths,
+            texts: newTexts
         };
-        expect(table.isTableModelForMe(model)).toBeFalse();
+    
+        table.setModel(model);
+        fixture.detectChanges();
+
+        expect(table.widthController.equalDistributed).toBe(oldEqualDist);
+        const body = table.tableBody.nativeElement as HTMLTableSectionElement;
+        expect(body.childElementCount).toBe(oldRows);
+
+        for (let rowIdx = 0; rowIdx < body.childElementCount; rowIdx++) {
+            const row = body.childNodes[rowIdx] as HTMLTableRowElement;
+            expect(row.childElementCount).toBe(oldCols);
+            for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
+                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
+
+                const input = cell.firstChild as HTMLInputElement;
+                expect(input.value).toBe(oldTexts[rowIdx][colIdx]);
+            }
+        }
     });
 
-    it( 'Should reject a model with falsy element type', () => {
-        const x = table.widthController.getMinWidth();
-        const widths = [30, 40, 30];
-        const texts = [
-            ["1-1", "1-2", "1-3"],
-            ["2-1", "2-2", "2-3"],
-            ["3-1", "3-2", "3-3"],
+    it( 'Should not update the component with a model where the type is not the correct one', () => {
+        const oldWidths = table.alterer.getColumnWidths();
+        const oldEqualDist = table.widthController.equalDistributed;
+        const oldRows = table.alterer.getRows();
+        const oldCols = table.alterer.getCols();
+        const oldTexts = table.alterer.getContent();
+
+        const newWidths = oldEqualDist ? [20,40,20,20] : [25,25,25,25]
+        const newTexts = [
+            ['1', '2', '3', '4'],
+            ['5', '6', '7', '8']
         ];
+        if(oldRows === newTexts.length) {
+            newTexts.push(['a', 'b', 'c', 'd']);
+        }
+
+        let model = {
+            id: id,
+            type: ElemTypes.rpm,
+            widths: newWidths,
+            texts: newTexts
+        };
+    
+        table.setModel(model);
+        fixture.detectChanges();
+
+        expect(table.widthController.equalDistributed).toBe(oldEqualDist);
+        const body = table.tableBody.nativeElement as HTMLTableSectionElement;
+        expect(body.childElementCount).toBe(oldRows);
+
+        for (let rowIdx = 0; rowIdx < body.childElementCount; rowIdx++) {
+            const row = body.childNodes[rowIdx] as HTMLTableRowElement;
+            expect(row.childElementCount).toBe(oldCols);
+            for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
+                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
+
+                const input = cell.firstChild as HTMLInputElement;
+                expect(input.value).toBe(oldTexts[rowIdx][colIdx]);
+            }
+        }
+    });
+
+    it( 'Should not update the component with a model where the type is falsy', () => {
+        const oldWidths = table.alterer.getColumnWidths();
+        const oldEqualDist = table.widthController.equalDistributed;
+        const oldRows = table.alterer.getRows();
+        const oldCols = table.alterer.getCols();
+        const oldTexts = table.alterer.getContent();
+
+        const newWidths = oldEqualDist ? [20,40,20,20] : [25,25,25,25]
+        const newTexts = [
+            ['1', '2', '3', '4'],
+            ['5', '6', '7', '8']
+        ];
+        if(oldRows === newTexts.length) {
+            newTexts.push(['a', 'b', 'c', 'd']);
+        }
+
         let model = {
             id: id,
             type: undefined,
-            widths: widths,
-            texts: texts
+            widths: newWidths,
+            texts: newTexts
         };
-        expect(table.isTableModelForMe(model)).toBeFalse();
+    
+        table.setModel(model);
+        fixture.detectChanges();
+
+        expect(table.widthController.equalDistributed).toBe(oldEqualDist);
+        const body = table.tableBody.nativeElement as HTMLTableSectionElement;
+        expect(body.childElementCount).toBe(oldRows);
+
+        for (let rowIdx = 0; rowIdx < body.childElementCount; rowIdx++) {
+            const row = body.childNodes[rowIdx] as HTMLTableRowElement;
+            expect(row.childElementCount).toBe(oldCols);
+            for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
+                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
+
+                const input = cell.firstChild as HTMLInputElement;
+                expect(input.value).toBe(oldTexts[rowIdx][colIdx]);
+            }
+        }
     });
 
-    it( 'Should reject a model with type-mismatching element type', () => {
-        const x = table.widthController.getMinWidth();
-        const widths = [30, 40, 30];
-        const texts = [
-            ["1-1", "1-2", "1-3"],
-            ["2-1", "2-2", "2-3"],
-            ["3-1", "3-2", "3-3"],
+    it( 'Should not update the component with a model where the type is not a string', () => {
+        const oldWidths = table.alterer.getColumnWidths();
+        const oldEqualDist = table.widthController.equalDistributed;
+        const oldRows = table.alterer.getRows();
+        const oldCols = table.alterer.getCols();
+        const oldTexts = table.alterer.getContent();
+
+        const newWidths = oldEqualDist ? [20,40,20,20] : [25,25,25,25]
+        const newTexts = [
+            ['1', '2', '3', '4'],
+            ['5', '6', '7', '8']
         ];
+        if(oldRows === newTexts.length) {
+            newTexts.push(['a', 'b', 'c', 'd']);
+        }
+
         let model = {
             id: id,
-            type: 9,
-            widths: widths,
-            texts: texts
+            type: 3,
+            widths: newWidths,
+            texts: newTexts
         };
-        expect(table.isTableModelForMe(model)).toBeFalse();
+    
+        table.setModel(model);
+        fixture.detectChanges();
+
+        expect(table.widthController.equalDistributed).toBe(oldEqualDist);
+        const body = table.tableBody.nativeElement as HTMLTableSectionElement;
+        expect(body.childElementCount).toBe(oldRows);
+
+        for (let rowIdx = 0; rowIdx < body.childElementCount; rowIdx++) {
+            const row = body.childNodes[rowIdx] as HTMLTableRowElement;
+            expect(row.childElementCount).toBe(oldCols);
+            for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
+                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
+
+                const input = cell.firstChild as HTMLInputElement;
+                expect(input.value).toBe(oldTexts[rowIdx][colIdx]);
+            }
+        }
     });
 
-    it( 'Should reject a model where length of widths and number of columsn mismatch', () => {
-        const x = table.widthController.getMinWidth();
-        const widths = [70, 30];
-        const texts = [
-            ["1-1", "1-2", "1-3"],
-            ["2-1", "2-2", "2-3"],
-            ["3-1", "3-2", "3-3"],
+    it( 'Should not update the component with a model where the model is not an object', () => {
+        const oldWidths = table.alterer.getColumnWidths();
+        const oldEqualDist = table.widthController.equalDistributed;
+        const oldRows = table.alterer.getRows();
+        const oldCols = table.alterer.getCols();
+        const oldTexts = table.alterer.getContent();
+
+        const newWidths = oldEqualDist ? [20,40,20,20] : [25,25,25,25]
+        const newTexts = [
+            ['1', '2', '3', '4'],
+            ['5', '6', '7', '8']
         ];
-        let model = {
-            id: id,
-            type: ElemTypes.table,
-            widths: widths,
-            texts: texts
-        };
-        expect(table.isTableModelForMe(model)).toBeFalse();
+        if(oldRows === newTexts.length) {
+            newTexts.push(['a', 'b', 'c', 'd']);
+        }
+
+        let model = "{id: id, type: ElemTypes.table, widths: newWidths, texts: newTexts}";
+    
+        table.setModel(model);
+        fixture.detectChanges();
+
+        expect(table.widthController.equalDistributed).toBe(oldEqualDist);
+        const body = table.tableBody.nativeElement as HTMLTableSectionElement;
+        expect(body.childElementCount).toBe(oldRows);
+
+        for (let rowIdx = 0; rowIdx < body.childElementCount; rowIdx++) {
+            const row = body.childNodes[rowIdx] as HTMLTableRowElement;
+            expect(row.childElementCount).toBe(oldCols);
+            for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
+                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
+
+                const input = cell.firstChild as HTMLInputElement;
+                expect(input.value).toBe(oldTexts[rowIdx][colIdx]);
+            }
+        }
     });
 
+    it( 'Should not update the component with a model where the model is falsy', () => {
+        const oldWidths = table.alterer.getColumnWidths();
+        const oldEqualDist = table.widthController.equalDistributed;
+        const oldRows = table.alterer.getRows();
+        const oldCols = table.alterer.getCols();
+        const oldTexts = table.alterer.getContent();
+
+        const newWidths = oldEqualDist ? [20,40,20,20] : [25,25,25,25]
+        const newTexts = [
+            ['1', '2', '3', '4'],
+            ['5', '6', '7', '8']
+        ];
+        if(oldRows === newTexts.length) {
+            newTexts.push(['a', 'b', 'c', 'd']);
+        }
+
+        let model = undefined;
+    
+        table.setModel(model);
+        fixture.detectChanges();
+
+        expect(table.widthController.equalDistributed).toBe(oldEqualDist);
+        const body = table.tableBody.nativeElement as HTMLTableSectionElement;
+        expect(body.childElementCount).toBe(oldRows);
+
+        for (let rowIdx = 0; rowIdx < body.childElementCount; rowIdx++) {
+            const row = body.childNodes[rowIdx] as HTMLTableRowElement;
+            expect(row.childElementCount).toBe(oldCols);
+            for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
+                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
+
+                const input = cell.firstChild as HTMLInputElement;
+                expect(input.value).toBe(oldTexts[rowIdx][colIdx]);
+            }
+        }
+    });
 });

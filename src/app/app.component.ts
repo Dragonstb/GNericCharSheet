@@ -9,7 +9,7 @@ import { GNericItemList } from './itemlist/itemlist.component';
 
 @Component({
   selector: 'app-root',
-  imports: [GNericItemList],
+  imports: [GNericTable],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })

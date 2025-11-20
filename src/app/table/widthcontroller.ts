@@ -28,13 +28,12 @@ export class WidthController {
             const cw = 27;
             let lefts: string[] = [];
             const row = this.tableBody.nativeElement.firstChild as HTMLTableRowElement;
-            let sum = 0;
             let counter = 0;
             row.childNodes.forEach(col => {
                 const cell = col as HTMLTableCellElement;
-                if(cell.offsetLeft) {
-                    sum += cell.offsetLeft;
-                    lefts.push('left: '+(cell.offsetLeft-counter*cw+cw/2)+'px;');
+                const offset = cell.offsetLeft-counter*cw+cw/2;
+                if(offset) {
+                    lefts.push('left: '+offset+'px;');
                     counter++;
                 }
             });
