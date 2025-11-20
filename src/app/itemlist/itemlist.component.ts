@@ -85,7 +85,7 @@ export class GNericItemList {
             items: items
         }
 
-        // TODO: fire event
+        this.gNericElemChangedEvent.emit(model);
     }
 
     validateListModel(model: any): boolean {
@@ -203,7 +203,13 @@ export class GNericItemList {
 
         for (const item of this.items) {
             if(item.getId() == model.id) {
-                item.setNameAndText(model.name, model.text);
+                try {
+                    this.ngZone.runGuarded(() => {
+                        item.setNameAndText(model.name, model.text);
+                    });
+                } catch (error) {
+                    console.log('GNeric Char Sheet: error on model update in Item List Entry');
+                }
                 break;
             }
         }
