@@ -6,10 +6,11 @@ import { GNericTable } from './table/table.component';
 import { ElemTypes } from './elemtypes';
 import { GNericRessourcePointsManager } from './ressourcepoints/rpm.component';
 import { GNericItemList } from './itemlist/itemlist.component';
+import { GNericCheckboxList } from './checkboxes/checkboxes.component';
 
 @Component({
   selector: 'app-root',
-  imports: [GNericTable],
+  imports: [GNericCheckboxList],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })
@@ -20,6 +21,7 @@ export class GNericMainComponent {
   tables = viewChildren(GNericTable);
   rpms = viewChildren(GNericRessourcePointsManager);
   itemlists = viewChildren(GNericItemList);
+  checkboxes = viewChildren(GNericCheckboxList);
 
   setElemsEditable(event: Event) {
     const checkbox = event.target as HTMLInputElement;
@@ -39,6 +41,10 @@ export class GNericMainComponent {
 
     this.itemlists().forEach(list => {
       list.setEditable(checked);
+    });
+
+    this.checkboxes().forEach(box => {
+      box.setEditable(checked);
     });
   }
 
@@ -61,6 +67,10 @@ export class GNericMainComponent {
 
   deleteItemList(elemId: string) {
     console.log('deleting item list '+elemId);
+  }
+  
+  deleteCheckboxes(elemId: string) {
+    console.log('deleting checkboxes '+elemId);
   }
 
   setModel(model: any) {

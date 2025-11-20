@@ -3,5 +3,6 @@ export enum ElemTypes {
     table = 'table',
     rpm = 'rpm',
     itemlist = 'itemlist',
-    itementry = 'itementry'
+    itementry = 'itementry',
+    checlboxes = 'checkboxes'
 }
