@@ -232,4 +232,62 @@ describe( 'ValidatorService', () => {
         expect(validator.hasStringArray(name, model)).toBeFalse();
     });
 
+    // _______________ has(NonEmpty)StringProperty _______________
+
+    it('hasStringProperty: should accept a model with such a property', () => {
+        const name: string = "text";
+        const model = {
+            text: "Hello"
+        };
+        expect(validator.hasStringProperty(name, model)).toBeTrue();
+    });
+
+    it('hasStringProperty: should accept a model with the empty string', () => {
+        const name: string = "text";
+        const model = {
+            text: ""
+        };
+        expect(validator.hasStringProperty(name, model)).toBeTrue();
+    });
+
+    it('hasStringProperty: should reject a model with no such property', () => {
+        const name: string = "text";
+        const model = {
+            something: "else"
+        };
+        expect(validator.hasStringProperty(name, model)).toBeFalse();
+    });
+
+    it('hasStringProperty: should reject a model with the prop being null', () => {
+        const name: string = "text";
+        const model = {
+            text: null
+        };
+        expect(validator.hasStringProperty(name, model)).toBeFalse();
+    });
+
+    it('hasStringProperty: should reject a model with the prop being undefined', () => {
+        const name: string = "text";
+        const model = {
+            text: undefined
+        };
+        expect(validator.hasStringProperty(name, model)).toBeFalse();
+    });
+
+    it('hasStringProperty: should reject a model with the prop being of different type', () => {
+        const name: string = "text";
+        const model = {
+            text: 3
+        };
+        expect(validator.hasStringProperty(name, model)).toBeFalse();
+    });
+
+    it('hasNonEmptyStringProperty: should reject a model with the prop being the empty string', () => {
+        const name: string = "text";
+        const model = {
+            text: ''
+        };
+        expect(validator.hasNonEmptyStringProperty(name, model)).toBeFalse();
+    });
+
 });

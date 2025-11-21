@@ -27,11 +27,19 @@ export class ValidatorService {
      * @returns True if and only if the model contains an id and an element tyoe that matches with those of the component.
      */
     isForMe(id: string, type: ElemTypes, model: any): boolean {
-        if(!model.hasOwnProperty('id') || !model.id || typeof model.id !== 'string' || model.id !== id) {
+        if(!this.hasNonEmptyStringProperty('id', model)) {
             return false;
         }
 
-        if(!model.hasOwnProperty('type') || !model.type || typeof model.type !== 'string' || model.type !== type) {
+        if(model.id !== id) {
+            return false;
+        }
+
+        if(!this.hasNonEmptyStringProperty('type', model)) {
+            return false;
+        }
+
+        if(model.type !== type) {
             return false;
         }
 
@@ -81,4 +89,35 @@ export class ValidatorService {
         return this.hasTypedArray(name, 'string', model);
     }
 
+    /** Says if the object has a string property with a defined value. This might be ''.
+     * 
+     * @param propName Name of the property.
+     * @param model The model of interest.
+     * @returns Has a property of that name with a string defined in it?
+     */
+    hasStringProperty(propName: string, model: any): boolean {
+        if(!model.hasOwnProperty(propName)) {
+            return false;
+        }
+        
+        if(typeof model[propName] !== 'string') {
+            return false;
+        }
+
+        return true;
+    }
+
+    /** Determines if the model has a defined string property that is not the empty string.
+     * 
+     * @param propName Name of the property.
+     * @param model Object in the loop.
+     * @returns String prop with defined value !== ''?
+     */
+    hasNonEmptyStringProperty(propName: string, model: any): boolean {
+        if(!this.hasStringProperty(propName, model)) {
+            return false;
+        }
+
+        return model[propName] !== '';
+    }
 }
