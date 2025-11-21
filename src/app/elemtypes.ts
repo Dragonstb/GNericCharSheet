@@ -4,5 +4,5 @@ export enum ElemTypes {
     rpm = 'rpm',
     itemlist = 'itemlist',
     itementry = 'itementry',
-    checlboxes = 'checkboxes'
+    checkboxes = 'checkboxes'
 }

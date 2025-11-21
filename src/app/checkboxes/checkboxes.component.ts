@@ -1,7 +1,8 @@
-import { Component, output, signal } from "@angular/core";
+import { Component, inject, output, signal } from "@angular/core";
 import { GNericBoxRowModel } from "./boxrowmodel";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { ElemTypes } from "../elemtypes";
+import { ValidatorService } from "../../services/validator";
 
 @Component({
     selector: 'gneric-checkboxes',
@@ -18,6 +19,8 @@ export class GNericCheckboxList {
 
     deleteCheckboxesEvent = output<string>();
     gNericElemChangedEvent = output<object>();
+
+    validator = inject(ValidatorService);
 
     rows: GNericBoxRowModel[] = [
         new GNericBoxRowModel(),
@@ -72,11 +75,47 @@ export class GNericCheckboxList {
 
         const model = {
             id: this.id,
-            type: ElemTypes.checlboxes,
+            type: ElemTypes.checkboxes,
             title: this.title.value ?? '',
             rows: arr
         };
 
         this.gNericElemChangedEvent.emit(model);
+    }
+
+    validateModel(model: any): boolean {
+        if(!this.validator.isModel(model)) {
+            return false;
+        }
+
+        if(!this.validator.isForMe(this.id, ElemTypes.checkboxes, model)) {
+            return false;
+        }
+
+        if(!this.validator.hasStringProperty('title', model)) {
+            return false;
+        }
+
+        if(!model.hasOwnProperty('rows') || !model.rows || typeof model.rows !== 'object' || Array.isArray(model.rows)) {
+            return false;
+        }
+
+        if(model.rows.length < 1) {
+            return false;
+        }
+
+        for (const row of model.rows) {
+            if(typeof row !== 'object') {
+                return false;
+            }
+            if(!this.validator.hasStringProperty('text', row)) {
+                return false;
+            }
+            if(!row.hasOwnProperty('ckecked') || typeof row.checked !== 'boolean') {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
