@@ -32,9 +32,7 @@ export class GNericTable {
 
     @ViewChild('tableBody', {static: true}) tableBody!: ElementRef<HTMLTableSectionElement>;
     @ViewChild('dragContainer', {static: true}) dragContainer: ElementRef<HTMLDivElement> | undefined;
-    @ViewChild('editPanel', {static: true}) editPanel!: ElementRef<HTMLDivElement>;
     @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
-    @ViewChild('legend', {static: true}) legend!: ElementRef<HTMLLegendElement>;
 
     windowResizeHandler = ()=>this.adaptNewSize();
 
@@ -46,27 +44,20 @@ export class GNericTable {
 
     setEditable(editable: boolean): void {
         this.editable = editable;
-        this.setCurrentClass(editable);
         if(editable) {
-            this.editPanel.nativeElement.classList.remove('hidden');
-            this.legend.nativeElement.classList.remove('hidden');
             this.dragContainer?.nativeElement.classList.remove('hidden');
             this.fieldSet.nativeElement.classList.add('editable');
         }
         else {
-            this.editPanel.nativeElement.classList.add('hidden');
-            this.legend.nativeElement.classList.add('hidden');
             this.dragContainer?.nativeElement.classList.add('hidden');
             this.fieldSet.nativeElement.classList.remove('editable');
         }
     }
 
     addRowAboveCurrent(): void {
-        this.setCurrentClass(false);
         this.alterer.addRowAtIndex(this.curRow);
         ++this.curRow;
         this.updateLockInfo(this.cellLocked);
-        this.setCurrentClass(true);
         this.fireElemChangedEvent();
     }
 
@@ -194,12 +185,8 @@ export class GNericTable {
         const target = event.target as HTMLInputElement;
         const cell = target.parentElement as HTMLTableCellElement;
         const row = cell.parentElement as HTMLTableRowElement;
-        this.setCurrentClass(false);
         this.curRow = row.rowIndex;
         this.curCol = cell.cellIndex;
-        if(this.editable) {
-            this.setCurrentClass(true);
-        }
     }
 
     setAndLockSelectedCell(event: Event): void {
@@ -218,41 +205,18 @@ export class GNericTable {
         const rowIndex = row.rowIndex;
         const colIndex = cell.cellIndex;
         if(rowIndex != this.curRow || colIndex != this.curCol || !this.cellLocked) {
-            this.setCurrentClass(false);
             this.curRow = rowIndex;
             this.curCol = colIndex;
             this.updateLockInfo(true);
-            this.setCurrentClass(true);
         }
         else {
             this.updateLockInfo(false)
-            this.setCurrentClass(false);
         }
     }
 
     updateLockInfo(locked: boolean): void {
         this.lockInfo = locked? "Current cell locked to row "+(this.curRow+1)+", column "+(this.curCol+1) : this.notLockedInfo;
         this.cellLocked = locked;
-    }
-
-    setCurrentClass(current: boolean): void {
-        const row = this.tableBody.nativeElement.childNodes[this.curRow] as HTMLTableRowElement;
-        if(!row) {
-            return;
-        }
-        const cell = row.childNodes[this.curCol] as HTMLTableCellElement;
-        if(!cell) {
-            return;
-        }
-
-        if(current) {
-            cell.classList.add('current');
-            cell.childNodes.forEach((child) => {(child as HTMLElement).classList.add('current')});
-        }
-        else {
-            cell.classList.remove('current');
-            cell.childNodes.forEach((child) => {(child as HTMLElement).classList.remove('current')});
-        }
     }
 
     startDraggingShifter(index: number): void {
@@ -361,7 +325,6 @@ export class GNericTable {
 
         try {
             this.ngZone.runGuarded(()=>{
-                this.setCurrentClass(false);
                 this.updateLockInfo(false);
                 this.cellLocked = false;
                 this.alterer.setContent(model);

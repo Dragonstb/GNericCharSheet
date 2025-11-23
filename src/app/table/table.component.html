@@ -1,30 +1,38 @@
 <fieldset #fieldSet class="editable">
-    <legend #legend class="ctrl-elem">{{fullId}}</legend>
-    <div #editPanel class="ctrl-elem">
-        <div>
-            <button [disabled]="curRow<0 || curCol<0" (click)="addRowAboveCurrent()">add row above current</button>
-            <button [disabled]="curRow<0 || curCol<0" (click)="addRowBelowCurrent()">add row below current</button>
-            <button [disabled]="alterer.getRows()<2" (click)="removeCurrentRow()">remove current row</button>
+    @if(editable) {
+        <legend #legend class="ctrl-elem">{{fullId}}</legend>
+        <div #editPanel class="ctrl-elem">
+            <div>
+                <button [disabled]="curRow<0 || curCol<0" (click)="addRowAboveCurrent()">add row above current</button>
+                <button [disabled]="curRow<0 || curCol<0" (click)="addRowBelowCurrent()">add row below current</button>
+                <button [disabled]="alterer.getRows()<2" (click)="removeCurrentRow()">remove current row</button>
+            </div>
+            <div>
+                <button [disabled]="curRow<0 || curCol<0 || alterer.getCols()>=maxCols" (click)="addColumnLeftOfCurrent()">add column left of current</button>
+                <button [disabled]="curRow<0 || curCol<0 || alterer.getCols()>=maxCols" (click)="addColumnRightOfCurrent()">add column right of current</button>
+                <button [disabled]="alterer.getCols()<2" (click)="removeCurrentColumn()">remove current column</button>
+            </div>
+            <div>
+                <button [disabled]="widthController.equalDistributed" (click)="widthController.distrubuteColumnsEqually()">Equal column width</button>
+            </div>
+            <div aria-live="polite">{{lockInfo}}</div>
         </div>
-        <div>
-            <button [disabled]="curRow<0 || curCol<0 || alterer.getCols()>=maxCols" (click)="addColumnLeftOfCurrent()">add column left of current</button>
-            <button [disabled]="curRow<0 || curCol<0 || alterer.getCols()>=maxCols" (click)="addColumnRightOfCurrent()">add column right of current</button>
-            <button [disabled]="alterer.getCols()<2" (click)="removeCurrentColumn()">remove current column</button>
-        </div>
-        <div>
-            <button [disabled]="widthController.equalDistributed" (click)="widthController.distrubuteColumnsEqually()">Equal column width</button>
-        </div>
-        <div>
-            <button (click)="deleteTable()">Delete table</button>
-        </div>
-        <div aria-live="polite">{{lockInfo}}</div>
-    </div>
+    }
     <table class="boxed">
         <tbody #tableBody >
-            @for(row of alterer.content; track $index) {
+            @for(row of alterer.content; track $index; let rowIdx = $index) {
                 <tr>
-                    @for(col of row; track $index) {
-                        <td [style]="col.widthStyle()"><input type="text" (focus)="setSelectedCell($event)" (contextmenu)="setAndLockSelectedCell($event)" (input)="fireElemChangedEvent()" [formControl]="col.text"></td>
+                @for(col of row; track $index; let colIdx = $index) {
+                        @if(!editable || colIdx != curCol || rowIdx != curRow) {
+                            <td [style]="col.widthStyle()">
+                                <input type="text" (focus)="setSelectedCell($event)" (contextmenu)="setAndLockSelectedCell($event)" (input)="fireElemChangedEvent()" [formControl]="col.text">
+                            </td>
+                        }
+                        @else {
+                            <td class="current" [style]="col.widthStyle()">
+                                <input type="text" class="current" (focus)="setSelectedCell($event)" (contextmenu)="setAndLockSelectedCell($event)" (input)="fireElemChangedEvent()" [formControl]="col.text">
+                            </td>
+                        }
                     }
                 </tr>
             }
@@ -37,4 +45,9 @@
             }
         }
     </div>
+    @if(editable) {
+        <div class="ctrl-elem">
+            <button (click)="deleteTable()">Delete table</button>
+        </div>
+    }
 </fieldset>
