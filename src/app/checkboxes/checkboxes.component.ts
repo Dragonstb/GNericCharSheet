@@ -96,7 +96,7 @@ export class GNericCheckboxList {
             return false;
         }
 
-        if(!model.hasOwnProperty('rows') || !model.rows || typeof model.rows !== 'object' || Array.isArray(model.rows)) {
+        if(!model.hasOwnProperty('rows') || !model.rows || typeof model.rows !== 'object' || !Array.isArray(model.rows)) {
             return false;
         }
 
@@ -111,7 +111,7 @@ export class GNericCheckboxList {
             if(!this.validator.hasStringProperty('text', row)) {
                 return false;
             }
-            if(!row.hasOwnProperty('ckecked') || typeof row.checked !== 'boolean') {
+            if(!row.hasOwnProperty('checked') || typeof row.checked !== 'boolean') {
                 return false;
             }
         }
