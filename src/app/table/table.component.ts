@@ -255,18 +255,18 @@ export class GNericTable {
     }
 
     isProperWidths(model: any): boolean {
-        if(!model.hasOwnProperty('widths') || !model.widths){
+        if(!this.validator.hasNumberArray('widths', model)) {
             return false;
         }
 
         let widths = model.widths;
-        if(typeof widths !== 'object' || !Array.isArray(widths) || widths.length < 1) {
+        if(widths.length < 1) {
             return false;
         }
 
         let sum = 0;
         for (const x of widths) {
-            if(typeof x !== 'number' || x<this.widthController.getMinWidth() || x>100) {
+            if(x<this.widthController.getMinWidth() || x>100) {
                 return false;
             }
             sum += x;
@@ -311,16 +311,32 @@ export class GNericTable {
         return true;
     }
 
-    setModel(model: any): void {
-        // TODO: less invasive updating
+    validateModel(model: any): boolean {
         if(!this.validator.isModel(model)) {
-            return;
+            return false;
         }
 
         if(!this.validator.isForMe(this.id, ElemTypes.table, model)) {
+            return false;
+        }
+
+        if(!this.isProperTexts(model)) {
+            return false;
+        }
+
+        if(!this.isProperWidths(model)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    setModel(model: any): void {
+        // TODO: less invasive updating
+        if(!this.validateModel(model)) {
             return;
         }
-        
+
         let equal = this.isEquallyDistributed(model.widths);
 
         try {

@@ -265,7 +265,7 @@ describe( 'GNericTable', () => {
             const row = body.childNodes[rowIdx] as HTMLTableRowElement;
             expect(row.childElementCount).toBe(texts[rowIdx].length);
             for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
-                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                const cell = row.children[colIdx] as HTMLTableCellElement;
                 expect(cell.style.width).toBe(widths[colIdx]+"%");
 
                 const input = cell.firstChild as HTMLInputElement;
@@ -300,7 +300,7 @@ describe( 'GNericTable', () => {
             const row = body.childNodes[rowIdx] as HTMLTableRowElement;
             expect(row.childElementCount).toBe(texts[rowIdx].length);
             for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
-                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                const cell = row.children[colIdx] as HTMLTableCellElement;
                 expect(cell.style.width).toBe(widths[colIdx]+"%");
 
                 const input = cell.firstChild as HTMLInputElement;
@@ -342,7 +342,7 @@ describe( 'GNericTable', () => {
             const row = body.childNodes[rowIdx] as HTMLTableRowElement;
             expect(row.childElementCount).toBe(oldCols);
             for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
-                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                const cell = row.children[colIdx] as HTMLTableCellElement;
                 expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
 
                 const input = cell.firstChild as HTMLInputElement;
@@ -385,7 +385,7 @@ describe( 'GNericTable', () => {
             const row = body.childNodes[rowIdx] as HTMLTableRowElement;
             expect(row.childElementCount).toBe(oldCols);
             for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
-                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                const cell = row.children[colIdx] as HTMLTableCellElement;
                 expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
 
                 const input = cell.firstChild as HTMLInputElement;
@@ -428,7 +428,7 @@ describe( 'GNericTable', () => {
             const row = body.childNodes[rowIdx] as HTMLTableRowElement;
             expect(row.childElementCount).toBe(oldCols);
             for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
-                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                const cell = row.children[colIdx] as HTMLTableCellElement;
                 expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
 
                 const input = cell.firstChild as HTMLInputElement;
@@ -471,7 +471,7 @@ describe( 'GNericTable', () => {
             const row = body.childNodes[rowIdx] as HTMLTableRowElement;
             expect(row.childElementCount).toBe(oldCols);
             for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
-                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                const cell = row.children[colIdx] as HTMLTableCellElement;
                 expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
 
                 const input = cell.firstChild as HTMLInputElement;
@@ -513,7 +513,7 @@ describe( 'GNericTable', () => {
             const row = body.childNodes[rowIdx] as HTMLTableRowElement;
             expect(row.childElementCount).toBe(oldCols);
             for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
-                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                const cell = row.children[colIdx] as HTMLTableCellElement;
                 expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
 
                 const input = cell.firstChild as HTMLInputElement;
@@ -556,7 +556,7 @@ describe( 'GNericTable', () => {
             const row = body.childNodes[rowIdx] as HTMLTableRowElement;
             expect(row.childElementCount).toBe(oldCols);
             for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
-                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                const cell = row.children[colIdx] as HTMLTableCellElement;
                 expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
 
                 const input = cell.firstChild as HTMLInputElement;
@@ -599,7 +599,7 @@ describe( 'GNericTable', () => {
             const row = body.childNodes[rowIdx] as HTMLTableRowElement;
             expect(row.childElementCount).toBe(oldCols);
             for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
-                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                const cell = row.children[colIdx] as HTMLTableCellElement;
                 expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
 
                 const input = cell.firstChild as HTMLInputElement;
@@ -642,7 +642,7 @@ describe( 'GNericTable', () => {
             const row = body.childNodes[rowIdx] as HTMLTableRowElement;
             expect(row.childElementCount).toBe(oldCols);
             for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
-                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                const cell = row.children[colIdx] as HTMLTableCellElement;
                 expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
 
                 const input = cell.firstChild as HTMLInputElement;
@@ -680,7 +680,7 @@ describe( 'GNericTable', () => {
             const row = body.childNodes[rowIdx] as HTMLTableRowElement;
             expect(row.childElementCount).toBe(oldCols);
             for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
-                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                const cell = row.children[colIdx] as HTMLTableCellElement;
                 expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
 
                 const input = cell.firstChild as HTMLInputElement;
@@ -718,7 +718,7 @@ describe( 'GNericTable', () => {
             const row = body.childNodes[rowIdx] as HTMLTableRowElement;
             expect(row.childElementCount).toBe(oldCols);
             for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
-                const cell = row.childNodes[colIdx] as HTMLTableCellElement;
+                const cell = row.children[colIdx] as HTMLTableCellElement;
                 expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
 
                 const input = cell.firstChild as HTMLInputElement;
@@ -726,4 +726,91 @@ describe( 'GNericTable', () => {
             }
         }
     });
+
+    it( 'Should not update the component with a model where the texts are not proper', () => {
+        const oldWidths = table.alterer.getColumnWidths();
+        const oldEqualDist = table.widthController.equalDistributed;
+        const oldRows = table.alterer.getRows();
+        const oldCols = table.alterer.getCols();
+        const oldTexts = table.alterer.getContent();
+
+        const newWidths = oldEqualDist ? [20,40,20,20] : [25,25,25,25]
+        const newTexts = [
+            ['1', '2', 3, '4'],
+            ['5', '6', '7', '8']
+        ];
+        if(oldRows === newTexts.length) {
+            newTexts.push(['a', 'b', 'c', 'd']);
+        }
+
+        let model = {
+            id: id,
+            type: ElemTypes.table,
+            widths: newWidths,
+            texts: newTexts
+        };
+    
+        table.setModel(model);
+        fixture.detectChanges();
+
+        expect(table.widthController.equalDistributed).toBe(oldEqualDist);
+        const body = table.tableBody.nativeElement as HTMLTableSectionElement;
+        expect(body.childElementCount).toBe(oldRows);
+
+        for (let rowIdx = 0; rowIdx < body.childElementCount; rowIdx++) {
+            const row = body.childNodes[rowIdx] as HTMLTableRowElement;
+            expect(row.childElementCount).toBe(oldCols);
+            for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
+                const cell = row.children[colIdx] as HTMLTableCellElement;
+                expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
+
+                const input = cell.firstChild as HTMLInputElement;
+                expect(input.value).toBe(oldTexts[rowIdx][colIdx]);
+            }
+        }
+    });
+
+    it( 'Should not update the component with a model where the widths are not proper', () => {
+        const oldWidths = table.alterer.getColumnWidths();
+        const oldEqualDist = table.widthController.equalDistributed;
+        const oldRows = table.alterer.getRows();
+        const oldCols = table.alterer.getCols();
+        const oldTexts = table.alterer.getContent();
+
+        const newWidths = oldEqualDist ? [20,40,120,20] : [25,25,125,25]
+        const newTexts = [
+            ['1', '2', '3', '4'],
+            ['5', '6', '7', '8']
+        ];
+        if(oldRows === newTexts.length) {
+            newTexts.push(['a', 'b', 'c', 'd']);
+        }
+
+        let model = {
+            id: id,
+            type: ElemTypes.table,
+            widths: newWidths,
+            texts: newTexts
+        };
+    
+        table.setModel(model);
+        fixture.detectChanges();
+
+        expect(table.widthController.equalDistributed).toBe(oldEqualDist);
+        const body = table.tableBody.nativeElement as HTMLTableSectionElement;
+        expect(body.childElementCount).toBe(oldRows);
+
+        for (let rowIdx = 0; rowIdx < body.childElementCount; rowIdx++) {
+            const row = body.childNodes[rowIdx] as HTMLTableRowElement;
+            expect(row.childElementCount).toBe(oldCols);
+            for (let colIdx = 0; colIdx < row.childElementCount; colIdx++) {
+                const cell = row.children[colIdx] as HTMLTableCellElement;
+                expect(cell.style.width).toBe(oldWidths[colIdx]+"%");
+
+                const input = cell.firstChild as HTMLInputElement;
+                expect(input.value).toBe(oldTexts[rowIdx][colIdx]);
+            }
+        }
+    });
+
 });
