@@ -120,4 +120,51 @@ export class ValidatorService {
 
         return model[propName] !== '';
     }
+
+    /** Says if the object has a number property with a defined value. This number might be non-finite.
+     * 
+     * @param propName Name of the property.
+     * @param model The model of interest.
+     * @returns Has a property of that name with a number defined in it?
+     */
+     hasNumberProperty(propName: string, model: any): boolean {
+        if(!model.hasOwnProperty(propName)) {
+            return false;
+        }
+        
+        if(typeof model[propName] !== 'number') {
+            return false;
+        }
+
+        return true;
+    }
+
+    /** Says if the object has a number property with a defined value with finite value.
+     * 
+     * @param propName Name of the property.
+     * @param model The model of interest.
+     * @returns Has a property of that name with a number defined in it?
+     */
+     hasFiniteNumberProperty(propName: string, model: any): boolean {
+        if(!this.hasNumberProperty(propName, model)) {
+            return false;
+        }
+        
+        return Number.isFinite(model[propName]);
+    }
+
+    /** Says if the object has a number property with a defined value with finite integer value.
+     * 
+     * @param propName Name of the property.
+     * @param model The model of interest.
+     * @returns Has a property of that name with an integer defined in it?
+     */
+     hasFiniteIntegerProperty(propName: string, model: any): boolean {
+        if(!this.hasFiniteNumberProperty(propName, model)) {
+            return false;
+        }
+        
+        return Number.isInteger(model[propName]);
+    }
+
 }

@@ -290,4 +290,110 @@ describe( 'ValidatorService', () => {
         expect(validator.hasNonEmptyStringProperty(name, model)).toBeFalse();
     });
 
+    // _______________ hasNumberProperty _______________
+
+    it('hasNumberProperty: should accept a model with such a property', () => {
+        const name: string = "num";
+        const model = {
+            num: 3
+        };
+        expect(validator.hasNumberProperty(name, model)).toBeTrue();
+    });
+
+    it('hasNumberProperty: should accept a model with NaN', () => {
+        const name: string = "num";
+        const model = {
+            num: Number.NaN
+        };
+        expect(validator.hasNumberProperty(name, model)).toBeTrue();
+    });
+
+    it('hasNumberProperty: should accept a model with positive infinity', () => {
+        const name: string = "num";
+        const model = {
+            num: Number.POSITIVE_INFINITY
+        };
+        expect(validator.hasNumberProperty(name, model)).toBeTrue();
+    });
+
+    it('hasNumberProperty: should accept a model with negative infinity', () => {
+        const name: string = "num";
+        const model = {
+            num: Number.NEGATIVE_INFINITY
+        };
+        expect(validator.hasNumberProperty(name, model)).toBeTrue();
+    });
+
+    it('hasNumberProperty: should reject a model with no such property', () => {
+        const name: string = "num";
+        const model = {
+            something: 1
+        };
+        expect(validator.hasNumberProperty(name, model)).toBeFalse();
+    });
+
+    it('hasNumberProperty: should reject a model with the prop being null', () => {
+        const name: string = "num";
+        const model = {
+            num: null
+        };
+        expect(validator.hasNumberProperty(name, model)).toBeFalse();
+    });
+
+    it('hasNumberProperty: should reject a model with the prop being undefined', () => {
+        const name: string = "num";
+        const model = {
+            num: undefined
+        };
+        expect(validator.hasNumberProperty(name, model)).toBeFalse();
+    });
+
+    it('hasNumberProperty: should reject a model with the prop being of different type', () => {
+        const name: string = "num";
+        const model = {
+            num: "three"
+        };
+        expect(validator.hasNumberProperty(name, model)).toBeFalse();
+    });
+    
+    it('hasFiniteNumberProperty: should reject a model with NaN', () => {
+        const name: string = "num";
+        const model = {
+            num: Number.NaN
+        };
+        expect(validator.hasFiniteNumberProperty(name, model)).toBeFalse();
+    });
+    
+    it('hasFiniteNumberProperty: should reject a model with positive infinity', () => {
+        const name: string = "num";
+        const model = {
+            num: Number.POSITIVE_INFINITY
+        };
+        expect(validator.hasFiniteNumberProperty(name, model)).toBeFalse();
+    });
+    
+    it('hasFiniteNumberProperty: should reject a model with negative infinity', () => {
+        const name: string = "num";
+        const model = {
+            num: Number.NEGATIVE_INFINITY
+        };
+        expect(validator.hasFiniteNumberProperty(name, model)).toBeFalse();
+    });
+    
+    it('hasFiniteIntegerProperty: should reject a model with non-integer value', () => {
+        const name: string = "num";
+        const model = {
+            num: 3.14
+        };
+        expect(validator.hasFiniteIntegerProperty(name, model)).toBeFalse();
+    });
+
+    it('hasFiniteIntegerProperty: should accept a model with integer value', () => {
+        const name: string = "num";
+        const model = {
+            num: 5
+        };
+        expect(validator.hasFiniteIntegerProperty(name, model)).toBeTrue();
+    });
+
 });
