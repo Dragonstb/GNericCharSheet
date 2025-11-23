@@ -1,4 +1,4 @@
-import { Component, inject, output, signal } from "@angular/core";
+import { Component, inject, NgZone, output, signal } from "@angular/core";
 import { GNericBoxRowModel } from "./boxrowmodel";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { ElemTypes } from "../elemtypes";
@@ -21,6 +21,7 @@ export class GNericCheckboxList {
     gNericElemChangedEvent = output<object>();
 
     validator = inject(ValidatorService);
+    ngZone = inject(NgZone);
 
     rows: GNericBoxRowModel[] = [
         new GNericBoxRowModel(),
@@ -117,5 +118,35 @@ export class GNericCheckboxList {
         }
 
         return true;
+    }
+
+    setModel(model: any): void {
+        if(!this.validateModel(model)) {
+            return;
+        }
+
+        this.title.setValue(model.title);
+        
+        try {
+            this.ngZone.runGuarded(()=>{
+                while(this.rows.length > model.rows.length) {
+                    this.silentlyRemoveRow();
+                }
+
+                while(this.rows.length < model.rows.length) {
+                    this.silentlyAddRow();
+                }
+                
+                for (let idx = 0; idx < model.rows.length; idx++) {
+                    const target = this.rows[idx];
+                    const source = model.rows[idx];
+                    target.setChecked(source.checked);
+                    target.setText(source.text);
+                }
+            });
+        } catch (error) {
+            console.log('GNeric Char Sheet: error on model update in Checkboxes');
+        }
+
     }
 }
