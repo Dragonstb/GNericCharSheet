@@ -114,18 +114,20 @@ describe( 'GNericTextfield', () => {
 
     // _______________  set not editable  _______________
 
-    it('Should hide the edit panel visible when not editable', () => {
+    it('Should hide the edit panel when not editable', () => {
         textfield.setEditable(true);
         textfield.setEditable(false);
+        fixture.detectChanges();
         const btn = dbgElem.query( By.css('#'+id+'-editPanel') );
-        expect( btn.classes['hidden'] ).toBeTruthy();
+        expect( btn ).toBeFalsy();
     });
 
-    it('Should hide the legend visible when not editable', () => {
+    it('Should hide the legend when not editable', () => {
         textfield.setEditable(true);
         textfield.setEditable(false);
+        fixture.detectChanges();
         const btn = dbgElem.query( By.css('legend') );
-        expect( btn.classes['hidden'] ).toBeTruthy();
+        expect( btn ).toBeFalsy();
     });
 
     it('Should not display the field set as editable when not editable', () => {
@@ -193,7 +195,8 @@ describe( 'GNericTextfield', () => {
     it( 'Should fire a change event when changing the text content', () => {
         let fired = false;
         textfield.gNericElemChangedEvent.subscribe( () => {fired = true;} );
-        textfield.textPanel.nativeElement.dispatchEvent(new InputEvent('input'));
+        const textarea = dbgElem.query( By.css('textarea') );
+        textarea.nativeElement.dispatchEvent(new InputEvent('input'));
         expect( fired ).toBeTrue();
     });
 
@@ -202,9 +205,10 @@ describe( 'GNericTextfield', () => {
         const rows = 5;
         const text = "Hello";
         textfield.rows = rows;
-        textfield.textPanel.nativeElement.value = text;
+        textfield.text.setValue(text);
         textfield.gNericElemChangedEvent.subscribe( (evt) => {json = evt;} );
-        textfield.textPanel.nativeElement.dispatchEvent(new InputEvent('input'));
+        const textarea = dbgElem.query( By.css('textarea') );
+        textarea.nativeElement.dispatchEvent(new InputEvent('input'));
         expect( json ).toBeTruthy();
         if(json) {
             expect( json['id'] ).toBe(id);
@@ -225,7 +229,23 @@ describe( 'GNericTextfield', () => {
         };
         textfield.setModel(json);
         expect(textfield.rows).toBe( json['rows'] );
-        expect(textfield.textPanel.nativeElement.value).toBe( json['text'] );
+        expect(textfield.text.value).toBe( json['text'] );
+    });
+
+    it( 'Should not update the element with an inapprobiate model', () => {
+        const oldRows = textfield.rows;
+        const oldText = textfield.text.value;
+        const newRows = oldRows + 3;
+        const newText = oldText+" and so on";
+        let json = {
+            id: id+"nope",
+            type: ElemTypes.textfield,
+            rows: newRows,
+            text: newText
+        };
+        textfield.setModel(json);
+        expect(textfield.rows).toBe( oldRows );
+        expect(textfield.text.value).toBe( oldText );
     });
 
     it( 'Should accept a proper new model', () => {
@@ -235,11 +255,11 @@ describe( 'GNericTextfield', () => {
             rows: 5,
             text: 'Hello World'
         };
-        expect(textfield.isTextfieldModelForMe(json)).toBeTrue();
+        expect(textfield.validateModel(json)).toBeTrue();
     });
 
     it( 'Should reject a falsy model', () => {
-        expect(textfield.isTextfieldModelForMe(undefined)).toBeFalse();
+        expect(textfield.validateModel(undefined)).toBeFalse();
     });
 
     it( 'Should reject a model with wrong id', () => {
@@ -249,7 +269,7 @@ describe( 'GNericTextfield', () => {
             rows: 5,
             text: 'Hello World'
         };
-        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+        expect(textfield.validateModel(json)).toBeFalse();
     });
 
     it( 'Should reject a model with falsy id', () => {
@@ -259,7 +279,7 @@ describe( 'GNericTextfield', () => {
             rows: 5,
             text: 'Hello World'
         };
-        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+        expect(textfield.validateModel(json)).toBeFalse();
     });
 
     it( 'Should reject a model with id of wrong type', () => {
@@ -269,7 +289,7 @@ describe( 'GNericTextfield', () => {
             rows: 5,
             text: 'Hello World'
         };
-        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+        expect(textfield.validateModel(json)).toBeFalse();
     });
 
     it( 'Should reject a model with wrong element type', () => {
@@ -279,7 +299,7 @@ describe( 'GNericTextfield', () => {
             rows: 5,
             text: 'Hello World'
         };
-        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+        expect(textfield.validateModel(json)).toBeFalse();
     });
 
     it( 'Should reject a model with falsy element type', () => {
@@ -289,7 +309,7 @@ describe( 'GNericTextfield', () => {
             rows: 5,
             text: 'Hello World'
         };
-        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+        expect(textfield.validateModel(json)).toBeFalse();
     });
 
     it( 'Should reject a model with type-mismatching element type', () => {
@@ -299,7 +319,7 @@ describe( 'GNericTextfield', () => {
             rows: 5,
             text: 'Hello World'
         };
-        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+        expect(textfield.validateModel(json)).toBeFalse();
     });
 
     it( 'Should reject a model with wrong row count', () => {
@@ -309,7 +329,7 @@ describe( 'GNericTextfield', () => {
             rows: -5,
             text: 'Hello World'
         };
-        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+        expect(textfield.validateModel(json)).toBeFalse();
     });
 
     it( 'Should reject a model with falsy row count', () => {
@@ -319,7 +339,7 @@ describe( 'GNericTextfield', () => {
             rows: undefined,
             text: 'Hello World'
         };
-        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+        expect(textfield.validateModel(json)).toBeFalse();
     });
 
     it( 'Should reject a model with type-mismatching row count', () => {
@@ -329,7 +349,7 @@ describe( 'GNericTextfield', () => {
             rows: 'many',
             text: 'Hello World'
         };
-        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+        expect(textfield.validateModel(json)).toBeFalse();
     });
     
     it( 'Should reject a model with falsy text', () => {
@@ -339,7 +359,7 @@ describe( 'GNericTextfield', () => {
             rows: 5,
             text: undefined
         };
-        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+        expect(textfield.validateModel(json)).toBeFalse();
     });
 
     it( 'Should reject a model with type-mismatching text', () => {
@@ -349,7 +369,7 @@ describe( 'GNericTextfield', () => {
             rows: 5,
             text: 12
         };
-        expect(textfield.isTextfieldModelForMe(json)).toBeFalse();
+        expect(textfield.validateModel(json)).toBeFalse();
     });
 
     it( 'Should accept a model with empty text', () => {
@@ -359,7 +379,7 @@ describe( 'GNericTextfield', () => {
             rows: 5,
             text: ''
         };
-        expect(textfield.isTextfieldModelForMe(json)).toBeTrue();
+        expect(textfield.validateModel(json)).toBeTrue();
     });
 
 

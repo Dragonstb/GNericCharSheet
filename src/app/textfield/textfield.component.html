@@ -1,16 +1,20 @@
 <fieldset #fieldSet class="editable">
-    <legend #legend class="ctrl-elem">{{fullId}}</legend>
-    <textarea #textPanel [id]="id" [rows]="rows" [readonly]="readOnly" class="boxed" (input)="fireElemChangedEvent()"></textarea>
-    <div #editPanel id="{{id}}-editPanel">
-        <div>
-            <span class="aria-visible" aria-live="polite" >Currently {{rows}} rows</span>
-            <button (click)="addRow()" class="ctrl-elem">Expand by one row</button>
+    @if(editable){
+        <legend class="ctrl-elem">{{fullId}}</legend>
+        <div id="{{id}}-editPanel">
+            <div>
+                <span class="aria-visible" aria-live="polite" >Currently {{rows}} rows</span>
+                <button (click)="addRow()" class="ctrl-elem">Expand by one row</button>
+            </div>
+            <div>
+                <button (click)="deleteRow()" [disabled]="rows<2" id="{{id}}-shrink" class="ctrl-elem">Shrink by one row</button>
+            </div>
         </div>
-        <div>
-            <button (click)="deleteRow()" [disabled]="rows<2" id="{{id}}-shrink" class="ctrl-elem">Shrink by one row</button>
-        </div>
+    }
+    <textarea [rows]="rows" [readonly]="!editable" class="boxed" (input)="fireElemChangedEvent()" [formControl]="text"></textarea>
+    @if(editable) {
         <div>
             <button (click)="deleteTextfield()" class="ctrl-elem">Dispose textfield</button>
         </div>
-    </div>
+    }
 </fieldset>

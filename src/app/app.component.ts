@@ -10,7 +10,7 @@ import { GNericCheckboxList } from './checkboxes/checkboxes.component';
 
 @Component({
   selector: 'app-root',
-  imports: [GNericCheckboxList],
+  imports: [GnericTextfield],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })

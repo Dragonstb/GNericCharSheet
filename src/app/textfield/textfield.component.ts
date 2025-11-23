@@ -1,24 +1,27 @@
-import { Component, ElementRef, output, ViewChild } from "@angular/core";
+import { Component, ElementRef, inject, output, ViewChild } from "@angular/core";
 import { ElemTypes } from "../elemtypes";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { ValidatorService } from "../../services/validator";
 
 @Component({
     selector: 'gneric-textfield',
-    templateUrl: './textfield.component.html'
+    templateUrl: './textfield.component.html',
+    imports: [ReactiveFormsModule]
 })
 export class GnericTextfield {
 
     id: string = "comp-01-01";
     fullId: string = "textfield-"+this.id;
     rows: number = 10;
-    readOnly: boolean = false;
+    editable: boolean = true;
 
     deleteTextfieldEvent = output<string>();
     gNericElemChangedEvent = output<object>();
 
-    @ViewChild('textPanel', {static: true}) textPanel!: ElementRef<HTMLTextAreaElement>;
-    @ViewChild('editPanel', {static: true}) editPanel!: ElementRef<HTMLDivElement>;
     @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
-    @ViewChild('legend', {static: true}) legend!: ElementRef<HTMLLegendElement>;
+
+    text = new FormControl('Insert text');
+    validator = inject(ValidatorService);
 
     addRow() {
         ++this.rows;
@@ -33,16 +36,16 @@ export class GnericTextfield {
     }
 
     setEditable(editable: boolean) {
-        this.readOnly = !editable;
+        this.editable = editable;
         if(editable) {
-            this.editPanel.nativeElement.classList.remove('hidden');
-            this.legend.nativeElement.classList.remove('hidden');
-            this.fieldSet.nativeElement.classList.add('editable');
+            if(!this.fieldSet.nativeElement.classList.contains('editable')) {
+                this.fieldSet.nativeElement.classList.add('editable');
+            }
         }
         else {
-            this.editPanel.nativeElement.classList.add('hidden');
-            this.legend.nativeElement.classList.add('hidden');
-            this.fieldSet.nativeElement.classList.remove('editable');
+            if(this.fieldSet.nativeElement.classList.contains('editable')) {
+                this.fieldSet.nativeElement.classList.remove('editable');
+            }
         }
     }
 
@@ -50,7 +53,7 @@ export class GnericTextfield {
         const json = {
             id: this.id,
             type: ElemTypes.textfield,
-            text: this.textPanel.nativeElement.value,
+            text: this.text.value ?? '',
             rows: this.rows
         };
         this.gNericElemChangedEvent.emit(json);
@@ -60,24 +63,24 @@ export class GnericTextfield {
         this.deleteTextfieldEvent.emit(this.id);
     }
 
-    isTextfieldModelForMe(model: any): boolean {
-        if(!model) {
+    validateModel(model: any): boolean {
+        if(!this.validator.isModel(model)) {
             return false;
         }
 
-        if(!model.hasOwnProperty('id') || !model.id || typeof model.id !== 'string' || model.id !== this.id) {
+        if(!this.validator.isForMe(this.id, ElemTypes.textfield, model)) {
             return false;
         }
 
-        if(!model.hasOwnProperty('type') || !model.type || typeof model.type !== 'string' || model.type !== ElemTypes.textfield) {
+        if(!this.validator.hasStringProperty('text', model)) {
             return false;
         }
 
-        if(!model.hasOwnProperty('rows') || !model.rows || typeof model.rows !== 'number' || model.rows < 1) {
+        if(!this.validator.hasFiniteIntegerProperty('rows', model)) {
             return false;
         }
 
-        if(!model.hasOwnProperty('text') || (!model.text && model.text !== '') || typeof model.text !== 'string') {
+        if(model.rows < 1) {
             return false;
         }
 
@@ -85,12 +88,12 @@ export class GnericTextfield {
     }
 
     setModel(model: any) {
-        if(!this.isTextfieldModelForMe(model)) {
+        if(!this.validateModel(model)) {
             return;
         }
 
         this.rows = model.rows;
-        this.textPanel.nativeElement.value = model.text;
+        this.text.setValue(model.text);
     }
 
     getId(): string {
