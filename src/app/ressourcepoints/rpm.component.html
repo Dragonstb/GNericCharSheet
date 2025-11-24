@@ -29,8 +29,8 @@
     }
     <div class="boxed nopadding">
         @if(!editable) {
-            <div class="spacingtopmedium spacingbottommedium">
-                <label for="{{id}}-dmg-input">Damage:</label>
+            <div class="spacingtopmedium spacingbottommedium spacingleftsmall">
+                <label class="spacingrightsmall" for="{{id}}-dmg-input">Damage:</label>
                 <input id="{{id}}-dmg-input" type="text" [formControl]="dmgInput" (input)="onDmgInput()" (keyup.enter)="onSubmitDamage()">
                 <svg #checkmark width="15px" height="15px" class="svgokicon hidden"
                     viewBox="0 0 10 10"
@@ -44,10 +44,10 @@
         }
         @for(row of rows; track row.id) {
             @if(!$first || !editable) {
-                <gneric-rpmrow [status]="row" [showText]="textVisible" [textEditable]="editable" class="thinbottomborder blockdisplay" (input)="fireElemChangeEvent()" />
+                <gneric-rpmrow class="paddingleftsmall thintopborder blockdisplay" [status]="row" [showText]="textVisible" [textEditable]="editable" (input)="fireElemChangeEvent()" />
             }
             @else {
-                <gneric-rpmrow [status]="row" [showText]="textVisible" [textEditable]="editable" (input)="fireElemChangeEvent()" />
+                <gneric-rpmrow class="paddingleftsmall blockdisplay" [status]="row" [showText]="textVisible" [textEditable]="editable" (input)="fireElemChangeEvent()" />
             }
         }
     </div>

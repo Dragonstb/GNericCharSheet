@@ -1,5 +1,5 @@
 <button class="accordeonhead secondarycol" (click)="toggleExpansion()" [attr.aria-controls]="'item-'+model.getId()" [attr.aria-expanded]="expanded">
-    <span class="inheritbg">{{model.name.value}}</span>
+    <h5 class="inheritbg">{{model.name.value}}</h5>
     <svg class="svgicon size15 inheritbg" aria-hidden="true"
     viewBox="0 0 10 10"
     xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +31,7 @@
             <textarea rows="7" (input)="fireElemChangeEvent()" [formControl]="model.text"></textarea>
         }
     </div>
-    <div class="flexright spacingbottomsmall spacingtopmedium">
+    <div class="flexright spacingbottommedium spacingtopmedium">
         <button (click)="fireDeleteEntryEvent()">Delete {{model.name.value}}</button>
     </div>
 }

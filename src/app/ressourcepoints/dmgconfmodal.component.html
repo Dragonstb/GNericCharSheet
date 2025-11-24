@@ -4,27 +4,31 @@
         <fieldset class="editable">
             <legend class="flexbox">
                 @switch(tier.tier) {
-                    @case(1){<gneric-cross1 class="size15" />}
-                    @case(2){<gneric-cross2 class="size15" />}
-                    @case(3){<gneric-cross3 class="size15" />}
-                    @case(4){<gneric-cross4 class="size15" />}
-                    @case(5){<gneric-cross5 class="size15" />}
-                    @case(6){<gneric-cross6 class="size15" />}
+                    @case(1){<gneric-cross1 class="size15 spacingleftsmall" />}
+                    @case(2){<gneric-cross2 class="size15 spacingleftsmall" />}
+                    @case(3){<gneric-cross3 class="size15 spacingleftsmall" />}
+                    @case(4){<gneric-cross4 class="size15 spacingleftsmall" />}
+                    @case(5){<gneric-cross5 class="size15 spacingleftsmall" />}
+                    @case(6){<gneric-cross6 class="size15 spacingleftsmall" />}
                 }
-                <span>tier {{tier.tier}}</span>
+                <span class="spacingrightsmall spacingleftsmall">Tier {{tier.tier}}</span>
             </legend>
             <div>
                 <form [formGroup]="tier.form">
-                    <label for="check-{{tier.tier}}">enabled:</label>
-                    <input type="checkbox" id="check-{{tier.tier}}" formControlName="checked" />
-                    <label for="key-{{tier.tier}}">key:</label>
-                    <input type="text" id="key-{{tier.tier}}" maxlength="1" formControlName="keyLetter" />
+                    <div class="ctrl-elem spacingbottomsmall flexbetween">
+                        <label for="check-{{tier.tier}}">Enabled:</label>
+                        <input type="checkbox" id="check-{{tier.tier}}" formControlName="checked" />
+                    </div>
+                    <div class="ctrl-elem spacingbottommedium flexbetween">
+                        <label for="key-{{tier.tier}}">Key:</label>
+                        <input type="text" id="key-{{tier.tier}}" maxlength="1" formControlName="keyLetter" />
+                    </div>
                 </form>
             </div>
         </fieldset>
     }
-    <div>
-        <button (click)="cancel()">cancel</button>
-        <button (click)="confirm()" [disabled]="!form.valid">confirm</button>
+    <div class="flexbetween spacingtopmedium">
+        <button (click)="cancel()">Cancel</button>
+        <button (click)="confirm()" [disabled]="!form.valid">Confirm</button>
     </div>
 </dialog>

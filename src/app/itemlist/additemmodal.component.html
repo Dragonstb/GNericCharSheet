@@ -1,17 +1,25 @@
 <dialog #dialog>
     <h2>Add item to {{listname}}</h2>
     <form [formGroup]="form">
-        <div>
-            <label for="add-item-name">item name:</label>
-            <input type="text" id="add-item-name" formControlName="name">
+        <div class="spacingbottommedium">
+            <div class="spacingbottomsmall">
+                <label class="spacingrightsmall" for="add-item-name">Item name:</label>
+            </div>
+            <div>
+                <input class="width100" type="text" id="add-item-name" formControlName="name">
+            </div>
         </div>
-        <div>
-            <label for="add-item-text">item description</label>
-            <textarea id="add-item-text" rows="7" formControlName="text"></textarea>
+        <div class="spacingbottommedium">
+            <div class="spacingbottomsmall">
+                <label for="add-item-text">Item description</label>
+            </div>
+            <div>
+                <textarea id="add-item-text" rows="7" formControlName="text"></textarea>
+            </div>
         </div>
     </form>
-    <div>
-        <button (click)="cancel()">cancel</button>
-        <button (click)="addNewItem()" [disabled]="!form.valid">add</button>
+    <div class="flexbetween">
+        <button (click)="cancel()">Cancel</button>
+        <button (click)="addNewItem()" [disabled]="!form.valid">Add</button>
     </div>
 </dialog>
