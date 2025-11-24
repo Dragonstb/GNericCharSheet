@@ -1,20 +1,17 @@
 <fieldset #fieldSet class="editable">
     @if(editable()) {
         <legend class="ctrl-elem">{{fullId}}</legend>
+        <div class="ctrl-elem">
+            <label class="labelonleft" for="titleform">Change title to:</label>
+            <input type="text" id="titleform" (input)="this.fireElemChangeEvent()" [formControl]="title">
+        </div>
+        <div class="ctrl-elem spacingbottommedium spacingtopsmall">
+            <button (click)="addRow()">Add row</button>
+            <button (click)="removeRow()" [disabled]="rows.length<2">Remove row</button>
+        </div>
     }
     <div class="boxed">
-        @if(editable()) {
-            <h3 class="elemtitle">{{title.value}}</h3>
-            <div>
-                <label for="titleform">Change title to:</label>
-                <input type="text" id="titleform" (input)="this.fireElemChangeEvent()" [formControl]="title">
-            </div>
-            <div class="ctrl-elem">
-                <button (click)="addRow()">add row</button>
-                <button (click)="removeRow()" [disabled]="rows.length<2">remove row</button>
-            </div>
-        }
-        @else if(hasTitle()) {
+        @if(editable() || hasTitle()) {
             <h3 class="elemtitle">{{title.value}}</h3>
         }
         @for(row of rows; track $index) {
@@ -32,8 +29,8 @@
         }
     </div>
     @if(editable()) {
-        <div>
-            <button class="ctrl-elem" (click)="fireDeleteCheckboxesEvent()">delete checkboxes</button>
+        <div class="ctrl-elem flexright spacingbottomsmall spacingtopmedium">
+            <button (click)="fireDeleteCheckboxesEvent()">Delete checkboxes</button>
         </div>
     }
 </fieldset>

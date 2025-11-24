@@ -31,5 +31,7 @@
             <textarea rows="7" (input)="fireElemChangeEvent()" [formControl]="model.text"></textarea>
         }
     </div>
-    <button (click)="fireDeleteEntryEvent()">delete {{model.name.value}}</button>
+    <div class="flexright spacingbottomsmall spacingtopmedium">
+        <button (click)="fireDeleteEntryEvent()">Delete {{model.name.value}}</button>
+    </div>
 }

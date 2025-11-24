@@ -1,44 +1,49 @@
 <fieldset #fieldSet class="editable">
-    @if(!editable) {
-        <label for="{{id}}-dmg-input">Damage:</label>
-        <input id="{{id}}-dmg-input" type="text" [formControl]="dmgInput" (input)="onDmgInput()" (keyup.enter)="onSubmitDamage()">
-        <svg #checkmark width="15px" height="15px" class="svgokicon hidden"
-            viewBox="0 0 10 10"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:svg="http://www.w3.org/2000/svg">
-            <path
-               style="fill:none;stroke:inherit;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
-               d="M 9,1 4,8.7 1,6.2" />
-        </svg>
-
-    }
-    @else {
+    @if(editable) {
         <legend #legend class="ctrl-elem">{{fullId}}</legend>
-        <div class="ctrl-elem">
+        <div class="ctrl-elem spacingbottommedium">
             <div>
-                <button (click)="modal.openDmgTierConfigModal()">configure damage tiers</button>
+                <div>
+                    <button (click)="modal.openDmgTierConfigModal()">Configure damage tiers</button>
+                </div>
+                <div>
+                    <button (click)="addRow()">Add row</button>
+                    <button [disabled]="rows.length<2" (click)="removeRow()">Remove row</button>
+                </div>
+                <div>
+                    <button (click)="addCol()">Add column</button>
+                    <button [disabled]="getPointsPerRow()<2" (click)="removeCol()">Remove column</button>
+                </div>
             </div>
-            <div>
-                <button (click)="addRow()">add row</button>
-                <button [disabled]="rows.length<2" (click)="removeRow()">remove row</button>
-            </div>
-            <div>
-                <button (click)="addCol()">add column</button>
-                <button [disabled]="getPointsPerRow()<2" (click)="removeCol()">remove column</button>
-            </div>
-            <div>
-                <input type="checkbox" id="showText-{{id}}" [formControl]="showTextsCheckbox" (change)="updateTextVisibility()">
-                <label for="showText-{{id}}">Show texts</label>
-            </div>
-            <div>
-                <input type="checkbox" id="absorbDamage-{{id}}" [formControl]="absorbCheckbox" (change)="fireElemChangeEvent()">
-                <label for="absorbDamage-{{id}}">Higher tiered damage absorbs lower tiered damage</label>
+            <div class="spacingtopsmall">
+                <div>
+                    <input type="checkbox" id="showText-{{id}}" [formControl]="showTextsCheckbox" (change)="updateTextVisibility()">
+                    <label for="showText-{{id}}">Show texts</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="absorbDamage-{{id}}" [formControl]="absorbCheckbox" (change)="fireElemChangeEvent()">
+                    <label for="absorbDamage-{{id}}">Higher tiered damage absorbs lower tiered damage</label>
+                </div>
             </div>
         </div>
     }
     <div class="boxed nopadding">
+        @if(!editable) {
+            <div class="spacingtopmedium spacingbottommedium">
+                <label for="{{id}}-dmg-input">Damage:</label>
+                <input id="{{id}}-dmg-input" type="text" [formControl]="dmgInput" (input)="onDmgInput()" (keyup.enter)="onSubmitDamage()">
+                <svg #checkmark width="15px" height="15px" class="svgokicon hidden"
+                    viewBox="0 0 10 10"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:svg="http://www.w3.org/2000/svg">
+                    <path
+                        style="fill:none;stroke:inherit;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+                        d="M 9,1 4,8.7 1,6.2" />
+                </svg>
+            </div>
+        }
         @for(row of rows; track row.id) {
-            @if(!$last) {
+            @if(!$first || !editable) {
                 <gneric-rpmrow [status]="row" [showText]="textVisible" [textEditable]="editable" class="thinbottomborder blockdisplay" (input)="fireElemChangeEvent()" />
             }
             @else {
@@ -47,8 +52,8 @@
         }
     </div>
     @if(editable) {
-        <div>
-            <button (click)="fireDeleteRPMEvent()">delete this element</button>
+        <div class="ctrl-elem flexright spacingbottomsmall spacingtopmedium">
+            <button (click)="fireDeleteRPMEvent()">Delete ressource points</button>
         </div>
     }
 </fieldset>

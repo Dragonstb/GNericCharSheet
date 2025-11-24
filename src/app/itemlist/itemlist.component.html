@@ -1,8 +1,8 @@
 <fieldset #fieldSet class="editable">
     @if(editable()) {
         <legend #legend class="ctrl-elem">{{fullId}}</legend>
-        <div>
-            <label for="listnameform-{{id}}">List name:</label>
+        <div class="ctrl-elem spacingbottommedium">
+            <label class="labelonleft" for="listnameform-{{id}}">List name:</label>
             <input type="text" id="listnameform-{{id}}" [formControl]="listname">
         </div>
     }
@@ -31,13 +31,15 @@
                 <gneric-itementry (gNericElemChangedEvent)="fireEntryChangeEvent($event)" (deleteEntryEvent)="deleteItem(item.getId())" [model]="item" [editable]="editable()" />
             }
             </div>
-            <div>
-                <button (click)="handleAddNewEntry()">add new entry to {{listname.value}}</button>
+            <div class="spacingtopsmall">
+                <button (click)="handleAddNewEntry()">Add new entry to {{listname.value}}</button>
             </div>
         }
     </div>
     @if(editable()) {
-        <button (click)="fireDeleteItemlistEvent()">delete item list</button>
+        <div class="ctrl-elem flexright spacingbottomsmall spacingtopmedium" >
+            <button (click)="fireDeleteItemlistEvent()">Delete item list</button>
+        </div>
     }
 </fieldset>
 <gneric-additemmodal #modal (newItemEvent)="addNewItem($event)" [listname]="listname.value" />

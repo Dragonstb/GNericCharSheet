@@ -1,7 +1,7 @@
 <fieldset #fieldSet class="editable">
     @if(editable){
         <legend class="ctrl-elem">{{fullId}}</legend>
-        <div id="{{id}}-editPanel">
+        <div class="spacingbottommedium" id="{{id}}-editPanel">
             <div>
                 <span class="aria-visible" aria-live="polite" >Currently {{rows}} rows</span>
                 <button (click)="addRow()" class="ctrl-elem">Expand by one row</button>
@@ -11,10 +11,10 @@
             </div>
         </div>
     }
-    <textarea [rows]="rows" [readonly]="!editable" class="boxed" (input)="fireElemChangedEvent()" [formControl]="text"></textarea>
+    <textarea [rows]="rows" [readonly]="!editable" [formControl]="text" class="boxed" (input)="fireElemChangedEvent()"></textarea>
     @if(editable) {
-        <div>
-            <button (click)="deleteTextfield()" class="ctrl-elem">Dispose textfield</button>
+        <div class="ctrl-elem flexright spacingbottomsmall spacingtopmedium">
+            <button (click)="deleteTextfield()">Delete textfield</button>
         </div>
     }
 </fieldset>

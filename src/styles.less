@@ -33,6 +33,10 @@
 @ok-dark: #030;
 @ok-light: #0b0;
 
+@tiny: 2px;
+@small: 4px;
+@medium: 10px;
+
 * {
     color: @obr-dark-text-prim;
     background-color: @obr-dark-bg-default;
@@ -117,14 +121,24 @@
 
 .ctrl-elem {
     margin-left: 10px;
+    margin-right: 10px;
 }
 
 .flexbox {
     display: flex;
 }
 
+.flexright {
+    display: flex;
+    justify-content: end;
+}
+
 .inheritbg {
     background-color: inherit;
+}
+
+.labelonleft {
+    margin-right: @small;
 }
 
 .noborder {
@@ -136,7 +150,7 @@
 }
 
 .thinbottomborder {
-    border-bottom: 1px solid @obr-dark-text-prim;
+    border-top: 1px solid @obr-dark-text-prim;
 
     &.light {
         border-color: @obr-light-text-prim;
@@ -162,6 +176,22 @@
 .size20 {
     width: 20px;
     height: 20px;
+}
+
+.spacingbottomsmall {
+    margin-bottom: @small;
+}
+
+.spacingbottommedium {
+    margin-bottom: @medium;
+}
+
+.spacingtopsmall {
+    margin-top: @small;
+}
+
+.spacingtopmedium {
+    margin-top: @medium;
 }
 
 .svgicon {

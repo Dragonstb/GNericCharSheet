@@ -1,21 +1,21 @@
 <fieldset #fieldSet class="editable">
     @if(editable) {
         <legend #legend class="ctrl-elem">{{fullId}}</legend>
-        <div #editPanel class="ctrl-elem">
+        <div #editPanel class="ctrl-elem spacingbottommedium">
             <div>
-                <button [disabled]="curRow<0 || curCol<0" (click)="addRowAboveCurrent()">add row above current</button>
-                <button [disabled]="curRow<0 || curCol<0" (click)="addRowBelowCurrent()">add row below current</button>
-                <button [disabled]="alterer.getRows()<2" (click)="removeCurrentRow()">remove current row</button>
+                <button [disabled]="curRow<0 || curCol<0" (click)="addRowAboveCurrent()">Add row above current</button>
+                <button [disabled]="curRow<0 || curCol<0" (click)="addRowBelowCurrent()">Add row below current</button>
+                <button [disabled]="alterer.getRows()<2" (click)="removeCurrentRow()">Remove current row</button>
             </div>
             <div>
-                <button [disabled]="curRow<0 || curCol<0 || alterer.getCols()>=maxCols" (click)="addColumnLeftOfCurrent()">add column left of current</button>
-                <button [disabled]="curRow<0 || curCol<0 || alterer.getCols()>=maxCols" (click)="addColumnRightOfCurrent()">add column right of current</button>
-                <button [disabled]="alterer.getCols()<2" (click)="removeCurrentColumn()">remove current column</button>
+                <button [disabled]="curRow<0 || curCol<0 || alterer.getCols()>=maxCols" (click)="addColumnLeftOfCurrent()">Add column left of current</button>
+                <button [disabled]="curRow<0 || curCol<0 || alterer.getCols()>=maxCols" (click)="addColumnRightOfCurrent()">Add column right of current</button>
+                <button [disabled]="alterer.getCols()<2" (click)="removeCurrentColumn()">Remove current column</button>
             </div>
             <div>
                 <button [disabled]="widthController.equalDistributed" (click)="widthController.distrubuteColumnsEqually()">Equal column width</button>
             </div>
-            <div aria-live="polite">{{lockInfo}}</div>
+            <div class="spacingtopsmall" aria-live="polite">{{lockInfo}}</div>
         </div>
     }
     <table class="boxed">
@@ -46,7 +46,7 @@
         }
     </div>
     @if(editable) {
-        <div class="ctrl-elem">
+        <div class="ctrl-elem flexright spacingbottomsmall spacingtopmedium">
             <button (click)="deleteTable()">Delete table</button>
         </div>
     }
