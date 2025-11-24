@@ -1,6 +1,10 @@
 <fieldset #fieldSet class="editable">
     @if(editable()) {
         <legend #legend class="ctrl-elem">{{fullId}}</legend>
+        <div>
+            <label for="listnameform-{{id}}">List name:</label>
+            <input type="text" id="listnameform-{{id}}" [formControl]="listname">
+        </div>
     }
     <div class="boxed">
         <button class="accordeonhead" (click)="toggleExpansion()" [attr.aria-controls]="'item-list-'+listname.value" [attr.aria-expanded]="expanded()">

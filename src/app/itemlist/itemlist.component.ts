@@ -1,7 +1,7 @@
 import { Component, inject, NgZone, output, signal, ViewChild } from "@angular/core";
 import { GNericItemEntry } from "./itementry.component";
 import { GNericItemModel } from "./itemmodel";
-import { FormControl } from "@angular/forms";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { GNericAddItemModal } from "./additemmodal.component";
 import { ElemTypes } from "../elemtypes";
 import { ValidatorService } from "../../services/validator";
@@ -9,7 +9,7 @@ import { ValidatorService } from "../../services/validator";
 @Component({
     selector: 'gneric-itemlist',
     templateUrl: './itemlist.component.html',
-    imports: [GNericItemEntry, GNericAddItemModal]
+    imports: [GNericItemEntry, GNericAddItemModal, ReactiveFormsModule]
 })
 export class GNericItemList {
 
@@ -93,7 +93,7 @@ export class GNericItemList {
             return false;
         }
 
-        if(!model.hasOwnProperty('listname') || !model.listname || typeof model.listname !== 'string') {
+        if(!this.validator.hasNonEmptyStringProperty('listname', model)) {
             return false;
         }
 
@@ -108,10 +108,6 @@ export class GNericItemList {
                 return false;
             }
 
-            // if(!item.hasOwnProperty('id') || !item.id || typeof item.id !== 'string') {
-            //     return false;
-            // }
-
             if(!this.validateEntryModel(item)) {
                 return false;
             }
@@ -122,13 +118,6 @@ export class GNericItemList {
             }
             duplicateKeyCheck.add(itemId);
 
-            // if(!item.hasOwnProperty('name') || typeof item.name !== 'string') {
-            //     return false;
-            // }
-
-            // if(!item.hasOwnProperty('text') || typeof item.text !== 'string') {
-            //     return false;
-            // }
         }
 
         return true;
