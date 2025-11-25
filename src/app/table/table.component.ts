@@ -3,7 +3,7 @@ import { CdkDrag } from "@angular/cdk/drag-drop";
 import { TableAlterer } from "./tablealterer";
 import { WidthController } from "./widthcontroller";
 import { ElemTypes } from "../elemtypes";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { ValidatorService } from "../../services/validator";
 
 @Component({
@@ -29,6 +29,7 @@ export class GNericTable {
 
     alterer: TableAlterer = new TableAlterer();
     widthController: WidthController = new WidthController(this);
+    title = new FormControl('Table '+this.id);
 
     @ViewChild('tableBody', {static: true}) tableBody!: ElementRef<HTMLTableSectionElement>;
     @ViewChild('dragContainer', {static: true}) dragContainer: ElementRef<HTMLDivElement> | undefined;
@@ -328,6 +329,10 @@ export class GNericTable {
             return false;
         }
 
+        if(!this.validator.hasStringProperty('title', model)) {
+            return false;
+        }
+
         return true;
     }
 
@@ -338,6 +343,7 @@ export class GNericTable {
         }
 
         let equal = this.isEquallyDistributed(model.widths);
+        this.title.setValue(model.title);
 
         try {
             this.ngZone.runGuarded(()=>{
@@ -370,5 +376,9 @@ export class GNericTable {
         }
 
         return true;
+    }
+
+    hasTitle(): boolean {
+        return Boolean(this.title.value);
     }
 }

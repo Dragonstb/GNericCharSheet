@@ -2,6 +2,10 @@
     @if(editable) {
         <legend #legend class="ctrl-elem">{{fullId}}</legend>
         <div #editPanel class="ctrl-elem spacingbottommedium">
+            <div class="spacingbottomsmall">
+                <label class="spacingrightsmall" for="titleform-{{id}}">Change title to:</label>
+                <input type="text" id="titleform-{{id}}" [formControl]="title">
+            </div>
             <div>
                 <button [disabled]="curRow<0 || curCol<0" (click)="addRowAboveCurrent()">Add row above current</button>
                 <button [disabled]="curRow<0 || curCol<0" (click)="addRowBelowCurrent()">Add row below current</button>
@@ -18,26 +22,33 @@
             <div class="spacingtopsmall" aria-live="polite">{{lockInfo}}</div>
         </div>
     }
-    <table class="boxed">
-        <tbody #tableBody >
-            @for(row of alterer.content; track $index; let rowIdx = $index) {
-                <tr>
-                @for(col of row; track $index; let colIdx = $index) {
-                        @if(!editable || colIdx != curCol || rowIdx != curRow) {
-                            <td [style]="col.widthStyle()">
-                                <input type="text" (focus)="setSelectedCell($event)" (contextmenu)="setAndLockSelectedCell($event)" (input)="fireElemChangedEvent()" [formControl]="col.text">
-                            </td>
+    <div class="boxed nopadding paddingtopsmall">
+        @if(hasTitle() || editable) {
+            <div class="paddingleftsmall">
+                <h4 class="elemtitle">{{title.value}}</h4>
+            </div>
+        }
+        <table>
+            <tbody #tableBody >
+                @for(row of alterer.content; track $index; let rowIdx = $index) {
+                    <tr>
+                        @for(col of row; track $index; let colIdx = $index) {
+                            @if(!editable || colIdx != curCol || rowIdx != curRow) {
+                                <td [style]="col.widthStyle()">
+                                    <input type="text" (focus)="setSelectedCell($event)" (contextmenu)="setAndLockSelectedCell($event)" (input)="fireElemChangedEvent()" [formControl]="col.text">
+                                </td>
+                            }
+                            @else {
+                                <td class="current" [style]="col.widthStyle()">
+                                    <input type="text" class="current" (focus)="setSelectedCell($event)" (contextmenu)="setAndLockSelectedCell($event)" (input)="fireElemChangedEvent()" [formControl]="col.text">
+                                </td>
+                            }
                         }
-                        @else {
-                            <td class="current" [style]="col.widthStyle()">
-                                <input type="text" class="current" (focus)="setSelectedCell($event)" (contextmenu)="setAndLockSelectedCell($event)" (input)="fireElemChangedEvent()" [formControl]="col.text">
-                            </td>
-                        }
-                    }
-                </tr>
-            }
-        </tbody>
-    </table>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
     <div #dragContainer class="shifterBox">
         @for(left of widthController.lefts; track left) {
             @if(!$first) {
