@@ -10,7 +10,7 @@
             <button (click)="removeRow()" [disabled]="rows.length<2">Remove row</button>
         </div>
     }
-    <div class="boxed">
+    <div class="boxed paddingsmall">
         @if(editable() || hasTitle()) {
             <h3 class="elemtitle">{{title.value}}</h3>
         }

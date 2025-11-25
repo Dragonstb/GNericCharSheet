@@ -17,9 +17,9 @@
     }
     <div class="boxed">
         @if(hasTitle() || editable) {
-            <h4 class="elemtitle">{{title.value}}</h4>
+            <h4 class="elemtitle paddingleftsmall">{{title.value}}</h4>
         }
-        <textarea class="noborder nopadding" [readonly]="!editable" [rows]="rows" [formControl]="text" (input)="fireElemChangedEvent()"></textarea>
+        <textarea class="noborder paddingsmall" [readonly]="!editable" [rows]="rows" [formControl]="text" (input)="fireElemChangedEvent()"></textarea>
     </div>
     @if(editable) {
         <div class="ctrl-elem flexright spacingbottomsmall spacingtopmedium">
