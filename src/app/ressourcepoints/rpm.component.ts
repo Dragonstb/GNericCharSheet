@@ -20,6 +20,7 @@ export class GNericRessourcePointsManager {
     fullId = "ressource-points-"+this.id;
 
     showTextsCheckbox = new FormControl(true);
+    title = new FormControl('Ressource Points '+this.id);
     textVisible = Boolean(this.showTextsCheckbox.value);
 
     absorbCheckbox = new FormControl();
@@ -276,6 +277,7 @@ export class GNericRessourcePointsManager {
         const model = {
             id: this.id,
             type: ElemTypes.rpm,
+            title: this.title.value ?? '',
             rows: this.rows.length,
             cols: this.getPointsPerRow(),
             showTexts: this.textVisible,
@@ -310,6 +312,8 @@ export class GNericRessourcePointsManager {
         for (let idx = 0; idx < this.rows.length; idx++) {
             this.rows[idx].setText(model.texts[idx]);
         }
+
+        this.title.setValue(model.title);
         
         this.updateRegexPattern();
         try {
@@ -379,6 +383,10 @@ export class GNericRessourcePointsManager {
             return false;
         }
 
+        if(!this.validator.hasStringProperty('title', model)) {
+            return false;
+        }
+
         // check constraints
 
         if(model.rows < 1 || model.cols < 1) {
@@ -440,5 +448,9 @@ export class GNericRessourcePointsManager {
         }
 
         return true;
+    }
+
+    hasTitle(): boolean {
+        return Boolean(this.title.value);
     }
 }

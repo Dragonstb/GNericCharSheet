@@ -54,7 +54,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeTrue();
     });
@@ -80,7 +81,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -104,7 +106,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -127,7 +130,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -151,7 +155,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -177,7 +182,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -201,7 +207,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -224,7 +231,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -248,7 +256,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -274,7 +283,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -298,7 +308,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -322,7 +333,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -345,7 +357,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -367,7 +380,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -393,7 +407,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -417,7 +432,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -441,7 +457,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -463,7 +480,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -489,7 +507,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -513,7 +532,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -536,7 +556,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -562,7 +583,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: "No no no",
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -586,7 +608,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: undefined,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -609,7 +632,8 @@ describe( 'GNericRessourcePointsManager', () => {
             showTexts: true,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -635,7 +659,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -659,7 +684,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -683,7 +709,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -707,7 +734,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -730,7 +758,8 @@ describe( 'GNericRessourcePointsManager', () => {
             showTexts: true,
             useAbsorbtion: false,
             tierMap: mapping,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -756,7 +785,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -780,7 +810,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -804,7 +835,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -828,7 +860,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -852,7 +885,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -875,6 +909,7 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -900,7 +935,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -924,10 +960,12 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
+
     it('Should reject a model with a mapping od duplicate tiers', () => {
         const texts = ["one", "two", "three"];
         const rows = texts.length;
@@ -947,7 +985,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -971,7 +1010,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -995,7 +1035,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -1019,7 +1060,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -1047,7 +1089,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -1067,7 +1110,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -1087,7 +1131,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -1107,7 +1152,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -1127,7 +1173,8 @@ describe( 'GNericRessourcePointsManager', () => {
             useAbsorbtion: false,
             tierMap: mapping,
             texts: texts,
-            damage: damage
+            damage: damage,
+            title: 'Hello'
         };
         expect(rpm.validateModel(model)).toBeFalse();
     });
@@ -1145,9 +1192,109 @@ describe( 'GNericRessourcePointsManager', () => {
             showTexts: true,
             useAbsorbtion: false,
             texts: texts,
+            damage: damage,
+            title: 'Hello'
+        };
+        expect(rpm.validateModel(model)).toBeFalse();
+    });
+
+    it('Should reject a model with missing title', () => {
+        const texts = ["one", "two", "three"];
+        const rows = texts.length;
+        const cols = 5;
+        const mapping = {
+            a: 1,
+            b: 2,
+            '': 3
+        };
+        const damage = [0,2,3,1,0,0];
+        const model = {
+            id: id,
+            type: ElemTypes.rpm,
+            rows: rows,
+            cols: cols,
+            showTexts: true,
+            useAbsorbtion: false,
+            tierMap: mapping,
+            texts: texts,
             damage: damage
         };
         expect(rpm.validateModel(model)).toBeFalse();
+    });
+
+    it('Should reject a model with falsy title', () => {
+        const texts = ["one", "two", "three"];
+        const rows = texts.length;
+        const cols = 5;
+        const mapping = {
+            a: 1,
+            b: 2,
+            '': 3
+        };
+        const damage = [0,2,3,1,0,0];
+        const model = {
+            id: id,
+            type: ElemTypes.rpm,
+            rows: rows,
+            cols: cols,
+            showTexts: true,
+            useAbsorbtion: false,
+            tierMap: mapping,
+            texts: texts,
+            damage: damage,
+            title: undefined
+        };
+        expect(rpm.validateModel(model)).toBeFalse();
+    });
+
+    it('Should reject a model with title of the wrong type', () => {
+        const texts = ["one", "two", "three"];
+        const rows = texts.length;
+        const cols = 5;
+        const mapping = {
+            a: 1,
+            b: 2,
+            '': 3
+        };
+        const damage = [0,2,3,1,0,0];
+        const model = {
+            id: id,
+            type: ElemTypes.rpm,
+            rows: rows,
+            cols: cols,
+            showTexts: true,
+            useAbsorbtion: false,
+            tierMap: mapping,
+            texts: texts,
+            damage: damage,
+            title: 5
+        };
+        expect(rpm.validateModel(model)).toBeFalse();
+    });
+
+    it('Should accept a model with empty title', () => {
+        const texts = ["one", "two", "three"];
+        const rows = texts.length;
+        const cols = 5;
+        const mapping = {
+            a: 1,
+            b: 2,
+            '': 3
+        };
+        const damage = [0,2,3,1,0,0];
+        const model = {
+            id: id,
+            type: ElemTypes.rpm,
+            rows: rows,
+            cols: cols,
+            showTexts: true,
+            useAbsorbtion: false,
+            tierMap: mapping,
+            texts: texts,
+            damage: damage,
+            title: ''
+        };
+        expect(rpm.validateModel(model)).toBeTrue();
     });
 
 

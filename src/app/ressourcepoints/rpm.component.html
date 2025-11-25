@@ -2,6 +2,10 @@
     @if(editable) {
         <legend #legend class="ctrl-elem">{{fullId}}</legend>
         <div class="ctrl-elem spacingbottommedium">
+            <div class="spacingbottomsmall">
+                <label class="spacingrightsmall" for="titleform-{{id}}">Change title to:</label>
+                <input type="text" id="titleform-{{id}}" [formControl]="title">
+            </div>
             <div>
                 <div>
                     <button (click)="modal.openDmgTierConfigModal()">Configure damage tiers</button>
@@ -27,7 +31,10 @@
             </div>
         </div>
     }
-    <div class="boxed nopadding">
+    <div class="boxed">
+        @if(hasTitle() || editable) {
+            <h4 class="elemtitle paddingleftsmall">{{title.value}}</h4>
+        }
         @if(!editable) {
             <div class="spacingtopmedium spacingbottommedium spacingleftsmall">
                 <label class="spacingrightsmall" for="{{id}}-dmg-input">Damage:</label>
@@ -43,7 +50,7 @@
             </div>
         }
         @for(row of rows; track row.id) {
-            @if(!$first || !editable) {
+            @if(!$first || !editable || hasTitle()) {
                 <gneric-rpmrow class="paddingleftsmall thintopborder blockdisplay" [status]="row" [showText]="textVisible" [textEditable]="editable" (input)="fireElemChangeEvent()" />
             }
             @else {
