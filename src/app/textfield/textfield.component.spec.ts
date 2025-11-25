@@ -225,27 +225,32 @@ describe( 'GNericTextfield', () => {
             id: id,
             type: ElemTypes.textfield,
             rows: 5,
-            text: 'Hello World'
+            text: 'Hello World',
+            title: 'Headline'
         };
         textfield.setModel(json);
         expect(textfield.rows).toBe( json['rows'] );
         expect(textfield.text.value).toBe( json['text'] );
+        expect(textfield.title.value).toBe( json['title'] );
     });
 
     it( 'Should not update the element with an inapprobiate model', () => {
         const oldRows = textfield.rows;
         const oldText = textfield.text.value;
+        const oldTitle = textfield.title.value;
         const newRows = oldRows + 3;
         const newText = oldText+" and so on";
         let json = {
             id: id+"nope",
             type: ElemTypes.textfield,
             rows: newRows,
-            text: newText
+            text: newText,
+            title: oldTitle+'Headline'
         };
         textfield.setModel(json);
         expect(textfield.rows).toBe( oldRows );
         expect(textfield.text.value).toBe( oldText );
+        expect(textfield.title.value).toBe( oldTitle );
     });
 
     it( 'Should accept a proper new model', () => {
@@ -253,7 +258,8 @@ describe( 'GNericTextfield', () => {
             id: id,
             type: ElemTypes.textfield,
             rows: 5,
-            text: 'Hello World'
+            text: 'Hello World',
+            title: 'Headline'
         };
         expect(textfield.validateModel(json)).toBeTrue();
     });
@@ -267,7 +273,8 @@ describe( 'GNericTextfield', () => {
             id: id+"nope",
             type: ElemTypes.textfield,
             rows: 5,
-            text: 'Hello World'
+            text: 'Hello World',
+            title: 'Headline'
         };
         expect(textfield.validateModel(json)).toBeFalse();
     });
@@ -277,7 +284,8 @@ describe( 'GNericTextfield', () => {
             id: undefined,
             type: ElemTypes.textfield,
             rows: 5,
-            text: 'Hello World'
+            text: 'Hello World',
+            title: 'Headline'
         };
         expect(textfield.validateModel(json)).toBeFalse();
     });
@@ -287,7 +295,8 @@ describe( 'GNericTextfield', () => {
             id: 3,
             type: ElemTypes.textfield,
             rows: 5,
-            text: 'Hello World'
+            text: 'Hello World',
+            title: 'Headline'
         };
         expect(textfield.validateModel(json)).toBeFalse();
     });
@@ -297,7 +306,8 @@ describe( 'GNericTextfield', () => {
             id: id,
             type: 'nonono',
             rows: 5,
-            text: 'Hello World'
+            text: 'Hello World',
+            title: 'Headline'
         };
         expect(textfield.validateModel(json)).toBeFalse();
     });
@@ -307,7 +317,8 @@ describe( 'GNericTextfield', () => {
             id: id,
             type: undefined,
             rows: 5,
-            text: 'Hello World'
+            text: 'Hello World',
+            title: 'Headline'
         };
         expect(textfield.validateModel(json)).toBeFalse();
     });
@@ -317,7 +328,8 @@ describe( 'GNericTextfield', () => {
             id: id,
             type: 12,
             rows: 5,
-            text: 'Hello World'
+            text: 'Hello World',
+            title: 'Headline'
         };
         expect(textfield.validateModel(json)).toBeFalse();
     });
@@ -327,7 +339,8 @@ describe( 'GNericTextfield', () => {
             id: id,
             type: ElemTypes.textfield,
             rows: -5,
-            text: 'Hello World'
+            text: 'Hello World',
+            title: 'Headline'
         };
         expect(textfield.validateModel(json)).toBeFalse();
     });
@@ -337,7 +350,8 @@ describe( 'GNericTextfield', () => {
             id: id,
             type: ElemTypes.textfield,
             rows: undefined,
-            text: 'Hello World'
+            text: 'Hello World',
+            title: 'Headline'
         };
         expect(textfield.validateModel(json)).toBeFalse();
     });
@@ -347,7 +361,8 @@ describe( 'GNericTextfield', () => {
             id: id,
             type: ElemTypes.textfield,
             rows: 'many',
-            text: 'Hello World'
+            text: 'Hello World',
+            title: 'Headline'
         };
         expect(textfield.validateModel(json)).toBeFalse();
     });
@@ -357,7 +372,8 @@ describe( 'GNericTextfield', () => {
             id: id,
             type: ElemTypes.textfield,
             rows: 5,
-            text: undefined
+            text: undefined,
+            title: 'Headline'
         };
         expect(textfield.validateModel(json)).toBeFalse();
     });
@@ -367,7 +383,8 @@ describe( 'GNericTextfield', () => {
             id: id,
             type: ElemTypes.textfield,
             rows: 5,
-            text: 12
+            text: 12,
+            title: 'Headline'
         };
         expect(textfield.validateModel(json)).toBeFalse();
     });
@@ -377,7 +394,51 @@ describe( 'GNericTextfield', () => {
             id: id,
             type: ElemTypes.textfield,
             rows: 5,
-            text: ''
+            text: '',
+            title: 'Headline'
+        };
+        expect(textfield.validateModel(json)).toBeTrue();
+    });
+
+    it( 'Should reject a model with falsy title', () => {
+        let json = {
+            id: id,
+            type: ElemTypes.textfield,
+            rows: 5,
+            text: 'Hello world',
+            title: undefined
+        };
+        expect(textfield.validateModel(json)).toBeFalse();
+    });
+
+    it( 'Should reject a model with type-mismatching title', () => {
+        let json = {
+            id: id,
+            type: ElemTypes.textfield,
+            rows: 5,
+            text: 'Hello world',
+            title: 15
+        };
+        expect(textfield.validateModel(json)).toBeFalse();
+    });
+
+    it( 'Should reject a model with a missing title', () => {
+        let json = {
+            id: id,
+            type: ElemTypes.textfield,
+            rows: 5,
+            text: 'Hello world'
+        };
+        expect(textfield.validateModel(json)).toBeFalse();
+    });
+
+    it( 'Should accept a model with empty title', () => {
+        let json = {
+            id: id,
+            type: ElemTypes.textfield,
+            rows: 5,
+            text: 'Hello world',
+            title: ''
         };
         expect(textfield.validateModel(json)).toBeTrue();
     });

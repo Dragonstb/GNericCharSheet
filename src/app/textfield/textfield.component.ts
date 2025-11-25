@@ -21,6 +21,7 @@ export class GnericTextfield {
     @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
 
     text = new FormControl('Insert text');
+    title = new FormControl('Textfield');
     validator = inject(ValidatorService);
 
     addRow() {
@@ -53,6 +54,7 @@ export class GnericTextfield {
         const json = {
             id: this.id,
             type: ElemTypes.textfield,
+            title: this.title.value ?? '',
             text: this.text.value ?? '',
             rows: this.rows
         };
@@ -76,6 +78,10 @@ export class GnericTextfield {
             return false;
         }
 
+        if(!this.validator.hasStringProperty('title', model)) {
+            return false;
+        }
+
         if(!this.validator.hasFiniteIntegerProperty('rows', model)) {
             return false;
         }
@@ -94,9 +100,14 @@ export class GnericTextfield {
 
         this.rows = model.rows;
         this.text.setValue(model.text);
+        this.title.setValue(model.title);
     }
 
     getId(): string {
         return this.id;
+    }
+
+    hasTitle(): boolean {
+        return Boolean(this.title.value);
     }
 }

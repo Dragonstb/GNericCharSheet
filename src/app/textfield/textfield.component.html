@@ -1,17 +1,26 @@
 <fieldset #fieldSet class="editable">
     @if(editable){
         <legend class="ctrl-elem">{{fullId}}</legend>
-        <div class="spacingbottommedium" id="{{id}}-editPanel">
+        <div class="spacingbottommedium ctrl-elem" id="{{id}}-editPanel">
             <div>
-                <span class="aria-visible" aria-live="polite" >Currently {{rows}} rows</span>
-                <button (click)="addRow()" class="ctrl-elem">Expand by one row</button>
+                <label class="spacingrightsmall" for="titleform-{{id}}">Change title to:</label>
+                <input type="text" id="titleform-{{id}}" [formControl]="title">
             </div>
             <div>
-                <button (click)="deleteRow()" [disabled]="rows<2" id="{{id}}-shrink" class="ctrl-elem">Shrink by one row</button>
+                <span class="aria-visible" aria-live="polite" >Currently {{rows}} rows</span>
+                <button (click)="addRow()">Expand by one row</button>
+            </div>
+            <div>
+                <button id="{{id}}-shrink" [disabled]="rows<2" (click)="deleteRow()">Shrink by one row</button>
             </div>
         </div>
     }
-    <textarea [rows]="rows" [readonly]="!editable" [formControl]="text" class="boxed" (input)="fireElemChangedEvent()"></textarea>
+    <div class="boxed">
+        @if(hasTitle() || editable) {
+            <h4 class="elemtitle">{{title.value}}</h4>
+        }
+        <textarea class="noborder nopadding" [readonly]="!editable" [rows]="rows" [formControl]="text" (input)="fireElemChangedEvent()"></textarea>
+    </div>
     @if(editable) {
         <div class="ctrl-elem flexright spacingbottomsmall spacingtopmedium">
             <button (click)="deleteTextfield()">Delete textfield</button>
