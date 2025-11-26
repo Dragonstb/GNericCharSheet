@@ -16,8 +16,7 @@ export class GNericTable {
 
     private notLockedInfo: string = "Current cell is last focused one.";
 
-    @Input() id = signal('comp-02-02');
-    fullId = computed(()=>'table-'+this.id());
+    @Input() id: string = 'comp-02-02';
 
     maxCols: number = 6;
     cellLocked: boolean = false;
@@ -239,7 +238,7 @@ export class GNericTable {
     }
 
     deleteTable(): void {
-        this.deleteTableEvent.emit(this.id());
+        this.deleteTableEvent.emit(this.id);
     }
 
     fireElemChangedEvent(): void {
@@ -247,7 +246,7 @@ export class GNericTable {
         let texts: string[][] = this.alterer.getContent();
 
         const json = {
-            id: this.id(),
+            id: this.id,
             type: ElemTypes.table,
             widths: widths,
             texts: texts
@@ -317,7 +316,7 @@ export class GNericTable {
             return false;
         }
 
-        if(!this.validator.isForMe(this.id(), ElemTypes.table, model)) {
+        if(!this.validator.isForMe(this.id, ElemTypes.table, model)) {
             return false;
         }
 
@@ -387,6 +386,6 @@ export class GNericTable {
     }
 
     getId(): string {
-        return this.id();
+        return this.id;
     }
 }

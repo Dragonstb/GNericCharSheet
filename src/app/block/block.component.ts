@@ -10,7 +10,7 @@ import { ElemTypes } from "../elemtypes";
 @Component({
     selector: 'gneric-block',
     templateUrl: './block.component.html',
-    imports: [GnericTextfield, GNericTable]
+    imports: [GnericTextfield, GNericTable, GNericRessourcePointsManager, GNericItemList, GNericCheckboxList]
 })
 export class GNericBlock {
     
@@ -25,6 +25,9 @@ export class GNericBlock {
     elems: ElemModel[] = [
         new ElemModel(this.id+'-0', ElemTypes.textfield),
         new ElemModel(this.id+'-1', ElemTypes.table),
+        new ElemModel(this.id+'-2', ElemTypes.rpm),
+        new ElemModel(this.id+'-3', ElemTypes.itemlist),
+        new ElemModel(this.id+'-4', ElemTypes.checkboxes),
     ];
 
     setEditable(editable: boolean): void {

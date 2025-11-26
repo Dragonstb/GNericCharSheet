@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, output, inject, NgZone } from "@angular/core";
+import { Component, ViewChild, ElementRef, output, inject, NgZone, signal, computed, Input } from "@angular/core";
 import { GNericRPMRow } from "./rpmrow.component";
 import { GNericDamage } from "./damage";
 import { GNericRPRowStats } from "./rprowstatus";
@@ -16,11 +16,10 @@ export class GNericRessourcePointsManager {
 
     ngZone = inject(NgZone);
 
-    id = "comp-03-03";
-    fullId = "ressource-points-"+this.id;
+    @Input() id: string = "comp-03-03";
 
     showTextsCheckbox = new FormControl(true);
-    title = new FormControl('Ressource Points '+this.id);
+    title = new FormControl('Ressource Points title');
     textVisible = Boolean(this.showTextsCheckbox.value);
 
     absorbCheckbox = new FormControl();

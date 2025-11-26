@@ -1,17 +1,16 @@
-import { signal, WritableSignal } from "@angular/core";
 import { ElemTypes } from "../elemtypes";
 
 export class ElemModel {
 
-    id: WritableSignal<string>;
+    id: string;
     private type: ElemTypes;
 
     constructor(id: string, type: ElemTypes) {
-        this.id = signal(id);
+        this.id = id;
         this.type = type;
     }
 
-    getId(): WritableSignal<string> {
+    getId(): string {
         return this.id;
     }
 

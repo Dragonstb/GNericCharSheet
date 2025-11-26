@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, NgZone, output, signal, ViewChild } from "@angular/core";
+import { Component, ElementRef, inject, Input, NgZone, output, signal, ViewChild } from "@angular/core";
 import { GNericItemEntry } from "./itementry.component";
 import { GNericItemModel } from "./itemmodel";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
@@ -13,8 +13,7 @@ import { ValidatorService } from "../../services/validator";
 })
 export class GNericItemList {
 
-    id: string = 'comp-04-04';
-    fullId: string = 'itemlist-'+this.id;
+    @Input() id: string = 'comp-04-04';
 
     @ViewChild('modal') modal!: GNericAddItemModal;
     @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
@@ -27,7 +26,7 @@ export class GNericItemList {
 
     items: GNericItemModel[] = [];
 
-    listname = new FormControl('Items '+this.id);
+    listname = new FormControl('Items title');
 
     editable = signal(true);
     expanded = signal(true);

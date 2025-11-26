@@ -12,10 +12,9 @@ import { ValidatorService } from "../../services/validator";
 export class GNericCheckboxList {
 
     id: string = 'comp-05-05';
-    fullId: string = "checkboxes-"+this.id;
     editable = signal(true);
 
-    title = new FormControl('Checkboxes '+this.id);
+    title = new FormControl('Checkboxes title');
     @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
     deleteCheckboxesEvent = output<string>();
     gNericElemChangedEvent = output<object>();

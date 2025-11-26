@@ -1,6 +1,6 @@
 <fieldset #fieldSet class="editable elemblock">
     @if(editable()) {
-        <legend #legend class="ctrl-elem">{{fullId}}</legend>
+        <legend #legend class="ctrl-elem">itemlist-{{id}}</legend>
         <div class="ctrl-elem spacingbottommedium">
             <label class="spacingrightsmall" for="listnameform-{{id}}">List name:</label>
             <input type="text" id="listnameform-{{id}}" [formControl]="listname">

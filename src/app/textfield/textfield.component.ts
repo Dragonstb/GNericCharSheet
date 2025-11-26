@@ -10,8 +10,7 @@ import { ValidatorService } from "../../services/validator";
 })
 export class GnericTextfield {
 
-    @Input() id = signal("comp-01-01");
-    fullId = computed(()=>"textfield-"+this.id());
+    @Input() id: string = "comp-01-01";
     rows: number = 10;
     editable: boolean = true;
 
@@ -52,7 +51,7 @@ export class GnericTextfield {
 
     fireElemChangedEvent() {
         const json = {
-            id: this.id(),
+            id: this.id,
             type: ElemTypes.textfield,
             title: this.title.value ?? '',
             text: this.text.value ?? '',
@@ -62,7 +61,7 @@ export class GnericTextfield {
     }
 
     deleteTextfield() {
-        this.deleteTextfieldEvent.emit(this.id());
+        this.deleteTextfieldEvent.emit(this.id);
     }
 
     validateModel(model: any): boolean {
@@ -70,7 +69,7 @@ export class GnericTextfield {
             return false;
         }
 
-        if(!this.validator.isForMe(this.id(), ElemTypes.textfield, model)) {
+        if(!this.validator.isForMe(this.id, ElemTypes.textfield, model)) {
             return false;
         }
 
@@ -104,7 +103,7 @@ export class GnericTextfield {
     }
 
     getId(): string {
-        return this.id();
+        return this.id;
     }
 
     hasTitle(): boolean {

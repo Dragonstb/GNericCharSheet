@@ -1,17 +1,17 @@
 <fieldset #fieldSet class="editable elemblock">
     @if(editable){
-        <legend class="ctrl-elem">{{fullId()}}</legend>
-        <div class="spacingbottommedium ctrl-elem" id="{{id()}}-editPanel">
+        <legend class="ctrl-elem">textfield-{{id}}</legend>
+        <div class="spacingbottommedium ctrl-elem" id="{{id}}-editPanel">
             <div class="spacingbottomsmall">
-                <label class="spacingrightsmall" for="titleform-{{id()}}">Change title to:</label>
-                <input type="text" id="titleform-{{id()}}" [formControl]="title">
+                <label class="spacingrightsmall" for="titleform-{{id}}">Change title to:</label>
+                <input type="text" id="titleform-{{id}}" [formControl]="title">
             </div>
             <div>
                 <span class="aria-visible" aria-live="polite" >Currently {{rows}} rows</span>
                 <button (click)="addRow()">Expand by one row</button>
             </div>
             <div>
-                <button id="{{id()}}-shrink" [disabled]="rows<2" (click)="deleteRow()">Shrink by one row</button>
+                <button id="{{id}}-shrink" [disabled]="rows<2" (click)="deleteRow()">Shrink by one row</button>
             </div>
         </div>
     }

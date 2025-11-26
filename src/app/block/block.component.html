@@ -1,5 +1,4 @@
 <div>
-    <!-- <gneric-textfield /> -->
     @for(elem of elems; track elem.getId()) {
         @switch(elem.getType()) {
             @case('textfield') {
@@ -7,6 +6,15 @@
             }
             @case('table') {
                 <gneric-table [id]="elem.getId()" />
+            }
+            @case('rpm') {
+                <gneric-rpm [id]="elem.getId()" />
+            }
+            @case('itemlist') {
+                <gneric-itemlist [id]="elem.getId()" />
+            }
+            @case('checkboxes') {
+                <gneric-checkboxes [id]="elem.getId()" />
             }
         }
     }
