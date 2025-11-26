@@ -1,13 +1,15 @@
 <fieldset #fieldSet class="editable">
     @if(editable()) {
         <legend class="ctrl-elem">{{fullId}}</legend>
-        <div class="ctrl-elem">
-            <label class="spacingrightsmall" for="titleform">Change title to:</label>
-            <input type="text" id="titleform" (input)="this.fireElemChangeEvent()" [formControl]="title">
-        </div>
         <div class="ctrl-elem spacingbottommedium spacingtopsmall">
-            <button (click)="addRow()">Add row</button>
-            <button (click)="removeRow()" [disabled]="rows.length<2">Remove row</button>
+            <div>
+                <label class="spacingrightsmall" for="titleform">Change title to:</label>
+                <input type="text" id="titleform" (input)="this.fireElemChangeEvent()" [formControl]="title">
+            </div>
+            <div>
+                <button (click)="addRow()">Add row</button>
+                <button (click)="removeRow()" [disabled]="rows.length<2">Remove row</button>
+            </div>
         </div>
     }
     <div class="boxed paddingsmall">
