@@ -1,11 +1,12 @@
-import { Component, Input, output } from "@angular/core";
+import { Component, Input, output, ViewChild } from "@angular/core";
 import { GNericItemModel } from "./itemmodel";
 import { ReactiveFormsModule } from "@angular/forms";
+import { GNericDelItemModal } from "./delitemmodal.component";
 
 @Component({
     selector: 'gneric-itementry',
     templateUrl: './itementry.component.html',
-    imports: [ReactiveFormsModule]
+    imports: [GNericDelItemModal, ReactiveFormsModule]
 })
 export class GNericItemEntry {
 
@@ -15,9 +16,14 @@ export class GNericItemEntry {
 
     deleteEntryEvent = output();
     gNericElemChangedEvent = output<object>();
+    @ViewChild('modal') modalDialog!: GNericDelItemModal;
 
     toggleExpansion(): void {
         this.expanded = !this.expanded;
+    }
+
+    requestDeletionOfEntry(): void {
+        this.modalDialog.openDialog();
     }
 
     fireDeleteEntryEvent(): void {

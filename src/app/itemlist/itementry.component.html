@@ -32,6 +32,7 @@
         }
     </div>
     <div class="flexright spacingbottommedium spacingtopmedium">
-        <button (click)="fireDeleteEntryEvent()">Delete {{model.name.value}}</button>
+        <button (click)="requestDeletionOfEntry()">Delete {{model.name.value}}</button>
     </div>
 }
+<gneric-delitemdialog #modal (acceptDeletionEvent)="fireDeleteEntryEvent()" />
