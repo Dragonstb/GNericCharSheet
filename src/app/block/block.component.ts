@@ -1,4 +1,4 @@
-import { Component, viewChildren } from "@angular/core";
+import { Component, ElementRef, signal, ViewChild, viewChildren } from "@angular/core";
 import { GnericTextfield } from "../textfield/textfield.component";
 import { GNericTable } from "../table/table.component";
 import { GNericRessourcePointsManager } from "../ressourcepoints/rpm.component";
@@ -16,11 +16,14 @@ export class GNericBlock {
     
     private id: string = 'comp-0';
     private idCounter = 0;
+    @ViewChild('block', {static: true}) block!: ElementRef<HTMLDivElement>;
     textfields = viewChildren(GnericTextfield);
     tables = viewChildren(GNericTable);
     rpms = viewChildren(GNericRessourcePointsManager);
     itemlists = viewChildren(GNericItemList);
     checkboxes = viewChildren(GNericCheckboxList);
+
+    editable = signal(true);
   
     elems: ElemModel[] = [
         new ElemModel(this.id+'-0', ElemTypes.textfield),
@@ -31,6 +34,8 @@ export class GNericBlock {
     ];
 
     setEditable(editable: boolean): void {
+        this.editable.set(editable);
+
         this.textfields().forEach(elem => {
             elem.setEditable(editable);
         });
@@ -46,5 +51,14 @@ export class GNericBlock {
         this.checkboxes().forEach(elem => {
             elem.setEditable(editable);
         });
+
+        const classname = 'blockbox';
+        const hasBorder = this.block.nativeElement.classList.contains(classname);
+        if(editable && !hasBorder) {
+            this.block.nativeElement.classList.add(classname);
+        }
+        else if(!editable && hasBorder) {
+            this.block.nativeElement.classList.remove(classname);
+        }
     }
 }

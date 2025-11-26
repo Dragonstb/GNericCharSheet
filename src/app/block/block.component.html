@@ -1,4 +1,4 @@
-<div>
+<div #block class="blockbox">
     @for(elem of elems; track elem.getId()) {
         @switch(elem.getType()) {
             @case('textfield') {
@@ -17,5 +17,14 @@
                 <gneric-checkboxes [id]="elem.getId()" />
             }
         }
+    }
+    @if(editable()) {
+        <div class="ctrl-elem spacingbottommedium">
+            <button>Add textfield</button>
+            <button>Add table</button>
+            <button>Add ressource points</button>
+            <button>Add item list</button>
+            <button>Add checkboxes</button>
+        </div>
     }
 </div>
