@@ -21,7 +21,7 @@ export class GnericTextfield {
     @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
 
     text = new FormControl('Insert text');
-    title = new FormControl('Textfield');
+    title = new FormControl('Textfield '+this.id);
     validator = inject(ValidatorService);
 
     addRow() {

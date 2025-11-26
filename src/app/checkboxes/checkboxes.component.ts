@@ -15,7 +15,7 @@ export class GNericCheckboxList {
     fullId: string = "checkboxes-"+this.id;
     editable = signal(true);
 
-    title = new FormControl('');
+    title = new FormControl('Checkboxes '+this.id);
     @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
     deleteCheckboxesEvent = output<string>();
     gNericElemChangedEvent = output<object>();
@@ -24,8 +24,6 @@ export class GNericCheckboxList {
     ngZone = inject(NgZone);
 
     rows: GNericBoxRowModel[] = [
-        new GNericBoxRowModel(),
-        new GNericBoxRowModel(),
         new GNericBoxRowModel()
     ]
 

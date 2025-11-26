@@ -28,9 +28,7 @@ export class GNericRessourcePointsManager {
     pattern = /^[+\-=]?([A-Za-z]?\d+)([A-Za-z]\d+)*$/;
     dmgInput: FormControl = new FormControl('');
     rows: GNericRPRowStats[] = [
-        new GNericRPRowStats(0, 4),
-        new GNericRPRowStats(1, 4),
-        new GNericRPRowStats(2, 4),
+        new GNericRPRowStats(0, 4)
     ];
     damage = new GNericDamage();
     editable: boolean = true;

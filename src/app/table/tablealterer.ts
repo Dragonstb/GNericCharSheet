@@ -3,9 +3,9 @@ import { CellModel } from "./cellmodel";
 export class TableAlterer {
 
     content: CellModel[][] = [
-        [new CellModel('r1c1'), new CellModel('r1c2')],
-        [new CellModel('r2c1'), new CellModel('r2c2')],
-        [new CellModel('r3c1'), new CellModel('r3c2')],
+        [new CellModel(''), new CellModel('')],
+        [new CellModel(''), new CellModel('')],
+        [new CellModel(''), new CellModel('')],
     ];
 
     addRowAtIndex(idx: number): void {

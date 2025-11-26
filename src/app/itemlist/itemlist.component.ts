@@ -25,13 +25,9 @@ export class GNericItemList {
     validator = inject(ValidatorService);
     ngZone = inject(NgZone);
 
-    items: GNericItemModel[] = [
-        new GNericItemModel('1', 'Sword', 'Attack + 2\nAttack speed: 3\nDamage: 2d6'),
-        new GNericItemModel('2', 'Axe', 'Attack + 4\nAttack speed: 1\nDamage: 2d6+3'),
-        new GNericItemModel('3', 'Shield', 'Defense + 2\nAttack speed: -1'),
-    ];
+    items: GNericItemModel[] = [];
 
-    listname = new FormControl('Items');
+    listname = new FormControl('Items '+this.id);
 
     editable = signal(true);
     expanded = signal(true);
