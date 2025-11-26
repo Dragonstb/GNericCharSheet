@@ -7,10 +7,11 @@ import { ElemTypes } from './elemtypes';
 import { GNericRessourcePointsManager } from './ressourcepoints/rpm.component';
 import { GNericItemList } from './itemlist/itemlist.component';
 import { GNericCheckboxList } from './checkboxes/checkboxes.component';
+import { GNericBlock } from './block/block.component';
 
 @Component({
   selector: 'app-root',
-  imports: [GnericTextfield, GNericTable, GNericRessourcePointsManager, GNericItemList, GNericCheckboxList],
+  imports: [GNericBlock],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })
@@ -22,10 +23,15 @@ export class GNericMainComponent {
   rpms = viewChildren(GNericRessourcePointsManager);
   itemlists = viewChildren(GNericItemList);
   checkboxes = viewChildren(GNericCheckboxList);
+  blocks = viewChildren(GNericBlock);
 
   setElemsEditable(event: Event) {
     const checkbox = event.target as HTMLInputElement;
     const checked: boolean = checkbox.checked;
+
+    this.blocks().forEach(block => {
+      block.setEditable(checked);
+    });
 
     this.textfields().forEach(tf => {
       tf.setEditable(checked);

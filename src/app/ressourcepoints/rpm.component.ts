@@ -451,4 +451,12 @@ export class GNericRessourcePointsManager {
     hasTitle(): boolean {
         return Boolean(this.title.value);
     }
+
+    getType(): ElemTypes {
+        return ElemTypes.rpm;
+    }
+
+    getId(): string {
+        return this.id;
+    }
 }

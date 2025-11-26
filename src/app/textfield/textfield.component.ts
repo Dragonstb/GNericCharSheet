@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, output, ViewChild } from "@angular/core";
+import { Component, computed, ElementRef, inject, Input, output, signal, ViewChild } from "@angular/core";
 import { ElemTypes } from "../elemtypes";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { ValidatorService } from "../../services/validator";
@@ -10,8 +10,8 @@ import { ValidatorService } from "../../services/validator";
 })
 export class GnericTextfield {
 
-    id: string = "comp-01-01";
-    fullId: string = "textfield-"+this.id;
+    @Input() id = signal("comp-01-01");
+    fullId = computed(()=>"textfield-"+this.id());
     rows: number = 10;
     editable: boolean = true;
 
@@ -21,7 +21,7 @@ export class GnericTextfield {
     @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
 
     text = new FormControl('Insert text');
-    title = new FormControl('Textfield '+this.id);
+    title = new FormControl('Textfield title');
     validator = inject(ValidatorService);
 
     addRow() {
@@ -52,7 +52,7 @@ export class GnericTextfield {
 
     fireElemChangedEvent() {
         const json = {
-            id: this.id,
+            id: this.id(),
             type: ElemTypes.textfield,
             title: this.title.value ?? '',
             text: this.text.value ?? '',
@@ -62,7 +62,7 @@ export class GnericTextfield {
     }
 
     deleteTextfield() {
-        this.deleteTextfieldEvent.emit(this.id);
+        this.deleteTextfieldEvent.emit(this.id());
     }
 
     validateModel(model: any): boolean {
@@ -70,7 +70,7 @@ export class GnericTextfield {
             return false;
         }
 
-        if(!this.validator.isForMe(this.id, ElemTypes.textfield, model)) {
+        if(!this.validator.isForMe(this.id(), ElemTypes.textfield, model)) {
             return false;
         }
 
@@ -104,10 +104,14 @@ export class GnericTextfield {
     }
 
     getId(): string {
-        return this.id;
+        return this.id();
     }
 
     hasTitle(): boolean {
         return Boolean(this.title.value);
+    }
+
+    getType(): ElemTypes {
+        return ElemTypes.textfield;
     }
 }

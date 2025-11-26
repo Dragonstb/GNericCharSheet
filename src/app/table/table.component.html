@@ -1,10 +1,10 @@
 <fieldset #fieldSet class="editable elemblock">
     @if(editable) {
-        <legend #legend class="ctrl-elem">{{fullId}}</legend>
+        <legend #legend class="ctrl-elem">{{fullId()}}</legend>
         <div #editPanel class="ctrl-elem spacingbottommedium">
             <div class="spacingbottomsmall">
-                <label class="spacingrightsmall" for="titleform-{{id}}">Change title to:</label>
-                <input type="text" id="titleform-{{id}}" [formControl]="title">
+                <label class="spacingrightsmall" for="titleform-{{id()}}">Change title to:</label>
+                <input type="text" id="titleform-{{id()}}" [formControl]="title">
             </div>
             <div>
                 <button [disabled]="curRow<0 || curCol<0" (click)="addRowAboveCurrent()">Add row above current</button>

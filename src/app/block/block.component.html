@@ -1,0 +1,13 @@
+<div>
+    <!-- <gneric-textfield /> -->
+    @for(elem of elems; track elem.getId()) {
+        @switch(elem.getType()) {
+            @case('textfield') {
+                <gneric-textfield [id]="elem.getId()" />
+            }
+            @case('table') {
+                <gneric-table [id]="elem.getId()" />
+            }
+        }
+    }
+</div>

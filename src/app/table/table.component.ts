@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, NgZone, output, ViewChild } from "@angular/core";
+import { Component, computed, ElementRef, inject, Input, NgZone, output, signal, ViewChild } from "@angular/core";
 import { CdkDrag } from "@angular/cdk/drag-drop";
 import { TableAlterer } from "./tablealterer";
 import { WidthController } from "./widthcontroller";
@@ -16,8 +16,8 @@ export class GNericTable {
 
     private notLockedInfo: string = "Current cell is last focused one.";
 
-    id: string = 'comp-02-02';
-    fullId: string = 'table-'+this.id;
+    @Input() id = signal('comp-02-02');
+    fullId = computed(()=>'table-'+this.id());
 
     maxCols: number = 6;
     cellLocked: boolean = false;
@@ -29,7 +29,7 @@ export class GNericTable {
 
     alterer: TableAlterer = new TableAlterer();
     widthController: WidthController = new WidthController(this);
-    title = new FormControl('Table '+this.id);
+    title = new FormControl('Table title');
 
     @ViewChild('tableBody', {static: true}) tableBody!: ElementRef<HTMLTableSectionElement>;
     @ViewChild('dragContainer', {static: true}) dragContainer: ElementRef<HTMLDivElement> | undefined;
@@ -239,7 +239,7 @@ export class GNericTable {
     }
 
     deleteTable(): void {
-        this.deleteTableEvent.emit(this.id);
+        this.deleteTableEvent.emit(this.id());
     }
 
     fireElemChangedEvent(): void {
@@ -247,7 +247,7 @@ export class GNericTable {
         let texts: string[][] = this.alterer.getContent();
 
         const json = {
-            id: this.id,
+            id: this.id(),
             type: ElemTypes.table,
             widths: widths,
             texts: texts
@@ -317,7 +317,7 @@ export class GNericTable {
             return false;
         }
 
-        if(!this.validator.isForMe(this.id, ElemTypes.table, model)) {
+        if(!this.validator.isForMe(this.id(), ElemTypes.table, model)) {
             return false;
         }
 
@@ -380,5 +380,13 @@ export class GNericTable {
 
     hasTitle(): boolean {
         return Boolean(this.title.value);
+    }
+
+    getType(): ElemTypes {
+        return ElemTypes.table;
+    }
+
+    getId(): string {
+        return this.id();
     }
 }

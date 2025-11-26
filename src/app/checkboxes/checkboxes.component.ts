@@ -154,4 +154,12 @@ export class GNericCheckboxList {
         }
 
     }
+
+    getType(): ElemTypes {
+        return ElemTypes.checkboxes;
+    }
+
+    getId(): string {
+        return this.id;
+    }
 }

@@ -208,4 +208,12 @@ export class GNericItemList {
             }
         }
     }
+
+    getType(): ElemTypes {
+        return ElemTypes.itemlist;
+    }
+
+    getId(): string {
+        return this.id;
+    }
 }
