@@ -4,7 +4,7 @@
         <div class="ctrl-elem spacingbottommedium">
             <div class="spacingbottomsmall">
                 <label class="spacingrightsmall" for="titleform-{{id}}">Change title to:</label>
-                <input type="text" id="titleform-{{id}}" [formControl]="title">
+                <input type="text" id="titleform-{{id}}" [formControl]="title" (input)="fireElemChangeEvent()">
             </div>
             <div>
                 <div>

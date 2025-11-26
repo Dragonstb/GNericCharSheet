@@ -4,7 +4,7 @@
         <div class="spacingbottommedium ctrl-elem" id="{{id}}-editPanel">
             <div class="spacingbottomsmall">
                 <label class="spacingrightsmall" for="titleform-{{id}}">Change title to:</label>
-                <input type="text" id="titleform-{{id}}" [formControl]="title">
+                <input type="text" id="titleform-{{id}}" [formControl]="title" (input)="fireElemChangedEvent()">
             </div>
             <div>
                 <span class="aria-visible" aria-live="polite" >Currently {{rows}} rows</span>

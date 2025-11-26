@@ -107,7 +107,7 @@ describe( 'GNericTextfield', () => {
 
     it( 'Should fire a delete event when pressing the dispose button', () => {
         let fired = false;
-        textfield.deleteTextfieldEvent.subscribe( () => {fired = true;} );
+        textfield.deleteCoreElemEvent.subscribe( () => {fired = true;} );
         textfield.deleteTextfield();
         expect( fired ).toBeTrue();
     });

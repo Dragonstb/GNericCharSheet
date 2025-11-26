@@ -249,7 +249,8 @@ export class GNericTable {
             id: this.id,
             type: ElemTypes.table,
             widths: widths,
-            texts: texts
+            texts: texts,
+            title: this.title.value ?? ''
         }
         this.gNericElemChangedEvent.emit(json);
     }
