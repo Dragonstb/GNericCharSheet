@@ -1,4 +1,4 @@
-import { Component, inject, NgZone, output, signal } from "@angular/core";
+import { Component, ElementRef, inject, NgZone, output, signal, ViewChild } from "@angular/core";
 import { GNericBoxRowModel } from "./boxrowmodel";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { ElemTypes } from "../elemtypes";
@@ -16,7 +16,7 @@ export class GNericCheckboxList {
     editable = signal(true);
 
     title = new FormControl('');
-
+    @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
     deleteCheckboxesEvent = output<string>();
     gNericElemChangedEvent = output<object>();
 
@@ -31,6 +31,13 @@ export class GNericCheckboxList {
 
     setEditable(editable: boolean) {
         this.editable.set(editable);
+        const hasClassEditable = this.fieldSet.nativeElement.classList.contains('editable');
+        if(editable && !hasClassEditable) {
+            this.fieldSet.nativeElement.classList.add('editable');
+        }
+        else if(!editable && hasClassEditable) {
+            this.fieldSet.nativeElement.classList.remove('editable');
+        }
     }
 
     hasTitle(): boolean {

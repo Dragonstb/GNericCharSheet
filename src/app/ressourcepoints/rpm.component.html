@@ -1,4 +1,4 @@
-<fieldset #fieldSet class="editable">
+<fieldset #fieldSet class="editable elemblock">
     @if(editable) {
         <legend #legend class="ctrl-elem">{{fullId}}</legend>
         <div class="ctrl-elem spacingbottommedium">
@@ -50,11 +50,11 @@
             </div>
         }
         @for(row of rows; track row.id) {
-            @if(!$first || !editable || hasTitle()) {
+            @if(textVisible) {
                 <gneric-rpmrow class="paddingleftsmall thintopborder blockdisplay" [status]="row" [showText]="textVisible" [textEditable]="editable" (input)="fireElemChangeEvent()" />
             }
             @else {
-                <gneric-rpmrow class="paddingleftsmall blockdisplay" [status]="row" [showText]="textVisible" [textEditable]="editable" (input)="fireElemChangeEvent()" />
+                <gneric-rpmrow class="thintopborder blockdisplay" [status]="row" [showText]="textVisible" [textEditable]="editable" (input)="fireElemChangeEvent()" />
             }
         }
     </div>
