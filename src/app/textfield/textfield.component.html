@@ -22,7 +22,7 @@
         <textarea class="noborder paddingsmall" [readonly]="!editable" [rows]="rows" [formControl]="text" (input)="fireElemChangedEvent()"></textarea>
     </div>
     @if(editable) {
-        <div class="ctrl-elem flexright spacingbottomsmall spacingtopmedium">
+        <div class="ctrl-elem flexend spacingbottomsmall spacingtopmedium">
             <button (click)="deleteTextfield()">Delete textfield</button>
         </div>
     }
