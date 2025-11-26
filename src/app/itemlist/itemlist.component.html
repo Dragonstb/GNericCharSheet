@@ -6,7 +6,7 @@
             <input type="text" id="listnameform-{{id}}" [formControl]="listname">
         </div>
     }
-    <div class="boxed">
+    <div>
         <button class="accordeonhead" (click)="toggleExpansion()" [attr.aria-controls]="'item-list-'+listname.value" [attr.aria-expanded]="expanded()">
         <h4 class="inheritbg">{{listname.value}}</h4>
         <svg class="svgicon size20 inheritbg" aria-hidden="true"
