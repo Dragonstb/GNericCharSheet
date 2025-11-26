@@ -2,7 +2,7 @@
     @if(editable()) {
         <legend class="ctrl-elem">{{fullId}}</legend>
         <div class="ctrl-elem spacingbottommedium spacingtopsmall">
-            <div>
+            <div class="spacingbottomsmall">
                 <label class="spacingrightsmall" for="titleform">Change title to:</label>
                 <input type="text" id="titleform" (input)="this.fireElemChangeEvent()" [formControl]="title">
             </div>

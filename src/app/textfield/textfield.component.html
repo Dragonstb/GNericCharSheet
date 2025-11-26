@@ -2,7 +2,7 @@
     @if(editable){
         <legend class="ctrl-elem">{{fullId}}</legend>
         <div class="spacingbottommedium ctrl-elem" id="{{id}}-editPanel">
-            <div>
+            <div class="spacingbottomsmall">
                 <label class="spacingrightsmall" for="titleform-{{id}}">Change title to:</label>
                 <input type="text" id="titleform-{{id}}" [formControl]="title">
             </div>
