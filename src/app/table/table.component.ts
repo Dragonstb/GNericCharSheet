@@ -36,7 +36,7 @@ export class GNericTable {
 
     windowResizeHandler = ()=>this.adaptNewSize();
 
-    deleteTableEvent = output<string>();
+    deleteCoreElemEvent = output<string>();
     gNericElemChangedEvent = output<object>();
 
     private validator = inject(ValidatorService);
@@ -238,7 +238,7 @@ export class GNericTable {
     }
 
     deleteTable(): void {
-        this.deleteTableEvent.emit(this.id);
+        this.deleteCoreElemEvent.emit(this.id);
     }
 
     fireElemChangedEvent(): void {

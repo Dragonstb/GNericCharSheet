@@ -18,7 +18,7 @@ export class GNericItemList {
     @ViewChild('modal') modal!: GNericAddItemModal;
     @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
 
-    deleteItemListEvent = output<string>();
+    deleteCoreElemEvent = output<string>();
     gNericElemChangedEvent = output<object>();
 
     validator = inject(ValidatorService);
@@ -68,7 +68,7 @@ export class GNericItemList {
     }
 
     fireDeleteItemlistEvent(): void {
-        this.deleteItemListEvent.emit(this.id);
+        this.deleteCoreElemEvent.emit(this.id);
     }
 
     fireEntryChangeEvent(json: object) {

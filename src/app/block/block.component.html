@@ -2,19 +2,19 @@
     @for(elem of elems; track elem.getId()) {
         @switch(elem.getType()) {
             @case('textfield') {
-                <gneric-textfield [id]="elem.getId()" />
+                <gneric-textfield [id]="elem.getId()" (deleteCoreElemEvent)="deleteElement($event)" (gNericElemChangedEvent)="reactOnChange($event)"/>
             }
             @case('table') {
-                <gneric-table [id]="elem.getId()" />
+                <gneric-table [id]="elem.getId()" (deleteCoreElemEvent)="deleteElement($event)" (gNericElemChangedEvent)="reactOnChange($event)"/>
             }
             @case('rpm') {
-                <gneric-rpm [id]="elem.getId()" />
+                <gneric-rpm [id]="elem.getId()" (deleteCoreElemEvent)="deleteElement($event)" (gNericElemChangedEvent)="reactOnChange($event)"/>
             }
             @case('itemlist') {
-                <gneric-itemlist [id]="elem.getId()" />
+                <gneric-itemlist [id]="elem.getId()" (deleteCoreElemEvent)="deleteElement($event)" (gNericElemChangedEvent)="reactOnChange($event)"/>
             }
             @case('checkboxes') {
-                <gneric-checkboxes [id]="elem.getId()" />
+                <gneric-checkboxes [id]="elem.getId()" (deleteCoreElemEvent)="deleteElement($event)" (gNericElemChangedEvent)="reactOnChange($event)"/>
             }
         }
     }

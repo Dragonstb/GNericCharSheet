@@ -14,7 +14,7 @@ export class GnericTextfield {
     rows: number = 10;
     editable: boolean = true;
 
-    deleteTextfieldEvent = output<string>();
+    deleteCoreElemEvent = output<string>();
     gNericElemChangedEvent = output<object>();
 
     @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
@@ -61,7 +61,7 @@ export class GnericTextfield {
     }
 
     deleteTextfield() {
-        this.deleteTextfieldEvent.emit(this.id);
+        this.deleteCoreElemEvent.emit(this.id);
     }
 
     validateModel(model: any): boolean {

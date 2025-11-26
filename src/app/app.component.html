@@ -19,5 +19,5 @@
   <gneric-checkboxes 
     (deleteCheckboxesEvent)="deleteCheckboxes($event)"
     (gNericElemChangedEvent)="reactOnChange($event)" /> -->
-    <gneric-block />
+    <gneric-block (gNericElemChangedEvent)="reactOnChange($event)" />
 </main>

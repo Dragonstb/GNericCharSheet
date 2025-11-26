@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, NgZone, output, signal, ViewChild } from "@angular/core";
+import { Component, ElementRef, inject, Input, NgZone, output, signal, ViewChild } from "@angular/core";
 import { GNericBoxRowModel } from "./boxrowmodel";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { ElemTypes } from "../elemtypes";
@@ -11,12 +11,12 @@ import { ValidatorService } from "../../services/validator";
 })
 export class GNericCheckboxList {
 
-    id: string = 'comp-05-05';
+    @Input() id: string = 'comp-05-05';
     editable = signal(true);
 
     title = new FormControl('Checkboxes title');
     @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
-    deleteCheckboxesEvent = output<string>();
+    deleteCoreElemEvent = output<string>();
     gNericElemChangedEvent = output<object>();
 
     validator = inject(ValidatorService);
@@ -66,7 +66,7 @@ export class GNericCheckboxList {
     }
 
     fireDeleteCheckboxesEvent() {
-        this.deleteCheckboxesEvent.emit(this.id);
+        this.deleteCoreElemEvent.emit(this.id);
     }
 
     fireElemChangeEvent(): void {

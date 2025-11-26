@@ -8,6 +8,7 @@ import { GNericRessourcePointsManager } from './ressourcepoints/rpm.component';
 import { GNericItemList } from './itemlist/itemlist.component';
 import { GNericCheckboxList } from './checkboxes/checkboxes.component';
 import { GNericBlock } from './block/block.component';
+import { ValidatorService } from '../services/validator';
 
 @Component({
   selector: 'app-root',
@@ -18,12 +19,8 @@ import { GNericBlock } from './block/block.component';
 export class GNericMainComponent {
   title = 'GNericCharSheet';
   broadcaster: BroadCaster = inject(BroadCaster);
-  textfields = viewChildren(GnericTextfield);
-  tables = viewChildren(GNericTable);
-  rpms = viewChildren(GNericRessourcePointsManager);
-  itemlists = viewChildren(GNericItemList);
-  checkboxes = viewChildren(GNericCheckboxList);
   blocks = viewChildren(GNericBlock);
+  private validator = inject(ValidatorService);
 
   setElemsEditable(event: Event) {
     const checkbox = event.target as HTMLInputElement;
@@ -33,91 +30,21 @@ export class GNericMainComponent {
       block.setEditable(checked);
     });
 
-    this.textfields().forEach(tf => {
-      tf.setEditable(checked);
-    });
-
-    this.tables().forEach(tbl => {
-      tbl.setEditable(checked);
-    });
-
-    this.rpms().forEach(rpm => {
-      rpm.setEditable(checked);
-    });
-
-    this.itemlists().forEach(list => {
-      list.setEditable(checked);
-    });
-
-    this.checkboxes().forEach(box => {
-      box.setEditable(checked);
-    });
   }
 
   reactOnChange(json: object) {
-    this.broadcaster.handleOutgoingMessage(json);
-  }
-
-  deleteTextfield(elemId: string) {
-    console.log(elemId);
-  }
-  
-  deleteTable(elemId: string) {
-    console.log('deleting '+elemId);
-  }
-
-  deleteRPM(elemId: string) {
-    console.log('deleting '+elemId);
-  }
-
-  deleteItemList(elemId: string) {
-    console.log('deleting item list '+elemId);
-  }
-  
-  deleteCheckboxes(elemId: string) {
-    console.log('deleting checkboxes '+elemId);
+    console.dir(json);
+    // this.broadcaster.handleOutgoingMessage(json);
   }
 
   setModel(model: any) {
-    if(model.type){
-      switch(model.type) {
-        case ElemTypes.textfield:
-          if(this.textfields().length > 0) {
-            this.textfields()[0].setModel(model);
-          }
-          break;
-        case ElemTypes.table:
-          if(this.tables().length > 0) {
-            this.tables()[0].setModel(model);
-          }
-          break;
-        case ElemTypes.rpm:
-          if(this.rpms().length > 0) {
-            this.rpms()[0].setModel(model);
-          }
-          break;
-          case ElemTypes.itemlist:
-            if(this.itemlists().length > 0) {
-              this.itemlists()[0].setModel(model);
-            }
-          break;
-          case ElemTypes.itementry:
-            if(this.itemlists().length > 0) {
-              this.itemlists()[0].setModel(model);
-            }
-          break;
-          case ElemTypes.checkboxes:
-            if(this.checkboxes().length > 0) {
-              this.checkboxes()[0].setModel(model);
-            }
-          break;
-        default:
-          console.log('received model of unexpected type');
-          break;
+    if(this.validator.hasNonEmptyStringProperty('id', model)) {
+      if(this.blocks().length > 0) {
+        this.blocks()[0].setModel(model);
       }
     }
-    else{
-      console.log('received model without type');
+    else {
+      console.log('GNeric Char Sheet: received model without id.');
     }
   }
 

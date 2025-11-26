@@ -35,7 +35,7 @@ export class GNericRessourcePointsManager {
     @ViewChild('checkmark') checkmark: ElementRef | undefined;
     @ViewChild('modal') modal!: GNericDmgConfModal;
 
-    deleteRPMEvent = output<string>();
+    deleteCoreElemEvent = output<string>();
     gNericElemChangedEvent = output<object>();
 
     tierMap: Map<string, number> = new Map();
@@ -257,7 +257,7 @@ export class GNericRessourcePointsManager {
     }
 
     fireDeleteRPMEvent(): void {
-        this.deleteRPMEvent.emit(this.id);
+        this.deleteCoreElemEvent.emit(this.id);
     }
 
     fireElemChangeEvent(): void {

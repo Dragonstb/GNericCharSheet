@@ -1,4 +1,4 @@
-import { Component, ElementRef, signal, ViewChild, viewChildren } from "@angular/core";
+import { Component, ElementRef, output, signal, ViewChild, viewChildren } from "@angular/core";
 import { GnericTextfield } from "../textfield/textfield.component";
 import { GNericTable } from "../table/table.component";
 import { GNericRessourcePointsManager } from "../ressourcepoints/rpm.component";
@@ -24,6 +24,7 @@ export class GNericBlock {
     checkboxes = viewChildren(GNericCheckboxList);
 
     editable = signal(true);
+    gNericElemChangedEvent = output<object>();
   
     elems: ElemModel[] = [
         new ElemModel(this.id+'-0', ElemTypes.textfield),
@@ -60,5 +61,48 @@ export class GNericBlock {
         else if(!editable && hasBorder) {
             this.block.nativeElement.classList.remove(classname);
         }
+    }
+
+    deleteElement(elemId: string): void {
+        console.log('deleting '+elemId);
+    }
+
+    reactOnChange(json: object): void {
+        this.gNericElemChangedEvent.emit(json);
+    }
+
+    setModel(model: any): void {
+        const targetId = model.id;
+
+        this.textfields().forEach(elem => {
+            if(elem.getId() === targetId) {
+                elem.setModel(model);
+                return;
+            }
+        });
+        this.tables().forEach(elem => {
+            if(elem.getId() === targetId) {
+                elem.setModel(model);
+                return;
+            }
+        });
+        this.rpms().forEach(elem => {
+            if(elem.getId() === targetId) {
+                elem.setModel(model);
+                return;
+            }
+        });
+        this.textfields().forEach(elem => {
+            if(elem.getId() === targetId) {
+                elem.setModel(model);
+                return;
+            }
+        });
+        this.checkboxes().forEach(elem => {
+            if(elem.getId() === targetId) {
+                elem.setModel(model);
+                return;
+            }
+        });
     }
 }
