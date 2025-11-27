@@ -8,17 +8,19 @@ import { ElemModel } from "./elemmodel";
 import { ElemTypes } from "../elemtypes";
 import { ValidatorService } from "../../services/validator";
 import { Utils } from "../../services/utils";
+import { GNericDelElemModal } from "./delelemmodal.component";
 
 @Component({
     selector: 'gneric-block',
     templateUrl: './block.component.html',
-    imports: [GnericTextfield, GNericTable, GNericRessourcePointsManager, GNericItemList, GNericCheckboxList]
+    imports: [GnericTextfield, GNericTable, GNericRessourcePointsManager, GNericItemList, GNericCheckboxList, GNericDelElemModal]
 })
 export class GNericBlock {
     
     private id: string = 'comp-0';
     private idCounter = 0;
     @ViewChild('block', {static: true}) block!: ElementRef<HTMLDivElement>;
+    @ViewChild('modal') modal!: GNericDelElemModal;
     textfields = viewChildren(GnericTextfield);
     tables = viewChildren(GNericTable);
     rpms = viewChildren(GNericRessourcePointsManager);
@@ -32,14 +34,9 @@ export class GNericBlock {
     ngZone = inject(NgZone);
 
     private idKey = this.utils.getRandomString(4);
+    private nextToDelete: string | undefined = undefined;
   
-    elems: ElemModel[] = [
-        new ElemModel(this.id+'-0', ElemTypes.textfield),
-        new ElemModel(this.id+'-1', ElemTypes.table),
-        new ElemModel(this.id+'-2', ElemTypes.rpm),
-        new ElemModel(this.id+'-3', ElemTypes.itemlist),
-        new ElemModel(this.id+'-4', ElemTypes.checkboxes),
-    ];
+    elems: ElemModel[] = [];
 
     setEditable(editable: boolean): void {
         this.editable.set(editable);
@@ -70,7 +67,18 @@ export class GNericBlock {
         }
     }
 
-    deleteElement(elemId: string): void {
+    openDeleteElemDialog(elemId: string): void {
+        this.nextToDelete = elemId;
+        this.modal.openDialog();
+    }
+
+    deleteElement(): void {
+        if(!this.nextToDelete) {
+            return;
+        }
+        const elemId = this.nextToDelete;
+        this.nextToDelete = undefined;
+
         for (let idx = 0; idx < this.elems.length; idx++) {
             const elem = this.elems[idx];
             if(elem.getId() === elemId) {
@@ -158,7 +166,7 @@ export class GNericBlock {
             this.updateContentModel(model.model ?? undefined);
         }
         else if(model.type === ElemTypes.blockalteration) {
-            // TBD
+            this.alterBlock(model);
         }
         // otherwise do nothing
     }
@@ -224,6 +232,7 @@ export class GNericBlock {
         try {
             this.ngZone.runGuarded(() => {
                 this.elems = newElems;
+                setTimeout(() => this.setEditable(this.editable()));
             });
         } catch (error) {
             console.log('GNeric Char Sheet: error when updaying a content block');
