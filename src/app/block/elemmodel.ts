@@ -17,4 +17,11 @@ export class ElemModel {
     getType(): ElemTypes {
         return this.type;
     }
+
+    getModel(): object {
+        return {
+            id: this.id,
+            type: this.type
+        }
+    }
 }

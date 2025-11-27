@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, output, signal, ViewChild, viewChildren } from "@angular/core";
+import { Component, ElementRef, inject, NgZone, output, signal, ViewChild, viewChildren } from "@angular/core";
 import { GnericTextfield } from "../textfield/textfield.component";
 import { GNericTable } from "../table/table.component";
 import { GNericRessourcePointsManager } from "../ressourcepoints/rpm.component";
@@ -7,6 +7,7 @@ import { GNericCheckboxList } from "../checkboxes/checkboxes.component";
 import { ElemModel } from "./elemmodel";
 import { ElemTypes } from "../elemtypes";
 import { ValidatorService } from "../../services/validator";
+import { Utils } from "../../services/utils";
 
 @Component({
     selector: 'gneric-block',
@@ -26,7 +27,11 @@ export class GNericBlock {
 
     editable = signal(true);
     gNericElemChangedEvent = output<object>();
-    validator = inject(ValidatorService)
+    validator = inject(ValidatorService);
+    utils = inject(Utils);
+    ngZone = inject(NgZone);
+
+    private idKey = this.utils.getRandomString(4);
   
     elems: ElemModel[] = [
         new ElemModel(this.id+'-0', ElemTypes.textfield),
@@ -48,7 +53,7 @@ export class GNericBlock {
         this.rpms().forEach(elem => {
             elem.setEditable(editable);
         });
-        this.textfields().forEach(elem => {
+        this.itemlists().forEach(elem => {
             elem.setEditable(editable);
         });
         this.checkboxes().forEach(elem => {
@@ -66,7 +71,15 @@ export class GNericBlock {
     }
 
     deleteElement(elemId: string): void {
-        console.log('deleting '+elemId);
+        for (let idx = 0; idx < this.elems.length; idx++) {
+            const elem = this.elems[idx];
+            if(elem.getId() === elemId) {
+                this.elems.splice(idx, 1);
+                break;
+            }
+        }
+
+        this.reactOnAlteration();
     }
 
     reactOnChange(json: object): void {
@@ -78,7 +91,22 @@ export class GNericBlock {
         this.gNericElemChangedEvent.emit(model);
     }
 
-    validateModel(model: any): boolean {
+    reactOnAlteration(): void {
+        const arr: object[] = [];
+        this.elems.forEach(elem => {
+            arr.push(elem.getModel());
+        });
+
+        const json = {
+            id: this.id,
+            type: ElemTypes.blockalteration,
+            content: arr
+        }
+
+        this.gNericElemChangedEvent.emit(json);
+    }
+
+    validateBaseModel(model: any): boolean {
         if(!this.validator.isModel(model)) {
             return false;
         }
@@ -98,8 +126,31 @@ export class GNericBlock {
         return true;
     }
 
+    validateAlterationModel(model: any): boolean {
+        if(!model.hasOwnProperty('content') || !model.content || !Array.isArray(model.content)) {
+            return false;
+        }
+
+        for (const entry of model.content) {
+            if(typeof entry !== 'object') {
+                return false;
+            }
+            if(!this.validator.hasNonEmptyStringProperty('id', entry)) {
+                return false;
+            }
+            if(!this.validator.hasNonEmptyStringProperty('type', entry)) {
+                return false;
+            }
+            if(!this.validator.isCoreElemType(entry.type)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     setModel(model: any): void {
-        if(!this.validateModel(model)) {
+        if(!this.validateBaseModel(model)) {
             return;
         }
 
@@ -158,7 +209,65 @@ export class GNericBlock {
     /** Adds or removes child elements.
      * 
      */
-    alterBlock(): void {
+    alterBlock(model: any): void {
+        if(!this.validateAlterationModel(model)) {
+            return;
+        }
 
+        const newElems: ElemModel[] = [];
+        for (const entry of model.content) {
+            newElems.push(
+                new ElemModel(entry.id, entry.type)
+            );
+        }
+
+        try {
+            this.ngZone.runGuarded(() => {
+                this.elems = newElems;
+            });
+        } catch (error) {
+            console.log('GNeric Char Sheet: error when updaying a content block');
+        }
+    }
+
+    getNextId(): string {
+        const num = this.idCounter++;
+        return this.id+'-'+this.idKey+'-'+String(num);
+    }
+
+    addElement(type: ElemTypes): void {
+        const elemId = this.getNextId();
+        const newElem = new ElemModel(elemId, type);
+        this.elems.push(newElem);
+
+        this.reactOnAlteration();
+    }
+
+    addTextfield(): void {
+        this.addElement(ElemTypes.textfield);
+    }
+
+    addTable(): void {
+        this.addElement(ElemTypes.table);
+    }
+
+    addRPM(): void {
+        this.addElement(ElemTypes.rpm);
+    }
+
+    addItemlist(): void {
+        this.addElement(ElemTypes.itemlist);
+    }
+
+    addCheckboxes(): void {
+        this.addElement(ElemTypes.checkboxes);
+    }
+
+    getId(): string {
+        return this.id;
+    }
+
+    getIdKey(): string {
+        return this.idKey;
     }
 }

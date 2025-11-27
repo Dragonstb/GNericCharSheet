@@ -19,12 +19,12 @@
         }
     }
     @if(editable()) {
-        <div class="ctrl-elem spacingbottommedium">
-            <button>Add textfield</button>
-            <button>Add table</button>
-            <button>Add ressource points</button>
-            <button>Add item list</button>
-            <button>Add checkboxes</button>
+        <div class="ctrl-elem spacingbottommedium spacingtopmedium">
+            <button (click)="addTextfield()">Add textfield</button>
+            <button (click)="addTable()">Add table</button>
+            <button (click)="addRPM()">Add ressource points</button>
+            <button (click)="addItemlist()">Add item list</button>
+            <button (click)="addCheckboxes()">Add checkboxes</button>
         </div>
     }
 </div>

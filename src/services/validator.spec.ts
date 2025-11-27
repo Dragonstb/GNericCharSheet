@@ -396,4 +396,42 @@ describe( 'ValidatorService', () => {
         expect(validator.hasFiniteIntegerProperty(name, model)).toBeTrue();
     });
 
+    // _______________ isCoreType _______________
+
+    it('isCoreElemType: should accept textfield', () => {
+        expect(validator.isCoreElemType(ElemTypes.textfield)).toBeTrue();
+    });
+
+    it('isCoreElemType: should accept table', () => {
+        expect(validator.isCoreElemType(ElemTypes.table)).toBeTrue();
+    });
+
+    it('isCoreElemType: should accept rpm', () => {
+        expect(validator.isCoreElemType(ElemTypes.rpm)).toBeTrue();
+    });
+
+    it('isCoreElemType: should accept itemlist', () => {
+        expect(validator.isCoreElemType(ElemTypes.itemlist)).toBeTrue();
+    });
+
+    it('isCoreElemType: should accept checkboxes', () => {
+        expect(validator.isCoreElemType(ElemTypes.checkboxes)).toBeTrue();
+    });
+
+    it('isCoreElemType: should reject gibberish', () => {
+        expect(validator.isCoreElemType('chuiakxuy')).toBeFalse();
+    });
+
+    it('isCoreElemType: should reject the empty string', () => {
+        expect(validator.isCoreElemType('')).toBeFalse();
+    });
+
+    it('isCoreElemType: should reject undefined', () => {
+        expect(validator.isCoreElemType(undefined!)).toBeFalse();
+    });
+
+    it('isCoreElemType: should reject null', () => {
+        expect(validator.isCoreElemType(null!)).toBeFalse();
+    });
+
 });

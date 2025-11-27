@@ -4,6 +4,14 @@ import { ElemTypes } from "../app/elemtypes";
 @Injectable({providedIn: 'root'})
 export class ValidatorService {
 
+    private coreTypes: string[] = [
+        ElemTypes.textfield,
+        ElemTypes.table,
+        ElemTypes.rpm,
+        ElemTypes.itemlist,
+        ElemTypes.checkboxes
+    ]
+
     /** Checks if the argument could be a model.
      * 
      * @param model Something to be checked.
@@ -127,7 +135,7 @@ export class ValidatorService {
      * @param model The model of interest.
      * @returns Has a property of that name with a number defined in it?
      */
-     hasNumberProperty(propName: string, model: any): boolean {
+    hasNumberProperty(propName: string, model: any): boolean {
         if(!model.hasOwnProperty(propName)) {
             return false;
         }
@@ -145,7 +153,7 @@ export class ValidatorService {
      * @param model The model of interest.
      * @returns Has a property of that name with a number defined in it?
      */
-     hasFiniteNumberProperty(propName: string, model: any): boolean {
+    hasFiniteNumberProperty(propName: string, model: any): boolean {
         if(!this.hasNumberProperty(propName, model)) {
             return false;
         }
@@ -159,7 +167,7 @@ export class ValidatorService {
      * @param model The model of interest.
      * @returns Has a property of that name with an integer defined in it?
      */
-     hasFiniteIntegerProperty(propName: string, model: any): boolean {
+    hasFiniteIntegerProperty(propName: string, model: any): boolean {
         if(!this.hasFiniteNumberProperty(propName, model)) {
             return false;
         }
@@ -167,4 +175,11 @@ export class ValidatorService {
         return Number.isInteger(model[propName]);
     }
 
+    isCoreElemType(type: string): boolean {
+        if(!type) {
+            return false;
+        }
+
+        return this.coreTypes.indexOf(type) >= 0;
+    }
 }
