@@ -1,4 +1,4 @@
-import { Component, ElementRef, output, signal, ViewChild, viewChildren } from "@angular/core";
+import { Component, ElementRef, inject, output, signal, ViewChild, viewChildren } from "@angular/core";
 import { GnericTextfield } from "../textfield/textfield.component";
 import { GNericTable } from "../table/table.component";
 import { GNericRessourcePointsManager } from "../ressourcepoints/rpm.component";
@@ -6,6 +6,7 @@ import { GNericItemList } from "../itemlist/itemlist.component";
 import { GNericCheckboxList } from "../checkboxes/checkboxes.component";
 import { ElemModel } from "./elemmodel";
 import { ElemTypes } from "../elemtypes";
+import { ValidatorService } from "../../services/validator";
 
 @Component({
     selector: 'gneric-block',
@@ -25,6 +26,7 @@ export class GNericBlock {
 
     editable = signal(true);
     gNericElemChangedEvent = output<object>();
+    validator = inject(ValidatorService)
   
     elems: ElemModel[] = [
         new ElemModel(this.id+'-0', ElemTypes.textfield),
@@ -68,10 +70,57 @@ export class GNericBlock {
     }
 
     reactOnChange(json: object): void {
-        this.gNericElemChangedEvent.emit(json);
+        const model = {
+            id: this.id,
+            type: ElemTypes.blockupdate,
+            model: json
+        }
+        this.gNericElemChangedEvent.emit(model);
+    }
+
+    validateModel(model: any): boolean {
+        if(!this.validator.isModel(model)) {
+            return false;
+        }
+
+        if(!this.validator.hasNonEmptyStringProperty('id', model)) {
+            return false;
+        }
+
+        if(model.id !== this.id) {
+            return false;
+        }
+
+        if(!this.validator.hasNonEmptyStringProperty('type', model)) {
+            return false;
+        }
+
+        return true;
     }
 
     setModel(model: any): void {
+        if(!this.validateModel(model)) {
+            return;
+        }
+
+        if(model.type === ElemTypes.blockupdate) {
+            this.updateContentModel(model.model ?? undefined);
+        }
+        else if(model.type === ElemTypes.blockalteration) {
+            // TBD
+        }
+        // otherwise do nothing
+    }
+
+    /** Updates the model of an existing child element.
+     * 
+     * @param model New model
+     * @returns None
+     */
+    updateContentModel(model: any): void {
+        if(!this.validator.isModel(model) || !this.validator.hasNonEmptyStringProperty('id', model)) {
+            return;
+        }
         const targetId = model.id;
 
         this.textfields().forEach(elem => {
@@ -104,5 +153,12 @@ export class GNericBlock {
                 return;
             }
         });
+    }
+
+    /** Adds or removes child elements.
+     * 
+     */
+    alterBlock(): void {
+
     }
 }
