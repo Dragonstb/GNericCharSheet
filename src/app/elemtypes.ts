@@ -5,6 +5,5 @@ export enum ElemTypes {
     itemlist = 'itemlist',
     itementry = 'itementry',
     checkboxes = 'checkboxes',
-    blockupdate = 'blockupdate',
-    blockalteration = 'blockalteration'
+    block = 'block'
 }

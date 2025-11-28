@@ -9,6 +9,7 @@ import { ElemTypes } from "../elemtypes";
 import { ValidatorService } from "../../services/validator";
 import { Utils } from "../../services/utils";
 import { GNericDelElemModal } from "./delelemmodal.component";
+import { ActionTypes } from "../ActionTypes";
 
 @Component({
     selector: 'gneric-block',
@@ -93,7 +94,8 @@ export class GNericBlock {
     reactOnChange(json: object): void {
         const model = {
             id: this.id,
-            type: ElemTypes.blockupdate,
+            type: ElemTypes.block,
+            action: ActionTypes.blockupdate,
             model: json
         }
         this.gNericElemChangedEvent.emit(model);
@@ -107,7 +109,8 @@ export class GNericBlock {
 
         const json = {
             id: this.id,
-            type: ElemTypes.blockalteration,
+            type: ElemTypes.block,
+            action: ActionTypes.blockalteration,
             content: arr
         }
 
@@ -119,15 +122,11 @@ export class GNericBlock {
             return false;
         }
 
-        if(!this.validator.hasNonEmptyStringProperty('id', model)) {
+        if(!this.validator.isForMe(this.id, ElemTypes.block, model)) {
             return false;
         }
 
-        if(model.id !== this.id) {
-            return false;
-        }
-
-        if(!this.validator.hasNonEmptyStringProperty('type', model)) {
+        if(!this.validator.hasNonEmptyStringProperty('action', model)) {
             return false;
         }
 
@@ -162,10 +161,10 @@ export class GNericBlock {
             return;
         }
 
-        if(model.type === ElemTypes.blockupdate) {
+        if(model.type === ActionTypes.blockupdate) {
             this.updateContentModel(model.model ?? undefined);
         }
-        else if(model.type === ElemTypes.blockalteration) {
+        else if(model.type === ActionTypes.blockalteration) {
             this.alterBlock(model);
         }
         // otherwise do nothing

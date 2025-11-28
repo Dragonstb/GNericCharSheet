@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { GNericBlock } from "./block.component";
 import { DebugElement } from "@angular/core";
 import { ElemTypes } from "../elemtypes";
+import { ActionTypes } from "../ActionTypes";
 
 describe( 'GNericBlock', () => {
     let fixture: ComponentFixture<GNericBlock>;
@@ -48,10 +49,11 @@ describe( 'GNericBlock', () => {
 
     // _______________ base input valiadation _______________
 
-    it('Should accept a proper model', () => {
+    it('baseValidation: Should accept a proper model', () => {
         const model = {
             id: id,
-            type: ElemTypes.blockupdate,
+            type: ElemTypes.block,
+            action: ActionTypes.blockupdate,
             model: {
                 id: 'my name'
             }
@@ -59,13 +61,13 @@ describe( 'GNericBlock', () => {
         expect(block.validateBaseModel(model)).toBeTrue();
     });
 
-    it('Should reject a model which is not an object', () => {
+    it('baseValidation: Should reject a model which is not an object', () => {
         const model = "This is the story...";
 
         expect(block.validateBaseModel(model)).toBeFalse();
     });
 
-    it('Should reject a model which is falsy', () => {
+    it('baseValidation: Should reject a model which is falsy', () => {
         const model = undefined;
 
         expect(block.validateBaseModel(model)).toBeFalse();
@@ -73,9 +75,10 @@ describe( 'GNericBlock', () => {
 
     // ..... id problems .....
 
-    it('Should reject a model with the id missing', () => {
+    it('baseValidation: Should reject a model with the id missing', () => {
         const model = {
-            type: ElemTypes.blockupdate,
+            type: ElemTypes.block,
+            action: ActionTypes.blockupdate,
             model: {
                 id: 'my name'
             }
@@ -83,10 +86,11 @@ describe( 'GNericBlock', () => {
         expect(block.validateBaseModel(model)).toBeFalse();
     });
 
-    it('Should reject a model with the id being falsy', () => {
+    it('baseValidation: Should reject a model with the id being falsy', () => {
         const model = {
             id: undefined,
-            type: ElemTypes.blockupdate,
+            type: ElemTypes.block,
+            action: ActionTypes.blockupdate,
             model: {
                 id: 'my name'
             }
@@ -94,10 +98,11 @@ describe( 'GNericBlock', () => {
         expect(block.validateBaseModel(model)).toBeFalse();
     });
 
-    it('Should reject a model with the id not being a string', () => {
+    it('baseValidation: Should reject a model with the id not being a string', () => {
         const model = {
             id: 1,
-            type: ElemTypes.blockupdate,
+            type: ElemTypes.block,
+            action: ActionTypes.blockupdate,
             model: {
                 id: 'my name'
             }
@@ -105,10 +110,11 @@ describe( 'GNericBlock', () => {
         expect(block.validateBaseModel(model)).toBeFalse();
     });
 
-    it('Should reject a model with the id being not my one', () => {
+    it('baseValidation: Should reject a model with the id being not my one', () => {
         const model = {
             id: id+'hello',
-            type: ElemTypes.blockupdate,
+            type: ElemTypes.block,
+            action: ActionTypes.blockupdate,
             model: {
                 id: 'my name'
             }
@@ -118,9 +124,10 @@ describe( 'GNericBlock', () => {
 
     // ..... type problems .....
 
-    it('Should reject a model with the type missing', () => {
+    it('baseValidation: Should reject a model with the type missing', () => {
         const model = {
             id: id,
+            action: ActionTypes.blockupdate,
             model: {
                 id: 'my name'
             }
@@ -128,10 +135,11 @@ describe( 'GNericBlock', () => {
         expect(block.validateBaseModel(model)).toBeFalse();
     });
 
-    it('Should reject a model with the type being falsy', () => {
+    it('baseValidation: Should reject a model with the type being falsy', () => {
         const model = {
             id: id,
             type: undefined,
+            action: ActionTypes.blockupdate,
             model: {
                 id: 'my name'
             }
@@ -139,16 +147,55 @@ describe( 'GNericBlock', () => {
         expect(block.validateBaseModel(model)).toBeFalse();
     });
 
-    it('Should reject a model with the type not being a string', () => {
+    it('baseValidation: Should reject a model with the type not being a string', () => {
         const model = {
             id: id,
             type: 1,
+            action: ActionTypes.blockupdate,
             model: {
                 id: 'my name'
             }
         }
         expect(block.validateBaseModel(model)).toBeFalse();
     });
+
+    // ..... action problems .....
+
+    it('baseValidation: Should reject a model with the action missing', () => {
+        const model = {
+            id: id,
+            type: ElemTypes.block,
+            model: {
+                id: 'my name'
+            }
+        }
+        expect(block.validateBaseModel(model)).toBeFalse();
+    });
+
+    it('baseValidation: Should reject a model with the action being falsy', () => {
+        const model = {
+            id: id,
+            type: ElemTypes.block,
+            action: undefined,
+            model: {
+                id: 'my name'
+            }
+        }
+        expect(block.validateBaseModel(model)).toBeFalse();
+    });
+
+    it('baseValidation: Should reject a model with the action being og a different type', () => {
+        const model = {
+            id: id,
+            type: ElemTypes.block,
+            action: 3,
+            model: {
+                id: 'my name'
+            }
+        }
+        expect(block.validateBaseModel(model)).toBeFalse();
+    });
+
 
     // _______________ alteration input validation _______________
     
@@ -317,7 +364,7 @@ describe( 'GNericBlock', () => {
     it('validateAlterationModel: Should reject a model with illegal type', () => {
         const model = {
             content: [
-                {id: 'elem1', type: ElemTypes.blockupdate},
+                {id: 'elem1', type: ElemTypes.block},
                 {id: 'elem2', type: ElemTypes.rpm}
             ]
         }
