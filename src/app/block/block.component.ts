@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, NgZone, output, signal, ViewChild, viewChildren } from "@angular/core";
+import { Component, ElementRef, inject, Input, NgZone, output, signal, ViewChild, viewChildren } from "@angular/core";
 import { GnericTextfield } from "../textfield/textfield.component";
 import { GNericTable } from "../table/table.component";
 import { GNericRessourcePointsManager } from "../ressourcepoints/rpm.component";
@@ -17,7 +17,7 @@ import { GNericDelElemModal } from "./delelemmodal.component";
 })
 export class GNericBlock {
     
-    private id: string = 'comp-0';
+    @Input() id: string = 'comp-0';
     private idCounter = 0;
     @ViewChild('block', {static: true}) block!: ElementRef<HTMLDivElement>;
     @ViewChild('modal') modal!: GNericDelElemModal;
