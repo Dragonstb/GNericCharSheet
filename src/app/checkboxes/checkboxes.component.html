@@ -17,7 +17,7 @@
             <h3 class="elemtitle">{{title.value}}</h3>
         }
         @for(row of rows; track $index) {
-            <div class="betweenflex">
+            <div class="flexbetween">
                 <label for="checkbox-{{$index}}">
                     @if(!editable()) {
                         {{row.getText()}}

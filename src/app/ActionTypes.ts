@@ -1,4 +1,5 @@
 export enum ActionTypes {
     blockupdate = 'blockupdate',
-    blockalteration = 'blockalteration'
+    blockalteration = 'blockalteration',
+    pageupdate = 'pageupdate'
 }

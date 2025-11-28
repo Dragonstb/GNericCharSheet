@@ -9,4 +9,10 @@ export class GNericBlockModel {
     getId(): string {
         return this.id;
     }
+
+    getModel(): object {
+        return {
+            id: this.id
+        }
+    }
 }

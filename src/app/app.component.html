@@ -4,6 +4,5 @@
     <input type="checkbox" name="elemEdit" id="elemEdit" (change)="setElemsEditable($event)" checked />
     <label for="elemEdit">Elements editable</label>
   </div>
-  <!-- <gneric-block (gNericElemChangedEvent)="reactOnChange($event)" /> -->
-  <gneric-sheetpage />
+  <gneric-sheetpage (gNericElemChangedEvent)="reactOnChange($event)" />
 </main>
