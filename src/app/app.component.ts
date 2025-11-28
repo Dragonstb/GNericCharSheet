@@ -33,9 +33,9 @@ export class GNericMainComponent {
 
   setModel(model: any) {
     if(this.validator.hasNonEmptyStringProperty('id', model)) {
-      // if(this.blocks().length > 0) {
-      //   this.blocks()[0].setModel(model);
-      // }
+      if(this.pages().length > 0) {
+        this.pages()[0].setModel(model);
+      }
     }
     else {
       console.log('GNeric Char Sheet: received model without id.');

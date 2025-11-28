@@ -234,7 +234,7 @@ export class GNericBlock {
                 setTimeout(() => this.setEditable(this.editable()));
             });
         } catch (error) {
-            console.log('GNeric Char Sheet: error when updaying a content block');
+            console.log('GNeric Char Sheet: error when updating a content block');
         }
     }
 
