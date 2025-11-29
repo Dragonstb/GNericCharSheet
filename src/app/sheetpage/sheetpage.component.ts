@@ -28,10 +28,7 @@ export class GNericSheetPage {
     idKey = this.utils.getRandomString(4);
     nextToBeDeleted: string | undefined = undefined;
 
-    blocks: GNericBlockModel[] = [
-        new GNericBlockModel(this.getNextId()),
-        new GNericBlockModel(this.getNextId())
-    ];
+    blocks: GNericBlockModel[] = [];
 
     gNericElemChangedEvent = output<object>();
 
