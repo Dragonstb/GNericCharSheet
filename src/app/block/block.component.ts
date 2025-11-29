@@ -95,7 +95,7 @@ export class GNericBlock {
         const model = {
             id: this.id,
             type: ElemTypes.block,
-            action: ActionTypes.blockupdate,
+            action: ActionTypes.elemupdate,
             model: json
         }
         this.gNericElemChangedEvent.emit(model);
@@ -110,7 +110,7 @@ export class GNericBlock {
         const json = {
             id: this.id,
             type: ElemTypes.block,
-            action: ActionTypes.blockalteration,
+            action: ActionTypes.blockupdate,
             content: arr
         }
 
@@ -161,10 +161,10 @@ export class GNericBlock {
             return;
         }
 
-        if(model.action === ActionTypes.blockupdate) {
+        if(model.action === ActionTypes.elemupdate) {
             this.updateContentModel(model.model ?? undefined);
         }
-        else if(model.action === ActionTypes.blockalteration) {
+        else if(model.action === ActionTypes.blockupdate) {
             this.alterBlock(model);
         }
         // otherwise do nothing

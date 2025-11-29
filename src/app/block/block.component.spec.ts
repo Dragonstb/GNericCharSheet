@@ -53,7 +53,7 @@ describe( 'GNericBlock', () => {
         const model = {
             id: id,
             type: ElemTypes.block,
-            action: ActionTypes.blockupdate,
+            action: ActionTypes.elemupdate,
             model: {
                 id: 'my name'
             }
@@ -78,7 +78,7 @@ describe( 'GNericBlock', () => {
     it('baseValidation: Should reject a model with the id missing', () => {
         const model = {
             type: ElemTypes.block,
-            action: ActionTypes.blockupdate,
+            action: ActionTypes.elemupdate,
             model: {
                 id: 'my name'
             }
@@ -90,7 +90,7 @@ describe( 'GNericBlock', () => {
         const model = {
             id: undefined,
             type: ElemTypes.block,
-            action: ActionTypes.blockupdate,
+            action: ActionTypes.elemupdate,
             model: {
                 id: 'my name'
             }
@@ -102,7 +102,7 @@ describe( 'GNericBlock', () => {
         const model = {
             id: 1,
             type: ElemTypes.block,
-            action: ActionTypes.blockupdate,
+            action: ActionTypes.elemupdate,
             model: {
                 id: 'my name'
             }
@@ -114,7 +114,7 @@ describe( 'GNericBlock', () => {
         const model = {
             id: id+'hello',
             type: ElemTypes.block,
-            action: ActionTypes.blockupdate,
+            action: ActionTypes.elemupdate,
             model: {
                 id: 'my name'
             }
@@ -127,7 +127,7 @@ describe( 'GNericBlock', () => {
     it('baseValidation: Should reject a model with the type missing', () => {
         const model = {
             id: id,
-            action: ActionTypes.blockupdate,
+            action: ActionTypes.elemupdate,
             model: {
                 id: 'my name'
             }
@@ -139,7 +139,7 @@ describe( 'GNericBlock', () => {
         const model = {
             id: id,
             type: undefined,
-            action: ActionTypes.blockupdate,
+            action: ActionTypes.elemupdate,
             model: {
                 id: 'my name'
             }
@@ -151,7 +151,7 @@ describe( 'GNericBlock', () => {
         const model = {
             id: id,
             type: 1,
-            action: ActionTypes.blockupdate,
+            action: ActionTypes.elemupdate,
             model: {
                 id: 'my name'
             }
