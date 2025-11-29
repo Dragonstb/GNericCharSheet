@@ -161,10 +161,10 @@ export class GNericBlock {
             return;
         }
 
-        if(model.type === ActionTypes.blockupdate) {
+        if(model.action === ActionTypes.blockupdate) {
             this.updateContentModel(model.model ?? undefined);
         }
-        else if(model.type === ActionTypes.blockalteration) {
+        else if(model.action === ActionTypes.blockalteration) {
             this.alterBlock(model);
         }
         // otherwise do nothing
