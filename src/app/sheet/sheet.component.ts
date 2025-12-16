@@ -1,5 +1,5 @@
 import { Component, inject } from "@angular/core";
-import { GNericPageModel } from "./pagemodel";
+import { GNericPageModel } from "../sheetpage/pagemodel";
 import { Utils } from "../../services/utils";
 import { GNericSheetPage } from "../sheetpage/sheetpage.component";
 

@@ -1,6 +1,6 @@
 <div>
-    <h3>{{title}}</h3>
-    @for(block of blocks; track block.getId()) {
+    <h3>{{pageModel.getTitle()}}</h3>
+    @for(block of pageModel.getBlocks(); track block.getId()) {
         <div class="spacingbottomlarge spacingtoplarge">
             <gneric-block
                 [id]="block.getId()"

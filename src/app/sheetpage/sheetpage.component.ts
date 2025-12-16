@@ -6,6 +6,7 @@ import { GNericDeletionModal } from "../deletionmodal/delmodal.component";
 import { ElemTypes } from "../elemtypes";
 import { ActionTypes } from "../ActionTypes";
 import { ValidatorService } from "../../services/validator";
+import { GNericPageModel } from "./pagemodel";
 
 @Component({
     selector: 'gneric-sheetpage',
@@ -14,8 +15,7 @@ import { ValidatorService } from "../../services/validator";
 })
 export class GNericSheetPage {
 
-    @Input() id: string = 'page-0';
-    @Input() title: string = 'page-0';
+    @Input() pageModel: GNericPageModel = new GNericPageModel('page-0', 'Page 0');
     blockElems = viewChildren(GNericBlock);
     editable = signal(true);
     @ViewChild('dialog') dialog!: GNericDeletionModal;
@@ -28,8 +28,6 @@ export class GNericSheetPage {
     idKey = this.utils.getRandomString(4);
     nextToBeDeleted: string | undefined = undefined;
 
-    blocks: GNericBlockModel[] = [];
-
     gNericElemChangedEvent = output<object>();
 
     setEditable(editable: boolean) {
@@ -41,7 +39,7 @@ export class GNericSheetPage {
 
     getNextId(): string {
         const num = this.idCounter++;
-        return this.id+'-'+this.idKey+'-'+String(num);
+        return this.pageModel.getId()+'-'+this.idKey+'-'+String(num);
     }
 
     // _______________  change page  _______________
@@ -49,7 +47,7 @@ export class GNericSheetPage {
     addBlock(): void {
         const newId = this.getNextId();
         const newBlock = new GNericBlockModel(newId);
-        this.blocks.push(newBlock);
+        this.pageModel.addBlock(newBlock);
         this.reactOnPageUpdate();
     }
 
@@ -66,13 +64,7 @@ export class GNericSheetPage {
         const blockId: string = this.nextToBeDeleted;
         this.nextToBeDeleted = undefined;
 
-        for (let idx = 0; idx < this.blocks.length; idx++) {
-            const block = this.blocks[idx];
-            if(block.getId() === blockId) {
-                this.blocks.splice(idx, 1);
-                break;
-            }
-        }
+        this.pageModel.deleteBlockById(blockId);
         this.reactOnPageUpdate();
     }
 
@@ -80,7 +72,7 @@ export class GNericSheetPage {
 
     reactOnBlockUpdate(model: object):void {
         const json = {
-            id: this.id,
+            id: this.pageModel.getId(),
             type: ElemTypes.page,
             action: ActionTypes.blockupdate,
             model: model
@@ -89,19 +81,8 @@ export class GNericSheetPage {
     }
 
     reactOnPageUpdate(): void {
-        const arr: object[] = [];
-        this.blocks.forEach(block => {
-            arr.push(
-                block.getModel()
-            );
-        });
-
-        const json = {
-            id: this.id,
-            type: ElemTypes.page,
-            action: ActionTypes.pageupdate,
-            content: arr
-        };
+        const json = this.pageModel.getModel();
+        // TODO: define action type here
 
         this.gNericElemChangedEvent.emit(json);
     }
@@ -113,7 +94,7 @@ export class GNericSheetPage {
             return false;
         }
 
-        if(!this.validator.isForMe(this.id, ElemTypes.page, model)) {
+        if(!this.validator.isForMe(this.pageModel.getId(), ElemTypes.page, model)) {
             return false;
         }
 
@@ -188,7 +169,7 @@ export class GNericSheetPage {
 
         try {
             this.ngZone.runGuarded(() => {
-                this.blocks = newBlocks;
+                this.pageModel.setBlocks(newBlocks);
                 setTimeout(() => this.setEditable(this.editable()));
             });
         } catch (error) {

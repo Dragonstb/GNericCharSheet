@@ -12,10 +12,10 @@
     <div>
         @for(page of pages; track page.getId()) {
             @if(page.getId() === curPageId) {
-                <gneric-sheetpage [id]="page.getId()" [title]="page.getTitle()" />
+                <gneric-sheetpage [pageModel]="page" />
             }
             @else {
-                <gneric-sheetpage class="hidden" [id]="page.getId()" [title]="page.getTitle()" />
+                <gneric-sheetpage class="hidden" [pageModel]="page" />
             }
         }
     </div>
