@@ -1,6 +1,6 @@
 import { ElemTypes } from "../elemtypes";
 
-export class ElemModel {
+export abstract class ElemModel {
 
     id: string;
     private type: ElemTypes;
@@ -18,10 +18,5 @@ export class ElemModel {
         return this.type;
     }
 
-    getModel(): object {
-        return {
-            id: this.id,
-            type: this.type
-        }
-    }
+    abstract getModel(): object;
 }

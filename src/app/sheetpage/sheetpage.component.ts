@@ -1,5 +1,5 @@
 import { Component, inject, viewChildren, ViewChild, output, signal, NgZone, Input } from "@angular/core";
-import { GNericBlockModel } from "./blockmodel";
+import { GNericBlockModel } from "../block/blockmodel";
 import { GNericBlock } from "../block/block.component";
 import { Utils } from "../../services/utils";
 import { GNericDeletionModal } from "../deletionmodal/delmodal.component";

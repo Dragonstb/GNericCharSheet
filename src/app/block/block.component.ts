@@ -10,6 +10,8 @@ import { ValidatorService } from "../../services/validator";
 import { Utils } from "../../services/utils";
 import { GNericDelElemModal } from "./delelemmodal.component";
 import { ActionTypes } from "../ActionTypes";
+import { GNericBlockModel } from "./blockmodel";
+import { TextfieldModel } from "../textfield/textfieldmodel";
 
 @Component({
     selector: 'gneric-block',
@@ -18,9 +20,9 @@ import { ActionTypes } from "../ActionTypes";
 })
 export class GNericBlock {
     
-    @Input() id: string = 'comp-0';
+    @Input() blockModel: GNericBlockModel = new GNericBlockModel('block-0');
     private idCounter = 0;
-    @ViewChild('block', {static: true}) block!: ElementRef<HTMLDivElement>;
+    @ViewChild('block', {static: true}) blockElement!: ElementRef<HTMLDivElement>;
     @ViewChild('modal') modal!: GNericDelElemModal;
     textfields = viewChildren(GnericTextfield);
     tables = viewChildren(GNericTable);
@@ -36,8 +38,6 @@ export class GNericBlock {
 
     private idKey = this.utils.getRandomString(4);
     private nextToDelete: string | undefined = undefined;
-  
-    elems: ElemModel[] = [];
 
     setEditable(editable: boolean): void {
         this.editable.set(editable);
@@ -59,12 +59,12 @@ export class GNericBlock {
         });
 
         const classname = 'blockbox';
-        const hasBorder = this.block.nativeElement.classList.contains(classname);
+        const hasBorder = this.blockElement.nativeElement.classList.contains(classname);
         if(editable && !hasBorder) {
-            this.block.nativeElement.classList.add(classname);
+            this.blockElement.nativeElement.classList.add(classname);
         }
         else if(!editable && hasBorder) {
-            this.block.nativeElement.classList.remove(classname);
+            this.blockElement.nativeElement.classList.remove(classname);
         }
     }
 
@@ -80,20 +80,13 @@ export class GNericBlock {
         const elemId = this.nextToDelete;
         this.nextToDelete = undefined;
 
-        for (let idx = 0; idx < this.elems.length; idx++) {
-            const elem = this.elems[idx];
-            if(elem.getId() === elemId) {
-                this.elems.splice(idx, 1);
-                break;
-            }
-        }
-
+        this.blockModel.deleteElemById(elemId);
         this.reactOnAlteration();
     }
 
     reactOnChange(json: object): void {
         const model = {
-            id: this.id,
+            id: this.blockModel.getId(),
             type: ElemTypes.block,
             action: ActionTypes.elemupdate,
             model: json
@@ -102,13 +95,15 @@ export class GNericBlock {
     }
 
     reactOnAlteration(): void {
+        // TODO: get the complete block model by calling blockModel.getModel()
+        // and extend it by adding the acyion type in this method
         const arr: object[] = [];
-        this.elems.forEach(elem => {
+        this.blockModel.getElems().forEach(elem => {
             arr.push(elem.getModel());
         });
 
         const json = {
-            id: this.id,
+            id: this.blockModel.getId(),
             type: ElemTypes.block,
             action: ActionTypes.blockupdate,
             content: arr
@@ -122,7 +117,7 @@ export class GNericBlock {
             return false;
         }
 
-        if(!this.validator.isForMe(this.id, ElemTypes.block, model)) {
+        if(!this.validator.isForMe(this.blockModel.getId(), ElemTypes.block, model)) {
             return false;
         }
 
@@ -223,14 +218,17 @@ export class GNericBlock {
 
         const newElems: ElemModel[] = [];
         for (const entry of model.content) {
-            newElems.push(
-                new ElemModel(entry.id, entry.type)
-            );
+            switch(entry.type) {
+                case ElemTypes.textfield:
+                    const newElem = new TextfieldModel(entry.id);
+                    newElems.push(newElem);
+                    break;
+            }
         }
 
         try {
             this.ngZone.runGuarded(() => {
-                this.elems = newElems;
+                this.blockModel.setElems(newElems);
                 setTimeout(() => this.setEditable(this.editable()));
             });
         } catch (error) {
@@ -240,21 +238,21 @@ export class GNericBlock {
 
     getNextId(): string {
         const num = this.idCounter++;
-        return this.id+'-'+this.idKey+'-'+String(num);
+        return this.blockModel.getId()+'-'+this.idKey+'-'+String(num);
     }
 
-    addElement(type: ElemTypes): void {
-        const elemId = this.getNextId();
-        const newElem = new ElemModel(elemId, type);
-        this.elems.push(newElem);
-
+    addElement(newElem: ElemModel): void {
+        this.blockModel.addElem(newElem);
         this.reactOnAlteration();
     }
 
     addTextfield(): void {
-        this.addElement(ElemTypes.textfield);
+        const elemId = this.getNextId();
+        const newElem = new TextfieldModel(elemId);
+        this.addElement(newElem);
     }
 
+    /*
     addTable(): void {
         this.addElement(ElemTypes.table);
     }
@@ -270,9 +268,14 @@ export class GNericBlock {
     addCheckboxes(): void {
         this.addElement(ElemTypes.checkboxes);
     }
+    */
+
+    // _______________ make elements from models _______________
+
+    // _______________ stuff _______________
 
     getId(): string {
-        return this.id;
+        return this.blockModel.getId();
     }
 
     getIdKey(): string {

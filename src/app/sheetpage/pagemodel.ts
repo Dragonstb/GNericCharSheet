@@ -1,6 +1,6 @@
 import { ActionTypes } from "../ActionTypes";
 import { ElemTypes } from "../elemtypes";
-import { GNericBlockModel } from "./blockmodel";
+import { GNericBlockModel } from "../block/blockmodel";
 
 export class GNericPageModel {
 

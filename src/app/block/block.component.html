@@ -1,30 +1,30 @@
 <div #block class="blockbox">
-    @for(elem of elems; track elem.getId()) {
+    @for(elem of blockModel.getElems(); track elem.getId()) {
         @switch(elem.getType()) {
             @case('textfield') {
                 <gneric-textfield [id]="elem.getId()" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnChange($event)"/>
             }
-            @case('table') {
+            <!-- @case('table') {
                 <gneric-table [id]="elem.getId()" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnChange($event)"/>
-            }
-            @case('rpm') {
+            } -->
+            <!-- @case('rpm') {
                 <gneric-rpm [id]="elem.getId()" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnChange($event)"/>
-            }
-            @case('itemlist') {
+            } -->
+            <!-- @case('itemlist') {
                 <gneric-itemlist [id]="elem.getId()" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnChange($event)"/>
-            }
-            @case('checkboxes') {
+            } -->
+            <!-- @case('checkboxes') {
                 <gneric-checkboxes [id]="elem.getId()" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnChange($event)"/>
-            }
+            } -->
         }
     }
     @if(editable()) {
         <div class="ctrl-elem spacingbottommedium spacingtopmedium">
             <button (click)="addTextfield()">Add textfield</button>
-            <button (click)="addTable()">Add table</button>
-            <button (click)="addRPM()">Add ressource points</button>
-            <button (click)="addItemlist()">Add item list</button>
-            <button (click)="addCheckboxes()">Add checkboxes</button>
+            <!-- <button (click)="addTable()">Add table</button> -->
+            <!-- <button (click)="addRPM()">Add ressource points</button> -->
+            <!-- <button (click)="addItemlist()">Add item list</button> -->
+            <!-- <button (click)="addCheckboxes()">Add checkboxes</button> -->
         </div>
     }
 </div>

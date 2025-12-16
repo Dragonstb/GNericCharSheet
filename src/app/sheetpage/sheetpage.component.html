@@ -3,7 +3,7 @@
     @for(block of pageModel.getBlocks(); track block.getId()) {
         <div class="spacingbottomlarge spacingtoplarge">
             <gneric-block
-                [id]="block.getId()"
+                [blockModel]="block"
                 (gNericElemChangedEvent)="reactOnBlockUpdate($event)" />
             @if(editable()) {
                 <div class="flexend spacingtopmedium">
