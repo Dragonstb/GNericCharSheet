@@ -3,26 +3,27 @@ import OBR from '@owlbear-rodeo/sdk';
 import { BroadCaster } from '../services/broadcaster';
 import { ValidatorService } from '../services/validator';
 import { GNericSheetPage } from './sheetpage/sheetpage.component';
+import { GNericSheet } from './sheet/sheet.component';
 
 @Component({
   selector: 'app-root',
-  imports: [GNericSheetPage],
+  imports: [GNericSheet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })
 export class GNericMainComponent {
   title = 'GNericCharSheet';
   broadcaster: BroadCaster = inject(BroadCaster);
-  pages = viewChildren(GNericSheetPage);
+  sheets = viewChildren(GNericSheet);
   private validator = inject(ValidatorService);
 
   setElemsEditable(event: Event) {
     const checkbox = event.target as HTMLInputElement;
     const checked: boolean = checkbox.checked;
 
-    this.pages().forEach(page => {
-      page.setEditable(checked);
-    });
+    // this.pages().forEach(page => {
+    //   page.setEditable(checked);
+    // });
 
   }
 
@@ -33,8 +34,8 @@ export class GNericMainComponent {
 
   setModel(model: any) {
     if(this.validator.hasNonEmptyStringProperty('id', model)) {
-      if(this.pages().length > 0) {
-        this.pages()[0].setModel(model);
+      if(this.sheets().length > 0) {
+        // this.pages()[0].setModel(model);
       }
     }
     else {

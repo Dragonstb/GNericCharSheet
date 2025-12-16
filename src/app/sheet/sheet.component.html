@@ -1,0 +1,22 @@
+<div>
+    <div class="flexbox wrapping">
+        @for(page of pages; track page.getId()) {
+            @if(page.getId() === curPageId) {
+                <button class="tab selected paddingleftmedium paddingrightmedium" (click)="showPage(page.getId())">{{page.getTitle()}}</button>
+            }
+            @else {
+                <button class="tab paddingleftmedium paddingrightmedium" (click)="showPage(page.getId())">{{page.getTitle()}}</button>
+            }
+        }
+    </div>
+    <div>
+        @for(page of pages; track page.getId()) {
+            @if(page.getId() === curPageId) {
+                <gneric-sheetpage [id]="page.getId()" [title]="page.getTitle()" />
+            }
+            @else {
+                <gneric-sheetpage class="hidden" [id]="page.getId()" [title]="page.getTitle()" />
+            }
+        }
+    </div>
+</div>

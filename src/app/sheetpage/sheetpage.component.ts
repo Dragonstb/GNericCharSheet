@@ -1,4 +1,4 @@
-import { Component, inject, viewChildren, ViewChild, output, signal, NgZone } from "@angular/core";
+import { Component, inject, viewChildren, ViewChild, output, signal, NgZone, Input } from "@angular/core";
 import { GNericBlockModel } from "./blockmodel";
 import { GNericBlock } from "../block/block.component";
 import { Utils } from "../../services/utils";
@@ -6,7 +6,6 @@ import { GNericDeletionModal } from "../deletionmodal/delmodal.component";
 import { ElemTypes } from "../elemtypes";
 import { ActionTypes } from "../ActionTypes";
 import { ValidatorService } from "../../services/validator";
-import { EmitFlags, ModifierFlags } from "typescript";
 
 @Component({
     selector: 'gneric-sheetpage',
@@ -15,7 +14,8 @@ import { EmitFlags, ModifierFlags } from "typescript";
 })
 export class GNericSheetPage {
 
-    id: string = 'page-0';
+    @Input() id: string = 'page-0';
+    @Input() title: string = 'page-0';
     blockElems = viewChildren(GNericBlock);
     editable = signal(true);
     @ViewChild('dialog') dialog!: GNericDeletionModal;
