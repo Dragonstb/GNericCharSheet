@@ -1,7 +1,9 @@
-import { Component, computed, ElementRef, inject, Input, output, signal, ViewChild } from "@angular/core";
+import { Component, ElementRef, inject, Input, output, ViewChild } from "@angular/core";
 import { ElemTypes } from "../elemtypes";
-import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from "@angular/forms";
 import { ValidatorService } from "../../services/validator";
+import { TextfieldModel } from "./textfieldmodel";
+import { ElemModel } from "../block/elemmodel";
 
 @Component({
     selector: 'gneric-textfield',
@@ -10,8 +12,14 @@ import { ValidatorService } from "../../services/validator";
 })
 export class GnericTextfield {
 
-    @Input() id: string = "comp-01-01";
-    rows: number = 10;
+    elemModel: TextfieldModel = new TextfieldModel("comp-01-01");
+
+    @Input()
+    set elem(val: ElemModel) {
+        if(val instanceof TextfieldModel) {
+            this.elemModel = val;
+        }
+    }
     editable: boolean = true;
 
     deleteCoreElemEvent = output<string>();
@@ -19,18 +27,16 @@ export class GnericTextfield {
 
     @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
 
-    text = new FormControl('Insert text');
-    title = new FormControl('Textfield title');
     validator = inject(ValidatorService);
 
     addRow() {
-        ++this.rows;
+        this.elemModel.changeRowsBy(1);
         this.fireElemChangedEvent();
     }
 
     deleteRow() {
-        if(this.rows > 1) {
-            --this.rows;
+        if(this.elemModel.getRows() > 1) {
+            this.elemModel.changeRowsBy(-1);
             this.fireElemChangedEvent();
         }
     }
@@ -50,18 +56,12 @@ export class GnericTextfield {
     }
 
     fireElemChangedEvent() {
-        const json = {
-            id: this.id,
-            type: ElemTypes.textfield,
-            title: this.title.value ?? '',
-            text: this.text.value ?? '',
-            rows: this.rows
-        };
+        const json = this.elemModel.getModel();
         this.gNericElemChangedEvent.emit(json);
     }
 
     deleteTextfield() {
-        this.deleteCoreElemEvent.emit(this.id);
+        this.deleteCoreElemEvent.emit(this.elemModel.getId());
     }
 
     validateModel(model: any): boolean {
@@ -69,7 +69,7 @@ export class GnericTextfield {
             return false;
         }
 
-        if(!this.validator.isForMe(this.id, ElemTypes.textfield, model)) {
+        if(!this.validator.isForMe(this.elemModel.getId(), ElemTypes.textfield, model)) {
             return false;
         }
 
@@ -97,17 +97,15 @@ export class GnericTextfield {
             return;
         }
 
-        this.rows = model.rows;
-        this.text.setValue(model.text);
-        this.title.setValue(model.title);
+        this.elemModel.setModel(model);
     }
 
     getId(): string {
-        return this.id;
+        return this.elemModel.getId();
     }
 
     hasTitle(): boolean {
-        return Boolean(this.title.value);
+        return Boolean(this.elemModel.getTitle());
     }
 
     getType(): ElemTypes {

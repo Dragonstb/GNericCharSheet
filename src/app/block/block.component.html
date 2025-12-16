@@ -2,7 +2,7 @@
     @for(elem of blockModel.getElems(); track elem.getId()) {
         @switch(elem.getType()) {
             @case('textfield') {
-                <gneric-textfield [id]="elem.getId()" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnChange($event)"/>
+                <gneric-textfield [elem]="elem" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnChange($event)"/>
             }
             <!-- @case('table') {
                 <gneric-table [id]="elem.getId()" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnChange($event)"/>

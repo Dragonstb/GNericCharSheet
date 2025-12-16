@@ -1,25 +1,25 @@
 <fieldset #fieldSet class="editable elemblock">
     @if(editable){
-        <legend class="ctrl-elem">textfield-{{id}}</legend>
-        <div class="spacingbottommedium ctrl-elem" id="{{id}}-editPanel">
+        <legend class="ctrl-elem">textfield-{{elemModel.getId()}}</legend>
+        <div class="spacingbottommedium ctrl-elem" id="{{elemModel.getId()}}-editPanel">
             <div class="spacingbottomsmall">
-                <label class="spacingrightsmall" for="titleform-{{id}}">Change title to:</label>
-                <input type="text" id="titleform-{{id}}" [formControl]="title" (input)="fireElemChangedEvent()">
+                <label class="spacingrightsmall" for="titleform-{{elemModel.getId()}}">Change title to:</label>
+                <input type="text" id="titleform-{{elemModel.getId()}}" [formControl]="elemModel.title" (input)="fireElemChangedEvent()">
             </div>
             <div>
-                <span class="aria-visible" aria-live="polite" >Currently {{rows}} rows</span>
+                <span class="aria-visible" aria-live="polite" >Currently {{elemModel.getRows()}} rows</span>
                 <button (click)="addRow()">Expand by one row</button>
             </div>
             <div>
-                <button id="{{id}}-shrink" [disabled]="rows<2" (click)="deleteRow()">Shrink by one row</button>
+                <button id="{{elemModel.getId()}}-shrink" [disabled]="elemModel.getRows()<2" (click)="deleteRow()">Shrink by one row</button>
             </div>
         </div>
     }
     <div class="boxed">
         @if(hasTitle() || editable) {
-            <h4 class="elemtitle paddingleftsmall">{{title.value}}</h4>
+            <h4 class="elemtitle paddingleftsmall">{{elemModel.getTitle()}}</h4>
         }
-        <textarea class="noborder paddingsmall" [readonly]="!editable" [rows]="rows" [formControl]="text" (input)="fireElemChangedEvent()"></textarea>
+        <textarea class="noborder paddingsmall" [readonly]="!editable" [rows]="elemModel.getRows()" [formControl]="elemModel.text" (input)="fireElemChangedEvent()"></textarea>
     </div>
     @if(editable) {
         <div class="ctrl-elem flexend spacingbottomsmall spacingtopmedium">
