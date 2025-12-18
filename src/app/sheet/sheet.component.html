@@ -1,21 +1,22 @@
 <div>
-    <div class="flexbox wrapping">
+    <!-- TODO: the keyboard interactions of an accessible tabbed pane -->
+    <div class="flexbox wrapping" role="tablist">
         @for(page of pages; track page.getId()) {
             @if(page.getId() === curPageId) {
-                <button class="tab selected paddingleftmedium paddingrightmedium" (click)="showPage(page.getId())">{{page.getTitle()}}</button>
+                <button class="tab selected paddingleftmedium paddingrightmedium" role="tab" aria-selected="true" id="tab-{{page.getId()}}" [attr.aria-controls]="'panel-'+page.getId()" tabindex="0" (click)="showPage(page.getId())">{{page.getTitle()}}</button>
             }
             @else {
-                <button class="tab paddingleftmedium paddingrightmedium" (click)="showPage(page.getId())">{{page.getTitle()}}</button>
+                <button class="tab paddingleftmedium paddingrightmedium" role="tab" aria-selected="false" id="tab-{{page.getId()}}" [attr.aria-controls]="'panel-'+page.getId()" tabindex="-1" (click)="showPage(page.getId())">{{page.getTitle()}}</button>
             }
         }
     </div>
     <div>
         @for(page of pages; track page.getId()) {
             @if(page.getId() === curPageId) {
-                <gneric-sheetpage [pageModel]="page" />
+                <gneric-sheetpage id="panel={{page.getId()}}" role="tabpanel" [attr.aria-labelledby]="'tab-'+page.getId()" [pageModel]="page" />
             }
             @else {
-                <gneric-sheetpage class="hidden" [pageModel]="page" />
+                <gneric-sheetpage id="panel={{page.getId()}}" role="tabpanel" [attr.aria-labelledby]="'tab-'+page.getId()" class="hidden" hidden [pageModel]="page" />
             }
         }
     </div>
