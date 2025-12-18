@@ -26,4 +26,6 @@ export abstract class ElemModel {
     }
 
     abstract getModel(): object;
+
+    abstract validateModel(model: any): boolean;
 }

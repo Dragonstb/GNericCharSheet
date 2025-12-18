@@ -176,12 +176,6 @@ export class GNericBlock {
         }
         const targetId = model.id;
 
-        this.textfields().forEach(elem => {
-            if(elem.getId() === targetId) {
-                elem.setModel(model);
-                return;
-            }
-        });
         this.tables().forEach(elem => {
             if(elem.getId() === targetId) {
                 elem.setModel(model);
@@ -189,12 +183,6 @@ export class GNericBlock {
             }
         });
         this.rpms().forEach(elem => {
-            if(elem.getId() === targetId) {
-                elem.setModel(model);
-                return;
-            }
-        });
-        this.textfields().forEach(elem => {
             if(elem.getId() === targetId) {
                 elem.setModel(model);
                 return;

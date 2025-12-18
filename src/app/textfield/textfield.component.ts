@@ -64,42 +64,6 @@ export class GnericTextfield {
         this.deleteCoreElemEvent.emit(this.elemModel.getId());
     }
 
-    validateModel(model: any): boolean {
-        if(!this.validator.isModel(model)) {
-            return false;
-        }
-
-        if(!this.validator.isForMe(this.elemModel.getId(), ElemTypes.textfield, model)) {
-            return false;
-        }
-
-        if(!this.validator.hasStringProperty('text', model)) {
-            return false;
-        }
-
-        if(!this.validator.hasStringProperty('title', model)) {
-            return false;
-        }
-
-        if(!this.validator.hasFiniteIntegerProperty('rows', model)) {
-            return false;
-        }
-
-        if(model.rows < 1) {
-            return false;
-        }
-
-        return true;
-    }
-
-    setModel(model: any) {
-        if(!this.validateModel(model)) {
-            return;
-        }
-
-        this.elemModel.setModel(model);
-    }
-
     getId(): string {
         return this.elemModel.getId();
     }
