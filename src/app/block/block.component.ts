@@ -32,7 +32,6 @@ export class GNericBlock {
 
     editable = signal(true);
     gNericElemChangedEvent = output<object>();
-    validator = inject(ValidatorService);
     utils = inject(Utils);
     ngZone = inject(NgZone);
 
@@ -113,15 +112,15 @@ export class GNericBlock {
     }
 
     validateBaseModel(model: any): boolean {
-        if(!this.validator.isModel(model)) {
+        if(!ValidatorService.isModel(model)) {
             return false;
         }
 
-        if(!this.validator.isForMe(this.blockModel.getId(), ElemTypes.block, model)) {
+        if(!ValidatorService.isForMe(this.blockModel.getId(), ElemTypes.block, model)) {
             return false;
         }
 
-        if(!this.validator.hasNonEmptyStringProperty('action', model)) {
+        if(!ValidatorService.hasNonEmptyStringProperty('action', model)) {
             return false;
         }
 
@@ -137,13 +136,13 @@ export class GNericBlock {
             if(typeof entry !== 'object') {
                 return false;
             }
-            if(!this.validator.hasNonEmptyStringProperty('id', entry)) {
+            if(!ValidatorService.hasNonEmptyStringProperty('id', entry)) {
                 return false;
             }
-            if(!this.validator.hasNonEmptyStringProperty('type', entry)) {
+            if(!ValidatorService.hasNonEmptyStringProperty('type', entry)) {
                 return false;
             }
-            if(!this.validator.isCoreElemType(entry.type)) {
+            if(!ValidatorService.isCoreElemType(entry.type)) {
                 return false;
             }
         }
@@ -171,29 +170,19 @@ export class GNericBlock {
      * @returns None
      */
     updateElement(model: any): void {
-        if(!this.validator.isModel(model) || !this.validator.hasNonEmptyStringProperty('id', model)) {
+        if(!ValidatorService.isModel(model) || !ValidatorService.hasNonEmptyStringProperty('id', model)) {
             return;
         }
         const targetId = model.id;
 
-        this.tables().forEach(elem => {
-            if(elem.getId() === targetId) {
-                elem.setModel(model);
-                return;
+        for (const elem of this.blockModel.getElems()) {
+            if(elem.getId() === targetId()) {
+                if(elem.validateModel(model)) {
+                    elem.setModel(model);
+                }
+                break;
             }
-        });
-        this.rpms().forEach(elem => {
-            if(elem.getId() === targetId) {
-                elem.setModel(model);
-                return;
-            }
-        });
-        this.checkboxes().forEach(elem => {
-            if(elem.getId() === targetId) {
-                elem.setModel(model);
-                return;
-            }
-        });
+        }
     }
 
     /** Adds or removes child elements.
@@ -209,7 +198,13 @@ export class GNericBlock {
             switch(entry.type) {
                 case ElemTypes.textfield:
                     const newElem = new TextfieldModel(entry.id);
-                    newElems.push(newElem);
+                    if(newElem.validateModel(entry)) {
+                        newElem.setModel(entry);
+                        newElems.push(newElem);
+                    }
+                    else {
+                        return; // invalid model, ignore
+                    }
                     break;
             }
         }

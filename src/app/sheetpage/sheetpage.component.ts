@@ -21,7 +21,6 @@ export class GNericSheetPage {
     @ViewChild('dialog') dialog!: GNericDeletionModal;
 
     utils = inject(Utils);
-    validator = inject(ValidatorService);
     ngZone = inject(NgZone);
 
     idCounter: number = 0;
@@ -90,15 +89,15 @@ export class GNericSheetPage {
     // _______________  receive changes  _______________
 
     validateBaseModel(model: any):boolean {
-        if(!this.validator.isModel(model)) {
+        if(!ValidatorService.isModel(model)) {
             return false;
         }
 
-        if(!this.validator.isForMe(this.pageModel.getId(), ElemTypes.page, model)) {
+        if(!ValidatorService.isForMe(this.pageModel.getId(), ElemTypes.page, model)) {
             return false;
         }
 
-        if(!this.validator.hasNonEmptyStringProperty('action', model)) {
+        if(!ValidatorService.hasNonEmptyStringProperty('action', model)) {
             return false;
         }
 
@@ -115,7 +114,7 @@ export class GNericSheetPage {
             if(typeof block !== 'object') {
                 return false;
             }
-            if(!this.validator.hasNonEmptyStringProperty('id', block)) {
+            if(!ValidatorService.hasNonEmptyStringProperty('id', block)) {
                 return false;
             }
             if(idsInUse.has(block.id)) {
@@ -143,7 +142,7 @@ export class GNericSheetPage {
     }
 
     updateBlock(model: any): void {
-        if(!this.validator.hasNonEmptyStringProperty('id', model)) {
+        if(!ValidatorService.hasNonEmptyStringProperty('id', model)) {
             return;
         }
 

@@ -19,7 +19,6 @@ export class GNericCheckboxList {
     deleteCoreElemEvent = output<string>();
     gNericElemChangedEvent = output<object>();
 
-    validator = inject(ValidatorService);
     ngZone = inject(NgZone);
 
     rows: GNericBoxRowModel[] = [
@@ -89,15 +88,15 @@ export class GNericCheckboxList {
     }
 
     validateModel(model: any): boolean {
-        if(!this.validator.isModel(model)) {
+        if(!ValidatorService.isModel(model)) {
             return false;
         }
 
-        if(!this.validator.isForMe(this.id, ElemTypes.checkboxes, model)) {
+        if(!ValidatorService.isForMe(this.id, ElemTypes.checkboxes, model)) {
             return false;
         }
 
-        if(!this.validator.hasStringProperty('title', model)) {
+        if(!ValidatorService.hasStringProperty('title', model)) {
             return false;
         }
 
@@ -113,7 +112,7 @@ export class GNericCheckboxList {
             if(typeof row !== 'object') {
                 return false;
             }
-            if(!this.validator.hasStringProperty('text', row)) {
+            if(!ValidatorService.hasStringProperty('text', row)) {
                 return false;
             }
             if(!row.hasOwnProperty('checked') || typeof row.checked !== 'boolean') {

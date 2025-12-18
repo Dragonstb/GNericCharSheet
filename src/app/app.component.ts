@@ -15,7 +15,6 @@ export class GNericMainComponent {
   title = 'GNericCharSheet';
   broadcaster: BroadCaster = inject(BroadCaster);
   sheets = viewChildren(GNericSheet);
-  private validator = inject(ValidatorService);
 
   setElemsEditable(event: Event) {
     const checkbox = event.target as HTMLInputElement;
@@ -33,7 +32,7 @@ export class GNericMainComponent {
   }
 
   setModel(model: any) {
-    if(this.validator.hasNonEmptyStringProperty('id', model)) {
+    if(ValidatorService.hasNonEmptyStringProperty('id', model)) {
       if(this.sheets().length > 0) {
         // this.pages()[0].setModel(model);
       }

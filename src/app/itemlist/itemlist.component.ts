@@ -21,7 +21,6 @@ export class GNericItemList {
     deleteCoreElemEvent = output<string>();
     gNericElemChangedEvent = output<object>();
 
-    validator = inject(ValidatorService);
     ngZone = inject(NgZone);
 
     items: GNericItemModel[] = [];
@@ -93,11 +92,11 @@ export class GNericItemList {
     }
 
     validateListModel(model: any): boolean {
-        if(!this.validator.isForMe(this.id, ElemTypes.itemlist, model)) {
+        if(!ValidatorService.isForMe(this.id, ElemTypes.itemlist, model)) {
             return false;
         }
 
-        if(!this.validator.hasNonEmptyStringProperty('listname', model)) {
+        if(!ValidatorService.hasNonEmptyStringProperty('listname', model)) {
             return false;
         }
 
@@ -149,7 +148,7 @@ export class GNericItemList {
     }
 
     setModel(model: any): void {
-        if(!this.validator.isModel(model)) {
+        if(!ValidatorService.isModel(model)) {
             return;
         }
 

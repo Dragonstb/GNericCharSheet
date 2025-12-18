@@ -1,10 +1,9 @@
 import { Injectable } from "@angular/core";
 import { ElemTypes } from "../app/elemtypes";
 
-@Injectable({providedIn: 'root'})
 export class ValidatorService {
 
-    private coreTypes: string[] = [
+    private static coreTypes: string[] = [
         ElemTypes.textfield,
         ElemTypes.table,
         ElemTypes.rpm,
@@ -17,7 +16,7 @@ export class ValidatorService {
      * @param model Something to be checked.
      * @returns True if and only if the argument is truthy and an object.
      */
-    isModel(model: any): boolean {
+    static isModel(model: any): boolean {
         if(!model || typeof model !== 'object') {
             return false;
         }
@@ -34,7 +33,7 @@ export class ValidatorService {
      * @param model The potetntial model.
      * @returns True if and only if the model contains an id and an element tyoe that matches with those of the component.
      */
-    isForMe(id: string, type: ElemTypes, model: any): boolean {
+    static isForMe(id: string, type: ElemTypes, model: any): boolean {
         if(!this.hasNonEmptyStringProperty('id', model)) {
             return false;
         }
@@ -54,7 +53,7 @@ export class ValidatorService {
         return true;
     }
 
-    private hasTypedArray(name: string, type: string, model: any): boolean {
+    private static hasTypedArray(name: string, type: string, model: any): boolean {
         if(!model.hasOwnProperty(name) || !model[name]){
             return false;
         }
@@ -81,7 +80,7 @@ export class ValidatorService {
      * @param model Object that might have a number array.
      * @returns Property with given name exists and is a number array?
      */
-    hasNumberArray(name: string, model: any): boolean {
+    static hasNumberArray(name: string, model: any): boolean {
         return this.hasTypedArray(name, 'number', model);
     }
 
@@ -93,7 +92,7 @@ export class ValidatorService {
      * @param model Object that might have a string array.
      * @returns Property with given name exists and is a string array?
      */
-    hasStringArray(name: string, model: any): boolean {
+    static hasStringArray(name: string, model: any): boolean {
         return this.hasTypedArray(name, 'string', model);
     }
 
@@ -103,7 +102,7 @@ export class ValidatorService {
      * @param model The model of interest.
      * @returns Has a property of that name with a string defined in it?
      */
-    hasStringProperty(propName: string, model: any): boolean {
+    static hasStringProperty(propName: string, model: any): boolean {
         if(!model.hasOwnProperty(propName)) {
             return false;
         }
@@ -121,7 +120,7 @@ export class ValidatorService {
      * @param model Object in the loop.
      * @returns String prop with defined value !== ''?
      */
-    hasNonEmptyStringProperty(propName: string, model: any): boolean {
+    static hasNonEmptyStringProperty(propName: string, model: any): boolean {
         if(!this.hasStringProperty(propName, model)) {
             return false;
         }
@@ -135,7 +134,7 @@ export class ValidatorService {
      * @param model The model of interest.
      * @returns Has a property of that name with a number defined in it?
      */
-    hasNumberProperty(propName: string, model: any): boolean {
+    static hasNumberProperty(propName: string, model: any): boolean {
         if(!model.hasOwnProperty(propName)) {
             return false;
         }
@@ -153,7 +152,7 @@ export class ValidatorService {
      * @param model The model of interest.
      * @returns Has a property of that name with a number defined in it?
      */
-    hasFiniteNumberProperty(propName: string, model: any): boolean {
+    static hasFiniteNumberProperty(propName: string, model: any): boolean {
         if(!this.hasNumberProperty(propName, model)) {
             return false;
         }
@@ -167,7 +166,7 @@ export class ValidatorService {
      * @param model The model of interest.
      * @returns Has a property of that name with an integer defined in it?
      */
-    hasFiniteIntegerProperty(propName: string, model: any): boolean {
+    static hasFiniteIntegerProperty(propName: string, model: any): boolean {
         if(!this.hasFiniteNumberProperty(propName, model)) {
             return false;
         }
@@ -175,7 +174,7 @@ export class ValidatorService {
         return Number.isInteger(model[propName]);
     }
 
-    isCoreElemType(type: string): boolean {
+    static isCoreElemType(type: string): boolean {
         if(!type) {
             return false;
         }

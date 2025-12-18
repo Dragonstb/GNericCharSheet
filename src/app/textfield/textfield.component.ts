@@ -27,8 +27,6 @@ export class GnericTextfield {
 
     @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
 
-    validator = inject(ValidatorService);
-
     addRow() {
         this.elemModel.changeRowsBy(1);
         this.fireElemChangedEvent();

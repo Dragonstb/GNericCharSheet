@@ -1,14 +1,13 @@
 import { FormControl } from "@angular/forms";
 import { ElemModel } from "../block/elemmodel";
 import { ElemTypes } from "../elemtypes";
-import { inject } from "@angular/core";
+import { inject, runInInjectionContext } from "@angular/core";
 import { ValidatorService } from "../../services/validator";
 
 export class TextfieldModel extends ElemModel {
 
     rows: number;
     text = new FormControl('Insert text');
-    private validator = inject(ValidatorService);
 
     constructor(id: string, title: string = '', rows: number = 10) {
         super(id, title ?? id, ElemTypes.textfield);
@@ -44,11 +43,11 @@ export class TextfieldModel extends ElemModel {
     // _______________ validation _______________
 
     override validateModel(model: any): boolean {
-        if(!this.validator.isModel(model)) {
+        if(!ValidatorService.isModel(model)) {
             return false;
         }
 
-        if(!this.validator.hasNonEmptyStringProperty('type', model)) {
+        if(!ValidatorService.hasNonEmptyStringProperty('type', model)) {
             return false;
         }
 
@@ -56,15 +55,15 @@ export class TextfieldModel extends ElemModel {
             return false;
         }
 
-        if(!this.validator.hasStringProperty('text', model)) {
+        if(!ValidatorService.hasStringProperty('text', model)) {
             return false;
         }
 
-        if(!this.validator.hasStringProperty('title', model)) {
+        if(!ValidatorService.hasStringProperty('title', model)) {
             return false;
         }
 
-        if(!this.validator.hasFiniteIntegerProperty('rows', model)) {
+        if(!ValidatorService.hasFiniteIntegerProperty('rows', model)) {
             return false;
         }
 

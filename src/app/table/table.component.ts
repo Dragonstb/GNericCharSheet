@@ -39,7 +39,6 @@ export class GNericTable {
     deleteCoreElemEvent = output<string>();
     gNericElemChangedEvent = output<object>();
 
-    private validator = inject(ValidatorService);
     private ngZone = inject(NgZone);
 
     setEditable(editable: boolean): void {
@@ -256,7 +255,7 @@ export class GNericTable {
     }
 
     isProperWidths(model: any): boolean {
-        if(!this.validator.hasNumberArray('widths', model)) {
+        if(!ValidatorService.hasNumberArray('widths', model)) {
             return false;
         }
 
@@ -313,11 +312,11 @@ export class GNericTable {
     }
 
     validateModel(model: any): boolean {
-        if(!this.validator.isModel(model)) {
+        if(!ValidatorService.isModel(model)) {
             return false;
         }
 
-        if(!this.validator.isForMe(this.id, ElemTypes.table, model)) {
+        if(!ValidatorService.isForMe(this.id, ElemTypes.table, model)) {
             return false;
         }
 
@@ -329,7 +328,7 @@ export class GNericTable {
             return false;
         }
 
-        if(!this.validator.hasStringProperty('title', model)) {
+        if(!ValidatorService.hasStringProperty('title', model)) {
             return false;
         }
 

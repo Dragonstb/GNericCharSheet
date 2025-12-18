@@ -40,8 +40,6 @@ export class GNericRessourcePointsManager {
 
     tierMap: Map<string, number> = new Map();
 
-    validator = inject(ValidatorService);
-
     setEditable(editable: boolean): void {
         this.editable = editable;
         if(editable) {
@@ -348,15 +346,15 @@ export class GNericRessourcePointsManager {
     }
 
     validateModel(model: any): boolean {
-        if(!this.validator.isModel(model) || !this.validator.isForMe(this.id, ElemTypes.rpm, model)) {
+        if(!ValidatorService.isModel(model) || !ValidatorService.isForMe(this.id, ElemTypes.rpm, model)) {
             return false;
         }
 
-        if(!this.validator.hasNumberArray('damage', model)) {
+        if(!ValidatorService.hasNumberArray('damage', model)) {
             return false;
         }
 
-        if(!this.validator.hasStringArray('texts', model)) {
+        if(!ValidatorService.hasStringArray('texts', model)) {
             return false;
         }
 
@@ -380,7 +378,7 @@ export class GNericRessourcePointsManager {
             return false;
         }
 
-        if(!this.validator.hasStringProperty('title', model)) {
+        if(!ValidatorService.hasStringProperty('title', model)) {
             return false;
         }
 
