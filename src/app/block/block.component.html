@@ -2,19 +2,19 @@
     @for(elem of blockModel.getElems(); track elem.getId()) {
         @switch(elem.getType()) {
             @case('textfield') {
-                <gneric-textfield [elem]="elem" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnChange($event)"/>
+                <gneric-textfield [elem]="elem" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
             }
             <!-- @case('table') {
-                <gneric-table [id]="elem.getId()" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnChange($event)"/>
+                <gneric-table [id]="elem.getId()" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
             } -->
             <!-- @case('rpm') {
-                <gneric-rpm [id]="elem.getId()" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnChange($event)"/>
+                <gneric-rpm [id]="elem.getId()" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
             } -->
             <!-- @case('itemlist') {
-                <gneric-itemlist [id]="elem.getId()" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnChange($event)"/>
+                <gneric-itemlist [id]="elem.getId()" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
             } -->
             <!-- @case('checkboxes') {
-                <gneric-checkboxes [id]="elem.getId()" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnChange($event)"/>
+                <gneric-checkboxes [id]="elem.getId()" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
             } -->
         }
     }

@@ -81,10 +81,10 @@ export class GNericBlock {
         this.nextToDelete = undefined;
 
         this.blockModel.deleteElemById(elemId);
-        this.reactOnAlteration();
+        this.reactOnBlockChange();
     }
 
-    reactOnChange(json: object): void {
+    reactOnElementChange(json: object): void {
         const model = {
             id: this.blockModel.getId(),
             type: ElemTypes.block,
@@ -94,7 +94,7 @@ export class GNericBlock {
         this.gNericElemChangedEvent.emit(model);
     }
 
-    reactOnAlteration(): void {
+    reactOnBlockChange(): void {
         // TODO: get the complete block model by calling blockModel.getModel()
         // and extend it by adding the acyion type in this method
         const arr: object[] = [];
@@ -157,10 +157,10 @@ export class GNericBlock {
         }
 
         if(model.action === ActionTypes.elemupdate) {
-            this.updateContentModel(model.model ?? undefined);
+            this.updateElement(model.model ?? undefined);
         }
         else if(model.action === ActionTypes.blockupdate) {
-            this.alterBlock(model);
+            this.updateBlock(model);
         }
         // otherwise do nothing
     }
@@ -170,7 +170,7 @@ export class GNericBlock {
      * @param model New model
      * @returns None
      */
-    updateContentModel(model: any): void {
+    updateElement(model: any): void {
         if(!this.validator.isModel(model) || !this.validator.hasNonEmptyStringProperty('id', model)) {
             return;
         }
@@ -211,7 +211,7 @@ export class GNericBlock {
     /** Adds or removes child elements.
      * 
      */
-    alterBlock(model: any): void {
+    updateBlock(model: any): void {
         if(!this.validateAlterationModel(model)) {
             return;
         }
@@ -243,7 +243,7 @@ export class GNericBlock {
 
     addElement(newElem: ElemModel): void {
         this.blockModel.addElem(newElem);
-        this.reactOnAlteration();
+        this.reactOnBlockChange();
     }
 
     addTextfield(): void {
@@ -269,8 +269,6 @@ export class GNericBlock {
         this.addElement(ElemTypes.checkboxes);
     }
     */
-
-    // _______________ make elements from models _______________
 
     // _______________ stuff _______________
 
