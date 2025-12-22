@@ -1,7 +1,6 @@
 import { FormControl } from "@angular/forms";
 import { ElemModel } from "../block/elemmodel";
 import { ElemTypes } from "../elemtypes";
-import { inject, runInInjectionContext } from "@angular/core";
 import { ValidatorService } from "../../services/validator";
 
 export class TextfieldModel extends ElemModel {
