@@ -146,9 +146,9 @@ export class GNericSheetPage {
             return;
         }
 
-        for (const block of this.blockElems()) {
+        for (const block of this.pageModel.getBlocks()) {
             if(block.getId() === model.id) {
-                block.setModel(model);
+                block.updateModel(model);
                 return;
             }
         }
