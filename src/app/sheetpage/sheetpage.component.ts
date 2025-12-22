@@ -80,8 +80,8 @@ export class GNericSheetPage {
     }
 
     reactOnPageUpdate(): void {
-        const json = this.pageModel.getModel();
-        // TODO: define action type here
+        const model = this.pageModel.getModel();
+        const json = {...model, action: ActionTypes.pageupdate};
 
         this.gNericElemChangedEvent.emit(json);
     }

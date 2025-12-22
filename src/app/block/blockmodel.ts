@@ -53,18 +53,20 @@ export class GNericBlockModel {
 
     // _______________ update _______________
 
-    updateModel(model: any): void {
+    updateModel(model: any): boolean {
         if(!this.validateBaseModel(model)) {
-            return;
+            return false;
         }
 
+        let ok: boolean = false;
         if(model.action === ActionTypes.elemupdate) {
-            this.updateElement(model.model ?? undefined);
+            ok = this.updateElement(model.model ?? undefined);
         }
         else if(model.action === ActionTypes.blockupdate) {
-            this.updateBlock(model);
+            ok = this.updateBlock(model);
         }
         // otherwise do nothing
+        return ok;
     }
 
     /** Updates the model of an existing child element.
@@ -72,9 +74,9 @@ export class GNericBlockModel {
      * @param model New model
      * @returns None
      */
-    updateElement(model: any): void {
+    updateElement(model: any): boolean {
         if(!ValidatorService.isModel(model) || !ValidatorService.hasNonEmptyStringProperty('id', model)) {
-            return;
+            return false;
         }
         const targetId = model.id;
 
@@ -86,14 +88,16 @@ export class GNericBlockModel {
                 break;
             }
         }
+
+        return true;
     }
 
     /** Adds or removes child elements.
      * 
      */
-    updateBlock(model: any): void {
+    updateBlock(model: any): boolean {
         if(!this.validateEntireModelLevel(model)) {
-            return;
+            return false;
         }
 
         const newElems: ElemModel[] = [];
@@ -106,13 +110,14 @@ export class GNericBlockModel {
                         newElems.push(newElem);
                     }
                     else {
-                        return; // invalid model, ignore entire update
+                        return false; // invalid model, ignore entire update
                     }
                     break;
             }
         }
 
         this.elems = newElems;
+        return true;
     }
 
     // _______________ validate _______________

@@ -1,6 +1,7 @@
 import { ActionTypes } from "../ActionTypes";
 import { ElemTypes } from "../elemtypes";
 import { GNericBlockModel } from "../block/blockmodel";
+import { ValidatorService } from "../../services/validator";
 
 export class GNericPageModel {
 
@@ -58,10 +59,104 @@ export class GNericPageModel {
         const json = {
             id: this.getId(),
             type: ElemTypes.page,
-            action: ActionTypes.pageupdate, // TODO: do not define action here but in surrounding call
             content: arr
         };
 
         return json;
     }
+
+    // _______________ update _______________
+
+    updateModel(model: any): boolean {
+        if(!this.validateBaseModel(model)) {
+            return false;
+        }
+
+        let ok = false;
+        if(model.action === ActionTypes.blockupdate) {
+            if(model.hasOwnProperty('model') && model.model && typeof model.model === 'object') {
+                ok = this.updateBlock(model.model);
+            }
+        }
+        else if(model.action == ActionTypes.pageupdate) {
+            ok = this.updatePage(model);
+        }
+
+        return ok;
+    }
+
+    updateBlock(model: any): boolean {
+        if(!ValidatorService.hasNonEmptyStringProperty('id', model)) {
+            return false;
+        }
+
+        for (const block of this.blocks) {
+            if(block.getId() === model.id) {
+                return block.updateModel(model);
+            }
+        }
+
+        return true;
+    }
+
+    updatePage(model: any): boolean {
+        if(!this.validatePageModelLevel(model)) {
+            return false;
+        }
+
+        const newBlocks: GNericBlockModel[] = [];
+        for (const block of model.content) {
+            const mod = {...block, action: ActionTypes.blockupdate};
+            const newBlock = new GNericBlockModel(mod.id);
+            const ok = newBlock.updateModel(mod);
+            if(!ok) {
+                return false;
+            }
+            newBlocks.push(newBlock);
+        }
+
+        this.blocks = newBlocks;
+        return true;
+    }
+
+    // _______________ validate _______________
+
+    validateBaseModel(model: any):boolean {
+        if(!ValidatorService.isModel(model)) {
+            return false;
+        }
+
+        if(!ValidatorService.isForMe(this.getId(), ElemTypes.page, model)) {
+            return false;
+        }
+
+        if(!ValidatorService.hasNonEmptyStringProperty('action', model)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    validatePageModelLevel(model: any): boolean {
+        if(!model.hasOwnProperty('content') || !Array.isArray(model.content)) {
+            return false;
+        }
+
+        const idsInUse: Set<string> = new Set();
+        for (const block of model.content) {
+            if(typeof block !== 'object') {
+                return false;
+            }
+            if(!ValidatorService.hasNonEmptyStringProperty('id', block)) {
+                return false;
+            }
+            if(idsInUse.has(block.id)) {
+                return false;
+            }
+            idsInUse.add(block.id);
+        }
+
+        return true;
+    }
+
 }
