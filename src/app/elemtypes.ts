@@ -6,5 +6,6 @@ export enum ElemTypes {
     itementry = 'itementry',
     checkboxes = 'checkboxes',
     block = 'block',
-    page = 'page'
+    page = 'page',
+    sheet = 'sheet'
 }

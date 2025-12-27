@@ -21,10 +21,10 @@
     <div>
         @for(page of sheetModel.getPages(); track page.getId()) {
             @if(page.getId() === curPageId) {
-                <gneric-sheetpage id="panel={{page.getId()}}" role="tabpanel" [attr.aria-labelledby]="'tab-'+page.getId()" [pageModel]="page" />
+                <gneric-sheetpage id="panel={{page.getId()}}" role="tabpanel" [attr.aria-labelledby]="'tab-'+page.getId()" [pageModel]="page" (gNericElemChangedEvent)="reactOnPageUpdate($event)" />
             }
             @else {
-                <gneric-sheetpage id="panel={{page.getId()}}" role="tabpanel" [attr.aria-labelledby]="'tab-'+page.getId()" class="hidden" hidden [pageModel]="page" />
+                <gneric-sheetpage id="panel={{page.getId()}}" role="tabpanel" [attr.aria-labelledby]="'tab-'+page.getId()" class="hidden" hidden [pageModel]="page" (gNericElemChangedEvent)="reactOnPageUpdate($event)" />
             }
         }
     </div>

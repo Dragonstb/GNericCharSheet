@@ -1,5 +1,6 @@
 export enum ActionTypes {
     elemupdate = 'elemupdate',
     blockupdate = 'blockupdate',
-    pageupdate = 'pageupdate'
+    pageupdate = 'pageupdate',
+    sheetupdate = 'sheetupdate'
 }

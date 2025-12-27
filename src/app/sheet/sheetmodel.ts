@@ -1,10 +1,11 @@
+import { ElemTypes } from "../elemtypes";
 import { GNericPageModel } from "../sheetpage/pagemodel";
 
 export class GNericSheetModel {
 
-    id: string;
-    charname: string;
-    pages: GNericPageModel[] = [];
+    private id: string;
+    private charname: string;
+    private pages: GNericPageModel[] = [];
 
     constructor(id: string, charname: string | undefined = undefined) {
         this.id = id;
@@ -30,5 +31,19 @@ export class GNericSheetModel {
 
     addPage(page: GNericPageModel): void {
         this.pages.push(page);
+    }
+
+    getModel(): object {
+        const pageModels: object[] = [];
+        this.pages.forEach(page => {
+            pageModels.push(page.getModel());
+        });
+
+        return {
+            id: this.id,
+            name: this.charname,
+            type: ElemTypes.sheet,
+            pages: pageModels
+        }
     }
 }

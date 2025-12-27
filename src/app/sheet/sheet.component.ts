@@ -1,10 +1,11 @@
-import { Component, inject, signal, viewChildren } from "@angular/core";
+import { Component, inject, Output, output, signal, viewChildren } from "@angular/core";
 import { Utils } from "../../services/utils";
 import { GNericSheetPage } from "../sheetpage/sheetpage.component";
 import { GNericSheetModel } from "./sheetmodel";
 import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
 import { GNericPageModel } from "../sheetpage/pagemodel";
-import { timeout } from "rxjs";
+import { ElemTypes } from "../elemtypes";
+import { ActionTypes } from "../ActionTypes";
 
 @Component({
     selector: 'gneric-sheet',
@@ -24,6 +25,8 @@ export class GNericSheet {
 
     editable = signal(true);
     pages = viewChildren(GNericSheetPage);
+
+    gNericElemChangedEvent = output<object>();
 
     getNextId(): string {
         const num = this.idCounter++;
@@ -63,5 +66,25 @@ export class GNericSheet {
         if(this.sheetModel.getPages().length == 1) {
             this.showPage(this.sheetModel.getPages()[0].getId()); 
         }
+
+        this.reactOnSheetUpdate();
+    }
+
+    // _______________ broadcast changes _______________
+
+    reactOnPageUpdate(model: object): void {
+        const json = {
+            id: this.sheetModel.getId(),
+            type: ElemTypes.sheet,
+            action: ActionTypes.pageupdate,
+            model: model
+        }
+        this.gNericElemChangedEvent.emit(json);
+    }
+
+    reactOnSheetUpdate(): void {
+        const model = this.sheetModel.getModel();
+        const json = {...model, action: ActionTypes.sheetupdate};
+        this.gNericElemChangedEvent.emit(json);
     }
 }
