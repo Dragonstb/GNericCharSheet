@@ -1,10 +1,12 @@
 <div>
     <h2>{{sheetModel.getCharName()}}</h2>
-    <div>
-        <label for="addPage-{{sheetModel.getId()}}">Name of new page</label>
-        <input type="text" id="addPage-{{sheetModel.getId()}}" [formControl]="newPageTitle">
-        <button (click)="addPage()" [disabled]="!newPageTitle.valid">Add page</button>
-    </div>
+    @if(editable()) {
+        <div class="spacingbottomlarge">
+            <label for="addPage-{{sheetModel.getId()}}">Name of new page</label>
+            <input class="spacingleftsmall spacingrightsmall" type="text" id="addPage-{{sheetModel.getId()}}" [formControl]="newPageTitle">
+            <button (click)="addPage()" [disabled]="!newPageTitle.valid">Add page</button>
+        </div>
+    }
     <!-- TODO: the keyboard interactions of an accessible tabbed pane -->
     <div class="flexbox wrapping" role="tablist">
         @for(page of sheetModel.getPages(); track page.getId()) {

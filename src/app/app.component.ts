@@ -20,9 +20,9 @@ export class GNericMainComponent {
     const checkbox = event.target as HTMLInputElement;
     const checked: boolean = checkbox.checked;
 
-    // this.pages().forEach(page => {
-    //   page.setEditable(checked);
-    // });
+    this.sheets().forEach(sheet => {
+      sheet.setEditable(checked);
+    });
 
   }
 
