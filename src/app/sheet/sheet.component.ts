@@ -2,6 +2,7 @@ import { Component, inject } from "@angular/core";
 import { GNericPageModel } from "../sheetpage/pagemodel";
 import { Utils } from "../../services/utils";
 import { GNericSheetPage } from "../sheetpage/sheetpage.component";
+import { GNericSheetModel } from "./sheetmodel";
 
 @Component({
     selector: 'gneric-sheet',
@@ -10,26 +11,22 @@ import { GNericSheetPage } from "../sheetpage/sheetpage.component";
 })
 export class GNericSheet {
 
-    id: string = 'sheet-0';
-    utils = inject(Utils);
+    sheetModel: GNericSheetModel = new GNericSheetModel('char-0', 'Alex Anyone');
 
+    utils = inject(Utils);
     private idCounter: number = 0;
     idKey = this.utils.getRandomString(4);
 
-    pages: GNericPageModel[] = [
-        new GNericPageModel(this.getNextId(), 'General'),
-        new GNericPageModel(this.getNextId(), 'Items'),
-        new GNericPageModel(this.getNextId(), 'Spells'),
-    ]
-
-    curPageId: string = this.pages[0].getId();
+    curPageId: string | null = this.sheetModel.getPages().length > 0 ? this.sheetModel.getPages()[0].getId() : null;
 
     getNextId(): string {
         const num = this.idCounter++;
-        return this.id+'-'+this.idKey+'-'+String(num);
+        return this.sheetModel.getId()+'-'+this.idKey+'-'+String(num);
     }
 
     showPage(pageId: string) {
-        this.curPageId = pageId;
+        if(pageId) {
+            this.curPageId = pageId;
+        }
     }
 }

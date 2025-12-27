@@ -1,7 +1,8 @@
 <div>
+    <h2>{{sheetModel.getCharName()}}</h2>
     <!-- TODO: the keyboard interactions of an accessible tabbed pane -->
     <div class="flexbox wrapping" role="tablist">
-        @for(page of pages; track page.getId()) {
+        @for(page of sheetModel.getPages(); track page.getId()) {
             @if(page.getId() === curPageId) {
                 <button class="tab selected paddingleftmedium paddingrightmedium" role="tab" aria-selected="true" id="tab-{{page.getId()}}" [attr.aria-controls]="'panel-'+page.getId()" tabindex="0" (click)="showPage(page.getId())">{{page.getTitle()}}</button>
             }
@@ -11,7 +12,7 @@
         }
     </div>
     <div>
-        @for(page of pages; track page.getId()) {
+        @for(page of sheetModel.getPages(); track page.getId()) {
             @if(page.getId() === curPageId) {
                 <gneric-sheetpage id="panel={{page.getId()}}" role="tabpanel" [attr.aria-labelledby]="'tab-'+page.getId()" [pageModel]="page" />
             }
