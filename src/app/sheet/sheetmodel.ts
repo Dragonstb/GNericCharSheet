@@ -22,4 +22,8 @@ export class GNericSheetModel {
     getPages(): GNericPageModel[] {
         return this.pages;
     }
+
+    addPage(page: GNericPageModel): void {
+        this.pages.push(page);
+    }
 }
