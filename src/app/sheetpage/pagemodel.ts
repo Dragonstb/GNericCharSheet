@@ -59,6 +59,7 @@ export class GNericPageModel {
         const json = {
             id: this.getId(),
             type: ElemTypes.page,
+            title: this.title,
             content: arr
         };
 
@@ -116,6 +117,7 @@ export class GNericPageModel {
         }
 
         this.blocks = newBlocks;
+        this.title = model.title;
         return true;
     }
 
@@ -139,6 +141,10 @@ export class GNericPageModel {
 
     validatePageModelLevel(model: any): boolean {
         if(!model.hasOwnProperty('content') || !Array.isArray(model.content)) {
+            return false;
+        }
+
+        if(!ValidatorService.hasNonEmptyStringProperty('title', model)) {
             return false;
         }
 
