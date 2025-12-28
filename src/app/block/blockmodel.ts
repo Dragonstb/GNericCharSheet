@@ -1,6 +1,7 @@
 import { ValidatorService } from "../../services/validator";
 import { ActionTypes } from "../ActionTypes";
 import { ElemTypes } from "../elemtypes";
+import { TableModel } from "../table/tablemodel";
 import { TextfieldModel } from "../textfield/textfieldmodel";
 import { ElemModel } from "./elemmodel";
 
@@ -99,16 +100,24 @@ export class GNericBlockModel {
 
         const newElems: ElemModel[] = [];
         for (const entry of model.content) {
+            let newElem = null;
             switch(entry.type) {
                 case ElemTypes.textfield:
-                    const newElem = new TextfieldModel(entry.id);
-                    const ok = newElem.updateModel(entry);
-                    if(!ok) {
-                        return false; // invalid model, ignore entire update
-                    }
-                    newElems.push(newElem);
+                    newElem = new TextfieldModel(entry.id);
                     break;
+                case ElemTypes.table:
+                    newElem = new TableModel(entry.id);
             }
+
+            if(!newElem) {
+                return false;
+            }
+            
+            const ok = newElem.updateModel(entry);
+            if(!ok) {
+                return false; // invalid model, ignore entire update
+            }
+            newElems.push(newElem);
         }
 
         this.elems = newElems;

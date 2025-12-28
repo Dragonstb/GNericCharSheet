@@ -9,7 +9,7 @@ export class TableModel extends ElemModel {
     minWidth: number = 10;
 
     constructor(id: string, title: string = '') {
-        super(id, title ?? id, ElemTypes.table);
+        super(id, title ?? '', ElemTypes.table);
     }
 
     override getModel(): object {

@@ -1,10 +1,11 @@
-import { Component, computed, ElementRef, inject, Input, NgZone, output, signal, ViewChild } from "@angular/core";
+import { Component, ElementRef, Input, output, ViewChild } from "@angular/core";
 import { CdkDrag } from "@angular/cdk/drag-drop";
 import { TableAlterer } from "./tablealterer";
 import { WidthController } from "./widthcontroller";
 import { ElemTypes } from "../elemtypes";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
-import { ValidatorService } from "../../services/validator";
+import { TableModel } from "./tablemodel";
+import { ElemModel } from "../block/elemmodel";
 
 @Component({
     selector: 'gneric-table',
@@ -16,7 +17,14 @@ export class GNericTable {
 
     private notLockedInfo: string = "Current cell is last focused one.";
 
-    @Input() id: string = 'comp-02-02';
+    elemModel: TableModel = new TableModel('comp-02-02');
+
+    @Input()
+    set elem(val: ElemModel) {
+        if(val instanceof TableModel) {
+            this.elemModel = val;
+        }
+    }
 
     maxCols: number = 6;
     cellLocked: boolean = false;
@@ -26,7 +34,6 @@ export class GNericTable {
     curRow: number = -1;
     curCol: number = -1;
 
-    alterer: TableAlterer = new TableAlterer();
     widthController: WidthController = new WidthController(this);
     title = new FormControl('Table title');
 
@@ -38,8 +45,6 @@ export class GNericTable {
 
     deleteCoreElemEvent = output<string>();
     gNericElemChangedEvent = output<object>();
-
-    private ngZone = inject(NgZone);
 
     setEditable(editable: boolean): void {
         this.editable = editable;
@@ -54,21 +59,21 @@ export class GNericTable {
     }
 
     addRowAboveCurrent(): void {
-        this.alterer.addRowAtIndex(this.curRow);
+        this.elemModel.alterer.addRowAtIndex(this.curRow);
         ++this.curRow;
         this.updateLockInfo(this.cellLocked);
         this.fireElemChangedEvent();
     }
 
     addRowBelowCurrent(): void {
-        this.alterer.addRowAtIndex(this.curRow+1);
+        this.elemModel.alterer.addRowAtIndex(this.curRow+1);
         this.fireElemChangedEvent();
     }
 
     removeCurrentRow(): void {
-        this.alterer.removeRowAtIndex(this.curRow);
-        if(this.curRow >= this.alterer.getRows()) {
-            this.curRow = this.alterer.getRows()-1;
+        this.elemModel.alterer.removeRowAtIndex(this.curRow);
+        if(this.curRow >= this.elemModel.alterer.getRows()) {
+            this.curRow = this.elemModel.alterer.getRows()-1;
         }
         this.updateLockInfo(false);
         this.fireElemChangedEvent();
@@ -85,14 +90,14 @@ export class GNericTable {
     }
 
     addColumnAtIndex(idx: number): void {
-        if(this.alterer.getCols()>=this.maxCols) {
+        if(this.elemModel.alterer.getCols()>=this.maxCols) {
             return;
         }
 
-        const oldWidths = this.alterer.getColumnWidths();
+        const oldWidths = this.elemModel.alterer.getColumnWidths();
         let widths: number[] = [];
         if(this.widthController.isEquallyDistributed()) {
-            widths = this.widthController.getEqualWidths(100, this.alterer.getCols()+1);
+            widths = this.widthController.getEqualWidths(100, this.elemModel.alterer.getCols()+1);
         }
         else {
             let sum = 0;
@@ -102,7 +107,7 @@ export class GNericTable {
                 sum = 0;
                 numSqueezedCols = 1; // in the end: the current column, the new one, and the included neighbouring ones
                 ++diff;
-                for (let index = Math.max(this.curCol-diff, 0); index <= Math.min(this.curCol+diff, this.alterer.getCols()-1); index++) {
+                for (let index = Math.max(this.curCol-diff, 0); index <= Math.min(this.curCol+diff, this.elemModel.alterer.getCols()-1); index++) {
                     sum += oldWidths[index];
                     ++numSqueezedCols;
                 }
@@ -127,19 +132,19 @@ export class GNericTable {
             }
         }
 
-        this.alterer.addColumnAtIndex(idx);
-        this.alterer.setColumnWidths(widths);
+        this.elemModel.alterer.addColumnAtIndex(idx);
+        this.elemModel.alterer.setColumnWidths(widths);
 
         this.widthController.rearrangeShifters();
         this.fireElemChangedEvent();
     }
     
     removeCurrentColumn(): void {
-        const numCols = this.alterer.getCols();
+        const numCols = this.elemModel.alterer.getCols();
         let widths = this.widthController.getEqualWidths(100, numCols-1);
 
         if(!this.widthController.isEquallyDistributed()) {
-            widths = this.alterer.getColumnWidths();
+            widths = this.elemModel.alterer.getColumnWidths();
             const freed = widths[this.curCol];
             let toRight = Math.floor(freed/2);
             let toLeft = freed % 2 == 0 ? toRight : toRight+1; // spare percent goes to the left
@@ -164,11 +169,11 @@ export class GNericTable {
         }
         widths.splice(this.curCol, 1);
 
-        this.alterer.removeColumnAtIndex(this.curCol);
-        this.alterer.setColumnWidths(widths);
+        this.elemModel.alterer.removeColumnAtIndex(this.curCol);
+        this.elemModel.alterer.setColumnWidths(widths);
 
-        if(this.curCol >= this.alterer.getCols()) {
-            this.curCol = this.alterer.getCols()-1;
+        if(this.curCol >= this.elemModel.alterer.getCols()) {
+            this.curCol = this.elemModel.alterer.getCols()-1;
         }
 
         this.updateLockInfo(false);
@@ -237,124 +242,12 @@ export class GNericTable {
     }
 
     deleteTable(): void {
-        this.deleteCoreElemEvent.emit(this.id);
+        this.deleteCoreElemEvent.emit(this.elemModel.getId());
     }
 
     fireElemChangedEvent(): void {
-        const widths = this.alterer.getColumnWidths();
-        let texts: string[][] = this.alterer.getContent();
-
-        const json = {
-            id: this.id,
-            type: ElemTypes.table,
-            widths: widths,
-            texts: texts,
-            title: this.title.value ?? ''
-        }
+        const json = this.elemModel.getModel();
         this.gNericElemChangedEvent.emit(json);
-    }
-
-    isProperWidths(model: any): boolean {
-        if(!ValidatorService.hasNumberArray('widths', model)) {
-            return false;
-        }
-
-        let widths = model.widths;
-        if(widths.length < 1) {
-            return false;
-        }
-
-        let sum = 0;
-        for (const x of widths) {
-            if(x<this.widthController.getMinWidth() || x>100) {
-                return false;
-            }
-            sum += x;
-        }
-
-        if(sum !== 100) {
-            return false;
-        }
-
-        return true;
-    }
-
-    isProperTexts(model: any): boolean {
-        if(!model.hasOwnProperty('texts') || !model.texts){
-            return false;
-        }
-
-        let texts = model.texts;
-        if(typeof texts !== 'object' || !Array.isArray(texts) || texts.length < 1) {
-            return false;
-        }
-
-        for (const row of texts) {
-            if(!row || typeof row !== 'object' || !Array.isArray(row) || row.length === 0) {
-                return false;
-            }
-        }
-
-        const cols = texts[0].length;
-        for (const row of texts) {
-            if(row.length != cols) {
-                return false;
-            }
-
-            for (const entry of row) {
-                if((!entry && entry !== "") || typeof entry !== 'string') {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    validateModel(model: any): boolean {
-        if(!ValidatorService.isModel(model)) {
-            return false;
-        }
-
-        if(!ValidatorService.isForMe(this.id, ElemTypes.table, model)) {
-            return false;
-        }
-
-        if(!this.isProperTexts(model)) {
-            return false;
-        }
-
-        if(!this.isProperWidths(model)) {
-            return false;
-        }
-
-        if(!ValidatorService.hasStringProperty('title', model)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    setModel(model: any): void {
-        // TODO: less invasive updating
-        if(!this.validateModel(model)) {
-            return;
-        }
-
-        let equal = this.isEquallyDistributed(model.widths);
-        this.title.setValue(model.title);
-
-        try {
-            this.ngZone.runGuarded(()=>{
-                this.updateLockInfo(false);
-                this.cellLocked = false;
-                this.alterer.setContent(model);
-                this.widthController.equalDistributed = equal;
-                this.widthController.rearrangeShifters();
-            });
-        } catch (error) {
-            console.log('GNeric Char Sheet: error on model update in Table');
-        }
     }
 
     isEquallyDistributed(widths: number[]): boolean {
@@ -386,6 +279,18 @@ export class GNericTable {
     }
 
     getId(): string {
-        return this.id;
+        return this.elemModel.getId();
+    }
+
+    getModel(): TableModel {
+        return this.elemModel;
+    }
+
+    getModelAlterer(): TableAlterer {
+        return this.elemModel.alterer;
+    }
+
+    getColumnMinWidth(): number {
+        return this.elemModel.minWidth;
     }
 }

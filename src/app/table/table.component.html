@@ -1,20 +1,20 @@
 <fieldset #fieldSet class="editable elemblock">
     @if(editable) {
-        <legend #legend class="ctrl-elem">table-{{id}}</legend>
+        <legend #legend class="ctrl-elem">table-{{elemModel.getId()}}</legend>
         <div #editPanel class="ctrl-elem spacingbottommedium">
             <div class="spacingbottomsmall">
-                <label class="spacingrightsmall" for="titleform-{{id}}">Change title to:</label>
-                <input type="text" id="titleform-{{id}}" [formControl]="title" (input)="fireElemChangedEvent()">
+                <label class="spacingrightsmall" for="titleform-{{elemModel.getId()}}">Change title to:</label>
+                <input type="text" id="titleform-{{elemModel.getId()}}" [formControl]="title" (input)="fireElemChangedEvent()">
             </div>
             <div>
                 <button [disabled]="curRow<0 || curCol<0" (click)="addRowAboveCurrent()">Add row above current</button>
                 <button [disabled]="curRow<0 || curCol<0" (click)="addRowBelowCurrent()">Add row below current</button>
-                <button [disabled]="alterer.getRows()<2" (click)="removeCurrentRow()">Remove current row</button>
+                <button [disabled]="elemModel.alterer.getRows()<2" (click)="removeCurrentRow()">Remove current row</button>
             </div>
             <div>
-                <button [disabled]="curRow<0 || curCol<0 || alterer.getCols()>=maxCols" (click)="addColumnLeftOfCurrent()">Add column left of current</button>
-                <button [disabled]="curRow<0 || curCol<0 || alterer.getCols()>=maxCols" (click)="addColumnRightOfCurrent()">Add column right of current</button>
-                <button [disabled]="alterer.getCols()<2" (click)="removeCurrentColumn()">Remove current column</button>
+                <button [disabled]="curRow<0 || curCol<0 || elemModel.alterer.getCols()>=maxCols" (click)="addColumnLeftOfCurrent()">Add column left of current</button>
+                <button [disabled]="curRow<0 || curCol<0 || elemModel.alterer.getCols()>=maxCols" (click)="addColumnRightOfCurrent()">Add column right of current</button>
+                <button [disabled]="elemModel.alterer.getCols()<2" (click)="removeCurrentColumn()">Remove current column</button>
             </div>
             <div>
                 <button [disabled]="widthController.equalDistributed" (click)="widthController.distrubuteColumnsEqually()">Equal column width</button>
@@ -30,7 +30,7 @@
         }
         <table>
             <tbody #tableBody >
-                @for(row of alterer.content; track $index; let rowIdx = $index) {
+                @for(row of elemModel.alterer.content; track $index; let rowIdx = $index) {
                     <tr>
                         @for(col of row; track $index; let colIdx = $index) {
                             @if(!editable || colIdx != curCol || rowIdx != curRow) {

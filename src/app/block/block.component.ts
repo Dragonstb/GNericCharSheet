@@ -12,6 +12,7 @@ import { GNericDelElemModal } from "./delelemmodal.component";
 import { ActionTypes } from "../ActionTypes";
 import { GNericBlockModel } from "./blockmodel";
 import { TextfieldModel } from "../textfield/textfieldmodel";
+import { TableModel } from "../table/tablemodel";
 
 @Component({
     selector: 'gneric-block',
@@ -116,11 +117,13 @@ export class GNericBlock {
         this.addElement(newElem);
     }
 
-    /*
     addTable(): void {
-        this.addElement(ElemTypes.table);
+        const elemId = this.getNextId();
+        const newElem = new TableModel(elemId);
+        this.addElement(newElem);
     }
 
+    /*
     addRPM(): void {
         this.addElement(ElemTypes.rpm);
     }

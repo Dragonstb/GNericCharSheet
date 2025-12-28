@@ -1,4 +1,3 @@
-import { TableAlterer } from "./tablealterer";
 import { CdkDragMove } from "@angular/cdk/drag-drop";
 import { ElementRef } from "@angular/core";
 import { GNericTable } from "./table.component";
@@ -6,21 +5,18 @@ import { GNericTable } from "./table.component";
 export class WidthController {
 
     table: GNericTable;
-    alterer: TableAlterer;
     minDist: number | undefined = undefined;
     maxDist: number | undefined = undefined;
     slope: number | undefined = undefined;
     iniLeftW: number | undefined = undefined;
     iniRightW: number | undefined = undefined;
     lefts: string[] = ['left: 0%;', 'left: 50%;'];
-    minWidth: number = 10;
     equalDistributed: boolean = true;
 
     tableBody!: ElementRef<HTMLTableSectionElement>;
 
     constructor(table: GNericTable) {
         this.table = table;
-        this.alterer = table.alterer;
     }
 
     rearrangeShifters(): void {
@@ -53,12 +49,12 @@ export class WidthController {
         const leftIdx = index-1;
         const rightIdx = index;
 
-        let widths = this.alterer.getColumnWidths();
+        let widths = this.table.getModelAlterer().getColumnWidths();
         this.iniLeftW = widths[leftIdx];
         this.iniRightW = widths[rightIdx];
 
-        this.minDist = Math.min(-(this.iniLeftW-this.minWidth)/this.slope, 0);
-        this.maxDist = Math.max((this.iniRightW-this.minWidth)/this.slope, 0);
+        this.minDist = Math.min(-(this.iniLeftW-this.table.getColumnMinWidth())/this.slope, 0);
+        this.maxDist = Math.max((this.iniRightW-this.table.getColumnMinWidth())/this.slope, 0);
     }
 
     endDraggingShifter(): void {
@@ -89,12 +85,12 @@ export class WidthController {
         const newLeftW = this.iniLeftW + shift;
         const newRightW = this.iniRightW - shift;
 
-        this.alterer.setColumnWidth(index-1, newLeftW);
-        this.alterer.setColumnWidth(index, newRightW);
+        this.table.getModelAlterer().setColumnWidth(index-1, newLeftW);
+        this.table.getModelAlterer().setColumnWidth(index, newRightW);
     }
 
     getMinWidth(): number {
-        return this.minWidth;
+        return this.table.getColumnMinWidth();
     }
 
     isEquallyDistributed(): boolean {
@@ -118,8 +114,8 @@ export class WidthController {
     }
 
     distrubuteColumnsEqually(): void {
-        const widths = this.getEqualWidths(100, this.alterer.getCols());
-        this.alterer.setColumnWidths(widths);
+        const widths = this.getEqualWidths(100, this.table.getModelAlterer().getCols());
+        this.table.getModelAlterer().setColumnWidths(widths);
         this.setEquallyDistributed(true);
         this.rearrangeShifters();
         this.table.fireElemChangedEvent();
