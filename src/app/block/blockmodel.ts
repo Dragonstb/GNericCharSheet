@@ -82,10 +82,7 @@ export class GNericBlockModel {
 
         for (const elem of this.elems) {
             if(elem.getId() === targetId()) {
-                if(elem.validateModel(model)) {
-                    elem.setModel(model);
-                }
-                break;
+                return elem.updateModel(model);
             }
         }
 
@@ -105,13 +102,11 @@ export class GNericBlockModel {
             switch(entry.type) {
                 case ElemTypes.textfield:
                     const newElem = new TextfieldModel(entry.id);
-                    if(newElem.validateModel(entry)) {
-                        newElem.setModel(entry);
-                        newElems.push(newElem);
-                    }
-                    else {
+                    const ok = newElem.updateModel(entry);
+                    if(!ok) {
                         return false; // invalid model, ignore entire update
                     }
+                    newElems.push(newElem);
                     break;
             }
         }

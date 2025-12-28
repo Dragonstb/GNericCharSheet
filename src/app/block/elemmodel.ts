@@ -27,7 +27,7 @@ export abstract class ElemModel {
 
     abstract getModel(): object;
 
-    abstract setModel(model: any): void;
+    abstract updateModel(model: any): boolean;
 
     abstract validateModel(model: any): boolean;
 }

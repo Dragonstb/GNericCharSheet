@@ -33,10 +33,14 @@ export class TextfieldModel extends ElemModel {
         };
     }
 
-    setModel(model: any) {
+    override updateModel(model: any): boolean {
+        if(!this.validateModel(model)) {
+            return false;
+        }
         this.rows = model.rows;
         this.text.setValue(model.text);
         this.title.setValue(model.title);
+        return true;
     }
 
     // _______________ validation _______________
@@ -46,11 +50,7 @@ export class TextfieldModel extends ElemModel {
             return false;
         }
 
-        if(!ValidatorService.hasNonEmptyStringProperty('type', model)) {
-            return false;
-        }
-
-        if(model.type !== ElemTypes.textfield) {
+        if(!ValidatorService.isForMe(this.getId(), ElemTypes.textfield, model)) {
             return false;
         }
 
@@ -63,6 +63,10 @@ export class TextfieldModel extends ElemModel {
         }
 
         if(!ValidatorService.hasFiniteIntegerProperty('rows', model)) {
+            return false;
+        }
+
+        if(!Number.isInteger(model.rows)) {
             return false;
         }
 
