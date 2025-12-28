@@ -29,5 +29,4 @@ export abstract class ElemModel {
 
     abstract updateModel(model: any): boolean;
 
-    abstract validateModel(model: any): boolean;
 }
