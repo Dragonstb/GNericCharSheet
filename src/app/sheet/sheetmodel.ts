@@ -80,7 +80,7 @@ export class GNericSheetModel {
             }
         }
 
-        return true;
+        return false;
     }
 
     updateSheet(model: any): boolean {
@@ -100,6 +100,7 @@ export class GNericSheetModel {
         }
 
         this.pages = newPages;
+        this.charname = model.name;
         return true;
     }
 

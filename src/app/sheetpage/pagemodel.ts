@@ -118,7 +118,7 @@ export class GNericPageModel {
 
         this.blocks = newBlocks;
         this.title = model.title;
-        return true;
+        return false;
     }
 
     // _______________ validate _______________
