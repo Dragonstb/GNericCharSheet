@@ -33,4 +33,15 @@ export class GNericDmgConfigSetting {
         const key = this.form.value.keyLetter;
         this.oldKey = (key || key === '') ? key : '?';
     }
+
+    setSettings(key: string, checked: boolean): void {
+        this.form.setValue({
+            checked: checked,
+            keyLetter: key
+        })
+    }
+
+    clearSettings(): void {
+        this.setSettings('', false);
+    }
 }

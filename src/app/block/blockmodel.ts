@@ -1,6 +1,7 @@
 import { ValidatorService } from "../../services/validator";
 import { ActionTypes } from "../ActionTypes";
 import { ElemTypes } from "../elemtypes";
+import { RPMModel } from "../ressourcepoints/rpmmodel";
 import { TableModel } from "../table/tablemodel";
 import { TextfieldModel } from "../textfield/textfieldmodel";
 import { ElemModel } from "./elemmodel";
@@ -107,6 +108,10 @@ export class GNericBlockModel {
                     break;
                 case ElemTypes.table:
                     newElem = new TableModel(entry.id);
+                    break;
+                case ElemTypes.rpm:
+                    newElem = new RPMModel(entry.id);
+                    break;
             }
 
             if(!newElem) {

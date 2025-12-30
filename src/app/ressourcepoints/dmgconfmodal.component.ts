@@ -34,7 +34,16 @@ export class GNericDmgConfModal {
         {validators: dmgConfValidator}
     );
 
-    openDmgTierConfigModal() {
+    openDmgTierConfigModal(tierMap: Map<string, number>) {
+        this.tiers.forEach(tier => {
+            tier.clearSettings();
+        });
+
+        tierMap.forEach((val, key) => {
+            if(val > 0 && val <= this.tiers.length) {
+                this.tiers[val-1].setSettings(key, true);
+            }
+        });
         this.dialog.nativeElement.showModal();
     }
 

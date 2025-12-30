@@ -10,7 +10,6 @@ export class RPMModel extends ElemModel {
     private tierMap: Map<string, number> = new Map();
     absorbCheckbox = new FormControl();
     showTextsCheckbox = new FormControl(true);
-    private textVisible = Boolean(this.showTextsCheckbox.value);
     private damage = new GNericDamage();
 
     rows: GNericRPRowStats[] = [
@@ -19,11 +18,12 @@ export class RPMModel extends ElemModel {
 
     constructor(id: string, title: string = '') {
         super(id, title ?? id, ElemTypes.rpm);
+        this.mapDamageTier('', 3);
     }
 
     // _______________ useful methods _______________
 
-    private getPointsPerRow() {
+    getPointsPerRow() {
         return this.rows[0].getNumPoints();
     }
 
@@ -34,7 +34,80 @@ export class RPMModel extends ElemModel {
         });
     }
 
+    getDamageTierOfKey(key: string): number | undefined {
+        return this.tierMap.get(key);
+    }
+
+    isAbsorbing(): boolean {
+        return Boolean(this.absorbCheckbox.value);
+    }
+
+    getTierMapKeys(): MapIterator<string> {
+        return this.tierMap.keys();
+    }
+
+    getTierMapValues(): MapIterator<number> {
+        return this.tierMap.values();
+    }
+
+    isTierKey(key: string): boolean {
+        return this.tierMap.has(key);
+    }
+
+    getTierMap(): Map<string, number> {
+        return this.tierMap;
+    }
+
+    isTextVisible(): boolean {
+        return Boolean(this.showTextsCheckbox.value);
+    }
+
+    getRows(): GNericRPRowStats[] {
+        return this.rows;
+    }
+
     // _______________ change model _______________
+    
+    addDamage(dmg: GNericDamage): void {
+        this.damage.addDamage(dmg);
+    }
+
+    subtractDamage(dmg: GNericDamage): void {
+        this.damage.subtractDamage(dmg);
+    }
+
+    setDamage(dmg: GNericDamage): void {
+        this.damage = dmg;
+    }
+
+    setTieredDamage(tier: number, dmg: number): void {
+        this.damage.setTieredDamage(tier, dmg);
+    }
+
+    mapDamageTier(key: string, tier: number): void {
+        if((!key && key !== '') || key.length > 1) {
+            return;
+        }
+
+        if(!tier || tier < 1 || tier > this.damage.getNumTiers()) {
+            return;
+        }
+
+        // unmap former letter
+        for (const [oldKey, val] of this.tierMap) {
+            if(val === tier) {
+                this.tierMap.delete(oldKey);
+                break;
+            }            
+        }
+
+        this.tierMap.set(key.toLowerCase(), tier);
+    }
+
+    setTierMap(newMap: Map<string, number>): void {
+        this.tierMap = newMap;
+        this.redistributeDamage();
+    }
 
     addRow(): void {
         this.rows.push(new GNericRPRowStats(this.rows.length, this.getPointsPerRow()));
@@ -104,7 +177,7 @@ export class RPMModel extends ElemModel {
             title: this.title.value ?? '',
             rows: this.rows.length,
             cols: this.getPointsPerRow(),
-            showTexts: this.textVisible,
+            showTexts: Boolean(this.showTextsCheckbox.value),
             useAbsorbtion: Boolean(this.absorbCheckbox.value),
             tierMap: mapping,
             texts: texts,
@@ -137,7 +210,6 @@ export class RPMModel extends ElemModel {
         }
 
         this.title.setValue(model.title);
-        this.textVisible = model.showTexts;
         
         let ok: boolean = true;
         while(this.getPointsPerRow() > model.cols && ok) {

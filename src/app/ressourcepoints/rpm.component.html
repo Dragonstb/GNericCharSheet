@@ -1,44 +1,44 @@
 <fieldset #fieldSet class="editable elemblock">
     @if(editable) {
-        <legend #legend class="ctrl-elem">ressource-points-{{id}}</legend>
+        <legend #legend class="ctrl-elem">ressource-points-{{elemModel.getId()}}</legend>
         <div class="ctrl-elem spacingbottommedium">
             <div class="spacingbottomsmall">
-                <label class="spacingrightsmall" for="titleform-{{id}}">Change title to:</label>
-                <input type="text" id="titleform-{{id}}" [formControl]="title" (input)="fireElemChangeEvent()">
+                <label class="spacingrightsmall" for="titleform-{{elemModel.getId()}}">Change title to:</label>
+                <input type="text" id="titleform-{{elemModel.getId()}}" [formControl]="elemModel.title" (input)="fireElemChangeEvent()">
             </div>
             <div>
                 <div>
-                    <button (click)="modal.openDmgTierConfigModal()">Configure damage tiers</button>
+                    <button (click)="modal.openDmgTierConfigModal(elemModel.getTierMap())">Configure damage tiers</button>
                 </div>
                 <div>
                     <button (click)="addRow()">Add row</button>
-                    <button [disabled]="rows.length<2" (click)="removeRow()">Remove row</button>
+                    <button [disabled]="elemModel.getRows().length<2" (click)="removeRow()">Remove row</button>
                 </div>
                 <div>
                     <button (click)="addCol()">Add column</button>
-                    <button [disabled]="getPointsPerRow()<2" (click)="removeCol()">Remove column</button>
+                    <button [disabled]="elemModel.getPointsPerRow()<2" (click)="removeCol()">Remove column</button>
                 </div>
             </div>
             <div class="spacingtopsmall">
                 <div>
-                    <input type="checkbox" id="showText-{{id}}" [formControl]="showTextsCheckbox" (change)="updateTextVisibility()">
-                    <label for="showText-{{id}}">Show texts</label>
+                    <input type="checkbox" id="showText-{{elemModel.getId()}}" [formControl]="elemModel.showTextsCheckbox" (change)="updateTextVisibility()">
+                    <label for="showText-{{elemModel.getId()}}">Show texts</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="absorbDamage-{{id}}" [formControl]="absorbCheckbox" (change)="fireElemChangeEvent()">
-                    <label for="absorbDamage-{{id}}">Higher tiered damage absorbs lower tiered damage</label>
+                    <input type="checkbox" id="absorbDamage-{{elemModel.getId()}}" [formControl]="elemModel.absorbCheckbox" (change)="fireElemChangeEvent()">
+                    <label for="absorbDamage-{{elemModel.getId()}}">Higher tiered damage absorbs lower tiered damage</label>
                 </div>
             </div>
         </div>
     }
     <div class="boxed">
         @if(hasTitle() || editable) {
-            <h4 class="elemtitle paddingleftsmall">{{title.value}}</h4>
+            <h4 class="elemtitle paddingleftsmall">{{elemModel.getTitle()}}</h4>
         }
         @if(!editable) {
             <div class="spacingtopmedium spacingbottommedium spacingleftsmall">
-                <label class="spacingrightsmall" for="{{id}}-dmg-input">Damage:</label>
-                <input id="{{id}}-dmg-input" type="text" [formControl]="dmgInput" (input)="onDmgInput()" (keyup.enter)="onSubmitDamage()">
+                <label class="spacingrightsmall" for="{{elemModel.getId()}}-dmg-input">Damage:</label>
+                <input id="{{elemModel.getId()}}-dmg-input" type="text" [formControl]="dmgInput" (input)="onDmgInput()" (keyup.enter)="onSubmitDamage()">
                 <svg #checkmark width="15px" height="15px" class="svgokicon hidden"
                     viewBox="0 0 10 10"
                     xmlns="http://www.w3.org/2000/svg"
@@ -49,12 +49,12 @@
                 </svg>
             </div>
         }
-        @for(row of rows; track row.id) {
-            @if(textVisible) {
-                <gneric-rpmrow class="paddingleftsmall thintopborder blockdisplay" [status]="row" [showText]="textVisible" [textEditable]="editable" (input)="fireElemChangeEvent()" />
+        @for(row of elemModel.getRows(); track row.id) {
+            @if(elemModel.isTextVisible()) {
+                <gneric-rpmrow class="paddingleftsmall thintopborder blockdisplay" [status]="row" [showText]="elemModel.isTextVisible()" [textEditable]="editable" (input)="fireElemChangeEvent()" />
             }
             @else {
-                <gneric-rpmrow class="thintopborder blockdisplay" [status]="row" [showText]="textVisible" [textEditable]="editable" (input)="fireElemChangeEvent()" />
+                <gneric-rpmrow class="thintopborder blockdisplay" [status]="row" [showText]="elemModel.isTextVisible()" [textEditable]="editable" (input)="fireElemChangeEvent()" />
             }
         }
     </div>

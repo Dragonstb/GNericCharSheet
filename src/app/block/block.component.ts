@@ -6,13 +6,13 @@ import { GNericItemList } from "../itemlist/itemlist.component";
 import { GNericCheckboxList } from "../checkboxes/checkboxes.component";
 import { ElemModel } from "./elemmodel";
 import { ElemTypes } from "../elemtypes";
-import { ValidatorService } from "../../services/validator";
 import { Utils } from "../../services/utils";
 import { GNericDelElemModal } from "./delelemmodal.component";
 import { ActionTypes } from "../ActionTypes";
 import { GNericBlockModel } from "./blockmodel";
 import { TextfieldModel } from "../textfield/textfieldmodel";
 import { TableModel } from "../table/tablemodel";
+import { RPMModel } from "../ressourcepoints/rpmmodel";
 
 @Component({
     selector: 'gneric-block',
@@ -123,11 +123,13 @@ export class GNericBlock {
         this.addElement(newElem);
     }
 
-    /*
     addRPM(): void {
-        this.addElement(ElemTypes.rpm);
+        const elemId = this.getNextId();
+        const newElem = new RPMModel(elemId);
+        this.addElement(newElem);
     }
 
+    /*
     addItemlist(): void {
         this.addElement(ElemTypes.itemlist);
     }
