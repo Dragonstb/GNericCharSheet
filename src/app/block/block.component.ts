@@ -13,6 +13,7 @@ import { GNericBlockModel } from "./blockmodel";
 import { TextfieldModel } from "../textfield/textfieldmodel";
 import { TableModel } from "../table/tablemodel";
 import { RPMModel } from "../ressourcepoints/rpmmodel";
+import { ItemListModel } from "../itemlist/itemlistmodel";
 
 @Component({
     selector: 'gneric-block',
@@ -129,11 +130,13 @@ export class GNericBlock {
         this.addElement(newElem);
     }
 
-    /*
     addItemlist(): void {
-        this.addElement(ElemTypes.itemlist);
+        const elemId = this.getNextId();
+        const newElem = new ItemListModel(elemId);
+        this.addElement(newElem);
     }
-
+    
+    /*
     addCheckboxes(): void {
         this.addElement(ElemTypes.checkboxes);
     }

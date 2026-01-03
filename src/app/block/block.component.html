@@ -10,9 +10,9 @@
             @case('rpm') {
                 <gneric-rpm [elem]="elem" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
             }
-            <!-- @case('itemlist') {
-                <gneric-itemlist [id]="elem.getId()" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
-            } -->
+            @case('itemlist') {
+                <gneric-itemlist [elem]="elem" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
+            }
             <!-- @case('checkboxes') {
                 <gneric-checkboxes [id]="elem.getId()" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
             } -->
@@ -23,7 +23,7 @@
             <button (click)="addTextfield()">Add textfield</button>
             <button (click)="addTable()">Add table</button>
             <button (click)="addRPM()">Add ressource points</button>
-            <!-- <button (click)="addItemlist()">Add item list</button> -->
+            <button (click)="addItemlist()">Add item list</button>
             <!-- <button (click)="addCheckboxes()">Add checkboxes</button> -->
         </div>
     }

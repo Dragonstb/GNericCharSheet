@@ -1,14 +1,14 @@
 <fieldset #fieldSet class="editable elemblock">
     @if(editable()) {
-        <legend #legend class="ctrl-elem">itemlist-{{id}}</legend>
+        <legend #legend class="ctrl-elem">itemlist-{{getId()}}</legend>
         <div class="ctrl-elem spacingbottommedium">
-            <label class="spacingrightsmall" for="listnameform-{{id}}">List name:</label>
-            <input type="text" id="listnameform-{{id}}" [formControl]="listname" (input)="fireListChangeEvent()">
+            <label class="spacingrightsmall" for="listnameform-{{getId()}}">List name:</label>
+            <input type="text" id="listnameform-{{getId()}}" [formControl]="elemModel.title" (input)="fireListChangeEvent()">
         </div>
     }
     <div>
-        <button class="accordeonhead" (click)="toggleExpansion()" [attr.aria-controls]="'item-list-'+listname.value" [attr.aria-expanded]="expanded()">
-        <h4 class="inheritbg">{{listname.value}}</h4>
+        <button class="accordeonhead" (click)="toggleExpansion()" [attr.aria-controls]="'item-list-'+getTitle()" [attr.aria-expanded]="expanded()">
+        <h4 class="inheritbg">{{getTitle()}}</h4>
         <svg class="svgicon size20 inheritbg" aria-hidden="true"
             viewBox="0 0 10 10"
                 xmlns="http://www.w3.org/2000/svg"
@@ -26,13 +26,13 @@
             </svg>
         </button>
         @if(expanded()) {
-            <div id="item-list-{{listname.value}}">
-            @for(item of items; track item.getId()) {
+            <div id="item-list-{{getTitle()}}">
+            @for(item of elemModel.items; track item.getId()) {
                 <gneric-itementry (gNericElemChangedEvent)="fireEntryChangeEvent($event)" (deleteEntryEvent)="deleteItem(item.getId())" [model]="item" [editable]="editable()" />
             }
             </div>
-            <div class="spacingtopsmall">
-                <button (click)="handleAddNewEntry()">Add new entry to {{listname.value}}</button>
+            <div class="spacingtopmedium">
+                <button (click)="handleAddNewEntry()">Add new entry to {{getBackupedTitle()}}</button>
             </div>
         }
     </div>
@@ -42,4 +42,4 @@
         </div>
     }
 </fieldset>
-<gneric-additemmodal #modal (newItemEvent)="addNewItem($event)" [listname]="listname.value" />
+<gneric-additemmodal #modal (newItemEvent)="addNewItem($event)" [listname]="getTitle()" />
