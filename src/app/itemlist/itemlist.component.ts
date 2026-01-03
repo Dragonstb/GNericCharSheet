@@ -1,10 +1,9 @@
-import { Component, ElementRef, inject, Input, NgZone, output, signal, ViewChild } from "@angular/core";
+import { Component, ElementRef, Input, output, signal, ViewChild } from "@angular/core";
 import { GNericItemEntry } from "./itementry.component";
 import { GNericItemModel } from "./itemmodel";
-import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from "@angular/forms";
 import { GNericAddItemModal } from "./additemmodal.component";
 import { ElemTypes } from "../elemtypes";
-import { ValidatorService } from "../../services/validator";
 import { ItemListModel } from "./itemlistmodel";
 import { ElemModel } from "../block/elemmodel";
 
@@ -28,8 +27,6 @@ export class GNericItemList {
 
     deleteCoreElemEvent = output<string>();
     gNericElemChangedEvent = output<object>();
-
-    ngZone = inject(NgZone);
 
     editable = signal(true);
     expanded = signal(true);
