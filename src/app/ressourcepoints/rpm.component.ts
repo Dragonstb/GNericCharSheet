@@ -1,11 +1,8 @@
-import { Component, ViewChild, ElementRef, output, inject, NgZone, signal, computed, Input } from "@angular/core";
+import { Component, ViewChild, ElementRef, output, inject, NgZone, Input } from "@angular/core";
 import { GNericRPMRow } from "./rpmrow.component";
 import { GNericDamage } from "./damage";
-import { GNericRPRowStats } from "./rprowstatus";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { GNericDmgConfModal } from "./dmgconfmodal.component";
-import { ElemTypes } from "../elemtypes";
-import { ValidatorService } from "../../services/validator";
 import { RPMModel } from "./rpmmodel";
 import { ElemModel } from "../block/elemmodel";
 
