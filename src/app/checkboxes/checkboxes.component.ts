@@ -1,8 +1,8 @@
-import { Component, ElementRef, inject, Input, NgZone, output, signal, ViewChild } from "@angular/core";
-import { GNericBoxRowModel } from "./boxrowmodel";
-import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { Component, ElementRef, Input, output, signal, ViewChild } from "@angular/core";
+import { ReactiveFormsModule } from "@angular/forms";
 import { ElemTypes } from "../elemtypes";
-import { ValidatorService } from "../../services/validator";
+import { CheckboxModel } from "./checkboxmodel";
+import { ElemModel } from "../block/elemmodel";
 
 @Component({
     selector: 'gneric-checkboxes',
@@ -11,19 +11,19 @@ import { ValidatorService } from "../../services/validator";
 })
 export class GNericCheckboxList {
 
-    @Input() id: string = 'comp-05-05';
+    elemModel: CheckboxModel = new CheckboxModel("comp-05-05");
+
+    @Input()
+    set elem(val: ElemModel) {
+        if(val instanceof CheckboxModel) {
+            this.elemModel = val;
+        }
+    }
     editable = signal(true);
 
-    title = new FormControl('Checkboxes title');
     @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
     deleteCoreElemEvent = output<string>();
     gNericElemChangedEvent = output<object>();
-
-    ngZone = inject(NgZone);
-
-    rows: GNericBoxRowModel[] = [
-        new GNericBoxRowModel()
-    ]
 
     setEditable(editable: boolean) {
         this.editable.set(editable);
@@ -37,127 +37,34 @@ export class GNericCheckboxList {
     }
 
     hasTitle(): boolean {
-        return Boolean(this.title.value);
+        return Boolean(this.elemModel.getTitle());
     }
 
     addRow(): void {
-        this.silentlyAddRow();
+        this.elemModel.addRow();
         this.fireElemChangeEvent();
     }
 
-    silentlyAddRow(): void {
-        this.rows.push(new GNericBoxRowModel());
-    }
-    
     removeRow(): void {
-        if(this.rows.length<2) {
-            return;
+        if(this.elemModel.removeRow()) {
+            this.fireElemChangeEvent();
         }
-        this.silentlyRemoveRow();
-        this.fireElemChangeEvent();
-    }
-
-    silentlyRemoveRow(): void {
-        if(this.rows.length<2) {
-            return;
-        }
-        this.rows.splice(this.rows.length-1);
     }
 
     fireDeleteCheckboxesEvent() {
-        this.deleteCoreElemEvent.emit(this.id);
+        this.deleteCoreElemEvent.emit(this.elemModel.getId());
     }
 
     fireElemChangeEvent(): void {
-        const arr: object[] = [];
-        this.rows.forEach(row => {
-            arr.push({
-                text: row.getText(),
-                checked: row.getChecked()
-            });
-        });
-
-        const model = {
-            id: this.id,
-            type: ElemTypes.checkboxes,
-            title: this.title.value ?? '',
-            rows: arr
-        };
-
+        const model = this.elemModel.getModel();
         this.gNericElemChangedEvent.emit(model);
     }
 
-    validateModel(model: any): boolean {
-        if(!ValidatorService.isModel(model)) {
-            return false;
-        }
-
-        if(!ValidatorService.isForMe(this.id, ElemTypes.checkboxes, model)) {
-            return false;
-        }
-
-        if(!ValidatorService.hasStringProperty('title', model)) {
-            return false;
-        }
-
-        if(!model.hasOwnProperty('rows') || !model.rows || typeof model.rows !== 'object' || !Array.isArray(model.rows)) {
-            return false;
-        }
-
-        if(model.rows.length < 1) {
-            return false;
-        }
-
-        for (const row of model.rows) {
-            if(typeof row !== 'object') {
-                return false;
-            }
-            if(!ValidatorService.hasStringProperty('text', row)) {
-                return false;
-            }
-            if(!row.hasOwnProperty('checked') || typeof row.checked !== 'boolean') {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    setModel(model: any): void {
-        if(!this.validateModel(model)) {
-            return;
-        }
-
-        this.title.setValue(model.title);
-        
-        try {
-            this.ngZone.runGuarded(()=>{
-                while(this.rows.length > model.rows.length) {
-                    this.silentlyRemoveRow();
-                }
-
-                while(this.rows.length < model.rows.length) {
-                    this.silentlyAddRow();
-                }
-                
-                for (let idx = 0; idx < model.rows.length; idx++) {
-                    const target = this.rows[idx];
-                    const source = model.rows[idx];
-                    target.setChecked(source.checked);
-                    target.setText(source.text);
-                }
-            });
-        } catch (error) {
-            console.log('GNeric Char Sheet: error on model update in Checkboxes');
-        }
-
-    }
-
     getType(): ElemTypes {
-        return ElemTypes.checkboxes;
+        return this.elemModel.getType();
     }
 
     getId(): string {
-        return this.id;
+        return this.elemModel.getId();
     }
 }

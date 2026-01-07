@@ -1,22 +1,22 @@
 <fieldset #fieldSet class="editable elemblock">
     @if(editable()) {
-        <legend class="ctrl-elem">checkboxes-{{id}}</legend>
+        <legend class="ctrl-elem">checkboxes-{{getId()}}</legend>
         <div class="ctrl-elem spacingbottommedium spacingtopsmall">
             <div class="spacingbottomsmall">
                 <label class="spacingrightsmall" for="titleform">Change title to:</label>
-                <input type="text" id="titleform" (input)="this.fireElemChangeEvent()" [formControl]="title">
+                <input type="text" id="titleform" (input)="this.fireElemChangeEvent()" [formControl]="elemModel.title">
             </div>
             <div>
                 <button (click)="addRow()">Add row</button>
-                <button (click)="removeRow()" [disabled]="rows.length<2">Remove row</button>
+                <button (click)="removeRow()" [disabled]="elemModel.rows.length<2">Remove row</button>
             </div>
         </div>
     }
     <div class="boxed paddingsmall">
         @if(editable() || hasTitle()) {
-            <h3 class="elemtitle">{{title.value}}</h3>
+            <h3 class="elemtitle">{{elemModel.getTitle()}}</h3>
         }
-        @for(row of rows; track $index) {
+        @for(row of elemModel.rows; track $index) {
             <div class="flexbetween">
                 <label for="checkbox-{{$index}}">
                     @if(!editable()) {
