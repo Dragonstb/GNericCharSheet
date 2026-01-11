@@ -69,7 +69,7 @@ export class CheckboxModel extends ElemModel {
 
     // _______________ validation _______________
 
-    private validateModel(model: any): boolean {
+    validateModel(model: any): boolean {
         if(!ValidatorService.isModel(model)) {
             return false;
         }
