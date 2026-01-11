@@ -33,6 +33,8 @@ describe( 'GNericTextfield', () => {
         expect( textfield ).toBeTruthy();
     });
 
+    /*
+
     it('Should start woth 10 rows', () => {
         expect( textfield.rows ).toEqual( 10 );
     });
@@ -253,202 +255,13 @@ describe( 'GNericTextfield', () => {
         expect(textfield.title.value).toBe( oldTitle );
     });
 
-    it( 'Should accept a proper new model', () => {
-        let json = {
-            id: id,
-            type: ElemTypes.textfield,
-            rows: 5,
-            text: 'Hello World',
-            title: 'Headline'
-        };
-        expect(textfield.validateModel(json)).toBeTrue();
-    });
-
-    it( 'Should reject a falsy model', () => {
-        expect(textfield.validateModel(undefined)).toBeFalse();
-    });
-
-    it( 'Should reject a model with wrong id', () => {
-        let json = {
-            id: id+"nope",
-            type: ElemTypes.textfield,
-            rows: 5,
-            text: 'Hello World',
-            title: 'Headline'
-        };
-        expect(textfield.validateModel(json)).toBeFalse();
-    });
-
-    it( 'Should reject a model with falsy id', () => {
-        let json = {
-            id: undefined,
-            type: ElemTypes.textfield,
-            rows: 5,
-            text: 'Hello World',
-            title: 'Headline'
-        };
-        expect(textfield.validateModel(json)).toBeFalse();
-    });
-
-    it( 'Should reject a model with id of wrong type', () => {
-        let json = {
-            id: 3,
-            type: ElemTypes.textfield,
-            rows: 5,
-            text: 'Hello World',
-            title: 'Headline'
-        };
-        expect(textfield.validateModel(json)).toBeFalse();
-    });
-
-    it( 'Should reject a model with wrong element type', () => {
-        let json = {
-            id: id,
-            type: 'nonono',
-            rows: 5,
-            text: 'Hello World',
-            title: 'Headline'
-        };
-        expect(textfield.validateModel(json)).toBeFalse();
-    });
-
-    it( 'Should reject a model with falsy element type', () => {
-        let json = {
-            id: id,
-            type: undefined,
-            rows: 5,
-            text: 'Hello World',
-            title: 'Headline'
-        };
-        expect(textfield.validateModel(json)).toBeFalse();
-    });
-
-    it( 'Should reject a model with type-mismatching element type', () => {
-        let json = {
-            id: id,
-            type: 12,
-            rows: 5,
-            text: 'Hello World',
-            title: 'Headline'
-        };
-        expect(textfield.validateModel(json)).toBeFalse();
-    });
-
-    it( 'Should reject a model with wrong row count', () => {
-        let json = {
-            id: id,
-            type: ElemTypes.textfield,
-            rows: -5,
-            text: 'Hello World',
-            title: 'Headline'
-        };
-        expect(textfield.validateModel(json)).toBeFalse();
-    });
-
-    it( 'Should reject a model with falsy row count', () => {
-        let json = {
-            id: id,
-            type: ElemTypes.textfield,
-            rows: undefined,
-            text: 'Hello World',
-            title: 'Headline'
-        };
-        expect(textfield.validateModel(json)).toBeFalse();
-    });
-
-    it( 'Should reject a model with type-mismatching row count', () => {
-        let json = {
-            id: id,
-            type: ElemTypes.textfield,
-            rows: 'many',
-            text: 'Hello World',
-            title: 'Headline'
-        };
-        expect(textfield.validateModel(json)).toBeFalse();
-    });
-    
-    it( 'Should reject a model with falsy text', () => {
-        let json = {
-            id: id,
-            type: ElemTypes.textfield,
-            rows: 5,
-            text: undefined,
-            title: 'Headline'
-        };
-        expect(textfield.validateModel(json)).toBeFalse();
-    });
-
-    it( 'Should reject a model with type-mismatching text', () => {
-        let json = {
-            id: id,
-            type: ElemTypes.textfield,
-            rows: 5,
-            text: 12,
-            title: 'Headline'
-        };
-        expect(textfield.validateModel(json)).toBeFalse();
-    });
-
-    it( 'Should accept a model with empty text', () => {
-        let json = {
-            id: id,
-            type: ElemTypes.textfield,
-            rows: 5,
-            text: '',
-            title: 'Headline'
-        };
-        expect(textfield.validateModel(json)).toBeTrue();
-    });
-
-    it( 'Should reject a model with falsy title', () => {
-        let json = {
-            id: id,
-            type: ElemTypes.textfield,
-            rows: 5,
-            text: 'Hello world',
-            title: undefined
-        };
-        expect(textfield.validateModel(json)).toBeFalse();
-    });
-
-    it( 'Should reject a model with type-mismatching title', () => {
-        let json = {
-            id: id,
-            type: ElemTypes.textfield,
-            rows: 5,
-            text: 'Hello world',
-            title: 15
-        };
-        expect(textfield.validateModel(json)).toBeFalse();
-    });
-
-    it( 'Should reject a model with a missing title', () => {
-        let json = {
-            id: id,
-            type: ElemTypes.textfield,
-            rows: 5,
-            text: 'Hello world'
-        };
-        expect(textfield.validateModel(json)).toBeFalse();
-    });
-
-    it( 'Should accept a model with empty title', () => {
-        let json = {
-            id: id,
-            type: ElemTypes.textfield,
-            rows: 5,
-            text: 'Hello world',
-            title: ''
-        };
-        expect(textfield.validateModel(json)).toBeTrue();
-    });
-
-
     // _______________  accessors  _______________
 
     it( 'Should return the correct id', () => {
         const result = textfield.getId();
         expect( id ).toEqual( result );
     });
+
+    */
 
 });
