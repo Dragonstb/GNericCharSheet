@@ -42,7 +42,7 @@ export class TableModel extends ElemModel {
 
     // _______________ validation _______________
 
-    private validateModel(model: any): boolean {
+    validateModel(model: any): boolean {
         if(!ValidatorService.isModel(model)) {
             return false;
         }
@@ -66,7 +66,7 @@ export class TableModel extends ElemModel {
         return true;
     }
 
-    private isProperWidths(model: any): boolean {
+    isProperWidths(model: any): boolean {
         if(!ValidatorService.hasNumberArray('widths', model)) {
             return false;
         }
@@ -99,7 +99,7 @@ export class TableModel extends ElemModel {
         return true;
     }
 
-    private isProperTexts(model: any): boolean {
+    isProperTexts(model: any): boolean {
         if(!model.hasOwnProperty('texts') || !model.texts){
             return false;
         }
