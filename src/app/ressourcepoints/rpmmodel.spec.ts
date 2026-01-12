@@ -1,7 +1,7 @@
 import { ElemTypes } from "../elemtypes";
 import { RPMModel } from "./rpmmodel";
 
-describe( 'ValidatorService', () => {
+describe( 'RPMMOdel', () => {
     let elemModel: RPMModel;
     const id: string = 'itemmodel123';
     const title: string = 'awesometitle';

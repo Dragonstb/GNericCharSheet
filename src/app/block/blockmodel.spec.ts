@@ -2,7 +2,7 @@ import { ActionTypes } from "../ActionTypes";
 import { ElemTypes } from "../elemtypes";
 import { GNericBlockModel } from "./blockmodel";
 
-describe( 'ValidatorService', () => {
+describe( 'GNericBlockModel', () => {
     let block: GNericBlockModel;
     const id: string = 'model123';
     const title: string = 'awesometitle';

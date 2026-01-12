@@ -1,7 +1,7 @@
 import { ElemTypes } from "../elemtypes";
 import { CheckboxModel } from "./checkboxmodel";
 
-describe( 'ValidatorService', () => {
+describe( 'CheckboxModel', () => {
     let elemModel: CheckboxModel;
     const id: string = 'itemmodel123';
     const title: string = 'awesometitle';

@@ -2,7 +2,7 @@ import { ActionTypes } from "../ActionTypes";
 import { ElemTypes } from "../elemtypes";
 import { GNericPageModel } from "./pagemodel";
 
-describe( 'ValidatorService', () => {
+describe( 'GNericPageModel', () => {
     let page: GNericPageModel;
     const id: string = 'model123';
     const title: string = 'awesometitle';
@@ -172,6 +172,7 @@ describe( 'ValidatorService', () => {
 
     it('page validation: should accept a proper model', () => {
         const model = {
+            title: title,
             content: [
                 {id: 'block1'},
                 {id: 'block2'}
@@ -180,10 +181,45 @@ describe( 'ValidatorService', () => {
         expect(page.validatePageModelLevel(model)).toBeTrue();
     });
 
+    // ..... title problems .....
+
+    it('page validation: should reject a model without title', () => {
+        const model = {
+            content: [
+                {id: 'block1'},
+                {id: 'block2'}
+            ]
+        }
+        expect(page.validatePageModelLevel(model)).toBeFalse();
+    });
+
+    it('page validation: should reject a model with falsy title', () => {
+        const model = {
+            title: undefined,
+            content: [
+                {id: 'block1'},
+                {id: 'block2'}
+            ]
+        }
+        expect(page.validatePageModelLevel(model)).toBeFalse();
+    });
+
+    it('page validation: should reject a model with the title being of the wrong type', () => {
+        const model = {
+            title: 2,
+            content: [
+                {id: 'block1'},
+                {id: 'block2'}
+            ]
+        }
+        expect(page.validatePageModelLevel(model)).toBeFalse();
+    });
+
     // ..... content problems .....    
 
     it('page validation: should reject a model with missing content', () => {
         const model = {
+            title: title,
             ingredients: [
                 {id: 'block1'},
                 {id: 'block2'}
@@ -194,6 +230,7 @@ describe( 'ValidatorService', () => {
 
     it('page validation: should reject a model with non-array content', () => {
         const model = {
+            title: title,
             content: {id: 'hello', value: 3}
         }
         expect(page.validatePageModelLevel(model)).toBeFalse();
@@ -201,6 +238,7 @@ describe( 'ValidatorService', () => {
 
     it('page validation: should reject a model with non-object content', () => {
         const model = {
+            title: title,
             content: 3
         }
         expect(page.validatePageModelLevel(model)).toBeFalse();
@@ -208,6 +246,7 @@ describe( 'ValidatorService', () => {
 
     it('page validation: should reject a model with falsy content', () => {
         const model = {
+            title: title,
             content: undefined
         }
         expect(page.validatePageModelLevel(model)).toBeFalse();
@@ -215,6 +254,7 @@ describe( 'ValidatorService', () => {
 
     it('page validation: should accept a model with empty content', () => {
         const model = {
+            title: title,
             content: []
         }
         expect(page.validatePageModelLevel(model)).toBeTrue();
@@ -224,6 +264,7 @@ describe( 'ValidatorService', () => {
 
     it('page validation: should reject a model with an entry with missing id', () => {
         const model = {
+            title: title,
             content: [
                 {value: 'block1'},
                 {id: 'block2'}
@@ -234,6 +275,7 @@ describe( 'ValidatorService', () => {
 
     it('page validation: should reject a model with an entry with falsy id', () => {
         const model = {
+            title: title,
             content: [
                 {id: undefined},
                 {id: 'block2'}
@@ -244,6 +286,7 @@ describe( 'ValidatorService', () => {
 
     it('page validation: should reject a model with an entry with non-string id', () => {
         const model = {
+            title: title,
             content: [
                 {id: 3},
                 {id: 'block2'}
@@ -254,6 +297,7 @@ describe( 'ValidatorService', () => {
 
     it('page validation: should reject a model with an entry with empty id', () => {
         const model = {
+            title: title,
             content: [
                 {id: ''},
                 {id: 'block2'}
@@ -264,6 +308,7 @@ describe( 'ValidatorService', () => {
 
     it('page validation: should reject a model with an entry with duplicate ids', () => {
         const model = {
+            title: title,
             content: [
                 {id: 'block1'},
                 {id: 'block1'}
@@ -274,6 +319,7 @@ describe( 'ValidatorService', () => {
 
     it('page validation: should reject a model with non-object entry', () => {
         const model = {
+            title: title,
             content: [
                 "Hello, I am a problem.",
                 {id: 'block2'}
@@ -284,6 +330,7 @@ describe( 'ValidatorService', () => {
 
     it('page validation: should reject a model with array entry', () => {
         const model = {
+            title: title,
             content: [
                 [{id: 'block1a'}, {id: 'block1b'}],
                 {id: 'block2'}
@@ -294,6 +341,7 @@ describe( 'ValidatorService', () => {
 
     it('page validation: should reject a model with falsy entry', () => {
         const model = {
+            title: title,
             content: [
                 undefined,
                 {id: 'block2'}

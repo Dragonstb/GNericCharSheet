@@ -1,7 +1,7 @@
 import { ElemTypes } from "../elemtypes";
 import { TextfieldModel } from "./textfieldmodel";
 
-describe( 'ValidatorService', () => {
+describe( 'TextfieldModel', () => {
     let elemModel: TextfieldModel;
     const id: string = 'itemmodel123';
     const title: string = 'awesometitle';

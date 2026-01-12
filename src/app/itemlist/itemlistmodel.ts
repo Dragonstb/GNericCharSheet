@@ -102,7 +102,7 @@ export class ItemListModel extends ElemModel {
             return false;
         }
 
-        if(!ValidatorService.hasNonEmptyStringProperty('listname', model)) {
+        if(!ValidatorService.hasStringProperty('listname', model)) {
             return false;
         }
 

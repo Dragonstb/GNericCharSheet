@@ -2,7 +2,7 @@ import { ElemTypes } from "../elemtypes";
 import { ItemListModel } from "./itemlistmodel";
 import { GNericItemModel } from "./itemmodel";
 
-describe( 'ValidatorService', () => {
+describe( 'ItemListModel', () => {
     let model: ItemListModel;
     const name: string = 'itemmodel123';
     const title: string = 'awesometitle';

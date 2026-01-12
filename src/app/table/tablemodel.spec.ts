@@ -1,7 +1,7 @@
 import { ElemTypes } from "../elemtypes";
 import { TableModel } from "./tablemodel";
 
-describe( 'ValidatorService', () => {
+describe( 'TableModel', () => {
     let elemModel: TableModel;
     const id: string = 'itemmodel123';
     const title: string = 'awesometitle';
