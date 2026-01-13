@@ -290,6 +290,21 @@ describe( 'TableModel', () => {
         expect( elemModel.validateModel(model) ).toBeTrue();
     });
 
+    it('Model validation: should reject a falsy model', () => {
+        const model = undefined;
+        expect( elemModel.validateModel(model) ).toBeFalse();
+    });
+
+    it('Model validation: should reject a non-object model', () => {
+        const model = "model";
+        expect( elemModel.validateModel(model) ).toBeFalse();
+    });
+
+    it('Model validation: should reject an array-like model model', () => {
+        const model = [9,8,7];
+        expect( elemModel.validateModel(model) ).toBeFalse();
+    });
+
     // ..... id problems .....
 
     it('Model validation: should reject a model without id', () => {

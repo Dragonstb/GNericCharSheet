@@ -1,7 +1,7 @@
 import { ElemTypes } from "../elemtypes";
 import { RPMModel } from "./rpmmodel";
 
-describe( 'RPMMOdel', () => {
+describe( 'RPMModel', () => {
     let elemModel: RPMModel;
     const id: string = 'itemmodel123';
     const title: string = 'awesometitle';
@@ -35,6 +35,18 @@ describe( 'RPMMOdel', () => {
             title: 'Hello'
         };
         expect(elemModel.validateModel(model)).toBeTrue();
+    });
+
+    it('Should reject a falsy model', () => {
+        expect(elemModel.validateModel(undefined)).toBeFalse();
+    });
+
+    it('Should reject a non-object model', () => {
+        expect(elemModel.validateModel('model')).toBeFalse();
+    });
+
+    it('Should reject an array-like model', () => {
+        expect(elemModel.validateModel([1,2,3])).toBeFalse();
     });
 
     // ..... id problems .....
@@ -340,6 +352,126 @@ describe( 'RPMMOdel', () => {
         expect(elemModel.validateModel(model)).toBeFalse();
     });
 
+    it('Should reject a model with too few rows', () => {
+        const texts = ["one", "two", "three"];
+        const cols = 5;
+        const mapping = {
+            a: 1,
+            b: 2,
+            '': 3
+        };
+        const damage = [0,2,3,1,0,0];
+        const model = {
+            id: id,
+            type: ElemTypes.rpm,
+            rows: 0,
+            cols: cols,
+            showTexts: true,
+            useAbsorbtion: false,
+            tierMap: mapping,
+            texts: texts,
+            damage: damage,
+            title: 'Hello'
+        };
+        expect(elemModel.validateModel(model)).toBeFalse();
+    });
+
+    it('Should reject a model with a positively infinite number of rows', () => {
+        const texts = ["one", "two", "three"];
+        const cols = 5;
+        const mapping = {
+            a: 1,
+            b: 2,
+            '': 3
+        };
+        const damage = [0,2,3,1,0,0];
+        const model = {
+            id: id,
+            type: ElemTypes.rpm,
+            rows: Number.POSITIVE_INFINITY,
+            cols: cols,
+            showTexts: true,
+            useAbsorbtion: false,
+            tierMap: mapping,
+            texts: texts,
+            damage: damage,
+            title: 'Hello'
+        };
+        expect(elemModel.validateModel(model)).toBeFalse();
+    });
+
+    it('Should reject a model with a negatively infinite number of rows', () => {
+        const texts = ["one", "two", "three"];
+        const cols = 5;
+        const mapping = {
+            a: 1,
+            b: 2,
+            '': 3
+        };
+        const damage = [0,2,3,1,0,0];
+        const model = {
+            id: id,
+            type: ElemTypes.rpm,
+            rows: Number.NEGATIVE_INFINITY,
+            cols: cols,
+            showTexts: true,
+            useAbsorbtion: false,
+            tierMap: mapping,
+            texts: texts,
+            damage: damage,
+            title: 'Hello'
+        };
+        expect(elemModel.validateModel(model)).toBeFalse();
+    });
+
+    it('Should reject a model with a NaN of rows', () => {
+        const texts = ["one", "two", "three"];
+        const cols = 5;
+        const mapping = {
+            a: 1,
+            b: 2,
+            '': 3
+        };
+        const damage = [0,2,3,1,0,0];
+        const model = {
+            id: id,
+            type: ElemTypes.rpm,
+            rows: Number.NaN,
+            cols: cols,
+            showTexts: true,
+            useAbsorbtion: false,
+            tierMap: mapping,
+            texts: texts,
+            damage: damage,
+            title: 'Hello'
+        };
+        expect(elemModel.validateModel(model)).toBeFalse();
+    });
+
+    it('Should reject a model with a non-integer number of rows', () => {
+        const texts = ["one", "two", "three"];
+        const cols = 5;
+        const mapping = {
+            a: 1,
+            b: 2,
+            '': 3
+        };
+        const damage = [0,2,3,1,0,0];
+        const model = {
+            id: id,
+            type: ElemTypes.rpm,
+            rows: 3.14,
+            cols: cols,
+            showTexts: true,
+            useAbsorbtion: false,
+            tierMap: mapping,
+            texts: texts,
+            damage: damage,
+            title: 'Hello'
+        };
+        expect(elemModel.validateModel(model)).toBeFalse();
+    });
+
     it('Should reject a model with missing number of rows', () => {
         const texts = ["one", "two", "three"];
         const cols = 5;
@@ -369,6 +501,106 @@ describe( 'RPMMOdel', () => {
         const texts = ["one", "two", "three"];
         const rows = texts.length;
         const cols = 0;
+        const mapping = {
+            a: 1,
+            b: 2,
+            '': 3
+        };
+        const damage = [0,2,3,1,0,0];
+        const model = {
+            id: id,
+            type: ElemTypes.rpm,
+            rows: rows,
+            cols: cols,
+            showTexts: true,
+            useAbsorbtion: false,
+            tierMap: mapping,
+            texts: texts,
+            damage: damage,
+            title: 'Hello'
+        };
+        expect(elemModel.validateModel(model)).toBeFalse();
+    });
+
+    it('Should reject a model with too a positively infinite number of cols', () => {
+        const texts = ["one", "two", "three"];
+        const rows = texts.length;
+        const cols = Number.POSITIVE_INFINITY;
+        const mapping = {
+            a: 1,
+            b: 2,
+            '': 3
+        };
+        const damage = [0,2,3,1,0,0];
+        const model = {
+            id: id,
+            type: ElemTypes.rpm,
+            rows: rows,
+            cols: cols,
+            showTexts: true,
+            useAbsorbtion: false,
+            tierMap: mapping,
+            texts: texts,
+            damage: damage,
+            title: 'Hello'
+        };
+        expect(elemModel.validateModel(model)).toBeFalse();
+    });
+
+    it('Should reject a model with a negative infinite number of cols', () => {
+        const texts = ["one", "two", "three"];
+        const rows = texts.length;
+        const cols = Number.NEGATIVE_INFINITY;
+        const mapping = {
+            a: 1,
+            b: 2,
+            '': 3
+        };
+        const damage = [0,2,3,1,0,0];
+        const model = {
+            id: id,
+            type: ElemTypes.rpm,
+            rows: rows,
+            cols: cols,
+            showTexts: true,
+            useAbsorbtion: false,
+            tierMap: mapping,
+            texts: texts,
+            damage: damage,
+            title: 'Hello'
+        };
+        expect(elemModel.validateModel(model)).toBeFalse();
+    });
+
+    it('Should reject a model with not a number of cols', () => {
+        const texts = ["one", "two", "three"];
+        const rows = texts.length;
+        const cols = Number.NaN;
+        const mapping = {
+            a: 1,
+            b: 2,
+            '': 3
+        };
+        const damage = [0,2,3,1,0,0];
+        const model = {
+            id: id,
+            type: ElemTypes.rpm,
+            rows: rows,
+            cols: cols,
+            showTexts: true,
+            useAbsorbtion: false,
+            tierMap: mapping,
+            texts: texts,
+            damage: damage,
+            title: 'Hello'
+        };
+        expect(elemModel.validateModel(model)).toBeFalse();
+    });
+
+    it('Should reject a model with a non-integer number of cols', () => {
+        const texts = ["one", "two", "three"];
+        const rows = texts.length;
+        const cols = 9.78;
         const mapping = {
             a: 1,
             b: 2,

@@ -249,11 +249,11 @@ export class RPMModel extends ElemModel {
             return false;
         }
 
-        if(!model.hasOwnProperty('rows') || !model.rows || typeof model.rows !== 'number') {
+        if(!ValidatorService.hasFiniteIntegerProperty('rows', model)) {
             return false;
         }
-
-        if(!model.hasOwnProperty('cols') || !model.cols || typeof model.cols !== 'number') {
+        
+        if(!ValidatorService.hasFiniteIntegerProperty('cols', model)) {
             return false;
         }
 

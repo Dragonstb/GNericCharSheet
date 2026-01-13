@@ -66,10 +66,6 @@ export class TextfieldModel extends ElemModel {
             return false;
         }
 
-        if(!Number.isInteger(model.rows)) {
-            return false;
-        }
-
         if(model.rows < 1) {
             return false;
         }

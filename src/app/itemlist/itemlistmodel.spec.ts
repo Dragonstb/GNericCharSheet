@@ -241,6 +241,19 @@ describe( 'ItemListModel', () => {
         expect(model.validateListModel(json)).toBeFalse();
     });
 
+    it('item list: should reject a falsy entry', () => {
+        const json = {
+            id: name,
+            listname: title,
+            type: ElemTypes.itemlist,
+            items: [
+                new GNericItemModel('item1', 'name1', 'text1').getModel(),
+                undefined
+            ]
+        };
+        expect(model.validateListModel(json)).toBeFalse();
+    });
+
     it('item list: should reject a model with duplicate ids of entries', () => {
         const json = {
             id: name,
