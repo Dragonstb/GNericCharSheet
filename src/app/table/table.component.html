@@ -4,7 +4,7 @@
         <div #editPanel class="ctrl-elem spacingbottommedium">
             <div class="spacingbottomsmall">
                 <label class="spacingrightsmall" for="titleform-{{elemModel.getId()}}">Change title to:</label>
-                <input type="text" id="titleform-{{elemModel.getId()}}" [formControl]="title" (input)="fireElemChangedEvent()">
+                <input type="text" id="titleform-{{elemModel.getId()}}" [formControl]="elemModel.title" (input)="fireElemChangedEvent()">
             </div>
             <div>
                 <button [disabled]="curRow<0 || curCol<0" (click)="addRowAboveCurrent()">Add row above current</button>
@@ -25,7 +25,7 @@
     <div class="boxed paddingtopsmall">
         @if(hasTitle() || editable) {
             <div class="paddingleftsmall">
-                <h4 class="elemtitle">{{title.value}}</h4>
+                <h4 class="elemtitle">{{elemModel.title.value}}</h4>
             </div>
         }
         <table>

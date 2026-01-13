@@ -83,7 +83,7 @@ export class GNericBlockModel {
         const targetId = model.id;
 
         for (const elem of this.elems) {
-            if(elem.getId() === targetId()) {
+            if(elem.getId() === targetId) {
                 return elem.updateModel(model);
             }
         }

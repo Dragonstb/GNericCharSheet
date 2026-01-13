@@ -1,4 +1,4 @@
-import { Component, inject, Output, output, signal, viewChildren } from "@angular/core";
+import { Component, inject, Input, Output, output, signal, viewChildren } from "@angular/core";
 import { Utils } from "../../services/utils";
 import { GNericSheetPage } from "../sheetpage/sheetpage.component";
 import { GNericSheetModel } from "./sheetmodel";
@@ -14,7 +14,7 @@ import { ActionTypes } from "../ActionTypes";
 })
 export class GNericSheet {
 
-    sheetModel: GNericSheetModel = new GNericSheetModel('char-0', 'Alex Anyone');
+    @Input() sheetModel: GNericSheetModel = new GNericSheetModel('backup-char-0', 'Insert Hero');
 
     utils = inject(Utils);
     private idCounter: number = 0;
