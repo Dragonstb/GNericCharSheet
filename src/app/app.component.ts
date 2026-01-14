@@ -4,10 +4,11 @@ import { BroadCaster } from '../services/broadcaster';
 import { ValidatorService } from '../services/validator';
 import { GNericSheet } from './sheet/sheet.component';
 import { GNericSheetModel } from './sheet/sheetmodel';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  imports: [GNericSheet],
+  imports: [GNericSheet, ReactiveFormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })
@@ -18,18 +19,18 @@ export class GNericMainComponent {
 
   ngZone = inject(NgZone);
 
+  editableCheckbox = new FormControl(true);
+
   sheetModels: GNericSheetModel[] = [
     new GNericSheetModel('char-sheet-0', 'Alex Anyone')
   ]
 
   setElemsEditable(event: Event) {
-    const checkbox = event.target as HTMLInputElement;
-    const checked: boolean = checkbox.checked;
-
     this.sheets().forEach(sheet => {
-      sheet.setEditable(checked);
+      setTimeout(() => {
+        sheet.setEditable(Boolean(this.editableCheckbox.value));
+      });
     });
-
   }
 
   reactOnChange(json: object) {
@@ -54,7 +55,7 @@ export class GNericMainComponent {
         try {
           this.ngZone.runGuarded(()=>{
             sheet.updateModel(model);
-            // TODO: new elements start as editable
+            // TODO: bug: new elements start as editable even when sheet is not editable
           });
         } catch (error) {
           console.log('GNeric Char Sheet: error when updating character sheet');

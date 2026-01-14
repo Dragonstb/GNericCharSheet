@@ -1,7 +1,8 @@
 <main class="main">
   <div>Hello, GNericCharSheet</div>
   <div>
-    <input type="checkbox" name="elemEdit" id="elemEdit" (change)="setElemsEditable($event)" checked />
+    <!-- <input type="checkbox" name="elemEdit" id="elemEdit" (change)="setElemsEditable($event)" checked /> -->
+    <input type="checkbox" id="elemEdit" [formControl]="editableCheckbox" (change)="setElemsEditable($event)">
     <label for="elemEdit">Elements editable</label>
   </div>
   @for(sheet of sheetModels; track sheet.getId()) {

@@ -1,6 +1,8 @@
 import { ValidatorService } from "../../services/validator";
 import { ActionTypes } from "../ActionTypes";
+import { CheckboxModel } from "../checkboxes/checkboxmodel";
 import { ElemTypes } from "../elemtypes";
+import { ItemListModel } from "../itemlist/itemlistmodel";
 import { RPMModel } from "../ressourcepoints/rpmmodel";
 import { TableModel } from "../table/tablemodel";
 import { TextfieldModel } from "../textfield/textfieldmodel";
@@ -111,6 +113,12 @@ export class GNericBlockModel {
                     break;
                 case ElemTypes.rpm:
                     newElem = new RPMModel(entry.id);
+                    break;
+                case ElemTypes.itemlist:
+                    newElem = new ItemListModel(entry.id);
+                    break;
+                case ElemTypes.checkboxes:
+                    newElem = new CheckboxModel(entry.id);
                     break;
             }
 

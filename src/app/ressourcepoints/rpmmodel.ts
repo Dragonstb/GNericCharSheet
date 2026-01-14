@@ -192,15 +192,17 @@ export class RPMModel extends ElemModel {
             return false;
         }
         
-        this.tierMap = new Map<string, number>();
-        for (const key in model.tierMap) {
-            this.tierMap.set(key, model.tierMap[key]);
-        }
-        
         // adapt damage and tier mapping
         if(!this.damage.isEqualDamage(model.damage)) {
             this.damage = new GNericDamage(model.damage);
         }
+        
+        const newMap = new Map<string, number>();
+        for (const key in model.tierMap) {
+            newMap.set(key, model.tierMap[key]);
+        }
+        
+        this.updateDmgConfig(newMap);
 
         // adapt settings
         this.showTextsCheckbox.setValue(model.showTexts);

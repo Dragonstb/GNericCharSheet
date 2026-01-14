@@ -24,7 +24,7 @@ export class GNericRessourcePointsManager {
         }
     }
 
-    pattern = /^[+\-=]?([A-Za-z]?\d+)([A-Za-z]\d+)*$/;
+    //pattern = /^[+\-=]?([A-Za-z]?\d+)([A-Za-z]\d+)*$/;
     dmgInput: FormControl = new FormControl('');
     editable: boolean = true;
 
@@ -75,7 +75,7 @@ export class GNericRessourcePointsManager {
         }
         
         // TODO: toggle info also for screen readers, not only visually
-        const ok = this.pattern.test(this.dmgInput.value.toLowerCase());
+        const ok = this.getRegexPattern().test(this.dmgInput.value.toLowerCase());
         const isHidden = this.checkmark.nativeElement.classList.contains('hidden');
         if(ok && isHidden) {
             this.checkmark.nativeElement.classList.remove('hidden');
@@ -87,7 +87,7 @@ export class GNericRessourcePointsManager {
 
     onSubmitDamage() {
         const inString = this.dmgInput.value.toLowerCase();
-        if(!this.pattern.test(inString)) {
+        if(!this.getRegexPattern().test(inString)) {
             return;
         }
 
@@ -153,7 +153,9 @@ export class GNericRessourcePointsManager {
         this.elemModel.mapDamageTier(key, tier);
     }
 
-    updateRegexPattern() {
+    getRegexPattern(): RegExp {
+        // TODO: observe model and change a local variable 'pattern' when needed instead
+        // of always rebuilding the pattern that rarely changes
         let arr: string[] = ['^[+\\-=]?(['];
         for (const key of this.elemModel.getTierMapKeys()) {
             arr.push(key);
@@ -169,7 +171,7 @@ export class GNericRessourcePointsManager {
         arr.push(']\\d+)*$');
 
         const str = arr.join('');
-        this.pattern = new RegExp(str);
+        return new RegExp(str);
     }
 
     updateDmgConfig(newMap: Map<string, number>): void {
@@ -185,7 +187,6 @@ export class GNericRessourcePointsManager {
         }
 
         this.elemModel.setTierMap(newMap);
-        this.updateRegexPattern();
         this.fireElemChangeEvent();
     }
 
@@ -202,10 +203,6 @@ export class GNericRessourcePointsManager {
         this.gNericElemChangedEvent.emit(model);
     }
     
-    ngOnInit() {
-        this.updateRegexPattern();
-    }
-
     hasTitle(): boolean {
         return Boolean(this.elemModel.getTitle());
     }

@@ -89,8 +89,8 @@ export class GNericSheetModel {
         }
 
         const newPages: GNericPageModel[] = [];
-        for (const block of model.content) {
-            const mod = {...block, action: ActionTypes.blockupdate};
+        for (const page of model.content) {
+            const mod = {...page, action: ActionTypes.pageupdate};
             const newPage = new GNericPageModel(mod.id, undefined);
             const ok = newPage.updateModel(mod);
             if(!ok) {
