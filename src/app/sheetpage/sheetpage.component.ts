@@ -19,6 +19,7 @@ export class GNericSheetPage {
     blockElems = viewChildren(GNericBlock);
     editable = signal(true);
     @ViewChild('dialog') dialog!: GNericDeletionModal;
+    @ViewChild('delPageDialog') delPageDialog!: GNericDeletionModal;
 
     utils = inject(Utils);
     ngZone = inject(NgZone);
@@ -28,6 +29,7 @@ export class GNericSheetPage {
     nextToBeDeleted: string | undefined = undefined;
 
     gNericElemChangedEvent = output<object>();
+    deletePageEvent = output<string>();
 
     setEditable(editable: boolean) {
         this.editable.set(editable);
@@ -67,6 +69,14 @@ export class GNericSheetPage {
         this.reactOnPageUpdate();
     }
 
+    openDeletePageDialog(): void {
+        this.delPageDialog.openDialog();
+    }
+
+    deletePage(): void {
+        this.deletePageEvent.emit(this.pageModel.getId());
+    }
+
     // _______________  broadcast changes  _______________
 
     reactOnBlockUpdate(model: object):void {
@@ -86,4 +96,13 @@ export class GNericSheetPage {
         this.gNericElemChangedEvent.emit(json);
     }
 
+    // _______________  useful methods  _______________
+
+    getId(): string {
+        return this.pageModel.getId();
+    }
+
+    getTitle(): string {
+        return this.pageModel.getTitle();
+    }
 }

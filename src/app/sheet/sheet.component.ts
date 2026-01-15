@@ -70,6 +70,13 @@ export class GNericSheet {
         this.reactOnSheetUpdate();
     }
 
+    deletePage(pageId: string): void {
+        if(this.sheetModel.deletePage(pageId)) {
+            // TODO: also show previous page
+            this.reactOnSheetUpdate();
+        }
+    }
+
     // _______________ broadcast changes _______________
 
     reactOnPageUpdate(model: object): void {

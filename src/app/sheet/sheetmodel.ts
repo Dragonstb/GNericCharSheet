@@ -35,6 +35,18 @@ export class GNericSheetModel {
         this.pages.push(page);
     }
 
+    deletePage(pageId: string): boolean {
+        for (let idx = 0; idx < this.pages.length; idx++) {
+            const page = this.pages[idx];
+            if(page.getId() === pageId) {
+                this.pages.splice(idx, 1);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     getModel(): object {
         const pageModels: object[] = [];
         this.pages.forEach(page => {

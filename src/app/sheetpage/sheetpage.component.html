@@ -1,5 +1,5 @@
 <div>
-    <h3>{{pageModel.getTitle()}}</h3>
+    <h3>{{getTitle()}}</h3>
     @for(block of pageModel.getBlocks(); track block.getId()) {
         <div class="spacingbottomlarge spacingtoplarge">
             <gneric-block
@@ -16,6 +16,10 @@
         <div class="spacingbottomlarge spacingtoplarge flexcenter">
             <button (click)="addBlock()">Add block of elements</button>
         </div>
+        <div class="spacingtoplarge flexend" >
+            <button (click)="openDeletePageDialog()">Delete page "{{getTitle()}}"</button>
+        </div>
     }
     <gneric-deldialog #dialog [text]="'Delete block?'" (acceptDeletionEvent)="deleteBlock()" />
+    <gneric-deldialog #delPageDialog [text]="'Delete page '+getTitle()+'?'" (acceptDeletionEvent)="deletePage()" />
 </div>

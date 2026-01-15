@@ -34,8 +34,8 @@ export class GNericMainComponent {
   }
 
   reactOnChange(json: object) {
-    // console.dir(json);
-    this.broadcaster.handleOutgoingMessage(json);
+    console.dir(json);
+    // this.broadcaster.handleOutgoingMessage(json);
   }
 
   setModel(model: any) {
