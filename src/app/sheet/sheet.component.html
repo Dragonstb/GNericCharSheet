@@ -27,5 +27,8 @@
                 <gneric-sheetpage id="panel={{page.getId()}}" role="tabpanel" [attr.aria-labelledby]="'tab-'+page.getId()" class="hidden" hidden [pageModel]="page" (gNericElemChangedEvent)="reactOnPageUpdate($event)" (deletePageEvent)="deletePage($event)" />
             }
         }
+        @empty {
+            <div>No pages</div>
+        }
     </div>
 </div>
