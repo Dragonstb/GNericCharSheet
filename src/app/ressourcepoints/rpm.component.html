@@ -1,4 +1,4 @@
-<fieldset #fieldSet class="editable elemblock">
+<fieldset [class.editable]="editable" class="elemblock">
     @if(editable) {
         <legend #legend class="ctrl-elem">ressource-points-{{elemModel.getId()}}</legend>
         <div class="ctrl-elem spacingbottommedium">

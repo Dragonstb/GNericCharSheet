@@ -1,6 +1,6 @@
 <div>
     <h2>{{sheetModel.getCharName()}}</h2>
-    @if(editable()) {
+    @if(editable) {
         <div class="spacingbottomlarge">
             <label for="addPage-{{sheetModel.getId()}}">Name of new page</label>
             <input class="spacingleftsmall spacingrightsmall" type="text" id="addPage-{{sheetModel.getId()}}" [formControl]="newPageTitle">
@@ -21,10 +21,10 @@
     <div>
         @for(page of sheetModel.getPages(); track page.getId()) {
             @if(page.getId() === curPageId) {
-                <gneric-sheetpage id="panel={{page.getId()}}" role="tabpanel" [attr.aria-labelledby]="'tab-'+page.getId()" [pageModel]="page" (gNericElemChangedEvent)="reactOnPageUpdate($event)" (deletePageEvent)="deletePage($event)" />
+                <gneric-sheetpage id="panel={{page.getId()}}" role="tabpanel" [editable]="editable" [attr.aria-labelledby]="'tab-'+page.getId()" [pageModel]="page" (gNericElemChangedEvent)="reactOnPageUpdate($event)" (deletePageEvent)="deletePage($event)" />
             }
             @else {
-                <gneric-sheetpage id="panel={{page.getId()}}" role="tabpanel" [attr.aria-labelledby]="'tab-'+page.getId()" class="hidden" hidden [pageModel]="page" (gNericElemChangedEvent)="reactOnPageUpdate($event)" (deletePageEvent)="deletePage($event)" />
+                <gneric-sheetpage id="panel={{page.getId()}}" role="tabpanel" [editable]="editable" [attr.aria-labelledby]="'tab-'+page.getId()" class="hidden" hidden [pageModel]="page" (gNericElemChangedEvent)="reactOnPageUpdate($event)" (deletePageEvent)="deletePage($event)" />
             }
         }
         @empty {

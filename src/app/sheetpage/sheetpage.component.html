@@ -4,15 +4,16 @@
         <div class="spacingbottomlarge spacingtoplarge">
             <gneric-block
                 [blockModel]="block"
+                [editable]="editable"
                 (gNericElemChangedEvent)="reactOnBlockUpdate($event)" />
-            @if(editable()) {
+            @if(editable) {
                 <div class="flexend spacingtopmedium">
                     <button (click)="openDeleteDialog(block.getId())">Delete block</button>
                 </div>
             }
         </div>
     }
-    @if(editable()) {
+    @if(editable) {
         <div class="spacingbottomlarge spacingtoplarge flexcenter">
             <button (click)="addBlock()">Add block of elements</button>
         </div>

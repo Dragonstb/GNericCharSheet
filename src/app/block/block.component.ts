@@ -25,7 +25,6 @@ export class GNericBlock {
     
     @Input() blockModel: GNericBlockModel = new GNericBlockModel('block-0');
     private idCounter = 0;
-    @ViewChild('block', {static: true}) blockElement!: ElementRef<HTMLDivElement>;
     @ViewChild('modal') modal!: GNericDelElemModal;
     textfields = viewChildren(GnericTextfield);
     tables = viewChildren(GNericTable);
@@ -33,42 +32,13 @@ export class GNericBlock {
     itemlists = viewChildren(GNericItemList);
     checkboxes = viewChildren(GNericCheckboxList);
 
-    editable = signal(true);
+    @Input() editable: boolean = true;
     gNericElemChangedEvent = output<object>();
     utils = inject(Utils);
     ngZone = inject(NgZone);
 
     private idKey = this.utils.getRandomString(4);
     private nextToDelete: string | undefined = undefined;
-
-    setEditable(editable: boolean): void {
-        this.editable.set(editable);
-
-        this.textfields().forEach(elem => {
-            elem.setEditable(editable);
-        });
-        this.tables().forEach(elem => {
-            elem.setEditable(editable);
-        });
-        this.rpms().forEach(elem => {
-            elem.setEditable(editable);
-        });
-        this.itemlists().forEach(elem => {
-            elem.setEditable(editable);
-        });
-        this.checkboxes().forEach(elem => {
-            elem.setEditable(editable);
-        });
-
-        const classname = 'blockbox';
-        const hasBorder = this.blockElement.nativeElement.classList.contains(classname);
-        if(editable && !hasBorder) {
-            this.blockElement.nativeElement.classList.add(classname);
-        }
-        else if(!editable && hasBorder) {
-            this.blockElement.nativeElement.classList.remove(classname);
-        }
-    }
 
     openDeleteElemDialog(elemId: string): void {
         this.nextToDelete = elemId;

@@ -29,7 +29,7 @@ export class GNericTable {
     maxCols: number = 6;
     cellLocked: boolean = false;
     lockInfo = this.notLockedInfo;
-    editable: boolean = true;
+    @Input() editable: boolean = true;
 
     curRow: number = -1;
     curCol: number = -1;
@@ -39,24 +39,11 @@ export class GNericTable {
 
     @ViewChild('tableBody', {static: true}) tableBody!: ElementRef<HTMLTableSectionElement>;
     @ViewChild('dragContainer', {static: true}) dragContainer: ElementRef<HTMLDivElement> | undefined;
-    @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
 
     windowResizeHandler = ()=>this.adaptNewSize();
 
     deleteCoreElemEvent = output<string>();
     gNericElemChangedEvent = output<object>();
-
-    setEditable(editable: boolean): void {
-        this.editable = editable;
-        if(editable) {
-            this.dragContainer?.nativeElement.classList.remove('hidden');
-            this.fieldSet.nativeElement.classList.add('editable');
-        }
-        else {
-            this.dragContainer?.nativeElement.classList.add('hidden');
-            this.fieldSet.nativeElement.classList.remove('editable');
-        }
-    }
 
     addRowAboveCurrent(): void {
         this.elemModel.alterer.addRowAtIndex(this.curRow);

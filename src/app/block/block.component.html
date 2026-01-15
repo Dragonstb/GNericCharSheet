@@ -1,24 +1,24 @@
-<div #block class="blockbox">
+<div [class.blockbox]="editable">
     @for(elem of blockModel.getElems(); track elem.getId()) {
         @switch(elem.getType()) {
             @case('textfield') {
-                <gneric-textfield [elem]="elem" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
+                <gneric-textfield [elem]="elem" [editable]="editable" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
             }
             @case('table') {
-                <gneric-table [elem]="elem" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
+                <gneric-table [elem]="elem" [editable]="editable" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
             }
             @case('rpm') {
-                <gneric-rpm [elem]="elem" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
+                <gneric-rpm [elem]="elem" [editable]="editable" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
             }
             @case('itemlist') {
-                <gneric-itemlist [elem]="elem" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
+                <gneric-itemlist [elem]="elem" [editable]="editable" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
             }
             @case('checkboxes') {
-                <gneric-checkboxes [elem]="elem" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
+                <gneric-checkboxes [elem]="elem" [editable]="editable" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
             }
         }
     }
-    @if(editable()) {
+    @if(editable) {
         <div class="ctrl-elem spacingbottommedium spacingtopmedium">
             <button (click)="addTextfield()">Add textfield</button>
             <button (click)="addTable()">Add table</button>

@@ -1,4 +1,4 @@
-<fieldset #fieldSet class="editable elemblock">
+<fieldset [class.editable]="editable" class="elemblock">
     @if(editable) {
         <legend #legend class="ctrl-elem">table-{{elemModel.getId()}}</legend>
         <div #editPanel class="ctrl-elem spacingbottommedium">
@@ -49,7 +49,7 @@
             </tbody>
         </table>
     </div>
-    <div #dragContainer class="shifterBox">
+    <div #dragContainer class="shifterBox" [class.hidden]="!editable">
         @for(left of widthController.lefts; track left) {
             @if(!$first) {
                 <button class="shifter" [style]="left" (cdkDragStarted)="startDraggingShifter($index)" (cdkDragEnded)="widthController.endDraggingShifter()" (cdkDragMoved)="widthController.moveDraggingShifter($event, $index)" cdkDragBoundary=".shifterBox" cdkDragLockAxis="x" cdkDrag>&lt;&gt;</button>

@@ -1,4 +1,4 @@
-<fieldset #fieldSet class="editable elemblock">
+<fieldset [class.editable]="editable" class="elemblock">
     @if(editable){
         <legend class="ctrl-elem">textfield-{{elemModel.getId()}}</legend>
         <div class="spacingbottommedium ctrl-elem" id="{{elemModel.getId()}}-editPanel">

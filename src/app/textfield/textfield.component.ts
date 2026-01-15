@@ -1,7 +1,6 @@
-import { Component, ElementRef, inject, Input, output, ViewChild } from "@angular/core";
+import { Component, Input, output } from "@angular/core";
 import { ElemTypes } from "../elemtypes";
 import { ReactiveFormsModule } from "@angular/forms";
-import { ValidatorService } from "../../services/validator";
 import { TextfieldModel } from "./textfieldmodel";
 import { ElemModel } from "../block/elemmodel";
 
@@ -20,12 +19,10 @@ export class GnericTextfield {
             this.elemModel = val;
         }
     }
-    editable: boolean = true;
+    @Input() editable: boolean = true;
 
     deleteCoreElemEvent = output<string>();
     gNericElemChangedEvent = output<object>();
-
-    @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
 
     addRow() {
         this.elemModel.changeRowsBy(1);
@@ -36,20 +33,6 @@ export class GnericTextfield {
         if(this.elemModel.getRows() > 1) {
             this.elemModel.changeRowsBy(-1);
             this.fireElemChangedEvent();
-        }
-    }
-
-    setEditable(editable: boolean) {
-        this.editable = editable;
-        if(editable) {
-            if(!this.fieldSet.nativeElement.classList.contains('editable')) {
-                this.fieldSet.nativeElement.classList.add('editable');
-            }
-        }
-        else {
-            if(this.fieldSet.nativeElement.classList.contains('editable')) {
-                this.fieldSet.nativeElement.classList.remove('editable');
-            }
         }
     }
 

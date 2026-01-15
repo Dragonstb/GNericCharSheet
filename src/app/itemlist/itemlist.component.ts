@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, output, signal, ViewChild } from "@angular/core";
+import { Component, Input, output, signal, ViewChild } from "@angular/core";
 import { GNericItemEntry } from "./itementry.component";
 import { GNericItemModel } from "./itemmodel";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -23,25 +23,12 @@ export class GNericItemList {
         }
     }
     @ViewChild('modal') modal!: GNericAddItemModal;
-    @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
 
     deleteCoreElemEvent = output<string>();
     gNericElemChangedEvent = output<object>();
 
-    editable = signal(true);
+    @Input() editable: boolean = true;
     expanded = signal(true);
-
-    setEditable(editable: boolean): void {
-        this.editable.set(editable);
-
-        const hasClassEditable = this.fieldSet.nativeElement.classList.contains('editable');
-        if(editable && !hasClassEditable) {
-            this.fieldSet.nativeElement.classList.add('editable');
-        }
-        else if(!editable && hasClassEditable) {
-            this.fieldSet.nativeElement.classList.remove('editable');
-        }
-    }
 
     toggleExpansion(): void {
         this.expanded.update(val => !val);

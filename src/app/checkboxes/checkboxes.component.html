@@ -1,5 +1,5 @@
-<fieldset #fieldSet class="editable elemblock">
-    @if(editable()) {
+<fieldset [class.editable]="editable" class="elemblock">
+    @if(editable) {
         <legend class="ctrl-elem">checkboxes-{{getId()}}</legend>
         <div class="ctrl-elem spacingbottommedium spacingtopsmall">
             <div class="spacingbottomsmall">
@@ -13,13 +13,13 @@
         </div>
     }
     <div class="boxed paddingsmall">
-        @if(editable() || hasTitle()) {
+        @if(editable || hasTitle()) {
             <h3 class="elemtitle">{{elemModel.getTitle()}}</h3>
         }
         @for(row of elemModel.rows; track $index) {
             <div class="flexbetween">
                 <label for="checkbox-{{$index}}">
-                    @if(!editable()) {
+                    @if(!editable) {
                         {{row.getText()}}
                     }
                     @else {
@@ -30,7 +30,7 @@
             </div>
         }
     </div>
-    @if(editable()) {
+    @if(editable) {
         <div class="ctrl-elem flexend spacingbottomsmall spacingtopmedium">
             <button (click)="fireDeleteCheckboxesEvent()">Delete checkboxes</button>
         </div>

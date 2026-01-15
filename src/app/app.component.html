@@ -1,14 +1,13 @@
 <main class="main">
   <div>Hello, GNericCharSheet</div>
   <div>
-    <!-- <input type="checkbox" name="elemEdit" id="elemEdit" (change)="setElemsEditable($event)" checked /> -->
-    <input type="checkbox" id="elemEdit" [formControl]="editableCheckbox" (change)="setElemsEditable($event)">
+    <input type="checkbox" id="elemEdit" [formControl]="editableCheckbox">
     <label for="elemEdit">Elements editable</label>
   </div>
   @for(sheet of sheetModels; track sheet.getId()) {
     @if($first) {
       <!-- For now: just display one -->
-      <gneric-sheet [sheetModel]="sheet" (gNericElemChangedEvent)="reactOnChange($event)"/>
+      <gneric-sheet [sheetModel]="sheet" [editable]="editableCheckbox.value ?? false" (gNericElemChangedEvent)="reactOnChange($event)"/>
     }
   }
 </main>

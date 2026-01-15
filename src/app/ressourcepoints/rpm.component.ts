@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, output, inject, NgZone, Input } from "@angular/core";
+import { Component, ViewChild, ElementRef, output, Input } from "@angular/core";
 import { GNericRPMRow } from "./rpmrow.component";
 import { GNericDamage } from "./damage";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
@@ -13,8 +13,6 @@ import { ElemModel } from "../block/elemmodel";
 })
 export class GNericRessourcePointsManager {
 
-    ngZone = inject(NgZone);
-
     elemModel: RPMModel = new RPMModel("comp-01-01");
 
     @Input()
@@ -24,50 +22,37 @@ export class GNericRessourcePointsManager {
         }
     }
 
-    //pattern = /^[+\-=]?([A-Za-z]?\d+)([A-Za-z]\d+)*$/;
     dmgInput: FormControl = new FormControl('');
-    editable: boolean = true;
+    @Input() editable: boolean = true;
 
-    @ViewChild('fieldSet', {static: true}) fieldSet!: ElementRef<HTMLFieldSetElement>;
     @ViewChild('checkmark') checkmark: ElementRef | undefined;
     @ViewChild('modal') modal!: GNericDmgConfModal;
 
     deleteCoreElemEvent = output<string>();
     gNericElemChangedEvent = output<object>();
 
-    setEditable(editable: boolean): void {
-        this.editable = editable;
-        const hasEditableClass = this.fieldSet.nativeElement.classList.contains('editable');
-        if(editable && !hasEditableClass) {
-            this.fieldSet.nativeElement.classList.add('editable');
-        }
-        else if(!editable && hasEditableClass) {
-            this.fieldSet.nativeElement.classList.remove('editable');
-        }
-    }
-
     addRow(): void {
         this.elemModel.addRow();
         this.fireElemChangeEvent();
     }
-
+    
     removeRow(): void {
         if(this.elemModel.removeRow()) {
             this.fireElemChangeEvent();
         }
     }
-
+    
     addCol(): void {
         this.elemModel.addCol();
         this.fireElemChangeEvent();
     }
-
+    
     removeCol(): void {
         if(this.elemModel.removeCol()) {
             this.fireElemChangeEvent();
         }
     }
-
+    
     onDmgInput() {
         // Toggle checkmark that appears if and only if the value of the damage input is a valid damage string
         if(!this.checkmark) {
@@ -90,17 +75,17 @@ export class GNericRessourcePointsManager {
         if(!this.getRegexPattern().test(inString)) {
             return;
         }
-
+        
         const regex = /[^+\-=]+/;
         const use = inString.match(regex)[0];
-
+        
         const splitPattern = /([A-Za-z]?\d+)/g;
         let groups = [];
         let matches;
         while((matches = splitPattern.exec(use)) !== null) {
             groups.push(matches[0]);
         }
-
+        
         const checkPattern = /^\d/;
         const delta = new GNericDamage();
         for (const grp of groups) {
@@ -124,7 +109,7 @@ export class GNericRessourcePointsManager {
 
             delta.setTieredDamage(damageTier, damageNumber);
         }
-
+        
         if(Boolean(this.elemModel.isAbsorbing())) {
             delta.absorb();
         }
@@ -152,7 +137,7 @@ export class GNericRessourcePointsManager {
     mapDamageTier(key: string, tier: number): void {
         this.elemModel.mapDamageTier(key, tier);
     }
-
+    
     getRegexPattern(): RegExp {
         // TODO: observe model and change a local variable 'pattern' when needed instead
         // of always rebuilding the pattern that rarely changes

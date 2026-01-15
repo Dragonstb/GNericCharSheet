@@ -25,14 +25,6 @@ export class GNericMainComponent {
     new GNericSheetModel('char-sheet-0', 'Alex Anyone')
   ]
 
-  setElemsEditable(event: Event) {
-    this.sheets().forEach(sheet => {
-      setTimeout(() => {
-        sheet.setEditable(Boolean(this.editableCheckbox.value));
-      });
-    });
-  }
-
   reactOnChange(json: object) {
     console.dir(json);
     // this.broadcaster.handleOutgoingMessage(json);

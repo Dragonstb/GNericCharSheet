@@ -1,5 +1,5 @@
-<fieldset #fieldSet class="editable elemblock">
-    @if(editable()) {
+<fieldset [class.editable]="editable" class="elemblock">
+    @if(editable) {
         <legend #legend class="ctrl-elem">itemlist-{{getId()}}</legend>
         <div class="ctrl-elem spacingbottommedium">
             <label class="spacingrightsmall" for="listnameform-{{getId()}}">List name:</label>
@@ -28,7 +28,7 @@
         @if(expanded()) {
             <div id="item-list-{{getTitle()}}">
             @for(item of elemModel.items; track item.getId()) {
-                <gneric-itementry (gNericElemChangedEvent)="fireEntryChangeEvent($event)" (deleteEntryEvent)="deleteItem(item.getId())" [model]="item" [editable]="editable()" />
+                <gneric-itementry (gNericElemChangedEvent)="fireEntryChangeEvent($event)" (deleteEntryEvent)="deleteItem(item.getId())" [model]="item" [editable]="editable" />
             }
             </div>
             <div class="spacingtopmedium">
@@ -36,7 +36,7 @@
             </div>
         }
     </div>
-    @if(editable()) {
+    @if(editable) {
         <div class="ctrl-elem flexend spacingbottomsmall spacingtopmedium" >
             <button (click)="fireDeleteItemlistEvent()">Delete item list</button>
         </div>

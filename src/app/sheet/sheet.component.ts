@@ -23,7 +23,7 @@ export class GNericSheet {
     newPageTitle = new FormControl('', [Validators.required, Validators.minLength(1)]);
     curPageId: string | null = this.sheetModel.getPages().length > 0 ? this.sheetModel.getPages()[0].getId() : null;
 
-    editable = signal(true);
+    @Input() editable: boolean = true;
     pages = viewChildren(GNericSheetPage);
 
     gNericElemChangedEvent = output<object>();
@@ -36,20 +36,7 @@ export class GNericSheet {
     showPage(pageId: string) {
         if(pageId) {
             this.curPageId = pageId;
-            // TODO: pass editable as @Input to the pages
-            setTimeout(()=>{
-                this.pages().forEach(page => {
-                    page.setEditable(this.editable());
-                });
-            });
         }
-    }
-
-    setEditable(editable: boolean): void {
-        this.editable.set(editable);
-        this.pages().forEach(page => {
-            page.setEditable(this.editable());
-        });
     }
 
     // _______________ change sheet _______________

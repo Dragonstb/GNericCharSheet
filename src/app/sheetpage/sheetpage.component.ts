@@ -7,6 +7,7 @@ import { ElemTypes } from "../elemtypes";
 import { ActionTypes } from "../ActionTypes";
 import { ValidatorService } from "../../services/validator";
 import { GNericPageModel } from "./pagemodel";
+import { InputModalityDetector } from "@angular/cdk/a11y";
 
 @Component({
     selector: 'gneric-sheetpage',
@@ -17,7 +18,7 @@ export class GNericSheetPage {
 
     @Input() pageModel: GNericPageModel = new GNericPageModel('page-0', 'Page 0');
     blockElems = viewChildren(GNericBlock);
-    editable = signal(true);
+    @Input() editable = true;
     @ViewChild('dialog') dialog!: GNericDeletionModal;
     @ViewChild('delPageDialog') delPageDialog!: GNericDeletionModal;
 
@@ -30,13 +31,6 @@ export class GNericSheetPage {
 
     gNericElemChangedEvent = output<object>();
     deletePageEvent = output<string>();
-
-    setEditable(editable: boolean) {
-        this.editable.set(editable);
-        this.blockElems().forEach(block => {
-            block.setEditable(editable);
-        });
-    }
 
     getNextId(): string {
         const num = this.idCounter++;
