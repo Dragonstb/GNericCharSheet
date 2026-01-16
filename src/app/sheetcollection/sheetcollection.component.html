@@ -1,0 +1,17 @@
+<div>
+    <div>
+        <label for="sheet-select" class="spacingrightsmall">Show sheet:</label>
+        <select id="sheet-select" [formControl]="sheetSelect" (change)="selectSheet()">
+            @for(sheet of sheets.sheets; track sheet.getId()) {
+                <option value="{{sheet.getId()}}">{{sheet.getCharName()}}</option>
+            }
+        </select>
+    </div>
+    <hr>
+    @if(currentSheet) {
+        <gneric-sheet [sheetModel]="currentSheet" [editable]="editable" (gNericElemChangedEvent)="reactOnSheetUpdate($event)"/>
+    }
+    @else {
+        <span>No character sheet selected</span>
+    }
+</div>

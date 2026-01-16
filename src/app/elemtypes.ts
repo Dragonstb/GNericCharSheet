@@ -7,5 +7,6 @@ export enum ElemTypes {
     checkboxes = 'checkboxes',
     block = 'block',
     page = 'page',
-    sheet = 'sheet'
+    sheet = 'sheet',
+    sheetcollection = 'sheetcollection'
 }

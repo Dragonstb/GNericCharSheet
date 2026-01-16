@@ -1,29 +1,26 @@
-import { Component, inject, NgZone, viewChildren } from '@angular/core';
+import { Component, inject, NgZone } from '@angular/core';
 import OBR from '@owlbear-rodeo/sdk';
 import { BroadCaster } from '../services/broadcaster';
 import { ValidatorService } from '../services/validator';
-import { GNericSheet } from './sheet/sheet.component';
-import { GNericSheetModel } from './sheet/sheetmodel';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { GNericSheetCollection } from './sheetcollection/sheetcollection.component';
+import { GNericSheetCollectionModel } from './sheetcollection/sheetcollectionmodel';
 
 @Component({
   selector: 'app-root',
-  imports: [GNericSheet, ReactiveFormsModule],
+  imports: [GNericSheetCollection, ReactiveFormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })
 export class GNericMainComponent {
   title = 'GNericCharSheet';
   broadcaster: BroadCaster = inject(BroadCaster);
-  sheets = viewChildren(GNericSheet);
 
   ngZone = inject(NgZone);
 
   editableCheckbox = new FormControl(true);
 
-  sheetModels: GNericSheetModel[] = [
-    new GNericSheetModel('char-sheet-0', 'Alex Anyone')
-  ]
+  sheets = new GNericSheetCollectionModel();
 
   reactOnChange(json: object) {
     console.dir(json);
@@ -37,23 +34,13 @@ export class GNericMainComponent {
       return;
     }
 
-    if(!ValidatorService.hasNonEmptyStringProperty('id', model)) {
-      console.log('GNeric Char Sheet: received model without id.');
-      return;
-    }
-
-    for (const sheet of this.sheetModels) {
-      if(sheet.getId() === model.id) {
-        try {
-          this.ngZone.runGuarded(()=>{
-            sheet.updateModel(model);
-            // TODO: bug: new elements start as editable even when sheet is not editable
-          });
-        } catch (error) {
-          console.log('GNeric Char Sheet: error when updating character sheet');
-        }
-        return;
-      }
+    try {
+      this.ngZone.runGuarded(()=>{
+        // TODO: implement the method updateModel(...) in GNericSheetCollectionModel
+        // this.sheets.updateModel(model);
+      });
+    } catch (error) {
+      console.log('GNeric Char Sheet: error when updating character sheets');
     }
   }
 

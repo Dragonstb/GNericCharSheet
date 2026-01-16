@@ -4,10 +4,5 @@
     <input type="checkbox" id="elemEdit" [formControl]="editableCheckbox">
     <label for="elemEdit">Elements editable</label>
   </div>
-  @for(sheet of sheetModels; track sheet.getId()) {
-    @if($first) {
-      <!-- For now: just display one -->
-      <gneric-sheet [sheetModel]="sheet" [editable]="editableCheckbox.value ?? false" (gNericElemChangedEvent)="reactOnChange($event)"/>
-    }
-  }
+  <gneric-sheetcollection [sheets]="sheets" [editable]="editableCheckbox.value ?? false" />
 </main>
