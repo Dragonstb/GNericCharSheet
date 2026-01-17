@@ -1,4 +1,4 @@
-import { Component, inject, Input, output } from "@angular/core";
+import { Component, inject, Input, output, ViewChild } from "@angular/core";
 import { GNericSheetCollectionModel } from "./sheetcollectionmodel";
 import { GNericSheet } from "../sheet/sheet.component";
 import { GNericSheetModel } from "../sheet/sheetmodel";
@@ -6,16 +6,19 @@ import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ElemTypes } from "../elemtypes";
 import { ActionTypes } from "../ActionTypes";
 import { Utils } from "../../services/utils";
+import { GNericDeletionModal } from "../deletionmodal/delmodal.component";
 
 @Component({
     selector: 'gneric-sheetcollection',
     templateUrl: './sheetcollection.component.html',
-    imports: [GNericSheet, ReactiveFormsModule]
+    imports: [GNericSheet, ReactiveFormsModule, GNericDeletionModal]
 })
 export class GNericSheetCollection {
 
     @Input() sheets: GNericSheetCollectionModel = new GNericSheetCollectionModel();
     @Input() editable: boolean = true;
+
+    @ViewChild('dialog') dialog!: GNericDeletionModal; 
 
     sheetSelect = new FormControl();
     newCharName = new FormControl('', [Validators.required, Validators.minLength(1)]);
@@ -37,6 +40,17 @@ export class GNericSheetCollection {
         this.currentSheet = this.sheets.getSheetById(id);
     }
 
+    getPossesiveFormOfName(): string {
+        if(this.currentSheet) {
+            const name = this.currentSheet.getCharName();
+            const lastLetter = name[name.length-1];
+            return lastLetter === 's' || lastLetter === 'x' ? name+"'" : name+"'s";
+        }
+        else {
+            return '';
+        }
+    }
+
     addSheet(): void {
         const charName = this.newCharName.value ?? '';
         if(charName.length > 0) {
@@ -45,6 +59,30 @@ export class GNericSheetCollection {
             this.sheets.addSheet(newSheet);
             this.newCharName.setValue('');
             this.currentSheet = newSheet;
+            this.sheetSelect.setValue(id);
+            this.reactOnCollectionUpdate();
+        }
+    }
+
+    openDeleteDialog(): void {
+        this.dialog.openDialog();
+    }
+
+    deleteSheet(): void {
+        if(!this.currentSheet) {
+            return;
+        }
+
+        const oldSheet = this.currentSheet;
+        if(this.sheets.removeSheet(oldSheet.getId())) {
+            if(this.sheets.sheets.length > 0) {
+                this.currentSheet = this.sheets.sheets[0];
+                this.sheetSelect.setValue(this.currentSheet.getId());
+            }
+            else {
+                this.currentSheet = undefined;
+                this.sheetSelect.setValue(undefined);
+            }
             this.reactOnCollectionUpdate();
         }
     }

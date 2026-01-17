@@ -14,11 +14,18 @@
             <button [disabled]="!newCharName.valid" (click)="addSheet()">Create sheet</button>
         </div>
     }
-    <hr>
+    <hr class="spacingtopmedium spacingbottomlarge">
     @if(currentSheet) {
         <gneric-sheet [sheetModel]="currentSheet" [editable]="editable" (gNericElemChangedEvent)="reactOnSheetUpdate($event)"/>
     }
     @else {
         <span>No character sheet selected</span>
     }
+    @if(editable) {
+        <hr class="spacingtoplarge spacingbottommedium">
+        <div class="flexend">
+            <button [disabled]="!currentSheet" (click)="openDeleteDialog()">Delete sheet</button>
+        </div>
+    }
 </div>
+<gneric-deldialog #dialog [text]="'Delete '+getPossesiveFormOfName()+' sheet?'" (acceptDeletionEvent)="deleteSheet()" />
