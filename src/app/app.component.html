@@ -4,5 +4,5 @@
     <input type="checkbox" id="elemEdit" [formControl]="editableCheckbox">
     <label for="elemEdit">Elements editable</label>
   </div>
-  <gneric-sheetcollection [sheets]="sheets" [editable]="editableCheckbox.value ?? false" />
+  <gneric-sheetcollection [sheets]="sheets" [editable]="editableCheckbox.value ?? false" (gNericElemChangedEvent)="reactOnChange($event)" />
 </main>

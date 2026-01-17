@@ -1,5 +1,4 @@
 import { ElemTypes } from "../elemtypes";
-import { GNericSheet } from "../sheet/sheet.component";
 import { GNericSheetModel } from "../sheet/sheetmodel";
 
 export class GNericSheetCollectionModel {
@@ -9,6 +8,12 @@ export class GNericSheetCollectionModel {
         new GNericSheetModel('char1', 'Chris Cameo'),
         new GNericSheetModel('char2', 'Sam Someone')
     ];
+
+    // _______________  changes  _______________
+
+    addSheet(newSheet: GNericSheetModel): void {
+        this.sheets.push(newSheet);
+    }
 
     // _______________  getters  _______________
 

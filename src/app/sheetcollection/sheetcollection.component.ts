@@ -1,10 +1,11 @@
-import { Component, Input, output } from "@angular/core";
+import { Component, inject, Input, output } from "@angular/core";
 import { GNericSheetCollectionModel } from "./sheetcollectionmodel";
 import { GNericSheet } from "../sheet/sheet.component";
 import { GNericSheetModel } from "../sheet/sheetmodel";
-import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ElemTypes } from "../elemtypes";
 import { ActionTypes } from "../ActionTypes";
+import { Utils } from "../../services/utils";
 
 @Component({
     selector: 'gneric-sheetcollection',
@@ -15,13 +16,37 @@ export class GNericSheetCollection {
 
     @Input() sheets: GNericSheetCollectionModel = new GNericSheetCollectionModel();
     @Input() editable: boolean = true;
+
     sheetSelect = new FormControl();
+    newCharName = new FormControl('', [Validators.required, Validators.minLength(1)]);
+
     currentSheet: GNericSheetModel | undefined = undefined;
     gNericElemChangedEvent = output<object>();
+
+    private utils = inject(Utils);
+    private idCounter: number = 0;
+    private idKey = this.utils.getRandomString(4);
+
+    private getNextId(): string {
+        const num = this.idCounter++;
+        return this.idKey+'-'+String(num);
+    }
 
     selectSheet(): void {
         const id = this.sheetSelect.value ?? '';
         this.currentSheet = this.sheets.getSheetById(id);
+    }
+
+    addSheet(): void {
+        const charName = this.newCharName.value ?? '';
+        if(charName.length > 0) {
+            const id = this.getNextId();
+            const newSheet = new GNericSheetModel(id, charName);
+            this.sheets.addSheet(newSheet);
+            this.newCharName.setValue('');
+            this.currentSheet = newSheet;
+            this.reactOnCollectionUpdate();
+        }
     }
 
     // _______________ broadcast changes _______________

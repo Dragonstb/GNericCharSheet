@@ -7,6 +7,13 @@
             }
         </select>
     </div>
+    @if(editable) {
+        <div class="spacingtopsmall">
+            <label for="sheet-newCharName">Add new Character:</label>
+            <input class="spacingrightsmall spacingleftsmall" type="text" id="sheet-newCharName" [formControl]="newCharName">
+            <button [disabled]="!newCharName.valid" (click)="addSheet()">Create sheet</button>
+        </div>
+    }
     <hr>
     @if(currentSheet) {
         <gneric-sheet [sheetModel]="currentSheet" [editable]="editable" (gNericElemChangedEvent)="reactOnSheetUpdate($event)"/>
