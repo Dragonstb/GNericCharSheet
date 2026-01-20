@@ -92,8 +92,8 @@ describe( 'GNericSheetModel', () => {
 
     it('base validation: should reject a model with falsy type', () => {
         const model = {
-            id: undefined,
-            type: ElemTypes.sheet,
+            id: id,
+            type: false,
             action: ActionTypes.sheetupdate
         }
         expect(sheet.validateBaseModel(model)).toBeFalse();
