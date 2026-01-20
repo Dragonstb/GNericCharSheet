@@ -36,8 +36,7 @@ export class GNericMainComponent {
 
     try {
       this.ngZone.runGuarded(()=>{
-        // TODO: implement the method updateModel(...) in GNericSheetCollectionModel
-        // this.sheets.updateModel(model);
+        this.sheets.updateModel(model);
       });
     } catch (error) {
       console.log('GNeric Char Sheet: error when updating character sheets');
