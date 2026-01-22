@@ -2,9 +2,15 @@
     <h2>{{sheetModel.getCharName()}}</h2>
     @if(editable) {
         <div class="spacingbottomlarge">
-            <label for="addPage-{{sheetModel.getId()}}">Name of new page</label>
-            <input class="spacingleftsmall spacingrightsmall" type="text" id="addPage-{{sheetModel.getId()}}" [formControl]="newPageTitle">
-            <button (click)="addPage()" [disabled]="!newPageTitle.valid">Add page</button>
+            <div class="spacingbottommedium">
+                <label class="spacingrightsmall" for="editName-{{sheetModel.getId()}}">Edit name:</label>
+                <input type="text" id="editName-{{sheetModel.getId()}}" [formControl]="sheetModel.charname" (input)="reactOnSheetUpdate()">
+            </div>
+            <div>
+                <label for="addPage-{{sheetModel.getId()}}">Name of new page</label>
+                <input class="spacingleftsmall spacingrightsmall" type="text" id="addPage-{{sheetModel.getId()}}" [formControl]="newPageTitle">
+                <button (click)="addPage()" [disabled]="!newPageTitle.valid">Add page</button>
+            </div>
         </div>
     }
     <!-- TODO: the keyboard interactions of an accessible tabbed pane -->

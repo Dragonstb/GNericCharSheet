@@ -1,3 +1,4 @@
+import { FormControl } from "@angular/forms";
 import { ValidatorService } from "../../services/validator";
 import { ActionTypes } from "../ActionTypes";
 import { ElemTypes } from "../elemtypes";
@@ -6,12 +7,12 @@ import { GNericPageModel } from "../sheetpage/pagemodel";
 export class GNericSheetModel {
 
     private id: string;
-    private charname: string;
+    charname = new FormControl();
     private pages: GNericPageModel[] = [];
 
     constructor(id: string, charname: string | undefined = undefined) {
         this.id = id;
-        this.charname = charname ?? this.id;
+        this.charname.setValue(charname ?? this.id);
         this.pages = [
             new GNericPageModel('page-0', 'General'),
             new GNericPageModel('page-1', 'Items'),
@@ -24,7 +25,7 @@ export class GNericSheetModel {
     }
 
     getCharName(): string {
-        return this.charname;
+        return this.charname.value ?? '';
     }
 
     getPages(): GNericPageModel[] {
@@ -54,8 +55,8 @@ export class GNericSheetModel {
         });
 
         return {
-            id: this.id,
-            name: this.charname,
+            id: this.getId(),
+            name: this.getCharName(),
             type: ElemTypes.sheet,
             content: pageModels
         }
