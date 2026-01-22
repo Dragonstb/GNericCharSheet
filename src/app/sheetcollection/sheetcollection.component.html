@@ -13,6 +13,9 @@
             <input class="spacingrightsmall spacingleftsmall" type="text" id="sheet-newCharName" [formControl]="newCharName">
             <button [disabled]="!newCharName.valid" (click)="addSheet()">Create sheet</button>
         </div>
+        <div class="spacingtopsmall">
+            <button [disabled]="!currentSheet" (click)="copySheet()">Copy {{getPossesiveFormOfName()}} sheet</button>
+        </div>
     }
     <hr class="spacingtopmedium spacingbottomlarge">
     @if(currentSheet) {

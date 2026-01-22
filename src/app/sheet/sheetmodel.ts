@@ -113,7 +113,7 @@ export class GNericSheetModel {
         }
 
         this.pages = newPages;
-        this.charname = model.name;
+        this.charname.setValue(model.name);
         return true;
     }
 

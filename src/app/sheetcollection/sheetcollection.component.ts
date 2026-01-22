@@ -72,7 +72,7 @@ export class GNericSheetCollection {
         if(!this.currentSheet) {
             return;
         }
-
+        
         const oldSheet = this.currentSheet;
         if(this.sheets.removeSheet(oldSheet.getId())) {
             if(this.sheets.sheets.length > 0) {
@@ -85,6 +85,26 @@ export class GNericSheetCollection {
             }
             this.reactOnCollectionUpdate();
         }
+    }
+    
+    copySheet(): void {
+        if(!this.currentSheet) {
+            return;
+        }
+
+        const model = this.currentSheet.getModel() as any;
+        const newCharName = this.currentSheet.getCharName()+' '+this.utils.getRandomString(4);
+        const newId = this.getNextId();
+        model.id = newId;
+        model.name = newCharName;
+        const json = {...model, action: ActionTypes.sheetupdate};
+
+        const newSheet = new GNericSheetModel(newId, newCharName);
+        newSheet.updateModel(json);
+        this.sheets.addSheet(newSheet);
+        this.currentSheet = newSheet;
+        this.sheetSelect.setValue(newId);
+        this.reactOnCollectionUpdate();
     }
 
     // _______________ broadcast changes _______________
