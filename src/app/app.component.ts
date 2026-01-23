@@ -1,5 +1,5 @@
 import { Component, inject, NgZone, signal } from '@angular/core';
-import OBR from '@owlbear-rodeo/sdk';
+import OBR, { Player } from '@owlbear-rodeo/sdk';
 import { BroadCaster } from '../services/broadcaster';
 import { ValidatorService } from '../services/validator';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -22,6 +22,7 @@ export class GNericMainComponent {
   editableCheckbox = new FormControl(true);
 
   sheets = new GNericSheetCollectionModel();
+  otherPlayers: Player[] = [];
   isGM = signal(false);
 
   reactOnChange(json: object) {
@@ -69,14 +70,50 @@ export class GNericMainComponent {
     localStorage.removeItem(this.SHEET_STORAGE);
   }
 
+  updatePlayers(party: Player[]): void {
+    if(!this.isGM) {
+      return;
+    }
+
+    // const players: GNericPlayer[] = [];
+    // for (const player of party) {
+    //   if(player.hasOwnProperty('id') && player.hasOwnProperty('name')
+    //       && typeof(player.id) === 'string' && typeof(player.name) === 'string') {
+    //     players.push(new GNericPlayer(player.id, player.name))
+    //   }
+    //   // TODO: notify errors
+    // }
+    this.otherPlayers = party;
+  }
+
   ngOnInit() {
     this.broadcaster.setApp(this);
     this.loadSheets();
     OBR.onReady(
       ()=>{
         this.broadcaster.setReady();
+        // TODO: also set 'isGM' when the roles changes later on
         OBR.player.getRole().then(role => {
           this.isGM.set(role === 'GM');
+        });
+        OBR.party.getPlayers().then(party => {
+          this.updatePlayers(party);
+        });
+        OBR.party.onChange(party => {
+          console.log('----------- party changes --------------');
+          console.dir(party);
+          this.updatePlayers(party);
+          // if(this.isGM()) {
+          //   const players: GNericPlayer[] = [];
+          //   for (const rawPlayer of party) {
+          //     if(rawPlayer.hasOwnProperty('id') && rawPlayer.hasOwnProperty('name')
+          //         && typeof(rawPlayer.id) === 'string' && typeof(rawPlayer.name) === 'string') {
+          //       players.push(new GNericPlayer(rawPlayer.id, rawPlayer.name))
+          //     }
+          //     // TODO: notify errors
+          //   }
+          //   this.otherPlayers = players;
+          // }
         });
       }
     );

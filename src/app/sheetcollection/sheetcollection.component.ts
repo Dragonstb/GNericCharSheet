@@ -7,6 +7,7 @@ import { ElemTypes } from "../elemtypes";
 import { ActionTypes } from "../ActionTypes";
 import { Utils } from "../../services/utils";
 import { GNericDeletionModal } from "../deletionmodal/delmodal.component";
+import { Player } from "@owlbear-rodeo/sdk";
 
 @Component({
     selector: 'gneric-sheetcollection',
@@ -18,6 +19,7 @@ export class GNericSheetCollection {
     @Input() sheets: GNericSheetCollectionModel = new GNericSheetCollectionModel();
     @Input() editable: boolean = true;
     @Input() isGM: boolean = true;
+    @Input() otherPlayers: Player[] = [];
 
     @ViewChild('dialog') dialog!: GNericDeletionModal; 
 

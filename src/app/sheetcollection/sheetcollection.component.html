@@ -1,11 +1,23 @@
 <div>
     <div>
-        <label for="sheet-select" class="spacingrightsmall">Show sheet:</label>
-        <select id="sheet-select" [formControl]="sheetSelect" (change)="selectSheet()">
-            @for(sheet of sheets.sheets; track sheet.getId()) {
-                <option value="{{sheet.getId()}}">{{sheet.getCharName()}}</option>
-            }
-        </select>
+        <div>
+            <label for="sheet-select" class="spacingrightsmall">Show sheet:</label>
+            <select id="sheet-select" [formControl]="sheetSelect" (change)="selectSheet()">
+                @for(sheet of sheets.sheets; track sheet.getId()) {
+                    <option value="{{sheet.getId()}}">{{sheet.getCharName()}}</option>
+                }
+            </select>
+        </div>
+        @if(isGM) {
+            <div>
+                <label for="player-select" class="spacingrightsmall">Played by:</label>
+                <select id="player-select" [disabled]="!currentSheet">
+                    @for(player of otherPlayers; track player.id) {
+                        <option value="{{player.id}}">{{player.name}}</option>
+                    }
+                </select>
+            </div>
+        }
     </div>
     @if(editable && isGM) {
         <div class="spacingtopsmall">
