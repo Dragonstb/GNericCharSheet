@@ -17,6 +17,7 @@ export class GNericSheetCollection {
 
     @Input() sheets: GNericSheetCollectionModel = new GNericSheetCollectionModel();
     @Input() editable: boolean = true;
+    @Input() isGM: boolean = true;
 
     @ViewChild('dialog') dialog!: GNericDeletionModal; 
 
@@ -52,6 +53,10 @@ export class GNericSheetCollection {
     }
 
     addSheet(): void {
+        if(!this.isGM) {
+            return;
+        }
+
         const charName = this.newCharName.value ?? '';
         if(charName.length > 0) {
             const id = this.getNextId();
@@ -69,7 +74,7 @@ export class GNericSheetCollection {
     }
 
     deleteSheet(): void {
-        if(!this.currentSheet) {
+        if(!this.currentSheet || !this.isGM) {
             return;
         }
         
@@ -88,7 +93,7 @@ export class GNericSheetCollection {
     }
     
     copySheet(): void {
-        if(!this.currentSheet) {
+        if(!this.currentSheet || !this.isGM) {
             return;
         }
 

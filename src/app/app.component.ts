@@ -1,4 +1,4 @@
-import { Component, inject, NgZone } from '@angular/core';
+import { Component, inject, NgZone, signal } from '@angular/core';
 import OBR from '@owlbear-rodeo/sdk';
 import { BroadCaster } from '../services/broadcaster';
 import { ValidatorService } from '../services/validator';
@@ -15,14 +15,14 @@ import { ActionTypes } from './ActionTypes';
 })
 export class GNericMainComponent {
   private SHEET_STORAGE: string = 'sheet_storage';
+
   title = 'GNericCharSheet';
   broadcaster: BroadCaster = inject(BroadCaster);
-
   ngZone = inject(NgZone);
-
   editableCheckbox = new FormControl(true);
 
   sheets = new GNericSheetCollectionModel();
+  isGM = signal(false);
 
   reactOnChange(json: object) {
     console.dir(json);
@@ -75,6 +75,9 @@ export class GNericMainComponent {
     OBR.onReady(
       ()=>{
         this.broadcaster.setReady();
+        OBR.player.getRole().then(role => {
+          this.isGM.set(role === 'GM');
+        });
       }
     );
   }

@@ -7,7 +7,7 @@
             }
         </select>
     </div>
-    @if(editable) {
+    @if(editable && isGM) {
         <div class="spacingtopsmall">
             <label for="sheet-newCharName">Add new Character:</label>
             <input class="spacingrightsmall spacingleftsmall" type="text" id="sheet-newCharName" [formControl]="newCharName">
@@ -22,9 +22,12 @@
         <gneric-sheet [sheetModel]="currentSheet" [editable]="editable" (gNericElemChangedEvent)="reactOnSheetUpdate($event)"/>
     }
     @else {
-        <span>No character sheet selected</span>
+        <p>No character sheet selected</p>
+        @if(!isGM) {
+            <p>As a player, you cannot create or delete sheets by yourself. A GM will assign one or more sheets to you.</p>
+        }
     }
-    @if(editable) {
+    @if(editable && isGM) {
         <hr class="spacingtoplarge spacingbottommedium">
         <div class="flexend">
             <button [disabled]="!currentSheet" (click)="openDeleteDialog()">Delete sheet</button>
