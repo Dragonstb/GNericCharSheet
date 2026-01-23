@@ -6,11 +6,7 @@ import { GNericSheetModel } from "../sheet/sheetmodel";
 export class GNericSheetCollectionModel {
 
     // TODO: use map with ids as keys
-    sheets: GNericSheetModel[] = [
-        new GNericSheetModel('char0', 'Alex Anyone'),
-        new GNericSheetModel('char1', 'Chris Cameo'),
-        new GNericSheetModel('char2', 'Sam Someone')
-    ];
+    sheets: GNericSheetModel[] = [];
 
     // _______________  changes  _______________
 
