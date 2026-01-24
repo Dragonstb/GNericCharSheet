@@ -6,6 +6,8 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { GNericSheetCollection } from './sheetcollection/sheetcollection.component';
 import { GNericSheetCollectionModel } from './sheetcollection/sheetcollectionmodel';
 import { ActionTypes } from './ActionTypes';
+import PlayerApi from '@owlbear-rodeo/sdk/lib/api/PlayerApi';
+import { GNericSheetPlayerAssignment } from '../services/sheetPlayerAssignment';
 
 @Component({
   selector: 'app-root',
@@ -23,12 +25,63 @@ export class GNericMainComponent {
 
   sheets = new GNericSheetCollectionModel();
   otherPlayers: Player[] = [];
-  isGM = signal(false);
+  // assignment sheet id -> player id
+  private sheetAssignments = new Map<string, string>;
+  isGM = signal(!false);
 
-  reactOnChange(json: object) {
+  reactOnChange(json: any) {
     console.dir(json);
     this.storeSheets();
-    // this.broadcaster.handleOutgoingMessage(json);
+    this.broadcaster.handleOutgoingMessage(this.broadcaster.getGmGeneralChannel(), json);
+    if(this.isGM() && ValidatorService.hasNonEmptyStringProperty('action', json) && json.action === ActionTypes.sheetupdate) {
+      // also send to the player who plays this character whose sheet is getting an update
+      const sheetId = json.model.id;
+      const playerId = this.sheetAssignments.get(sheetId);
+      if(playerId) {
+        const channel = this.broadcaster.getPersonalChannelById(playerId);
+        this.broadcaster.handleOutgoingMessage(channel, json);
+      }
+    }
+  }
+
+  reactOnPlayerSelection(assignment: GNericSheetPlayerAssignment): void {
+    console.log('reacting on player selection: '+assignment.getPlayerId());
+    const oldPlayerId: string | undefined = this.sheetAssignments.get(assignment.getSheetId());
+    const newPlayerId: string = assignment.getPlayerId();
+
+    if(newPlayerId.length > 0) {
+      if(oldPlayerId === newPlayerId) {
+        return;
+      }
+
+      // assign new player
+      this.sheetAssignments.set(assignment.getSheetId(), newPlayerId);
+      this.updatePlayersSheets(newPlayerId);
+      if(oldPlayerId) {
+        this.updatePlayersSheets(oldPlayerId);
+      }
+    }
+    else if(oldPlayerId) {
+      this.sheetAssignments.delete(assignment.getSheetId());
+      // notify old player that he/she is losing control now
+      this.updatePlayersSheets(oldPlayerId);
+    }
+  }
+
+  updatePlayersSheets(playerId: string) {
+    const sheetIds: Set<string> = new Set();
+    this.sheetAssignments.forEach((plrId, sheetId) => {
+      if(this.sheetAssignments.get(sheetId) === playerId) {
+        sheetIds.add(sheetId);
+      }
+    });
+    
+    const fullModel = this.sheets.getModelRestrainedToSheets(sheetIds);
+    const json = {...fullModel, action: ActionTypes.collectionupdate};
+    const channel = this.broadcaster.getPersonalChannelById(playerId);
+    console.log('updating player sheets for '+playerId);
+    console.dir(json);
+    this.broadcaster.handleOutgoingMessage(channel, json);
   }
 
   setModel(model: any) {
@@ -75,14 +128,6 @@ export class GNericMainComponent {
       return;
     }
 
-    // const players: GNericPlayer[] = [];
-    // for (const player of party) {
-    //   if(player.hasOwnProperty('id') && player.hasOwnProperty('name')
-    //       && typeof(player.id) === 'string' && typeof(player.name) === 'string') {
-    //     players.push(new GNericPlayer(player.id, player.name))
-    //   }
-    //   // TODO: notify errors
-    // }
     this.otherPlayers = party;
   }
 
@@ -92,7 +137,10 @@ export class GNericMainComponent {
     OBR.onReady(
       ()=>{
         this.broadcaster.setReady();
-        // TODO: also set 'isGM' when the roles changes later on
+        OBR.player.getId().then(id => {
+          this.broadcaster.setPersonalChannelById(id);
+        });
+        // TODO: also set 'isGM' when the role changes later on
         OBR.player.getRole().then(role => {
           this.isGM.set(role === 'GM');
         });
@@ -100,20 +148,7 @@ export class GNericMainComponent {
           this.updatePlayers(party);
         });
         OBR.party.onChange(party => {
-          console.log('----------- party changes --------------');
-          console.dir(party);
           this.updatePlayers(party);
-          // if(this.isGM()) {
-          //   const players: GNericPlayer[] = [];
-          //   for (const rawPlayer of party) {
-          //     if(rawPlayer.hasOwnProperty('id') && rawPlayer.hasOwnProperty('name')
-          //         && typeof(rawPlayer.id) === 'string' && typeof(rawPlayer.name) === 'string') {
-          //       players.push(new GNericPlayer(rawPlayer.id, rawPlayer.name))
-          //     }
-          //     // TODO: notify errors
-          //   }
-          //   this.otherPlayers = players;
-          // }
         });
       }
     );

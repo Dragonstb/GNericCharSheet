@@ -8,6 +8,7 @@ import { ActionTypes } from "../ActionTypes";
 import { Utils } from "../../services/utils";
 import { GNericDeletionModal } from "../deletionmodal/delmodal.component";
 import { Player } from "@owlbear-rodeo/sdk";
+import { GNericSheetPlayerAssignment } from "../../services/sheetPlayerAssignment";
 
 @Component({
     selector: 'gneric-sheetcollection',
@@ -24,10 +25,12 @@ export class GNericSheetCollection {
     @ViewChild('dialog') dialog!: GNericDeletionModal; 
 
     sheetSelect = new FormControl();
+    playerSelect = new FormControl();
     newCharName = new FormControl('', [Validators.required, Validators.minLength(1)]);
 
     currentSheet: GNericSheetModel | undefined = undefined;
     gNericElemChangedEvent = output<object>();
+    playerSelectEvent = output<GNericSheetPlayerAssignment>();
 
     private utils = inject(Utils);
     private idCounter: number = 0;
@@ -41,6 +44,18 @@ export class GNericSheetCollection {
     selectSheet(): void {
         const id = this.sheetSelect.value ?? '';
         this.currentSheet = this.sheets.getSheetById(id);
+    }
+
+    selectPlayer(): void {
+        if(!this.currentSheet) {
+            return;
+        }
+
+        const sheetId = this.currentSheet.getId();
+        const playerId = this.playerSelect.value ?? '';
+        console.log('selected player '+playerId);
+        const assignment = new GNericSheetPlayerAssignment(sheetId, playerId);
+        this.playerSelectEvent.emit(assignment);
     }
 
     getPossesiveFormOfName(): string {
@@ -112,6 +127,21 @@ export class GNericSheetCollection {
         this.currentSheet = newSheet;
         this.sheetSelect.setValue(newId);
         this.reactOnCollectionUpdate();
+    }
+
+    hasCurrentSheet(): boolean {
+        if(!this.currentSheet) {
+            return false;
+        }
+
+        const sheet = this.sheets.getSheetById(this.currentSheet.getId());
+        if(sheet) {
+            return true;
+        }
+        else {
+            this.currentSheet = undefined;
+            return false;
+        }
     }
 
     // _______________ broadcast changes _______________

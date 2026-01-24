@@ -5,7 +5,10 @@ import OBR from "@owlbear-rodeo/sdk";
 @Injectable({providedIn: 'root'})
 export class BroadCaster {
 
-    channel: string = 'dev.dragonstb.gnericcharsheet.broadcast';
+    private baseChannel: string = 'dev.dragonstb.gnericcharsheet.broadcast';
+    private bcChannel: string = this.baseChannel + '/broadcast';
+    private gmGenChannel: string = this.baseChannel + '/gm/general';
+    private privateChannel: string | null = null;
     ready: boolean = false;
     app: GNericMainComponent | null = null;
 
@@ -27,11 +30,11 @@ export class BroadCaster {
         }
     }
 
-    handleOutgoingMessage(msg: object) {
+    handleOutgoingMessage(channel: string, msg: object) {
         if(this.ready) {
             if(msg) {
                 const letter: string = JSON.stringify(msg);
-                OBR.broadcast.sendMessage(this.channel, letter);
+                OBR.broadcast.sendMessage(channel, letter);
             }
         }
         else {
@@ -43,8 +46,35 @@ export class BroadCaster {
         this.ready = true;
         console.log('ready: '+this.ready);
         OBR.broadcast.onMessage(
-            this.channel,
+            this.baseChannel,
             (msg) => this.handleIncomingMessage(msg)
         );
+        OBR.broadcast.onMessage(
+            this.gmGenChannel,
+            msg => {
+                if(this.app && this.app.isGM()) {
+                    this.handleIncomingMessage(msg)
+                }
+            }
+        );
+    }
+
+    getGmGeneralChannel(): string {
+        return this.gmGenChannel;
+    }
+
+    getPersonalChannelById(playerId: string): string {
+        return this.baseChannel + '/player/' + playerId;
+    }
+
+    setPersonalChannelById(playerId: string): void {
+        this.privateChannel = this.baseChannel + '/player/' + playerId;
+        if(OBR.isReady) {
+            OBR.broadcast.onMessage(
+                this.privateChannel,
+                msg => this.handleIncomingMessage(msg)
+            );
+        }
+        // TODO: unsubscribe former personal channels when this method is called multiple times
     }
 }

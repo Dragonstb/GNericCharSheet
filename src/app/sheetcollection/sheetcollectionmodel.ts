@@ -51,6 +51,21 @@ export class GNericSheetCollectionModel {
         }
     }
 
+    getModelRestrainedToSheets(sheetIds: Set<string>): object {
+        const sheetModels: object[] = [];
+        this.sheets.forEach(sheet => {
+            const mdl = sheet.getModel() as any;
+            if(ValidatorService.hasNonEmptyStringProperty('id', mdl) && sheetIds.has(mdl.id)) {
+                sheetModels.push(mdl);
+            }
+        });
+
+        return {
+            type: ElemTypes.sheetcollection,
+            content: sheetModels
+        }
+    }
+
     // _______________  update  _______________
 
     updateModel(model: any): boolean {

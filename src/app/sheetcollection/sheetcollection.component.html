@@ -11,9 +11,12 @@
         @if(isGM) {
             <div>
                 <label for="player-select" class="spacingrightsmall">Played by:</label>
-                <select id="player-select" [disabled]="!currentSheet">
+                <select id="player-select" [formControl]="playerSelect" [disabled]="!currentSheet" (change)="selectPlayer()">
+                    <option value="">- no one -</option>
                     @for(player of otherPlayers; track player.id) {
-                        <option value="{{player.id}}">{{player.name}}</option>
+                        @if(player.role === 'PLAYER') {
+                            <option value="{{player.id}}">{{player.name}}</option>
+                        }
                     }
                 </select>
             </div>
