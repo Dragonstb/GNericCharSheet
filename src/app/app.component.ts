@@ -27,6 +27,7 @@ export class GNericMainComponent {
   sheets = new GNericSheetCollectionModel();
   otherPlayers: Player[] = [];
   // assignment sheet id -> player id
+  // TODO: assignment shall survive page reloads
   sheetAssignments = new Map<string, string>;
   isGM = signal(!false);
 
@@ -35,7 +36,7 @@ export class GNericMainComponent {
     this.storeSheets();
     this.broadcaster.handleOutgoingMessage(this.broadcaster.getGmGeneralChannel(), json);
     if(this.isGM() && ValidatorService.hasNonEmptyStringProperty('action', json) && json.action === ActionTypes.sheetupdate) {
-      // also send to the player who plays this character whose sheet is getting an update
+      // also send the update to the player who plays this character
       const sheetId = json.model.id;
       const playerId = this.sheetAssignments.get(sheetId);
       if(playerId) {
@@ -132,8 +133,14 @@ export class GNericMainComponent {
       return;
     }
 
-    // TODO: unassign sheets that are assigned to players that do not exist in 'party' anymore
-    this.otherPlayers = party;
+    try {
+      this.ngZone.runGuarded(() => {
+        // TODO: unassign sheets that are assigned to players that do not exist in 'party' anymore
+        this.otherPlayers = party;
+      });
+    } catch (error) {
+      
+    }
   }
 
   ngOnInit() {
