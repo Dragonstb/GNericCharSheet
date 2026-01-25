@@ -102,8 +102,7 @@ export class GNericSheetCollection {
                 this.sheetSelect.setValue(this.currentSheet.getId());
             }
             else {
-                this.currentSheet = undefined;
-                this.sheetSelect.setValue(undefined);
+                this.clearCurrentSheet();
             }
             this.reactOnCollectionUpdate();
         }
@@ -129,18 +128,27 @@ export class GNericSheetCollection {
         this.reactOnCollectionUpdate();
     }
 
-    hasCurrentSheet(): boolean {
+    clearCurrentSheet(): void {
+        this.currentSheet = undefined;
+        this.sheetSelect.setValue(undefined);
+    }
+
+    checkCurrentSheet(): void {
         if(!this.currentSheet) {
-            return false;
+            return;
         }
 
-        const sheet = this.sheets.getSheetById(this.currentSheet.getId());
-        if(sheet) {
-            return true;
+        const sheetId = this.currentSheet.getId();
+        let needsUpdate: boolean = true;
+        for (const sheet of this.sheets.sheets) {
+            if(sheet.getId() === sheetId) {
+                needsUpdate = false;
+                break;
+            }
         }
-        else {
-            this.currentSheet = undefined;
-            return false;
+
+        if(needsUpdate) {
+            this.clearCurrentSheet();
         }
     }
 

@@ -1,4 +1,4 @@
-import { Component, inject, NgZone, signal } from '@angular/core';
+import { Component, inject, NgZone, signal, ViewChild } from '@angular/core';
 import OBR, { Player } from '@owlbear-rodeo/sdk';
 import { BroadCaster } from '../services/broadcaster';
 import { ValidatorService } from '../services/validator';
@@ -8,6 +8,7 @@ import { GNericSheetCollectionModel } from './sheetcollection/sheetcollectionmod
 import { ActionTypes } from './ActionTypes';
 import PlayerApi from '@owlbear-rodeo/sdk/lib/api/PlayerApi';
 import { GNericSheetPlayerAssignment } from '../services/sheetPlayerAssignment';
+import { setSyntheticLeadingComments } from 'typescript';
 
 @Component({
   selector: 'app-root',
@@ -15,13 +16,15 @@ import { GNericSheetPlayerAssignment } from '../services/sheetPlayerAssignment';
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })
-export class GNericMainComponent {
+export class GNericMainComponent {  
   private SHEET_STORAGE: string = 'sheet_storage';
 
   title = 'GNericCharSheet';
   broadcaster: BroadCaster = inject(BroadCaster);
   ngZone = inject(NgZone);
   editableCheckbox = new FormControl(true);
+
+  @ViewChild('sheetCollection') sheetCollectionElem: GNericSheetCollection | undefined; 
 
   sheets = new GNericSheetCollectionModel();
   otherPlayers: Player[] = [];
@@ -95,6 +98,9 @@ export class GNericMainComponent {
       this.ngZone.runGuarded(()=>{
         const ok = this.sheets.updateModel(model);
         if(ok) {
+          if(this.sheetCollectionElem) {
+            this.sheetCollectionElem.checkCurrentSheet();
+          }
           this.storeSheets();
         }
       });
@@ -128,6 +134,7 @@ export class GNericMainComponent {
       return;
     }
 
+    // TODO: unassign sheets that are assigned to players that do not exist in 'party' anymore
     this.otherPlayers = party;
   }
 
