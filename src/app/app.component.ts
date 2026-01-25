@@ -6,9 +6,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { GNericSheetCollection } from './sheetcollection/sheetcollection.component';
 import { GNericSheetCollectionModel } from './sheetcollection/sheetcollectionmodel';
 import { ActionTypes } from './ActionTypes';
-import PlayerApi from '@owlbear-rodeo/sdk/lib/api/PlayerApi';
 import { GNericSheetPlayerAssignment } from '../services/sheetPlayerAssignment';
-import { setSyntheticLeadingComments } from 'typescript';
 
 @Component({
   selector: 'app-root',
@@ -29,7 +27,7 @@ export class GNericMainComponent {
   sheets = new GNericSheetCollectionModel();
   otherPlayers: Player[] = [];
   // assignment sheet id -> player id
-  private sheetAssignments = new Map<string, string>;
+  sheetAssignments = new Map<string, string>;
   isGM = signal(!false);
 
   reactOnChange(json: any) {

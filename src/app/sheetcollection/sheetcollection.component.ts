@@ -21,6 +21,7 @@ export class GNericSheetCollection {
     @Input() editable: boolean = true;
     @Input() isGM: boolean = true;
     @Input() otherPlayers: Player[] = [];
+    @Input() assignments: Map<string, string> = new Map();
 
     @ViewChild('dialog') dialog!: GNericDeletionModal; 
 
@@ -44,6 +45,9 @@ export class GNericSheetCollection {
     selectSheet(): void {
         const id = this.sheetSelect.value ?? '';
         this.currentSheet = this.sheets.getSheetById(id);
+        
+        const playerId = this.assignments.get(id) ?? '';
+        this.playerSelect.setValue(playerId);
     }
 
     selectPlayer(): void {
