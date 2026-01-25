@@ -26,7 +26,7 @@ export class GNericSheetCollection {
     @ViewChild('dialog') dialog!: GNericDeletionModal; 
 
     sheetSelect = new FormControl();
-    playerSelect = new FormControl();
+    playerSelect = new FormControl({value: '', disabled: true});
     newCharName = new FormControl('', [Validators.required, Validators.minLength(1)]);
 
     currentSheet: GNericSheetModel | undefined = undefined;
@@ -44,10 +44,7 @@ export class GNericSheetCollection {
 
     selectSheet(): void {
         const id = this.sheetSelect.value ?? '';
-        this.currentSheet = this.sheets.getSheetById(id);
-        
-        const playerId = this.assignments.get(id) ?? '';
-        this.playerSelect.setValue(playerId);
+        this.goToSheet(this.sheets.getSheetById(id));
     }
 
     selectPlayer(): void {
@@ -84,8 +81,8 @@ export class GNericSheetCollection {
             const newSheet = new GNericSheetModel(id, charName);
             this.sheets.addSheet(newSheet);
             this.newCharName.setValue('');
-            this.currentSheet = newSheet;
             this.sheetSelect.setValue(id);
+            this.goToSheet(newSheet);
             this.reactOnCollectionUpdate();
         }
     }
@@ -102,8 +99,9 @@ export class GNericSheetCollection {
         const oldSheet = this.currentSheet;
         if(this.sheets.removeSheet(oldSheet.getId())) {
             if(this.sheets.sheets.length > 0) {
-                this.currentSheet = this.sheets.sheets[0];
-                this.sheetSelect.setValue(this.currentSheet.getId());
+                const newSheet = this.sheets.sheets[0];
+                this.sheetSelect.setValue(newSheet.getId());
+                this.goToSheet(newSheet);
             }
             else {
                 this.clearCurrentSheet();
@@ -127,14 +125,28 @@ export class GNericSheetCollection {
         const newSheet = new GNericSheetModel(newId, newCharName);
         newSheet.updateModel(json);
         this.sheets.addSheet(newSheet);
-        this.currentSheet = newSheet;
         this.sheetSelect.setValue(newId);
+        this.goToSheet(newSheet);
         this.reactOnCollectionUpdate();
     }
 
+    goToSheet(sheet: GNericSheetModel | undefined): void {
+        this.currentSheet = sheet;
+
+        if(sheet) {
+            const playerId = this.assignments.get(sheet.getId()) ?? '';
+            this.playerSelect.enable();
+            this.playerSelect.setValue(playerId);
+        }
+        else {
+            this.playerSelect.disable();
+            this.playerSelect.setValue('');
+        }
+    }
+
     clearCurrentSheet(): void {
-        this.currentSheet = undefined;
         this.sheetSelect.setValue(undefined);
+        this.goToSheet(undefined);
     }
 
     checkCurrentSheet(): void {

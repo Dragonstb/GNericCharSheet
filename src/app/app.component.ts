@@ -26,9 +26,8 @@ export class GNericMainComponent {
 
   sheets = new GNericSheetCollectionModel();
   otherPlayers: Player[] = [];
-  // assignment sheet id -> player id
   // TODO: assignment shall survive page reloads
-  sheetAssignments = new Map<string, string>;
+  sheetAssignments = new Map<string, string>; // assignment sheet id -> player id
   isGM = signal(!false);
 
   reactOnChange(json: any) {
@@ -129,7 +128,7 @@ export class GNericMainComponent {
   }
 
   updatePlayers(party: Player[]): void {
-    if(!this.isGM) {
+    if(!this.isGM()) {
       return;
     }
 
