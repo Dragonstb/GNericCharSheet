@@ -14,8 +14,10 @@ import { GNericSheetPlayerAssignment } from '../services/sheetPlayerAssignment';
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })
-export class GNericMainComponent {  
-  private SHEET_STORAGE: string = 'sheet_storage';
+export class GNericMainComponent {
+  private LOCAL_STORAGE_BASE: string = 'GNericCharSheet_';
+  private SHEET_STORAGE: string = this.LOCAL_STORAGE_BASE + 'sheets';
+  private ASSIGNMENT_STORAGE: string = this.LOCAL_STORAGE_BASE + 'assignments';
 
   title = 'GNericCharSheet';
   broadcaster: BroadCaster = inject(BroadCaster);
@@ -27,6 +29,7 @@ export class GNericMainComponent {
   sheets = new GNericSheetCollectionModel();
   otherPlayers: Player[] = [];
   // TODO: assignment shall survive page reloads
+  // TODO: Broadcast changes in the assignments among the GMs
   sheetAssignments = new Map<string, string>; // assignment sheet id -> player id
   isGM = signal(!false);
 
@@ -57,6 +60,7 @@ export class GNericMainComponent {
 
       // assign new player
       this.sheetAssignments.set(assignment.getSheetId(), newPlayerId);
+      this.storeAssignments();
       this.updatePlayersSheets(newPlayerId);
       if(oldPlayerId) {
         this.updatePlayersSheets(oldPlayerId);
@@ -64,6 +68,7 @@ export class GNericMainComponent {
     }
     else if(oldPlayerId) {
       this.sheetAssignments.delete(assignment.getSheetId());
+      this.storeAssignments();
       // notify old player that he/she is losing control now
       this.updatePlayersSheets(oldPlayerId);
     }
@@ -123,8 +128,33 @@ export class GNericMainComponent {
     }
   }
 
-  clearSheets(): void {
+  clearSheetStorage(): void {
     localStorage.removeItem(this.SHEET_STORAGE);
+  }
+
+  storeAssignments(): void {
+    const json: any = {};
+    this.sheetAssignments.forEach((val, key) => {
+      json[key] = val;
+    });
+    localStorage.setItem(this.ASSIGNMENT_STORAGE, JSON.stringify(json));
+  }
+
+  loadAssignments(): void {
+    const rawAssignments: string | null = localStorage.getItem(this.ASSIGNMENT_STORAGE);
+    if(rawAssignments) {
+      this.sheetAssignments.clear();
+      const json = JSON.parse(rawAssignments);
+      for (const key in json) {
+        if (json.hasOwnProperty(key)) {
+          this.sheetAssignments.set(key, json[key]);
+        }
+      }
+    }
+  }
+
+  clearAssignmentStorage(): void {
+    localStorage.removeItem(this.ASSIGNMENT_STORAGE);
   }
 
   updatePlayers(party: Player[]): void {
@@ -134,17 +164,26 @@ export class GNericMainComponent {
 
     try {
       this.ngZone.runGuarded(() => {
-        // TODO: unassign sheets that are assigned to players that do not exist in 'party' anymore
+        // TODO: unassign sheets that are assigned to a player who becomes promoted to GM
+        const playerIds: Set<string> = new Set();
+        party.forEach(player => playerIds.add(player.id));
+        this.sheetAssignments.forEach((playerId, sheetId) => {
+          if(!playerIds.has(playerId)) {
+            this.sheetAssignments.delete(sheetId);
+          }
+        });
+
         this.otherPlayers = party;
       });
     } catch (error) {
-      
+      console.log('GNeric Char Sheet: Error when updating the players.');
     }
   }
 
   ngOnInit() {
     this.broadcaster.setApp(this);
     this.loadSheets();
+    this.loadAssignments();
     OBR.onReady(
       ()=>{
         this.broadcaster.setReady();
@@ -152,6 +191,7 @@ export class GNericMainComponent {
           this.broadcaster.setPersonalChannelById(id);
         });
         // TODO: also set 'isGM' when the role changes later on
+        // TODO: send all sheets to a player when he/she becomes promoted to GM
         OBR.player.getRole().then(role => {
           this.isGM.set(role === 'GM');
         });
