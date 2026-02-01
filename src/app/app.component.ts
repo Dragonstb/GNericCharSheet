@@ -8,10 +8,11 @@ import { GNericSheetCollectionModel } from './sheetcollection/sheetcollectionmod
 import { ActionTypes } from './ActionTypes';
 import { GNericSheetPlayerAssignment } from '../services/sheetPlayerAssignment';
 import { Tab, TabContent, TabList, TabPanel, Tabs } from '@angular/aria/tabs';
+import { GNericCompChapter } from './compchapter/compchapter.component';
 
 @Component({
   selector: 'app-root',
-  imports: [GNericSheetCollection, ReactiveFormsModule, TabList, Tab, Tabs, TabPanel, TabContent],
+  imports: [GNericSheetCollection, GNericCompChapter, ReactiveFormsModule, TabList, Tab, Tabs, TabPanel, TabContent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })

@@ -1,0 +1,25 @@
+<div>
+    <div class="spacingbottomlarge">
+        <label for="compendiumChapterSelect">Select a chapter</label>
+        <select id="compendiumChapterSelect" class="spacingleftsmall spacingrightsmall" [formControl]="chapterSelect" (change)="selectChapter()">
+            @for(chapter of chapters; track chapter.getId()) {
+                <option value="{{chapter.getId()}}">
+                    {{chapter.getName()}}
+                </option>
+            }
+        </select>
+    </div>
+
+    <div>
+        @if(currentChapter) {
+            @for(list of currentChapter.lists; track list.getId()) {
+                <gneric-itemlist [elem]="list" [editable]="false" (deleteCoreElemEvent)="doNothingForNow($event)" (gNericElemChangedEvent)="doNothingForNow($event)" />
+            }
+        }
+        @else {
+            <p>
+                No chapter selected.
+            </p>
+        }
+    </div>
+</div>
