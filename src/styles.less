@@ -189,48 +189,6 @@
     padding-top: @small;
 }
 
-.tab {
-
-    color: @obr-dark-text-prim;
-    border-left: 2px solid @obr-dark-text-prim;
-    border-right: 2px solid @obr-dark-text-prim;
-    border-top: 2px solid @obr-dark-text-prim;
-    border-bottom: none;
-
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-
-    .inheritbg;
-    .paddingleftmedium;
-    .paddingrightmedium;
-    .paddingtopsmall;
-    .paddingbottomsmall;
-    
-    &:hover {
-        color: @obr-dark-prim-contrast;
-        background-color: @obr-dark-prim-light;
-    }
-    
-    &.selected {
-        color: @obr-dark-prim-contrast;
-        background-color: @obr-dark-prim-dark;
-
-        &:hover {
-            color: @obr-dark-prim-contrast;
-            background-color: @obr-dark-prim-light;
-        }    
-    }
-
-}
-
-.thintopborder {
-    border-top: 1px solid @obr-dark-text-prim;
-
-    &.light {
-        border-color: @obr-light-text-prim;
-    }
-}
-
 .rpbox {
     border: 1px solid @obr-dark-text-prim;
     width: 25px;
@@ -301,6 +259,48 @@
     &.light {
         stroke: @ok-dark;
         fill: @ok-dark;
+    }
+}
+
+.tab {
+
+    color: @obr-dark-text-prim;
+    border-left: 2px solid @obr-dark-text-prim;
+    border-right: 2px solid @obr-dark-text-prim;
+    border-top: 2px solid @obr-dark-text-prim;
+    border-bottom: none;
+
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+    .inheritbg;
+    .paddingleftmedium;
+    .paddingrightmedium;
+    .paddingtopsmall;
+    .paddingbottomsmall;
+    
+    &:hover {
+        color: @obr-dark-prim-contrast;
+        background-color: @obr-dark-prim-light;
+    }
+    
+    &.selected, &[aria-selected="true"] {
+        color: @obr-dark-prim-contrast;
+        background-color: @obr-dark-prim-dark;
+
+        &:hover {
+            color: @obr-dark-prim-contrast;
+            background-color: @obr-dark-prim-light;
+        }    
+    }
+
+}
+
+.thintopborder {
+    border-top: 1px solid @obr-dark-text-prim;
+
+    &.light {
+        border-color: @obr-light-text-prim;
     }
 }
 
@@ -389,6 +389,11 @@ button {
         }
 
     }
+}
+
+div.tab {
+    border-top-left-radius: @small;
+    border-top-right-radius: @small;
 }
 
 textarea {

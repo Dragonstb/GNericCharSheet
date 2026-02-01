@@ -1,8 +1,25 @@
 <main class="main">
-  <div>Hello, GNericCharSheet</div>
-  <div>
-    <input type="checkbox" id="elemEdit" [formControl]="editableCheckbox">
-    <label for="elemEdit">Elements editable</label>
-  </div>
-  <gneric-sheetcollection #sheetCollection [sheets]="sheets" [isGM]="isGM()" [assignments]="sheetAssignments" [editable]="editableCheckbox.value ?? false" [otherPlayers]="otherPlayers" (gNericElemChangedEvent)="reactOnChange($event)" (playerSelectEvent)="reactOnPlayerSelection($event)" />
+  <div ngTabs>
+    <div ngTabList class="flexbox wrapping spacingbottomlarge">
+      <div ngTab class="tab" value="sheets">Sheets</div>
+      <div ngTab class="tab" value="compendium">Compendium</div>
+    </div>
+
+    <div>
+      <div ngTabPanel value="sheets" [preserveContent]="false">
+        <ng-template ngTabContent>
+          <input type="checkbox" id="elemEdit" [formControl]="editableCheckbox">
+          <label for="elemEdit">Elements editable</label>
+          <gneric-sheetcollection #sheetCollection [sheets]="sheets" [isGM]="isGM()" [assignments]="sheetAssignments" [editable]="editableCheckbox.value ?? false" [otherPlayers]="otherPlayers" (gNericElemChangedEvent)="reactOnChange($event)" (playerSelectEvent)="reactOnPlayerSelection($event)" />
+        </ng-template>
+      </div>
+
+      <div ngTabPanel value="compendium" [preserveContent]="false">
+        <ng-template ngTabContent>
+          Compendium 
+        </ng-template>
+      </div>
+    </div>
+
+  </div>  
 </main>

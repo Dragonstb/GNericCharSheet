@@ -7,10 +7,11 @@ import { GNericSheetCollection } from './sheetcollection/sheetcollection.compone
 import { GNericSheetCollectionModel } from './sheetcollection/sheetcollectionmodel';
 import { ActionTypes } from './ActionTypes';
 import { GNericSheetPlayerAssignment } from '../services/sheetPlayerAssignment';
+import { Tab, TabContent, TabList, TabPanel, Tabs } from '@angular/aria/tabs';
 
 @Component({
   selector: 'app-root',
-  imports: [GNericSheetCollection, ReactiveFormsModule],
+  imports: [GNericSheetCollection, ReactiveFormsModule, TabList, Tab, Tabs, TabPanel, TabContent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })
@@ -31,7 +32,7 @@ export class GNericMainComponent {
   // TODO: assignment shall survive page reloads
   // TODO: Broadcast changes in the assignments among the GMs
   sheetAssignments = new Map<string, string>; // assignment sheet id -> player id
-  isGM = signal(false);
+  isGM = signal(!false);
 
   reactOnChange(json: any) {
     console.dir(json);
