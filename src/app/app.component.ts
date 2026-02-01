@@ -31,7 +31,7 @@ export class GNericMainComponent {
   // TODO: assignment shall survive page reloads
   // TODO: Broadcast changes in the assignments among the GMs
   sheetAssignments = new Map<string, string>; // assignment sheet id -> player id
-  isGM = signal(!false);
+  isGM = signal(false);
 
   reactOnChange(json: any) {
     console.dir(json);
@@ -49,7 +49,6 @@ export class GNericMainComponent {
   }
 
   reactOnPlayerSelection(assignment: GNericSheetPlayerAssignment): void {
-    console.log('reacting on player selection: '+assignment.getPlayerId());
     const oldPlayerId: string | undefined = this.sheetAssignments.get(assignment.getSheetId());
     const newPlayerId: string = assignment.getPlayerId();
 
@@ -85,15 +84,12 @@ export class GNericMainComponent {
     const fullModel = this.sheets.getModelRestrainedToSheets(sheetIds);
     const json = {...fullModel, action: ActionTypes.collectionupdate};
     const channel = this.broadcaster.getPersonalChannelById(playerId);
-    console.log('updating player sheets for '+playerId);
-    console.dir(json);
     this.broadcaster.handleOutgoingMessage(channel, json);
   }
 
   setModel(model: any) {
-    console.dir(model);
     if(!ValidatorService.isModel(model)) {
-      console.log('GNeric Char Sheet: received model without id.');
+      console.log('GNeric Char Sheet: received invalid model.');
       return;
     }
 
@@ -108,7 +104,7 @@ export class GNericMainComponent {
         }
       });
     } catch (error) {
-      console.log('GNeric Char Sheet: error when updating character sheets');
+      console.log('GNeric Char Sheet: error when updating character sheets.');
     }
   }
 
@@ -124,7 +120,7 @@ export class GNericMainComponent {
         this.sheets.updateModel(json);
       }
     } catch (error) {
-      console.log('GNeric Char Sheet: Error when loading sheet data from local storage');
+      console.log('GNeric Char Sheet: Error when loading sheet data from local storage.');
     }
   }
 
@@ -191,6 +187,7 @@ export class GNericMainComponent {
           this.broadcaster.setPersonalChannelById(id);
         });
         // TODO: also set 'isGM' when the role changes later on
+        // TODO: Show alert that multi-GM support hsa not been implemented yet (until this feature becomes true)
         // TODO: send all sheets to a player when he/she becomes promoted to GM
         OBR.player.getRole().then(role => {
           this.isGM.set(role === 'GM');
@@ -205,5 +202,5 @@ export class GNericMainComponent {
     );
   }
 
-  // TODO: call clearSheets when needed or switch to session storage
+  // TODO: call clearSheets and clearAssignments when needed or switch to session storage
 }
