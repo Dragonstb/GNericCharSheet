@@ -1,5 +1,6 @@
 import { FormControl } from "@angular/forms";
 import { ItemListModel } from "../itemlist/itemlistmodel";
+import { ElemTypes } from "../elemtypes";
 
 export class GNericCompChapterModel {
 
@@ -29,5 +30,37 @@ export class GNericCompChapterModel {
 
     getName(): string {
         return this.name.value ?? '';
+    }
+
+    addNewList(list: ItemListModel): void {
+        // TODO: duplicate key check
+        this.lists.push(list);
+    }
+
+    deleteById(listId: string): boolean {
+        for (let idx = 0; idx < this.lists.length; idx++) {
+            const list = this.lists[idx];
+            if(list.getId() === listId) {
+                this.lists.splice(idx, 1);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    getModel(): object {
+        const arr: object[] = [];
+        this.lists.forEach(list => {
+            const mdl = list.getModel();
+            arr.push(mdl);
+        });
+
+        return {
+            id: this.getId(),
+            name: this.getName(),
+            type: ElemTypes.compchapter,
+            lists: arr
+        }
     }
 }

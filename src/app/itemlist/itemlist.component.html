@@ -31,9 +31,11 @@
                 <gneric-itementry (gNericElemChangedEvent)="fireEntryChangeEvent($event)" (deleteEntryEvent)="deleteItem(item.getId())" [model]="item" [editable]="editable" />
             }
             </div>
-            <div class="spacingtopmedium">
-                <button (click)="handleAddNewEntry()">Add new entry to {{getBackupedTitle()}}</button>
-            </div>
+            @if(editable || extendable) {
+                <div class="spacingtopmedium">
+                    <button (click)="handleAddNewEntry()">Add new entry to {{getBackupedTitle()}}</button>
+                </div>
+            }
         }
     </div>
     @if(editable) {

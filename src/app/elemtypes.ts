@@ -8,5 +8,6 @@ export enum ElemTypes {
     block = 'block',
     page = 'page',
     sheet = 'sheet',
-    sheetcollection = 'sheetcollection'
+    sheetcollection = 'sheetcollection',
+    compchapter = 'compchapter'
 }

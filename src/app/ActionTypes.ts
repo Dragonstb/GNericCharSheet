@@ -3,5 +3,6 @@ export enum ActionTypes {
     blockupdate = 'blockupdate',
     pageupdate = 'pageupdate',
     sheetupdate = 'sheetupdate',
-    collectionupdate = 'collectionupdate'
+    collectionupdate = 'collectionupdate',
+    compchapterupdate = 'compchapterupdate'
 }

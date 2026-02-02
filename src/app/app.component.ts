@@ -30,7 +30,6 @@ export class GNericMainComponent {
 
   sheets = new GNericSheetCollectionModel();
   otherPlayers: Player[] = [];
-  // TODO: assignment shall survive page reloads
   // TODO: Broadcast changes in the assignments among the GMs
   sheetAssignments = new Map<string, string>; // assignment sheet id -> player id
   isGM = signal(!false);

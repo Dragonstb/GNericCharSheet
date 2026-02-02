@@ -13,7 +13,10 @@
     <div>
         @if(currentChapter) {
             @for(list of currentChapter.lists; track list.getId()) {
-                <gneric-itemlist [elem]="list" [editable]="false" (deleteCoreElemEvent)="doNothingForNow($event)" (gNericElemChangedEvent)="doNothingForNow($event)" />
+                <gneric-itemlist [elem]="list" [editable]="editable && isGM" [extendable]="isGM" (deleteCoreElemEvent)="deleteItemList($event)" (gNericElemChangedEvent)="reactOnChange($event)" />
+            }
+            @if(editable) {
+                <button (click)="addItemList()">Add new list</button>
             }
         }
         @else {

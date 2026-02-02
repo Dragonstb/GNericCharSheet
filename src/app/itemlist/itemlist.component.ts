@@ -28,6 +28,7 @@ export class GNericItemList {
     gNericElemChangedEvent = output<object>();
 
     @Input() editable: boolean = true;
+    @Input() extendable: boolean = true;
     expanded = signal(true);
 
     toggleExpansion(): void {
