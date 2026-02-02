@@ -1,0 +1,20 @@
+<div>
+    <div class="spacingbottomlarge">
+        <label for="compendiumChapterSelect">Select a chapter</label>
+        <select id="compendiumChapterSelect" class="spacingleftsmall spacingrightsmall" [formControl]="chapterSelect" (change)="selectChapter()">
+            @for(chapter of compModel.chapters; track chapter.getId()) {
+                <option value="{{chapter.getId()}}">
+                    {{chapter.getName()}}
+                </option>
+            }
+        </select>
+    </div>
+    <div>
+        @if(currentChapter()) {
+            Current chapter: {{currentChapter()!.getName()}}
+        }
+        @else {
+            Select a chapter.
+        }
+    </div>
+</div>
