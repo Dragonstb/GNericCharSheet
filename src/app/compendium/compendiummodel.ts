@@ -1,4 +1,5 @@
 import { GNericCompChapterModel } from "../compchapter/compchaptermodel";
+import { ElemTypes } from "../elemtypes";
 
 export class GNericCompendiumModel {
 
@@ -15,5 +16,22 @@ export class GNericCompendiumModel {
         }
 
         return undefined;
+    }
+
+    addChapter(chapter: GNericCompChapterModel): void {
+        // TODO: duplicate key check
+        this.chapters.push(chapter);
+    }
+
+    getModel(): object {
+        const arr: object[] = [];
+        for (const chapter of this.chapters) {
+            arr.push(chapter.getModel());
+        }
+
+        return {
+            type: ElemTypes.compendium,
+            chapters: arr
+        }
     }
 }

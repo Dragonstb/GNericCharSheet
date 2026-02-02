@@ -1,13 +1,22 @@
 <div>
     <div class="spacingbottomlarge">
-        <label for="compendiumChapterSelect">Select a chapter</label>
-        <select id="compendiumChapterSelect" class="spacingleftsmall spacingrightsmall" [formControl]="chapterSelect" (change)="selectChapter()">
-            @for(chapter of compModel.chapters; track chapter.getId()) {
-                <option value="{{chapter.getId()}}">
-                    {{chapter.getName()}}
-                </option>
-            }
-        </select>
+        @if(editable && isGM) {
+            <div>
+                <label for="new-chapter-name-input">Add new chapter</label>
+                <input id="new-chapter-name-input" class="spacingleftsmall spacingrightsmall" type="text" [formControl]="newChapterInput" >
+                <button [disabled]="!newChapterInput.valid" (click)="createChapter()">Create this chapter</button>
+            </div>
+        }
+        <div>
+            <label for="compendiumChapterSelect">Select a chapter</label>
+            <select id="compendiumChapterSelect" class="spacingleftsmall spacingrightsmall" [formControl]="chapterSelect" (change)="selectChapter()">
+                @for(chapter of compModel.chapters; track chapter.getId()) {
+                    <option value="{{chapter.getId()}}">
+                        {{chapter.getName()}}
+                    </option>
+                }
+            </select>
+        </div>
     </div>
     <div>
         <gneric-compchapter [chapter]="currentChapter()" [isGM]="isGM" [editable]="editable" />
