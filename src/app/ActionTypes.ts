@@ -4,5 +4,6 @@ export enum ActionTypes {
     pageupdate = 'pageupdate',
     sheetupdate = 'sheetupdate',
     collectionupdate = 'collectionupdate',
-    compchapterupdate = 'compchapterupdate'
+    compchapterupdate = 'compchapterupdate',
+    compchapterpatch = 'compchapterpatch'
 }

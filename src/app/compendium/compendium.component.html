@@ -10,11 +10,6 @@
         </select>
     </div>
     <div>
-        @if(currentChapter()) {
-            Current chapter: {{currentChapter()!.getName()}}
-        }
-        @else {
-            Select a chapter.
-        }
+        <gneric-compchapter [chapter]="currentChapter()" [isGM]="isGM" [editable]="editable" />
     </div>
 </div>

@@ -16,48 +16,30 @@ export class GNericCompChapter {
 
     @Input() editable: boolean = true;
     @Input() isGM: boolean = false;
-    chapterSelect = new FormControl();
+    @Input() chapter: GNericCompChapterModel | undefined = undefined;
 
-    chapters: GNericCompChapterModel[] = [
-        new GNericCompChapterModel('chapter 0', 'Fire spells'),
-        new GNericCompChapterModel('chapter 1', 'Cold spells'),
-    ]
-
-    currentChapter: GNericCompChapterModel | undefined = undefined;
     utils = inject(Utils);
     private idCounter = 0;
     private idKey = this.utils.getRandomString(4);
 
-    selectChapter(): void {
-        const id = this.chapterSelect.value ?? '';
-        for (const chapter of this.chapters) {
-            if(chapter.getId() === id) {
-                this.currentChapter = chapter;
-                return;
-            }
-        }
-
-        this.currentChapter = undefined;
-    }
-
     addItemList(): void {
-        if(!this.currentChapter || !this.isGM) {
+        if(!this.chapter || !this.isGM) {
             return;
         }
 
         const id = this.getNextId();
         const list = new ItemListModel(id, 'untitled');
-        this.currentChapter.addNewList(list);
+        this.chapter.addNewList(list);
         this.fireChapterUpdateEvent();
     }
 
     deleteItemList(listId: string): void {
-        if(!this.currentChapter || !this.isGM) {
+        if(!this.chapter || !this.isGM) {
             return;
         }
 
         console.log('deleting list '+listId);
-        let ok = this.currentChapter.deleteById(listId);
+        let ok = this.chapter.deleteById(listId);
         if(ok) {
             this.fireChapterUpdateEvent();
         }
@@ -68,12 +50,28 @@ export class GNericCompChapter {
         return 'compendium-'+this.idKey+'-'+String(num);
     }
 
-    fireChapterUpdateEvent(): void {
-        if(!this.currentChapter) {
+    fireChapterPatchEvent(): void {
+        if(!this.chapter) {
             return;
         }
 
-        const json = this.currentChapter.getModel();
+        const json = {
+            id: this.chapter.getId(),
+            name: this.chapter.getName(),
+            action: ActionTypes.compchapterpatch
+        }
+
+        // TODO: send event upwards for broadcasting
+        console.log('chapter model patch:');
+        console.dir(json);
+    }
+
+    fireChapterUpdateEvent(): void {
+        if(!this.chapter) {
+            return;
+        }
+
+        const json = this.chapter.getModel();
         const model = {...json, action: ActionTypes.compchapterupdate}
         console.log('new model:');
         console.dir(model);
@@ -81,12 +79,12 @@ export class GNericCompChapter {
     }
 
     reactOnChange(model: object) {
-        if(!this.currentChapter || !this.isGM) {
+        if(!this.chapter) {
             return;
         }
 
         const json = {
-            id: this.currentChapter.getId(),
+            id: this.chapter.getId(),
             type: ElemTypes.compchapter,
             action: ActionTypes.elemupdate,
             content: model

@@ -1,23 +1,21 @@
 <div>
-    <div class="spacingbottomlarge">
-        <label for="compendiumChapterSelect">Select a chapter</label>
-        <select id="compendiumChapterSelect" class="spacingleftsmall spacingrightsmall" [formControl]="chapterSelect" (change)="selectChapter()">
-            @for(chapter of chapters; track chapter.getId()) {
-                <option value="{{chapter.getId()}}">
-                    {{chapter.getName()}}
-                </option>
-            }
-        </select>
-    </div>
 
     <div>
-        @if(currentChapter) {
-            @for(list of currentChapter.lists; track list.getId()) {
-                <gneric-itemlist [elem]="list" [editable]="editable && isGM" [extendable]="isGM" (deleteCoreElemEvent)="deleteItemList($event)" (gNericElemChangedEvent)="reactOnChange($event)" />
+        @if(chapter) {
+            @if(editable && isGM) {
+                <div class="spacingbottomlarge">
+                    <label for="compchapter-{{chapter.getId()}}">Edit chapter name:</label>
+                    <input class="spacingleftsmall spacingrightsmall" type="text" id="compchapter-{{chapter.getId()}}" [formControl]="chapter.name" (input)="fireChapterPatchEvent()">
+                </div>
             }
-            @if(editable) {
-                <button (click)="addItemList()">Add new list</button>
-            }
+            <div>
+                @for(list of chapter.lists; track list.getId()) {
+                    <gneric-itemlist [elem]="list" [editable]="editable && isGM" [extendable]="isGM" (deleteCoreElemEvent)="deleteItemList($event)" (gNericElemChangedEvent)="reactOnChange($event)" />
+                }
+                @if(editable && isGM) {
+                    <button class="spacingtopmedium" (click)="addItemList()">Add new list</button>
+                }
+            </div>
         }
         @else {
             <p>

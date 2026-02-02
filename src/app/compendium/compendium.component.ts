@@ -1,4 +1,4 @@
-import { Component, Input, Signal, signal, WritableSignal } from "@angular/core";
+import { Component, computed, Input, Signal, signal, WritableSignal } from "@angular/core";
 import { GNericCompChapter } from "../compchapter/compchapter.component";
 import { GNericCompendiumModel } from "./compendiummodel";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
