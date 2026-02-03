@@ -20,6 +20,8 @@ export class GNericMainComponent {
   private LOCAL_STORAGE_BASE: string = 'GNericCharSheet_';
   private SHEET_STORAGE: string = this.LOCAL_STORAGE_BASE + 'sheets';
   private ASSIGNMENT_STORAGE: string = this.LOCAL_STORAGE_BASE + 'assignments';
+  private SHEETS: string = "sheets";
+  private COMPENDIUM: string = "compendium";
 
   title = 'GNericCharSheet';
   broadcaster: BroadCaster = inject(BroadCaster);
@@ -34,10 +36,12 @@ export class GNericMainComponent {
   sheetAssignments = new Map<string, string>; // assignment sheet id -> player id
   isGM = signal(!false);
 
-  reactOnChange(json: any) {
-    console.dir(json);
+  reactOnSheetChange(json: any) {
+    const envelope = {} as any;
+    envelope[this.SHEETS] = json;
+    console.dir(envelope);
     this.storeSheets();
-    this.broadcaster.handleOutgoingMessage(this.broadcaster.getGmGeneralChannel(), json);
+    this.broadcaster.handleOutgoingMessage(this.broadcaster.getGmGeneralChannel(), envelope);
     if(this.isGM() && ValidatorService.hasNonEmptyStringProperty('action', json) && json.action === ActionTypes.sheetupdate) {
       // also send the update to the player who plays this character
       const sheetId = json.model.id;
@@ -47,6 +51,14 @@ export class GNericMainComponent {
         this.broadcaster.handleOutgoingMessage(channel, json);
       }
     }
+  }
+
+  reactOnCompendiumChange(json: object) {
+    const envelope = {} as any;
+    envelope[this.COMPENDIUM] = json;
+    console.dir(envelope);
+    // TODO: broadcast change to everyone
+    // TODO: store compendium
   }
 
   reactOnPlayerSelection(assignment: GNericSheetPlayerAssignment): void {
@@ -88,6 +100,8 @@ export class GNericMainComponent {
     this.broadcaster.handleOutgoingMessage(channel, json);
   }
 
+  // _______________  receive and process model updates  _______________
+
   setModel(model: any) {
     if(!ValidatorService.isModel(model)) {
       console.log('GNeric Char Sheet: received invalid model.');
@@ -96,18 +110,33 @@ export class GNericMainComponent {
 
     try {
       this.ngZone.runGuarded(()=>{
-        const ok = this.sheets.updateModel(model);
-        if(ok) {
-          if(this.sheetCollectionElem) {
-            this.sheetCollectionElem.checkCurrentSheet();
-          }
-          this.storeSheets();
+        if(model.hasOwnProperty(this.SHEETS) && model[this.SHEETS]) {
+          this.updateSheetModels(model[this.SHEETS]);
+        }
+        if(model.hasOwnProperty(this.COMPENDIUM) && model[this.COMPENDIUM]) {
+          this.updateCompendiumModels(model[this.COMPENDIUM]);
         }
       });
     } catch (error) {
       console.log('GNeric Char Sheet: error when updating character sheets.');
     }
   }
+
+  private updateSheetModels(model: any): void {
+    const ok = this.sheets.updateModel(model);
+    if(ok) {
+      if(this.sheetCollectionElem) {
+        this.sheetCollectionElem.checkCurrentSheet();
+      }
+      this.storeSheets();
+    }
+  }
+
+  private updateCompendiumModels(model: any): void {
+    // TODO: method body
+  }
+
+  // _______________  storage management  _______________
 
   storeSheets(): void {
     localStorage.setItem(this.SHEET_STORAGE, JSON.stringify(this.sheets.getModel()));

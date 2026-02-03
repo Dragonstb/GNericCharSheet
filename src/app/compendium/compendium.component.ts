@@ -1,4 +1,4 @@
-import { Component, computed, ElementRef, inject, Input, Signal, signal, ViewChild, WritableSignal } from "@angular/core";
+import { Component, computed, ElementRef, inject, Input, output, Signal, signal, ViewChild, WritableSignal } from "@angular/core";
 import { GNericCompChapter } from "../compchapter/compchapter.component";
 import { GNericCompendiumModel } from "./compendiummodel";
 import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
@@ -23,6 +23,7 @@ export class GNericCompendium {
 
     compModel: GNericCompendiumModel = new GNericCompendiumModel();
     currentChapter: WritableSignal<GNericCompChapterModel|undefined> = signal(undefined);
+    gNericElemChangedEvent = output<object>();
 
     utils = inject(Utils);
     private idCounter = 0;
@@ -80,9 +81,7 @@ export class GNericCompendium {
     fireCompendiumChangeEvent(): void {
         const model = this.compModel.getModel();
         const json = {...model, action: ActionTypes.compendiumupdate}
-        // TODO: fire update
-        console.log('compendium update');
-        console.dir(json);
+        this.gNericElemChangedEvent.emit(json);
     }
 
     reactOnChange(content: object): void {
@@ -92,7 +91,6 @@ export class GNericCompendium {
             content: content
         }
 
-        console.log('compendium change');
-        console.dir(json);
+        this.gNericElemChangedEvent.emit(json);
     }
 }
