@@ -2,6 +2,7 @@
 
     <div>
         @if(chapter) {
+            <h2>{{chapter.getName()}}</h2>
             @if(editable && isGM) {
                 <div class="spacingbottomlarge">
                     <label for="compchapter-{{chapter.getId()}}">Edit chapter name:</label>

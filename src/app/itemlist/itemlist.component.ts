@@ -29,7 +29,7 @@ export class GNericItemList {
 
     @Input() editable: boolean = true;
     @Input() extendable: boolean = true;
-    expanded = signal(true);
+    expanded = signal(false);
 
     toggleExpansion(): void {
         this.expanded.update(val => !val);

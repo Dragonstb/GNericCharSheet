@@ -19,6 +19,14 @@
         </div>
     </div>
     <div>
+        <hr class="spacingtopmedium spacingbottomlarge">
         <gneric-compchapter [chapter]="currentChapter()" [isGM]="isGM" [editable]="editable" />
     </div>
+    @if(editable && isGM) {
+        <hr class="spacingtoplarge spacingbottommedium">
+        <div class="flexend">
+            <button [disabled]="!currentChapter()" (click)="openDeleteDialog()">Delete chapter</button>
+        </div>
+    }
+    <gneric-deldialog #dialog [text]="'Delete chapter from compendium?'" (acceptDeletionEvent)="deleteChapter()" />
 </div>

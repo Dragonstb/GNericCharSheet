@@ -1,15 +1,16 @@
-import { Component, computed, inject, Input, Signal, signal, WritableSignal } from "@angular/core";
+import { Component, computed, ElementRef, inject, Input, Signal, signal, ViewChild, WritableSignal } from "@angular/core";
 import { GNericCompChapter } from "../compchapter/compchapter.component";
 import { GNericCompendiumModel } from "./compendiummodel";
 import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
 import { GNericCompChapterModel } from "../compchapter/compchaptermodel";
 import { Utils } from "../../services/utils";
 import { ActionTypes } from "../ActionTypes";
+import { GNericDeletionModal } from "../deletionmodal/delmodal.component";
 
 @Component({
     selector: 'gneric-compendium',
     templateUrl: './compendium.component.html',
-    imports: [GNericCompChapter, ReactiveFormsModule]
+    imports: [GNericCompChapter, GNericDeletionModal, ReactiveFormsModule]
 })
 export class GNericCompendium {
 
@@ -17,6 +18,7 @@ export class GNericCompendium {
     @Input() isGM: boolean = false;
     chapterSelect = new FormControl();
     newChapterInput = new FormControl('', [Validators.required, Validators.minLength(1)])
+    @ViewChild('dialog') dialog!: GNericDeletionModal;
 
     compModel: GNericCompendiumModel = new GNericCompendiumModel();
     currentChapter: WritableSignal<GNericCompChapterModel|undefined> = signal(undefined);
@@ -39,6 +41,34 @@ export class GNericCompendium {
         this.chapterSelect.setValue(id);
         this.currentChapter.set(newChapter);
         this.fireCompendiumChangeEvent();
+    }
+
+    openDeleteDialog(): void {
+        if(!this.currentChapter || !this.isGM) {
+            return;
+        }
+
+        this.dialog.openDialog();
+    }
+
+    deleteChapter(): void {
+        if(!this.currentChapter || !this.isGM) {
+            return;
+        }
+
+        if(this.compModel.deleteChapterById(this.currentChapter()!.getId())) {
+            if(this.compModel.chapters.length > 0) {
+                const now = this.compModel.chapters[0];
+                this.chapterSelect.setValue(now.getId());
+                this.currentChapter.set(now);
+            }
+            else {
+                this.chapterSelect.setValue(undefined);
+                this.currentChapter.set(undefined);
+            }
+
+            this.fireCompendiumChangeEvent();
+        }
     }
 
     getNextId(): string {

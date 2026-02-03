@@ -23,6 +23,18 @@ export class GNericCompendiumModel {
         this.chapters.push(chapter);
     }
 
+    deleteChapterById(id: string): boolean {
+        for (let idx = 0; idx < this.chapters.length; idx++) {
+            const chapter = this.chapters[idx];
+            if(chapter.getId() === id) {
+                this.chapters.splice(idx, 1);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     getModel(): object {
         const arr: object[] = [];
         for (const chapter of this.chapters) {
