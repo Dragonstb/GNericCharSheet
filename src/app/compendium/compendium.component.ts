@@ -6,6 +6,7 @@ import { GNericCompChapterModel } from "../compchapter/compchaptermodel";
 import { Utils } from "../../services/utils";
 import { ActionTypes } from "../ActionTypes";
 import { GNericDeletionModal } from "../deletionmodal/delmodal.component";
+import { ElemTypes } from "../elemtypes";
 
 @Component({
     selector: 'gneric-compendium',
@@ -81,6 +82,17 @@ export class GNericCompendium {
         const json = {...model, action: ActionTypes.compendiumupdate}
         // TODO: fire update
         console.log('compendium update');
+        console.dir(json);
+    }
+
+    reactOnChange(content: object): void {
+        const json = {
+            type: ElemTypes.compendium,
+            action: ActionTypes.compchapterupdate,
+            content: content
+        }
+
+        console.log('compendium change');
         console.dir(json);
     }
 }

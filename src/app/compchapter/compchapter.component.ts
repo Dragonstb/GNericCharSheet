@@ -1,4 +1,4 @@
-import { Component, inject, Input } from "@angular/core";
+import { Component, inject, Input, output } from "@angular/core";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { GNericCompChapterModel } from "./compchaptermodel";
 import { GNericItemList } from "../itemlist/itemlist.component";
@@ -21,6 +21,8 @@ export class GNericCompChapter {
     utils = inject(Utils);
     private idCounter = 0;
     private idKey = this.utils.getRandomString(4);
+
+    gNericElemChangedEvent = output<object>();
 
     addItemList(): void {
         if(!this.chapter || !this.isGM) {
@@ -61,9 +63,7 @@ export class GNericCompChapter {
             action: ActionTypes.compchapterpatch
         }
 
-        // TODO: send event upwards for broadcasting
-        console.log('chapter model patch:');
-        console.dir(json);
+        this.gNericElemChangedEvent.emit(json);
     }
 
     fireChapterUpdateEvent(): void {
@@ -71,11 +71,9 @@ export class GNericCompChapter {
             return;
         }
 
-        const json = this.chapter.getModel();
-        const model = {...json, action: ActionTypes.compchapterupdate}
-        console.log('new model:');
-        console.dir(model);
-        // TODO: send model upwards for broadcasting
+        const model = this.chapter.getModel();
+        const json = {...model, action: ActionTypes.compchapterupdate}
+        this.gNericElemChangedEvent.emit(json);
     }
 
     reactOnChange(model: object) {
@@ -89,7 +87,7 @@ export class GNericCompChapter {
             action: ActionTypes.elemupdate,
             content: model
         }
-        // TODO: send upwards for broadcasting
-        console.dir(json);
+
+        this.gNericElemChangedEvent.emit(json);
     }
 }

@@ -20,7 +20,7 @@
     </div>
     <div>
         <hr class="spacingtopmedium spacingbottomlarge">
-        <gneric-compchapter [chapter]="currentChapter()" [isGM]="isGM" [editable]="editable" />
+        <gneric-compchapter [chapter]="currentChapter()" [isGM]="isGM" [editable]="editable" (gNericElemChangedEvent)="reactOnChange($event)" />
     </div>
     @if(editable && isGM) {
         <hr class="spacingtoplarge spacingbottommedium">
