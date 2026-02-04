@@ -88,7 +88,7 @@ export class GNericCompendium {
         const json = {
             type: ElemTypes.compendium,
             action: ActionTypes.compchapterupdate,
-            content: content
+            model: content
         }
 
         this.gNericElemChangedEvent.emit(json);

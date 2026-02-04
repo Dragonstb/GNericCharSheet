@@ -96,7 +96,7 @@ export class GNericCompChapterModel {
 
         const newLists: ItemListModel[] = [];
         for (const list of model.lists) {
-            const mod = {...list, action: ActionTypes.sheetupdate};
+            const mod = {...list, action: ActionTypes.elemupdate};
             const newList = new ItemListModel(mod.id);
             const ok = newList.updateModel(mod);
             if(!ok) {
