@@ -294,7 +294,7 @@ describe( 'GNericCompCHapterModel', () => {
 
     // ..... lists problems .....
 
-    it('update validaton: should reject a model without content', () => {
+    it('update validaton: should reject a model without lists', () => {
         const model = {
             id: id,
             type: ElemTypes.compchapter,
@@ -304,7 +304,7 @@ describe( 'GNericCompCHapterModel', () => {
         expect(chapter.validateChapterLevelModel(model)).toBeFalse();
     });
 
-    it('update validaton: should reject a model with falsy content', () => {
+    it('update validaton: should reject a model with falsy lists', () => {
         const model = {
             id: id,
             type: ElemTypes.compchapter,
@@ -315,7 +315,7 @@ describe( 'GNericCompCHapterModel', () => {
         expect(chapter.validateChapterLevelModel(model)).toBeFalse();
     });
 
-    it('update validaton: should reject a model with non-object content', () => {
+    it('update validaton: should reject a model with non-object lists', () => {
         const model = {
             id: id,
             type: ElemTypes.compchapter,
@@ -326,7 +326,7 @@ describe( 'GNericCompCHapterModel', () => {
         expect(chapter.validateChapterLevelModel(model)).toBeFalse();
     });
 
-    it('update validaton: should reject a model with non-array content', () => {
+    it('update validaton: should reject a model with non-array lists', () => {
         const model = {
             id: id,
             type: ElemTypes.compchapter,
@@ -337,7 +337,7 @@ describe( 'GNericCompCHapterModel', () => {
         expect(chapter.validateChapterLevelModel(model)).toBeFalse();
     });
 
-    it('update validaton: should accept a model with empty content', () => {
+    it('update validaton: should accept a model with empty lists', () => {
         const model = {
             id: id,
             type: ElemTypes.compchapter,
@@ -348,7 +348,7 @@ describe( 'GNericCompCHapterModel', () => {
         expect(chapter.validateChapterLevelModel(model)).toBeTrue();
     });
 
-    // ..... page problems .....
+    // ..... list problems .....
 
     it('update validaton: should reject a model where a list is falsy', () => {
         const model = {

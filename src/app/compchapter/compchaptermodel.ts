@@ -139,11 +139,7 @@ export class GNericCompChapterModel {
             return false;
         }
 
-        if(!ValidatorService.hasNonEmptyStringProperty('type', model)) {
-            return false;
-        }
-
-        if(model.type !== ElemTypes.compchapter) {
+        if(!ValidatorService.isForMe(this.id, ElemTypes.compchapter, model)) {
             return false;
         }
 
@@ -155,7 +151,7 @@ export class GNericCompChapterModel {
     }
 
     validateChapterPatchModel(model: any): boolean {
-        if(!ValidatorService.hasNonEmptyStringProperty('name', model)) {
+        if(!ValidatorService.hasStringProperty('name', model)) {
             return false;
         }
 
