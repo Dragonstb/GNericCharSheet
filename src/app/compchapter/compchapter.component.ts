@@ -59,6 +59,7 @@ export class GNericCompChapter {
 
         const json = {
             id: this.chapter.getId(),
+            type: ElemTypes.compchapter,
             name: this.chapter.getName(),
             action: ActionTypes.compchapterpatch
         }
@@ -85,7 +86,7 @@ export class GNericCompChapter {
             id: this.chapter.getId(),
             type: ElemTypes.compchapter,
             action: ActionTypes.elemupdate,
-            content: model
+            model: model
         }
 
         this.gNericElemChangedEvent.emit(json);
