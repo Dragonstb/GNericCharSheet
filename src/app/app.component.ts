@@ -21,6 +21,7 @@ export class GNericMainComponent {
   private LOCAL_STORAGE_BASE: string = 'GNericCharSheet_';
   private SHEET_STORAGE: string = this.LOCAL_STORAGE_BASE + 'sheets';
   private ASSIGNMENT_STORAGE: string = this.LOCAL_STORAGE_BASE + 'assignments';
+  private COMPENDIUM_STORAGE: string = this.LOCAL_STORAGE_BASE + 'compendium';
   private SHEETS: string = "sheets";
   private COMPENDIUM: string = "compendium";
 
@@ -59,6 +60,7 @@ export class GNericMainComponent {
     const envelope = {} as any;
     envelope[this.COMPENDIUM] = json;
     console.dir(envelope);
+    this.storeCompendium();
     this.broadcaster.handleOutgoingMessage(this.broadcaster.getBroadcastChannel(), envelope);
   }
 
@@ -136,8 +138,9 @@ export class GNericMainComponent {
   private updateCompendiumModels(model: any): void {
     const ok = this.compendium.updateModel(model);
     if(ok) {
-
+      // TODO: switch compendium view when the chapter you are currently watching is deleted
     }
+    this.storeCompendium();
   }
 
   // _______________  storage management  _______________
@@ -160,6 +163,27 @@ export class GNericMainComponent {
 
   clearSheetStorage(): void {
     localStorage.removeItem(this.SHEET_STORAGE);
+  }
+
+  storeCompendium(): void {
+    localStorage.setItem(this.COMPENDIUM_STORAGE, JSON.stringify(this.compendium.getModel()));
+  }
+
+  loadCompendium(): void {
+    try {
+      const compModel: string | null = localStorage.getItem(this.COMPENDIUM_STORAGE);
+      if(compModel) {
+        const json = {...JSON.parse(compModel), action: ActionTypes.compendiumupdate};
+        console.dir(json);
+        this.compendium.updateModel(json);
+      }
+    } catch (error) {
+      console.log('GNeric Char Sheet: Error when loading compendium data from local storage.');
+    }
+  }
+
+  clearCompendiumStorage(): void {
+    localStorage.removeItem(this.COMPENDIUM_STORAGE);
   }
 
   storeAssignments(): void {
@@ -214,6 +238,7 @@ export class GNericMainComponent {
     this.broadcaster.setApp(this);
     this.loadSheets();
     this.loadAssignments();
+    this.loadCompendium();
     OBR.onReady(
       ()=>{
         this.broadcaster.setReady();

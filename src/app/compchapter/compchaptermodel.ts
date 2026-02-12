@@ -116,6 +116,7 @@ export class GNericCompChapterModel {
         }
 
         this.lists = newLists;
+        this.name.setValue(model.name);
         return true;
     }
 
