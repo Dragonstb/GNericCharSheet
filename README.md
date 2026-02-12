@@ -9,6 +9,7 @@ PRE RELEASE VERSION! NOT READY YET!
 Todo until public beta:
 - Compendium
 - Can select an entry from the compendium when adding an item to an item list
+- Importing/exporting content
 - Proper initial states
 - Some web security
 
