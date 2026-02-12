@@ -11,7 +11,7 @@
             }
             <div>
                 @for(list of chapter.lists; track list.getId()) {
-                    <gneric-itemlist [elem]="list" [editable]="editable && isGM" [extendable]="isGM" (deleteCoreElemEvent)="deleteItemList($event)" (gNericElemChangedEvent)="reactOnChange($event)" />
+                    <gneric-itemlist [elem]="list" [editable]="editable && isGM" [extendable]="isGM" (deleteCoreElemEvent)="openDeleteListDialog($event)" (gNericElemChangedEvent)="reactOnChange($event)" />
                 }
                 @if(editable && isGM) {
                     <button class="spacingtopmedium" (click)="addItemList()">Add new list</button>
@@ -24,4 +24,5 @@
             </p>
         }
     </div>
+    <gneric-deldialog #dialog [text]="'Delete '+getToBeDeletedTitle()+'?'" (acceptDeletionEvent)="deleteItemList()" />
 </div>

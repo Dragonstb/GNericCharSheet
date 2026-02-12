@@ -31,8 +31,10 @@
             <textarea rows="7" (input)="fireElemChangeEvent()" [formControl]="model.text"></textarea>
         }
     </div>
-    <div class="flexend spacingbottommedium spacingtopmedium">
-        <button (click)="requestDeletionOfEntry()">Delete {{model.name.value}}</button>
-    </div>
+    @if(deletable) {
+        <div class="flexend spacingbottommedium spacingtopmedium">
+            <button (click)="requestDeletionOfEntry()">Delete {{model.name.value}}</button>
+        </div>
+    }
 }
 <gneric-delitemdialog #modal (acceptDeletionEvent)="fireDeleteEntryEvent()" />

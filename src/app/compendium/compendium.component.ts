@@ -17,11 +17,11 @@ export class GNericCompendium {
 
     @Input() editable: boolean = true;
     @Input() isGM: boolean = false;
+    @Input() compModel: GNericCompendiumModel = new GNericCompendiumModel();
     chapterSelect = new FormControl();
     newChapterInput = new FormControl('', [Validators.required, Validators.minLength(1)])
     @ViewChild('dialog') dialog!: GNericDeletionModal;
 
-    compModel: GNericCompendiumModel = new GNericCompendiumModel();
     currentChapter: WritableSignal<GNericCompChapterModel|undefined> = signal(undefined);
     gNericElemChangedEvent = output<object>();
 

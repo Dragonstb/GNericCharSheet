@@ -1,4 +1,4 @@
-import { Component, inject, Input, output } from "@angular/core";
+import { Component, inject, Input, output, signal, ViewChild, WritableSignal } from "@angular/core";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { GNericCompChapterModel } from "./compchaptermodel";
 import { GNericItemList } from "../itemlist/itemlist.component";
@@ -6,11 +6,12 @@ import { ActionTypes } from "../ActionTypes";
 import { Utils } from "../../services/utils";
 import { ItemListModel } from "../itemlist/itemlistmodel";
 import { ElemTypes } from "../elemtypes";
+import { GNericDeletionModal } from "../deletionmodal/delmodal.component";
 
 @Component({
     selector: 'gneric-compchapter',
     templateUrl: './compchapter.component.html',
-    imports: [ReactiveFormsModule, GNericItemList]
+    imports: [ReactiveFormsModule, GNericItemList, GNericDeletionModal]
 })
 export class GNericCompChapter {
 
@@ -24,6 +25,9 @@ export class GNericCompChapter {
 
     gNericElemChangedEvent = output<object>();
 
+    toBeDeleted: WritableSignal<ItemListModel | undefined> = signal(undefined);
+    @ViewChild('dialog') dialog!: GNericDeletionModal;
+
     addItemList(): void {
         if(!this.chapter || !this.isGM) {
             return;
@@ -35,12 +39,24 @@ export class GNericCompChapter {
         this.fireChapterUpdateEvent();
     }
 
-    deleteItemList(listId: string): void {
+    openDeleteListDialog(listId: string): void {
         if(!this.chapter || !this.isGM) {
             return;
         }
 
-        console.log('deleting list '+listId);
+        this.toBeDeleted.set(this.chapter.getListById(listId));
+        if(this.toBeDeleted()) {
+            this.dialog.openDialog();
+        }
+    }
+    
+    deleteItemList(): void {
+        if(!this.chapter || !this.isGM || !this.toBeDeleted()) {
+            return;
+        }
+
+        const listId = this.toBeDeleted()!.getId();
+        this.toBeDeleted.set(undefined);
         let ok = this.chapter.deleteById(listId);
         if(ok) {
             this.fireChapterUpdateEvent();
@@ -50,6 +66,10 @@ export class GNericCompChapter {
     getNextId(): string {
         const num = this.idCounter++;
         return 'compendium-'+this.idKey+'-'+String(num);
+    }
+
+    getToBeDeletedTitle(): string {
+        return this.toBeDeleted() ? this.toBeDeleted()!.getTitle() : '';
     }
 
     fireChapterPatchEvent(): void {

@@ -66,6 +66,16 @@ export class GNericCompChapterModel {
         }
     }
 
+    getListById(listId: string): ItemListModel | undefined {
+        for (const list of this.lists) {
+            if(list.getId() == listId) {
+                return list;
+            }
+        }
+
+        return undefined;
+    }
+
     // _______________  update  _______________
 
     updateModel(model: any): boolean {

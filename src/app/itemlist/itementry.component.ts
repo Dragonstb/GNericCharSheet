@@ -12,6 +12,7 @@ export class GNericItemEntry {
 
     @Input() model: GNericItemModel = new GNericItemModel('0');
     @Input() editable: boolean = false;
+    @Input() deletable: boolean = true;
     expanded: boolean = false;
 
     deleteEntryEvent = output();

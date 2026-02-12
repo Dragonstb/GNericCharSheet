@@ -9,6 +9,7 @@ import { ActionTypes } from './ActionTypes';
 import { GNericSheetPlayerAssignment } from '../services/sheetPlayerAssignment';
 import { Tab, TabContent, TabList, TabPanel, Tabs } from '@angular/aria/tabs';
 import { GNericCompendium } from './compendium/compendium.component';
+import { GNericCompendiumModel } from './compendium/compendiummodel';
 
 @Component({
   selector: 'app-root',
@@ -34,6 +35,7 @@ export class GNericMainComponent {
   otherPlayers: Player[] = [];
   // TODO: Broadcast changes in the assignments among the GMs
   sheetAssignments = new Map<string, string>; // assignment sheet id -> player id
+  compendium: GNericCompendiumModel = new GNericCompendiumModel();
   isGM = signal(!false);
 
   reactOnSheetChange(json: any) {
@@ -57,8 +59,7 @@ export class GNericMainComponent {
     const envelope = {} as any;
     envelope[this.COMPENDIUM] = json;
     console.dir(envelope);
-    // TODO: broadcast change to everyone
-    // TODO: store compendium
+    this.broadcaster.handleOutgoingMessage(this.broadcaster.getBroadcastChannel(), envelope);
   }
 
   reactOnPlayerSelection(assignment: GNericSheetPlayerAssignment): void {
@@ -133,7 +134,10 @@ export class GNericMainComponent {
   }
 
   private updateCompendiumModels(model: any): void {
-    // TODO: method body
+    const ok = this.compendium.updateModel(model);
+    if(ok) {
+
+    }
   }
 
   // _______________  storage management  _______________

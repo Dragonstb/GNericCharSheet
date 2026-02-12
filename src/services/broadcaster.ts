@@ -46,17 +46,21 @@ export class BroadCaster {
         this.ready = true;
         console.log('ready: '+this.ready);
         OBR.broadcast.onMessage(
-            this.baseChannel,
+            this.getBroadcastChannel(),
             (msg) => this.handleIncomingMessage(msg)
         );
         OBR.broadcast.onMessage(
-            this.gmGenChannel,
+            this.getGmGeneralChannel(),
             msg => {
                 if(this.app && this.app.isGM()) {
                     this.handleIncomingMessage(msg)
                 }
             }
         );
+    }
+
+    getBroadcastChannel(): string {
+        return this.bcChannel;
     }
 
     getGmGeneralChannel(): string {
