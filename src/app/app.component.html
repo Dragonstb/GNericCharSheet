@@ -19,7 +19,7 @@
 
       <div ngTabPanel value="compendium" [preserveContent]="false">
         <ng-template ngTabContent>
-          <gneric-compendium [compModel]="compendium" [isGM]="isGM()" [editable]="editableCheckbox.value ?? false" (gNericElemChangedEvent)="reactOnCompendiumChange($event)" />
+          <gneric-compendium #compendiumElement [compModel]="compendium" [isGM]="isGM()" [editable]="editableCheckbox.value ?? false" (gNericElemChangedEvent)="reactOnCompendiumChange($event)" />
         </ng-template>
       </div>
     </div>

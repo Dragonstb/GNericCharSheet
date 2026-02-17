@@ -73,6 +73,27 @@ export class GNericCompendium {
         }
     }
 
+    checkCurrentChapter(): void {
+        const chap = this.currentChapter();
+        if(!chap) {
+            return;
+        }
+
+        const chapId = chap.getId();
+        let needsUpdate: boolean = true;
+        for (const chapter of this.compModel.chapters) {
+            if(chapter.getId() === chapId) {
+                needsUpdate = false; // currently displayed chapter still exists
+                break;
+            }
+        }
+
+        if(needsUpdate) {
+            this.chapterSelect.setValue(undefined);
+            this.currentChapter.set(undefined);
+        }
+    }
+
     getNextId(): string {
         const num = this.idCounter++;
         return 'compchapter-'+this.idKey+'-'+String(num);

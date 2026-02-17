@@ -30,7 +30,8 @@ export class GNericMainComponent {
   ngZone = inject(NgZone);
   editableCheckbox = new FormControl(true);
 
-  @ViewChild('sheetCollection') sheetCollectionElem: GNericSheetCollection | undefined; 
+  @ViewChild('sheetCollection') sheetCollectionElem: GNericSheetCollection | undefined;
+  @ViewChild('compendiumElement') compendiumElem: GNericCompendium | undefined;
 
   sheets = new GNericSheetCollectionModel();
   otherPlayers: Player[] = [];
@@ -138,9 +139,11 @@ export class GNericMainComponent {
   private updateCompendiumModels(model: any): void {
     const ok = this.compendium.updateModel(model);
     if(ok) {
-      // TODO: switch compendium view when the chapter you are currently watching is deleted
+      if(this.compendiumElem) {
+        this.compendiumElem.checkCurrentChapter();
+      }
+      this.storeCompendium();
     }
-    this.storeCompendium();
   }
 
   // _______________  storage management  _______________
