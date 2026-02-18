@@ -10,6 +10,7 @@ import { GNericSheetPlayerAssignment } from '../services/sheetPlayerAssignment';
 import { Tab, TabContent, TabList, TabPanel, Tabs } from '@angular/aria/tabs';
 import { GNericCompendium } from './compendium/compendium.component';
 import { GNericCompendiumModel } from './compendium/compendiummodel';
+import { CompendiumService } from '../services/compendium';
 
 @Component({
   selector: 'app-root',
@@ -21,9 +22,10 @@ export class GNericMainComponent {
   private LOCAL_STORAGE_BASE: string = 'GNericCharSheet_';
   private SHEET_STORAGE: string = this.LOCAL_STORAGE_BASE + 'sheets';
   private ASSIGNMENT_STORAGE: string = this.LOCAL_STORAGE_BASE + 'assignments';
-  private COMPENDIUM_STORAGE: string = this.LOCAL_STORAGE_BASE + 'compendium';
   private SHEETS: string = "sheets";
   private COMPENDIUM: string = "compendium";
+
+  compService = inject(CompendiumService);
 
   title = 'GNericCharSheet';
   broadcaster: BroadCaster = inject(BroadCaster);
@@ -37,7 +39,6 @@ export class GNericMainComponent {
   otherPlayers: Player[] = [];
   // TODO: Broadcast changes in the assignments among the GMs
   sheetAssignments = new Map<string, string>; // assignment sheet id -> player id
-  compendium: GNericCompendiumModel = new GNericCompendiumModel();
   isGM = signal(!false);
 
   reactOnSheetChange(json: any) {
@@ -61,7 +62,7 @@ export class GNericMainComponent {
     const envelope = {} as any;
     envelope[this.COMPENDIUM] = json;
     console.dir(envelope);
-    this.storeCompendium();
+    this.compService.storeCompendium();
     this.broadcaster.handleOutgoingMessage(this.broadcaster.getBroadcastChannel(), envelope);
   }
 
@@ -137,12 +138,12 @@ export class GNericMainComponent {
   }
 
   private updateCompendiumModels(model: any): void {
-    const ok = this.compendium.updateModel(model);
+    const ok = this.compService.updateModel(model);
     if(ok) {
       if(this.compendiumElem) {
         this.compendiumElem.checkCurrentChapter();
       }
-      this.storeCompendium();
+      this.compService.storeCompendium();
     }
   }
 
@@ -166,27 +167,6 @@ export class GNericMainComponent {
 
   clearSheetStorage(): void {
     localStorage.removeItem(this.SHEET_STORAGE);
-  }
-
-  storeCompendium(): void {
-    localStorage.setItem(this.COMPENDIUM_STORAGE, JSON.stringify(this.compendium.getModel()));
-  }
-
-  loadCompendium(): void {
-    try {
-      const compModel: string | null = localStorage.getItem(this.COMPENDIUM_STORAGE);
-      if(compModel) {
-        const json = {...JSON.parse(compModel), action: ActionTypes.compendiumupdate};
-        console.dir(json);
-        this.compendium.updateModel(json);
-      }
-    } catch (error) {
-      console.log('GNeric Char Sheet: Error when loading compendium data from local storage.');
-    }
-  }
-
-  clearCompendiumStorage(): void {
-    localStorage.removeItem(this.COMPENDIUM_STORAGE);
   }
 
   storeAssignments(): void {
@@ -241,7 +221,7 @@ export class GNericMainComponent {
     this.broadcaster.setApp(this);
     this.loadSheets();
     this.loadAssignments();
-    this.loadCompendium();
+    this.compService.loadCompendium();
     OBR.onReady(
       ()=>{
         this.broadcaster.setReady();
