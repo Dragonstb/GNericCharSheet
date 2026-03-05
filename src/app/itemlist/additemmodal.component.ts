@@ -1,14 +1,17 @@
 import { Component, ElementRef, Input, output, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { GNericItemModel } from "./itemmodel";
+import { GNericRoCompendium } from "../ROCompendium/rocompendium.component";
+import { ValidatorService } from "../../services/validator";
 
 @Component({
     selector: 'gneric-additemmodal',
     templateUrl: './additemmodal.component.html',
-    imports: [ReactiveFormsModule]
+    imports: [GNericRoCompendium, ReactiveFormsModule]
 })
 export class GNericAddItemModal {
 
+    @Input() showCompendium: boolean = true;
     @Input() listname: string | null = 'list';
     newItemEvent = output<GNericItemModel>();
     counter: number = 0;
@@ -52,4 +55,11 @@ export class GNericAddItemModal {
         this.dialog.nativeElement.close();
     }
 
+    reactOnSelectItemEvent(json: any): void {
+        if(!json || !ValidatorService.hasStringProperty('name', json) || !ValidatorService.hasStringProperty('text', json)) {
+            return;
+        }
+
+        this.form.setValue(json);
+    }
 }

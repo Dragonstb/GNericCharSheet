@@ -1,0 +1,25 @@
+<div>
+    <div class="spacingbottommedium">
+        <div class="spacingbottomsmall">
+            <label for="roCompendiumChapterSelect">Select chapter of compendium</label>
+        </div>
+        <div>
+            <select id="roCompendiumChapterSelect" [formControl]="chapterSelect" (change)="selectChapter()">
+                @for(chapter of compModel.chapters; track chapter.getId()) {
+                    <option value="{{chapter.getId()}}">
+                        {{chapter.getName()}}
+                    </option>
+                }
+            </select>
+        </div>
+    </div>
+    <div>
+        @if(currentChapter()) {
+            @for(list of currentChapter()!.lists; track list.getId()) {
+                <div>
+                    <gneric-ro-itemlist [listModel]="list" (selectItemEvent)="bubbleSelectItemEvent($event)" />
+                </div>
+            }
+        }
+    </div>
+</div>
