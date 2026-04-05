@@ -9,12 +9,12 @@ import { ActionTypes } from './ActionTypes';
 import { GNericSheetPlayerAssignment } from '../services/sheetPlayerAssignment';
 import { Tab, TabContent, TabList, TabPanel, Tabs } from '@angular/aria/tabs';
 import { GNericCompendium } from './compendium/compendium.component';
-import { GNericCompendiumModel } from './compendium/compendiummodel';
 import { CompendiumService } from '../services/compendium';
+import { GNericSettings } from './settings/settings.component';
 
 @Component({
   selector: 'app-root',
-  imports: [GNericSheetCollection, GNericCompendium, ReactiveFormsModule, TabList, Tab, Tabs, TabPanel, TabContent],
+  imports: [GNericSheetCollection, GNericCompendium, GNericSettings, ReactiveFormsModule, TabList, Tab, Tabs, TabPanel, TabContent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })

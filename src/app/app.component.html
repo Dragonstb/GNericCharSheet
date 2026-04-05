@@ -8,6 +8,7 @@
     <div ngTabList class="flexbox wrapping spacingbottomlarge">
       <div ngTab class="tab" value="sheets">Sheets</div>
       <div ngTab class="tab" value="compendium">Compendium</div>
+      <div ngTab class="tab" value="settings">Settings</div>
     </div>
 
     <div>
@@ -22,6 +23,14 @@
           <gneric-compendium #compendiumElement [compModel]="compService.getCompendium()" [isGM]="isGM()" [editable]="editableCheckbox.value ?? false" (gNericElemChangedEvent)="reactOnCompendiumChange($event)" />
         </ng-template>
       </div>
+
+      <!-- @if(isGM() || true) { -->
+        <div ngTabPanel value="settings" [preserveContent]="false">
+          <ng-template ngTabContent>
+            <gneric-settings #settingsPanel [sheets]="sheets" />
+          </ng-template>
+        </div>
+      <!-- } -->
     </div>
 
   </div>  
