@@ -1,7 +1,13 @@
 <dialog #dialog>
     <h2>Add item to {{listname}}</h2>
+    @if(showCompendium){
+        <div class="spacingbottommedium">
+            <input type="checkbox" id="add-item-display-compendium" [formControl]="displayCompendium">
+            <label for="add-item-display-compendium">Show compendium to copy from</label>
+        </div>
+    }
     <div class="flexbetween">
-        <div>
+        <div class="flex1">
             <form [formGroup]="form">
                 <div class="spacingbottommedium">
                     <div class="spacingbottomsmall">
@@ -25,8 +31,8 @@
                 <button (click)="addNewItem()" [disabled]="!form.valid">Add</button>
             </div>
         </div>
-        @if(showCompendium) {
-            <div>
+        @if(showCompendium && displayCompendium.value) {
+            <div class="spacingleftlarge flex1">
                 <gneric-ro-compendium (selectItemEvent)="reactOnSelectItemEvent($event)" />
             </div>
         }

@@ -11,7 +11,7 @@
                 <gneric-rpm [elem]="elem" [editable]="editable" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
             }
             @case('itemlist') {
-                <gneric-itemlist [elem]="elem" [editable]="editable" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
+                <gneric-itemlist [elem]="elem" [editable]="editable" [showCompendium]="true" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>
             }
             @case('checkboxes') {
                 <gneric-checkboxes [elem]="elem" [editable]="editable" (deleteCoreElemEvent)="openDeleteElemDialog($event)" (gNericElemChangedEvent)="reactOnElementChange($event)"/>

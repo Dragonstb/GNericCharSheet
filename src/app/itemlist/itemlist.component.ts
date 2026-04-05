@@ -16,6 +16,7 @@ export class GNericItemList {
 
     elemModel: ItemListModel = new ItemListModel("comp-04-04");
 
+    @Input() showCompendium: boolean = true;
     @Input()
     set elem(val: ElemModel) {
         if(val instanceof ItemListModel) {

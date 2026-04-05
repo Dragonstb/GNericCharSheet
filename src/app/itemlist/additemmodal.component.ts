@@ -25,6 +25,8 @@ export class GNericAddItemModal {
         text: new FormControl('', [Validators.required, Validators.minLength(1)])
     });
 
+    displayCompendium = new FormControl(false);
+
     constructor() {
         const pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let symbols: string[] = [];
