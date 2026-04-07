@@ -7,8 +7,7 @@ An extension for [Owlbear Rodeo](https://www.owlbear.rodeo/) for maintaining gen
 PRE RELEASE VERSION! NOT READY YET!
 
 Todo until public beta:
-- Can select an entry from the compendium when adding an item to an item list
-- Importing/exporting content
+- Importing sheets and compendium entries
 - Proper initial states
 - Some web security
 
