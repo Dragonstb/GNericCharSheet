@@ -34,7 +34,7 @@ export class GNericSheetPage {
 
     getNextId(): string {
         const num = this.idCounter++;
-        return this.pageModel.getId()+'-'+this.idKey+'-'+String(num);
+        return 'block-'+this.idKey+'-'+String(num);
     }
 
     // _______________  change page  _______________

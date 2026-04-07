@@ -18,7 +18,7 @@ export class GNericSheet {
 
     utils = inject(Utils);
     private idCounter: number = 0;
-    idKey = this.utils.getRandomString(4);
+    idKey = this.utils.getRandomString(6);
 
     newPageTitle = new FormControl('', [Validators.required, Validators.minLength(1)]);
     curPageId: string | null = this.sheetModel.getPages().length > 0 ? this.sheetModel.getPages()[0].getId() : null;
@@ -30,7 +30,7 @@ export class GNericSheet {
 
     getNextId(): string {
         const num = this.idCounter++;
-        return this.sheetModel.getId()+'-'+this.idKey+'-'+String(num);
+        return 'page-'+this.idKey+'-'+String(num);
     }
 
     showPage(pageId: string) {

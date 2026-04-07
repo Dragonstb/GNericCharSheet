@@ -35,11 +35,11 @@ export class GNericSheetCollection {
 
     private utils = inject(Utils);
     private idCounter: number = 0;
-    private idKey = this.utils.getRandomString(4);
+    private idKey = this.utils.getRandomString(10);
 
     private getNextId(): string {
         const num = this.idCounter++;
-        return this.idKey+'-'+String(num);
+        return 'sheet-'+this.idKey+'-'+String(num);
     }
 
     selectSheet(): void {

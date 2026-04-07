@@ -21,7 +21,7 @@ export class GNericCompChapter {
 
     utils = inject(Utils);
     private idCounter = 0;
-    private idKey = this.utils.getRandomString(4);
+    private idKey = this.utils.getRandomString(6);
 
     gNericElemChangedEvent = output<object>();
 
@@ -65,7 +65,7 @@ export class GNericCompChapter {
 
     getNextId(): string {
         const num = this.idCounter++;
-        return 'compendium-'+this.idKey+'-'+String(num);
+        return 'list-'+this.idKey+'-'+String(num);
     }
 
     getToBeDeletedTitle(): string {

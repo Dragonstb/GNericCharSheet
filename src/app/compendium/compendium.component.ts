@@ -27,7 +27,7 @@ export class GNericCompendium {
 
     utils = inject(Utils);
     private idCounter = 0;
-    private idKey = this.utils.getRandomString(4);
+    private idKey = this.utils.getRandomString(6);
 
     selectChapter(): void {
         const id = this.chapterSelect.value ?? '';
@@ -96,7 +96,7 @@ export class GNericCompendium {
 
     getNextId(): string {
         const num = this.idCounter++;
-        return 'compchapter-'+this.idKey+'-'+String(num);
+        return 'chapter-'+this.idKey+'-'+String(num);
     }
 
     fireCompendiumChangeEvent(): void {

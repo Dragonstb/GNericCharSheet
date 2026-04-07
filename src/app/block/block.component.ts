@@ -37,7 +37,7 @@ export class GNericBlock {
     utils = inject(Utils);
     ngZone = inject(NgZone);
 
-    private idKey = this.utils.getRandomString(4);
+    private idKey = this.utils.getRandomString(6);
     private nextToDelete: string | undefined = undefined;
 
     openDeleteElemDialog(elemId: string): void {
@@ -73,9 +73,9 @@ export class GNericBlock {
         this.gNericElemChangedEvent.emit(json);
     }
 
-    getNextId(): string {
+    getNextId(prefix: String = 'elem'): string {
         const num = this.idCounter++;
-        return this.blockModel.getId()+'-'+this.idKey+'-'+String(num);
+        return prefix+'-'+this.idKey+'-'+String(num);
     }
 
     addElement(newElem: ElemModel): void {
@@ -84,31 +84,31 @@ export class GNericBlock {
     }
 
     addTextfield(): void {
-        const elemId = this.getNextId();
+        const elemId = this.getNextId('text');
         const newElem = new TextfieldModel(elemId);
         this.addElement(newElem);
     }
 
     addTable(): void {
-        const elemId = this.getNextId();
+        const elemId = this.getNextId('table');
         const newElem = new TableModel(elemId);
         this.addElement(newElem);
     }
 
     addRPM(): void {
-        const elemId = this.getNextId();
+        const elemId = this.getNextId('rpm');
         const newElem = new RPMModel(elemId);
         this.addElement(newElem);
     }
 
     addItemlist(): void {
-        const elemId = this.getNextId();
+        const elemId = this.getNextId('list');
         const newElem = new ItemListModel(elemId);
         this.addElement(newElem);
     }
     
     addCheckboxes(): void {
-        const elemId = this.getNextId();
+        const elemId = this.getNextId('checks');
         const newElem = new CheckboxModel(elemId);
         this.addElement(newElem);
     }
