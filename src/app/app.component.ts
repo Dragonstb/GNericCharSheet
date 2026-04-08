@@ -147,6 +147,24 @@ export class GNericMainComponent {
     }
   }
 
+  // _______________  process model uploads  _______________
+
+  mergeUpload(model: any) {
+    if(!ValidatorService.isModel(model)) {
+      console.log('GNeric Char Sheet: uploaded invalid model.');
+      return;
+    }
+
+    if(model.hasOwnProperty('sheets') && model.sheets) {
+      const json = {...model.sheets, action: ActionTypes.sheetmerge}; // only to make it pass the validateBaseModel check
+      const hasMerged = this.sheets.mergeSheets(json);
+      if(hasMerged) {
+        this.storeSheets();
+        // TODO: broadcast to other GMs (once the multi GM feature becomes implemented in GNericCharSheet)
+      }
+    }
+  }
+
   // _______________  storage management  _______________
 
   storeSheets(): void {

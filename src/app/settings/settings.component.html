@@ -1,5 +1,20 @@
 <div>
-    <button (click)="downloadData()">Download sheets and compendium</button>
-    <button (click)="downloadSheets()">Download just the sheets</button>
-    <button (click)="downloadCompendium()">Download just the compendium</button>
+    <div>
+        <button (click)="downloadData()">Download sheets and compendium</button>
+        <button (click)="downloadSheets()">Download just the sheets</button>
+        <button (click)="downloadCompendium()">Download just the compendium</button>
+    </div>
+    <div>
+        <div>
+            <label for="upload-ttrpg-data">Upload sheets and/or compendium</label>
+        </div>
+        <div>
+            <input type="file" id="upload-ttrpg-data" accept=".json" [formControl]="uploadInput" (change)="upload($event)">
+        </div>
+        @if(errMsg().length > 0) {
+            <div>
+                {{ errMsg() }}
+            </div>
+        }
+    </div>
 </div>

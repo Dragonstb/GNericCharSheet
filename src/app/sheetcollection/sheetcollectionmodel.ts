@@ -120,6 +120,33 @@ export class GNericSheetCollectionModel {
         return false;
     }
 
+    // _______________  merge  _______________
+
+    mergeSheets(model: any): boolean {
+        if(!this.validateBaseModel(model)) {
+            return false;
+        }
+
+        const newSheetsData: Array<any> = this.validateCollectionLevelModelIndividual(model);
+        if(newSheetsData.length < 1) {
+            return false;
+        }
+
+        let hadMerges = false;
+        for (const sheet of newSheetsData) {
+            const mod = {...sheet, action: ActionTypes.sheetupdate};
+            const newSheet = new GNericSheetModel(mod.id);
+            const ok = newSheet.updateModel(mod);
+            if(!ok) {
+                continue;
+            }
+            this.sheets.push(newSheet);
+            hadMerges = true;
+        }
+
+        return hadMerges;
+    }
+
     // _______________  validate  _______________
 
     validateBaseModel(model: any): boolean {
@@ -162,5 +189,36 @@ export class GNericSheetCollectionModel {
         }
 
         return true;
+    }
+
+    validateCollectionLevelModelIndividual(model: any): Array<any> {
+        // TODO: unit tests
+        if(!model.hasOwnProperty('content') || !Array.isArray(model.content)) {
+            return [];
+        }
+
+        // ids of existing sheets
+        const idsInUse: Set<string> = new Set();
+        this.sheets.forEach(sheet => {
+            idsInUse.add(sheet.getId());
+        });
+
+        // get the new sheets we have to add
+        const arr: Array<any> = [];
+        for (const sheet of model.content) {
+            if(typeof sheet !== 'object') {
+                continue;
+            }
+            if(!ValidatorService.hasNonEmptyStringProperty('id', sheet)) {
+                continue;
+            }
+            if(idsInUse.has(sheet.id)) {
+                continue;
+            }
+            idsInUse.add(sheet.id);
+            arr.push(sheet); // mark for further processing
+        }
+
+        return arr;
     }
 }

@@ -24,10 +24,10 @@
         </ng-template>
       </div>
 
-      <!-- @if(isGM() || true) { -->
+      <!-- @if(isGM()) { -->
         <div ngTabPanel value="settings" [preserveContent]="false">
           <ng-template ngTabContent>
-            <gneric-settings #settingsPanel [sheets]="sheets" />
+            <gneric-settings #settingsPanel [sheets]="sheets" (uploadMergeEvent)="mergeUpload($event)" />
           </ng-template>
         </div>
       <!-- } -->
