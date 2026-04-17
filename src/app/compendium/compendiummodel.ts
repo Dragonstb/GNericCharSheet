@@ -103,6 +103,34 @@ export class GNericCompendiumModel {
         return false;
     }
 
+    // _______________  merge  _______________
+
+    mergeModel(model: any) {
+        if(!this.validateBaseModel(model)) {
+            return false;
+        }
+
+        if(!this.validateCompendiumLevelModel(model)) {
+            return false;
+        }
+
+        // TODO: check action
+
+        const idsInUse: Set<string> = new Set();
+        this.chapters.forEach(chapter => {
+            idsInUse.add(chapter.getId())
+        });
+
+        for (const chapter of model.chapters) {
+            if(idsInUse.has(chapter.id)) {
+                // merge into existing chapter
+            }
+            else {
+                // add new chapter
+            }
+        }
+    }
+
     // _______________  validate  _______________
 
     validateBaseModel(model: any): boolean {
@@ -146,5 +174,28 @@ export class GNericCompendiumModel {
 
         return true;
     }
+
+    // validateCompendiumLevelMerge(model: any): Array<any> {
+    //     if(!model.hasOwnProperty('chapters') || !Array.isArray(model.chapters)) {
+    //         return [];
+    //     }
+
+    //     const validChapters: Array<any> = [];
+    //     const idsInUse: Set<string> = new Set();
+    //     for (const chapter of model.chapters) {
+    //         if(typeof chapter !== 'object') {
+    //             return false;
+    //         }
+    //         if(!ValidatorService.hasNonEmptyStringProperty('id', chapter)) {
+    //             return false;
+    //         }
+    //         if(idsInUse.has(chapter.id)) {
+    //             return false;
+    //         }
+    //         idsInUse.add(chapter.id);
+    //     }
+
+    //     return true;
+    // }
 
 }

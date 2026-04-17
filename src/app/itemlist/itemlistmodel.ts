@@ -95,6 +95,46 @@ export class ItemListModel extends ElemModel {
         return false;
     }
 
+    // _______________  merge  _______________
+
+    mergeModel(model: any): object | null {
+        if(!this.validateListModel(model)) {
+            return null;
+        }
+
+        // TODO: check action
+
+        const idsInUse: Set<string> = new Set();
+        this.items.forEach(item => {
+            idsInUse.add(item.getId());
+        });
+
+        const itemsAdded: Array<any> = [];
+
+        for (const item of model.items) {
+            if(!this.validateEntryModel(item)) {
+                continue;
+            }
+
+            if(!idsInUse.has(item.id)) {
+                const itemModel: GNericItemModel = new GNericItemModel(item.id);
+                itemModel.setNameAndText(item.name, item.text);
+                this.items.push(itemModel);
+                itemsAdded.push(item);
+            }
+        }
+
+        // data reduction to new entries
+        if(itemsAdded.length > 0) {
+            const diffModel: object = this.getModel();
+            model.items = itemsAdded;
+            return model;
+        }
+        else{
+            return null;
+        }
+    }
+
     // _______________ validation _______________
 
     validateListModel(model: any): boolean {

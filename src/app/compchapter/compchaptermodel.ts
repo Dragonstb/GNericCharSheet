@@ -143,6 +143,54 @@ export class GNericCompChapterModel {
         return false;
     }
 
+    // _______________  merge  _______________
+
+    mergeModel(model: any): Array<object> | null {
+        if(!this.validateBaseModel(model)) {
+            return null;
+        }
+
+        if(!this.validateChapterLevelModel(model)) {
+            return null;
+        }
+
+        // TODO: action check
+
+        const idsInUse: Set<string> = new Set();
+        this.lists.forEach(list => {
+            idsInUse.add(list.getId());
+        });
+
+        const upsertedLists: Array<any> = [];
+
+        for (const list of model.lists) {
+            if(idsInUse.has(list.id)) {
+                for (const oldList of this.lists) {
+                    // TODO: use a map
+                    if(oldList.getId() === list.id) {
+                        const diffListModel = oldList.mergeModel(list);
+                        if(diffListModel !== null) {
+                            upsertedLists.push(diffListModel);
+                        }
+                        break;
+                    }
+                }
+            }
+            else {
+                // add new list
+                const listModel = new ItemListModel(list.id);
+                const ok = listModel.updateModel(list);
+                if(ok) {
+                    this.lists.push(listModel);
+                    upsertedLists.push(listModel.getModel());
+                }
+            }
+        }
+
+        // data reduction to new and modified lists
+        return upsertedLists.length > 0 ? upsertedLists : null;
+    }
+
     // _______________  validate  _______________
 
     validateBaseModel(model: any): boolean {
