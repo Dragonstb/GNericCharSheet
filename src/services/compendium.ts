@@ -12,6 +12,10 @@ export class CompendiumService {
         return this.compendium.updateModel(model);
     }
 
+    mergeModel(model: any): object | null {
+        return this.compendium.mergeModel(model);
+    }
+
     storeCompendium(): void {
         localStorage.setItem(this.COMPENDIUM_STORAGE, JSON.stringify(this.compendium.getModel()));
     }

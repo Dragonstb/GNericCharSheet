@@ -97,6 +97,12 @@ export class ItemListModel extends ElemModel {
 
     // _______________  merge  _______________
 
+    /** Adds each item from 'model' to this where teh ID is not in use.
+     * 
+     * @param model An item list model as json.
+     * @returns If and only if additions take place: a json representation of a copy of 'this' just with the items added.
+     * Else 'null'.
+     */
     mergeModel(model: any): object | null {
         if(!this.validateListModel(model)) {
             return null;
@@ -126,9 +132,9 @@ export class ItemListModel extends ElemModel {
 
         // data reduction to new entries
         if(itemsAdded.length > 0) {
-            const diffModel: object = this.getModel();
-            model.items = itemsAdded;
-            return model;
+            let diffModel: object = this.getModel();
+            diffModel = {...diffModel, items: itemsAdded};
+            return diffModel;
         }
         else{
             return null;

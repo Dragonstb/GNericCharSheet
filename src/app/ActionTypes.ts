@@ -7,5 +7,5 @@ export enum ActionTypes {
     compchapterupdate = 'compchapterupdate',
     compchapterpatch = 'compchapterpatch',
     compendiumupdate = 'compendiumupdate',
-    sheetmerge = 'sheetmerge'
+    contentmerge = 'contentmerge'
 }

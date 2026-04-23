@@ -14,15 +14,15 @@ export class GNericCompChapterModel {
         this.id = id;
         this.name.setValue(name ?? id);
         
-        let list: ItemListModel;
-        list = new ItemListModel(id+'_level-0', 'Level 0 spells');
-        this.lists.push(list);
+        // let list: ItemListModel;
+        // list = new ItemListModel(id+'_level-0', 'Level 0 spells');
+        // this.lists.push(list);
 
-        list = new ItemListModel(id+'_level-1', 'Level 1 spells');
-        this.lists.push(list);
+        // list = new ItemListModel(id+'_level-1', 'Level 1 spells');
+        // this.lists.push(list);
 
-        list = new ItemListModel(id+'_level-2', 'Level 2 spells');
-        this.lists.push(list);
+        // list = new ItemListModel(id+'_level-2', 'Level 2 spells');
+        // this.lists.push(list);
 
     }
 
@@ -145,7 +145,16 @@ export class GNericCompChapterModel {
 
     // _______________  merge  _______________
 
-    mergeModel(model: any): Array<object> | null {
+    /** Merges data from 'model' into 'this'. If 'model' contains a list with an id that already exists in 'this', the data is
+     * merge into this list. A list in 'model' with an id that does not exist in 'this' is simply added to 'this'.
+     * 
+     * @param model0 A comp chapter model as json. May or may not contain an action entry, as it is (over)written anyway.
+     * @returns If and only if changes are made, the json representation of a copy of this but just containing the lists where something has
+     * been changed or added. Else 'null'.
+     */
+    mergeModel(model0: any): object | null {
+        const model = {...model0, action: ActionTypes.contentmerge};
+
         if(!this.validateBaseModel(model)) {
             return null;
         }
@@ -161,10 +170,11 @@ export class GNericCompChapterModel {
             idsInUse.add(list.getId());
         });
 
-        const upsertedLists: Array<any> = [];
+        const upsertedLists: Array<object> = [];
 
         for (const list of model.lists) {
             if(idsInUse.has(list.id)) {
+                // merge into existing list
                 for (const oldList of this.lists) {
                     // TODO: use a map
                     if(oldList.getId() === list.id) {
@@ -179,6 +189,7 @@ export class GNericCompChapterModel {
             else {
                 // add new list
                 const listModel = new ItemListModel(list.id);
+                const json = {...list, action: ActionTypes.elemupdate};
                 const ok = listModel.updateModel(list);
                 if(ok) {
                     this.lists.push(listModel);
@@ -188,7 +199,14 @@ export class GNericCompChapterModel {
         }
 
         // data reduction to new and modified lists
-        return upsertedLists.length > 0 ? upsertedLists : null;
+        if(upsertedLists.length > 0) {
+            let diffModel = this.getModel();
+            diffModel = {...diffModel, lists: upsertedLists};
+            return diffModel;
+        }
+        else {
+            return null;
+        }
     }
 
     // _______________  validate  _______________

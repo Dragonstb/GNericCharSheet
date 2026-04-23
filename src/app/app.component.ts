@@ -156,11 +156,18 @@ export class GNericMainComponent {
     }
 
     if(model.hasOwnProperty('sheets') && model.sheets) {
-      const json = {...model.sheets, action: ActionTypes.sheetmerge}; // only to make it pass the validateBaseModel check
-      const hasMerged = this.sheets.mergeSheets(json);
+      const hasMerged = this.sheets.mergeSheets(model.sheets);
       if(hasMerged) {
         this.storeSheets();
         // TODO: broadcast to other GMs (once the multi GM feature becomes implemented in GNericCharSheet)
+      }
+    }
+
+    if(model.hasOwnProperty('compendium') && model.compendium) {
+      const diffModel = this.compService.mergeModel(model.compendium);
+      if(diffModel !== null ) {
+        this.compService.storeCompendium();
+        // TODO: broadcast to all others
       }
     }
   }

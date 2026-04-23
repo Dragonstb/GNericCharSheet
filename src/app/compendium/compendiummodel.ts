@@ -6,8 +6,8 @@ import { ElemTypes } from "../elemtypes";
 export class GNericCompendiumModel {
 
     chapters: GNericCompChapterModel[] = [
-        new GNericCompChapterModel('chapter-0', 'Fire magic'),
-        new GNericCompChapterModel('chapter-1', 'Cold magic'),
+        // new GNericCompChapterModel('chapter-0', 'Fire magic'),
+        // new GNericCompChapterModel('chapter-1', 'Cold magic'),
     ];
 
     getChapterById(id: string): GNericCompChapterModel | undefined {
@@ -105,13 +105,20 @@ export class GNericCompendiumModel {
 
     // _______________  merge  _______________
 
-    mergeModel(model: any) {
+    /** Merges 'model' into 'this'.
+     * 
+     * @param model0 Json of a compendium model. May or may not contain an action entry, as it is (over)written anyway.
+     * @returns If and only if changes are applied, the json of a copy of 'this' just containing the chapters where changes have occured.
+     * Else 'null'.
+     */
+    mergeModel(model0: any): object | null {
+        const model = {...model0, action: ActionTypes.contentmerge};
         if(!this.validateBaseModel(model)) {
-            return false;
+            return null;
         }
-
+        
         if(!this.validateCompendiumLevelModel(model)) {
-            return false;
+            return null;
         }
 
         // TODO: check action
@@ -121,13 +128,41 @@ export class GNericCompendiumModel {
             idsInUse.add(chapter.getId())
         });
 
+        const upsertedChapters: Array<object> = [];
+
         for (const chapter of model.chapters) {
             if(idsInUse.has(chapter.id)) {
                 // merge into existing chapter
+                for (const oldChapter of this.chapters) {
+                    if(chapter.id === oldChapter.getId()) {
+                        const diffModel = oldChapter.mergeModel(chapter);
+                        if(diffModel !== null) {
+                            upsertedChapters.push(diffModel);
+                        }
+                        break;
+                    }
+                }
             }
             else {
                 // add new chapter
+                const newChapter: GNericCompChapterModel = new GNericCompChapterModel(chapter.id, chapter.name);
+                const json = {...chapter, action: ActionTypes.compchapterupdate};
+                const ok = newChapter.updateModel(json);
+                if(ok) {
+                    this.chapters.push(newChapter);
+                    upsertedChapters.push(newChapter.getModel());
+                }
             }
+        }
+
+        // data reduction to modified chapters
+        if(upsertedChapters.length > 0 ) {
+            let diffModel = this.getModel();
+            diffModel = {...diffModel, chapters: upsertedChapters};
+            return diffModel;
+        }
+        else {
+            return null;
         }
     }
 

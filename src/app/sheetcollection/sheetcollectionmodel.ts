@@ -122,7 +122,8 @@ export class GNericSheetCollectionModel {
 
     // _______________  merge  _______________
 
-    mergeSheets(model: any): boolean {
+    mergeSheets(model0: any): boolean {
+        const model = {...model0, action: ActionTypes.contentmerge};
         if(!this.validateBaseModel(model)) {
             return false;
         }

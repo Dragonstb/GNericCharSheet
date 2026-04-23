@@ -53,7 +53,6 @@ export class GNericSettings {
 
         const blob = new Blob([output], {type: 'application/json'});
         const url = window.URL.createObjectURL(blob);
-        console.dir(url);
 
         if(!this.downloadLink) {
             this.downloadLink = document.createElement('a');
@@ -66,9 +65,6 @@ export class GNericSettings {
     }
 
     upload(event: Event): void {
-        console.log('upload');
-        console.log(this.uploadInput.value ?? '-- no value --');
-
         const input = event.target as HTMLInputElement;
 
         if(!input.files?.length) {
