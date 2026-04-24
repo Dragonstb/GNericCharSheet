@@ -40,7 +40,7 @@ export class GNericMainComponent {
   otherPlayers: Player[] = [];
   // TODO: Broadcast changes in the assignments among the GMs
   sheetAssignments = new Map<string, string>; // assignment of sheet id -> player id
-  isGM = signal(false);
+  isGM = signal(window.location.hostname === 'localhost');
 
   reactOnSheetChange(json: any) {
     const envelope = {} as any;
@@ -258,7 +258,6 @@ export class GNericMainComponent {
     this.compService.loadCompendium();
     OBR.onReady(
       ()=>{
-        
         this.broadcaster.setReady();
         OBR.player.getId().then(id => {
           this.broadcaster.setPersonalChannelById(id);
