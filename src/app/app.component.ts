@@ -22,8 +22,9 @@ export class GNericMainComponent {
   private LOCAL_STORAGE_BASE: string = 'GNericCharSheet_';
   private SHEET_STORAGE: string = this.LOCAL_STORAGE_BASE + 'sheets';
   private ASSIGNMENT_STORAGE: string = this.LOCAL_STORAGE_BASE + 'assignments';
-  private SHEETS: string = "sheets";
-  private COMPENDIUM: string = "compendium";
+  private SUBJECT_SHEETS: string = "sheets";
+  private SUBJECT_COMPENDIUM: string = "compendium";
+  private SUBJECT_MERGE: string = "merge";
 
   compService = inject(CompendiumService);
 
@@ -38,13 +39,12 @@ export class GNericMainComponent {
   sheets = new GNericSheetCollectionModel();
   otherPlayers: Player[] = [];
   // TODO: Broadcast changes in the assignments among the GMs
-  sheetAssignments = new Map<string, string>; // assignment sheet id -> player id
-  isGM = signal(!false);
+  sheetAssignments = new Map<string, string>; // assignment of sheet id -> player id
+  isGM = signal(false);
 
   reactOnSheetChange(json: any) {
     const envelope = {} as any;
-    envelope[this.SHEETS] = json;
-    console.dir(envelope);
+    envelope[this.SUBJECT_SHEETS] = json;
     this.storeSheets();
     this.broadcaster.handleOutgoingMessage(this.broadcaster.getGmGeneralChannel(), envelope);
     if(this.isGM() && ValidatorService.hasNonEmptyStringProperty('action', json) && json.action === ActionTypes.sheetupdate) {
@@ -60,8 +60,7 @@ export class GNericMainComponent {
 
   reactOnCompendiumChange(json: object) {
     const envelope = {} as any;
-    envelope[this.COMPENDIUM] = json;
-    console.dir(envelope);
+    envelope[this.SUBJECT_COMPENDIUM] = json;
     this.compService.storeCompendium();
     this.broadcaster.handleOutgoingMessage(this.broadcaster.getBroadcastChannel(), envelope);
   }
@@ -115,11 +114,14 @@ export class GNericMainComponent {
 
     try {
       this.ngZone.runGuarded(()=>{
-        if(model.hasOwnProperty(this.SHEETS) && model[this.SHEETS]) {
-          this.updateSheetModels(model[this.SHEETS]);
+        if(model.hasOwnProperty(this.SUBJECT_SHEETS) && model[this.SUBJECT_SHEETS]) {
+          this.updateSheetModels(model[this.SUBJECT_SHEETS]);
         }
-        if(model.hasOwnProperty(this.COMPENDIUM) && model[this.COMPENDIUM]) {
-          this.updateCompendiumModels(model[this.COMPENDIUM]);
+        if(model.hasOwnProperty(this.SUBJECT_COMPENDIUM) && model[this.SUBJECT_COMPENDIUM]) {
+          this.updateCompendiumModels(model[this.SUBJECT_COMPENDIUM]);
+        }
+        if(model.hasOwnProperty(this.SUBJECT_MERGE) && model[this.SUBJECT_MERGE]) {
+          this.mergeUpload(model[this.SUBJECT_MERGE]);
         }
       });
     } catch (error) {
@@ -149,7 +151,7 @@ export class GNericMainComponent {
 
   // _______________  process model uploads  _______________
 
-  mergeUpload(model: any) {
+  mergeUpload(model: any, broadcast: boolean = false) {
     if(!ValidatorService.isModel(model)) {
       console.log('GNeric Char Sheet: uploaded invalid model.');
       return;
@@ -165,10 +167,16 @@ export class GNericMainComponent {
 
     if(model.hasOwnProperty('compendium') && model.compendium) {
       const json = {...model.compendium, action: ActionTypes.contentmerge};
-      const diffModel = this.compService.mergeModel(model.compendium);
+      const diffModel = this.compService.mergeModel(json);
       if(diffModel !== null ) {
         this.compService.storeCompendium();
-        // TODO: broadcast to all others
+        if(broadcast) {
+          const envelope = {} as any;
+          envelope[this.SUBJECT_MERGE] = {
+            compendium: diffModel
+          }
+          this.broadcaster.handleOutgoingMessage(this.broadcaster.getBroadcastChannel(), envelope);
+        }
       }
     }
   }
@@ -250,6 +258,7 @@ export class GNericMainComponent {
     this.compService.loadCompendium();
     OBR.onReady(
       ()=>{
+        
         this.broadcaster.setReady();
         OBR.player.getId().then(id => {
           this.broadcaster.setPersonalChannelById(id);

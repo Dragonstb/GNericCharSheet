@@ -25,7 +25,6 @@ export class CompendiumService {
             const compModel: string | null = localStorage.getItem(this.COMPENDIUM_STORAGE);
             if(compModel) {
                 const json = {...JSON.parse(compModel), action: ActionTypes.compendiumupdate};
-                console.dir(json);
                 this.compendium.updateModel(json);
             }
         } catch (error) {
