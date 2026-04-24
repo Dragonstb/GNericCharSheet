@@ -34,17 +34,19 @@ describe( 'GNericBlock', () => {
     // _______________ next id _______________
 
     it('Should return the correct next id', () => {
-        const id1 = block.getNextId();
-        const arr1 = id1.split('-');
-        expect(arr1[0]+'-'+arr1[1]).toBe(block.getId());
-        expect(arr1[2]).toBe(block.getIdKey());
-        expect(arr1[3]).toBe('0');
+        const prefix = 'yay';
 
-        const id2 = block.getNextId();
+        const id1 = block.getNextId(prefix);
+        const arr1 = id1.split('-');
+        expect(arr1[0]).toBe(prefix);
+        expect(arr1[1]).toBe(block.getIdKey());
+        expect(arr1[2]).toBe('0');
+
+        const id2 = block.getNextId(prefix);
         const arr2 = id2.split('-');
-        expect(arr2[0]+'-'+arr2[1]).toBe(block.getId());
-        expect(arr2[2]).toBe(block.getIdKey());
-        expect(arr2[3]).toBe('1');
+        expect(arr2[0]).toBe(prefix);
+        expect(arr2[1]).toBe(block.getIdKey());
+        expect(arr2[2]).toBe('1');
     });
 
 

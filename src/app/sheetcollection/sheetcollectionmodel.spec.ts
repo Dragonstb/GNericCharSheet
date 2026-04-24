@@ -1,7 +1,6 @@
 import { ActionTypes } from "../ActionTypes";
 import { ElemTypes } from "../elemtypes";
 import { GNericSheetModel } from "../sheet/sheetmodel";
-import { GNericPageModel } from "../sheetpage/pagemodel";
 import { GNericSheetCollectionModel } from "./sheetcollectionmodel";
 
 describe( 'GNericSheetCollectionModel', () => {
@@ -113,8 +112,8 @@ describe( 'GNericSheetCollectionModel', () => {
         const model = {
             type: ElemTypes.sheetcollection,
             content: [
-                new GNericSheetModel('char-0', 'Sam'),
-                new GNericSheetModel('char-1', 'Alex'),
+                new GNericSheetModel('char-0', 'Sam').getModel(),
+                new GNericSheetModel('char-1', 'Alex').getModel(),
             ]
         }
         expect(collection.validateCollectionLevelModel(model)).toBeTrue();
@@ -176,7 +175,7 @@ describe( 'GNericSheetCollectionModel', () => {
         const model = {
             type: ElemTypes.sheetcollection,
             content: [
-                new GNericSheetModel('char-0', 'Sam'),
+                new GNericSheetModel('char-0', 'Sam').getModel(),
                 undefined
             ]
         }
@@ -187,7 +186,7 @@ describe( 'GNericSheetCollectionModel', () => {
         const model = {
             type: ElemTypes.sheetcollection,
             content: [
-                new GNericSheetModel('char-0', 'Sam'),
+                new GNericSheetModel('char-0', 'Sam').getModel(),
                 "Ooops"
             ]
         }
@@ -198,7 +197,7 @@ describe( 'GNericSheetCollectionModel', () => {
         const model = {
             type: ElemTypes.sheetcollection,
             content: [
-                new GNericSheetModel('char-0', 'Sam'),
+                new GNericSheetModel('char-0', 'Sam').getModel(),
                 [1,2,3]
             ]
         }
@@ -209,7 +208,7 @@ describe( 'GNericSheetCollectionModel', () => {
         const model = {
             type: ElemTypes.sheetcollection,
             content: [
-                new GNericSheetModel('char-0', 'Sam'),
+                new GNericSheetModel('char-0', 'Sam').getModel(),
                 {type: ElemTypes.sheet, name: "Alex", content: []}
             ]
         }
@@ -220,11 +219,209 @@ describe( 'GNericSheetCollectionModel', () => {
         const model = {
             type: ElemTypes.sheetcollection,
             content: [
-                new GNericSheetModel('char-0', 'Sam'),
-                new GNericSheetModel('char-0', 'Alex'),
+                new GNericSheetModel('char-0', 'Sam').getModel(),
+                new GNericSheetModel('char-0', 'Alex').getModel(),
             ]
         }
         expect(collection.validateCollectionLevelModel(model)).toBeFalse();
+    });
+
+    // _______________ content model validation for merge _______________
+
+    it('merge-content validation: should accept a proper model', () => {
+        const existingSheet = new GNericSheetModel('char-x', 'Anonymous');
+        collection.addSheet(existingSheet);
+
+        const model = {
+            type: ElemTypes.sheetcollection,
+            content: [
+                new GNericSheetModel('char-0', 'Sam').getModel(),
+                new GNericSheetModel('char-1', 'Alex').getModel(),
+            ]
+        }
+
+        const list = collection.validateCollectionLevelModelIndividual(model);
+        expect(list.length).toBe(2);
+    });
+
+    // ..... content problems .....
+
+    it('merge-content validation: should reject a model without content', () => {
+        const existingSheet = new GNericSheetModel('char-x', 'Anonymous');
+        collection.addSheet(existingSheet);
+
+        const model = {
+            type: ElemTypes.sheetcollection,
+        }
+
+        const list = collection.validateCollectionLevelModelIndividual(model);
+        expect(list.length).toBe(0);
+    });
+
+    it('merge-content validation: should reject a model with falsy content', () => {
+        const existingSheet = new GNericSheetModel('char-x', 'Anonymous');
+        collection.addSheet(existingSheet);
+
+        const model = {
+            type: ElemTypes.sheetcollection,
+            content: undefined
+        }
+
+        const list = collection.validateCollectionLevelModelIndividual(model);
+        expect(list.length).toBe(0);
+    });
+
+    it('merge-content validation: should reject a model with non-object content', () => {
+        const existingSheet = new GNericSheetModel('char-x', 'Anonymous');
+        collection.addSheet(existingSheet);
+
+        const model = {
+            type: ElemTypes.sheetcollection,
+            content: "rated M"
+        }
+
+        const list = collection.validateCollectionLevelModelIndividual(model);
+        expect(list.length).toBe(0);
+    });
+
+    it('merge-content validation: should reject a model with non-array content', () => {
+        const existingSheet = new GNericSheetModel('char-x', 'Anonymous');
+        collection.addSheet(existingSheet);
+
+        const model = {
+            type: ElemTypes.sheetcollection,
+            content: {
+                hero1: {
+                    name: "Sam",
+                    id: "char-0"
+                },
+                hero2: {
+                    name: "Alex",
+                    id: "char-1"
+                }
+            }
+        }
+
+
+        const list = collection.validateCollectionLevelModelIndividual(model);
+        expect(list.length).toBe(0);
+    });
+
+    it('merge-content validation: should accept a model with empty content', () => {
+        const existingSheet = new GNericSheetModel('char-x', 'Anonymous');
+        collection.addSheet(existingSheet);
+
+        const model = {
+            type: ElemTypes.sheetcollection,
+            content: []
+        }
+
+        const list = collection.validateCollectionLevelModelIndividual(model);
+        expect(list.length).toBe(0);
+    });
+
+    // ..... sheet problems .....
+
+    it('merge-content validation: should reject a model where a sheet is falsy', () => {
+        const existingSheet = new GNericSheetModel('char-x', 'Anonymous');
+        collection.addSheet(existingSheet);
+
+        const model = {
+            type: ElemTypes.sheetcollection,
+            content: [
+                new GNericSheetModel('char-0', 'Sam').getModel(),
+                undefined
+            ]
+        }
+
+        const list = collection.validateCollectionLevelModelIndividual(model);
+        expect(list.length).toBe(1);
+        expect(list[0].name).toBe('Sam');
+    });
+
+    it('merge-content validation: should reject a model where a sheet is not an object', () => {
+        const existingSheet = new GNericSheetModel('char-x', 'Anonymous');
+        collection.addSheet(existingSheet);
+
+        const model = {
+            type: ElemTypes.sheetcollection,
+            content: [
+                new GNericSheetModel('char-0', 'Sam').getModel(),
+                "Ooops"
+            ]
+        }
+
+        const list = collection.validateCollectionLevelModelIndividual(model);
+        expect(list.length).toBe(1);
+        expect(list[0].name).toBe('Sam');
+    });
+
+    it('merge-content validation: should reject a model where a sheet is an array', () => {
+        const existingSheet = new GNericSheetModel('char-x', 'Anonymous');
+        collection.addSheet(existingSheet);
+
+        const model = {
+            type: ElemTypes.sheetcollection,
+            content: [
+                new GNericSheetModel('char-0', 'Sam').getModel(),
+                [1,2,3]
+            ]
+        }
+
+        const list = collection.validateCollectionLevelModelIndividual(model);
+        expect(list.length).toBe(1);
+        expect(list[0].name).toBe('Sam');
+    });
+
+    it('merge-content validation: should reject a model where a sheet lacks the id', () => {
+        const existingSheet = new GNericSheetModel('char-x', 'Anonymous');
+        collection.addSheet(existingSheet);
+
+        const model = {
+            type: ElemTypes.sheetcollection,
+            content: [
+                new GNericSheetModel('char-0', 'Sam').getModel(),
+                {type: ElemTypes.sheet, name: "Alex", content: []}
+            ]
+        }
+
+        const list = collection.validateCollectionLevelModelIndividual(model);
+        expect(list.length).toBe(1);
+        expect(list[0].name).toBe('Sam');
+    });
+
+    it('merge-content validation: should reject a model where two distinct sheets have the same id', () => {
+        const existingSheet = new GNericSheetModel('char-x', 'Anonymous');
+        collection.addSheet(existingSheet);
+
+        const model = {
+            type: ElemTypes.sheetcollection,
+            content: [
+                new GNericSheetModel('char-0', 'Sam').getModel(),
+                new GNericSheetModel('char-0', 'Alex').getModel(),
+            ]
+        }
+
+        const list = collection.validateCollectionLevelModelIndividual(model);
+        expect(list.length).toBe(1);
+        expect(list[0].name).toBe('Sam');
+    });
+
+    it('merge-content validation: should reject a model where a sheet has an existing id', () => {
+        const existingSheet = new GNericSheetModel('char-x', 'Anonymous');
+        collection.addSheet(existingSheet);
+
+        const model = {
+            type: ElemTypes.sheetcollection,
+            content: [
+                new GNericSheetModel('char-0', 'Sam').getModel(),
+                new GNericSheetModel('char-x', 'Alex').getModel(),
+            ]
+        }
+
+        const list = collection.validateCollectionLevelModelIndividual(model);
+        expect(list.length).toBe(1);
+        expect(list[0].name).toBe('Sam');
     });
 
 });

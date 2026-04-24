@@ -107,12 +107,11 @@ export class GNericCompendiumModel {
 
     /** Merges 'model' into 'this'.
      * 
-     * @param model0 Json of a compendium model. May or may not contain an action entry, as it is (over)written anyway.
+     * @param model Json of a compendium model. May or may not contain an action entry, as it is (over)written anyway.
      * @returns If and only if changes are applied, the json of a copy of 'this' just containing the chapters where changes have occured.
      * Else 'null'.
      */
-    mergeModel(model0: any): object | null {
-        const model = {...model0, action: ActionTypes.contentmerge};
+    mergeModel(model: any): object | null {
         if(!this.validateBaseModel(model)) {
             return null;
         }
@@ -121,7 +120,9 @@ export class GNericCompendiumModel {
             return null;
         }
 
-        // TODO: check action
+        if(model.action !== ActionTypes.contentmerge) {
+            return null;
+        }
 
         const idsInUse: Set<string> = new Set();
         this.chapters.forEach(chapter => {
@@ -135,7 +136,8 @@ export class GNericCompendiumModel {
                 // merge into existing chapter
                 for (const oldChapter of this.chapters) {
                     if(chapter.id === oldChapter.getId()) {
-                        const diffModel = oldChapter.mergeModel(chapter);
+                        const json = {...chapter, action: ActionTypes.contentmerge};
+                        const diffModel = oldChapter.mergeModel(json);
                         if(diffModel !== null) {
                             upsertedChapters.push(diffModel);
                         }
@@ -209,28 +211,5 @@ export class GNericCompendiumModel {
 
         return true;
     }
-
-    // validateCompendiumLevelMerge(model: any): Array<any> {
-    //     if(!model.hasOwnProperty('chapters') || !Array.isArray(model.chapters)) {
-    //         return [];
-    //     }
-
-    //     const validChapters: Array<any> = [];
-    //     const idsInUse: Set<string> = new Set();
-    //     for (const chapter of model.chapters) {
-    //         if(typeof chapter !== 'object') {
-    //             return false;
-    //         }
-    //         if(!ValidatorService.hasNonEmptyStringProperty('id', chapter)) {
-    //             return false;
-    //         }
-    //         if(idsInUse.has(chapter.id)) {
-    //             return false;
-    //         }
-    //         idsInUse.add(chapter.id);
-    //     }
-
-    //     return true;
-    // }
 
 }

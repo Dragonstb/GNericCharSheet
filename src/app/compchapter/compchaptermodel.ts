@@ -148,13 +148,11 @@ export class GNericCompChapterModel {
     /** Merges data from 'model' into 'this'. If 'model' contains a list with an id that already exists in 'this', the data is
      * merge into this list. A list in 'model' with an id that does not exist in 'this' is simply added to 'this'.
      * 
-     * @param model0 A comp chapter model as json. May or may not contain an action entry, as it is (over)written anyway.
+     * @param model A comp chapter model as json. May or may not contain an action entry, as it is (over)written anyway.
      * @returns If and only if changes are made, the json representation of a copy of this but just containing the lists where something has
      * been changed or added. Else 'null'.
      */
-    mergeModel(model0: any): object | null {
-        const model = {...model0, action: ActionTypes.contentmerge};
-
+    mergeModel(model: any): object | null {
         if(!this.validateBaseModel(model)) {
             return null;
         }

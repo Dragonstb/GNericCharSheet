@@ -164,6 +164,7 @@ export class GNericMainComponent {
     }
 
     if(model.hasOwnProperty('compendium') && model.compendium) {
+      const json = {...model.compendium, action: ActionTypes.contentmerge};
       const diffModel = this.compService.mergeModel(model.compendium);
       if(diffModel !== null ) {
         this.compService.storeCompendium();
