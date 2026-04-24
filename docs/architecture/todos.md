@@ -20,3 +20,7 @@ Like the multi-language support, accessibility has been neglected for speeding u
 ### clean up ###
 
 With the sheet elements, we worked bottom up. On the way, we found our style. Unify naming of common code elements (espeacially in the low-level elements). Also, every element should use the default deletion modal (which also came into existence on our journey). And deletion of elements shall be done by the element one level above (some low-level elements still delete themselves).
+
+### Multi-GM support ###
+
+Only the creator of the room starts as GM, but others can be promoted when in the game. We want to support this, but it hasn't been implemented yet.
