@@ -37,7 +37,7 @@ export class GNericMainComponent {
   @ViewChild('compendiumElement') compendiumElem: GNericCompendium | undefined;
 
   sheets = new GNericSheetCollectionModel();
-  otherPlayers: Player[] = [];
+  otherPlayers: Player[] = []; // TODO: use a map: player id -> player
   // TODO: Broadcast changes in the assignments among the GMs
   sheetAssignments = new Map<string, string>; // assignment of sheet id -> player id
   isGM = signal(window.location.hostname === 'localhost');
@@ -228,6 +228,29 @@ export class GNericMainComponent {
     localStorage.removeItem(this.ASSIGNMENT_STORAGE);
   }
 
+  // _______________  player management and inti  _______________
+
+  respondOnHello(id: string): void {
+    // TODO: only one GM should respond to hello once the multi-GM feature is established
+    if(!this.isGM()) {
+      return;
+    }
+
+    for (const player of this.otherPlayers) {
+      if(player.id === id) {
+        const model = this.compService.getCompendium().getModel();
+        const json = {...model, action: ActionTypes.compendiumupdate};
+        const envelope = {} as any;
+        envelope[this.SUBJECT_COMPENDIUM] = json;
+        this.broadcaster.handleOutgoingMessage(this.broadcaster.getPersonalChannelById(player.id), envelope);
+        return;
+      }
+    }
+  
+    // usually(!) this.otherPlayers has been updated already when a new player sends the hello request
+    console.log('GNericCharSheet: an unknown player requested the compendium.');
+  }
+
   updatePlayers(party: Player[]): void {
     if(!this.isGM()) {
       return;
@@ -236,14 +259,20 @@ export class GNericMainComponent {
     try {
       this.ngZone.runGuarded(() => {
         // TODO: unassign sheets that are assigned to a player who becomes promoted to GM
+        console.log('collecting ids');
         const playerIds: Set<string> = new Set();
         party.forEach(player => playerIds.add(player.id));
+
+        // unassign sheets that are assigned to players who are not in the party anymore (presumably on account of having left the session)
+        console.log('unassigning sheets');
         this.sheetAssignments.forEach((playerId, sheetId) => {
           if(!playerIds.has(playerId)) {
             this.sheetAssignments.delete(sheetId);
           }
         });
 
+        // update data structure
+        console.log('updating data');
         this.otherPlayers = party;
       });
     } catch (error) {
@@ -263,10 +292,20 @@ export class GNericMainComponent {
           this.broadcaster.setPersonalChannelById(id);
         });
         // TODO: also set 'isGM' when the role changes later on
-        // TODO: Show alert that multi-GM support hsa not been implemented yet (until this feature becomes true)
+        // TODO: Show alert that multi-GM support has not been implemented yet (until this feature becomes true)
         // TODO: send all sheets to a player when he/she becomes promoted to GM
         OBR.player.getRole().then(role => {
           this.isGM.set(role === 'GM');
+          if(this.isGM()) {
+            this.broadcaster.addToAdminChannel();
+          }
+          else {
+            // request compendium from an admin
+            OBR.player.getId().then(id => {
+              const channel = this.broadcaster.getGmHelloChannel();
+              this.broadcaster.handleOutgoingMessage(channel, {id: id});
+            });
+          }
         });
         OBR.party.getPlayers().then(party => {
           this.updatePlayers(party);
