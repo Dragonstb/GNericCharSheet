@@ -26,7 +26,7 @@ export class GNericSheetPage {
     ngZone = inject(NgZone);
 
     idCounter: number = 0;
-    idKey = this.utils.getRandomString(4);
+    idKey = this.utils.getRandomString(6);
     nextToBeDeleted: string | undefined = undefined;
 
     gNericElemChangedEvent = output<object>();

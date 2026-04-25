@@ -13,17 +13,6 @@ export class GNericCompChapterModel {
     constructor(id: string, name: string | undefined) {
         this.id = id;
         this.name.setValue(name ?? id);
-        
-        // let list: ItemListModel;
-        // list = new ItemListModel(id+'_level-0', 'Level 0 spells');
-        // this.lists.push(list);
-
-        // list = new ItemListModel(id+'_level-1', 'Level 1 spells');
-        // this.lists.push(list);
-
-        // list = new ItemListModel(id+'_level-2', 'Level 2 spells');
-        // this.lists.push(list);
-
     }
 
     getId(): string {

@@ -36,7 +36,6 @@ export class TableModel extends ElemModel {
         this.title.setValue(model.title);
         this.minWidth = model.minWidth;
         this.alterer.setContent(model);
-        // this.alterer.setColumnWidths(model.widths);
         return true;
     }
 

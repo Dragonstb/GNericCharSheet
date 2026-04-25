@@ -5,12 +5,10 @@ import { ElemTypes } from "../elemtypes";
 
 export class GNericCompendiumModel {
 
-    chapters: GNericCompChapterModel[] = [
-        // new GNericCompChapterModel('chapter-0', 'Fire magic'),
-        // new GNericCompChapterModel('chapter-1', 'Cold magic'),
-    ];
+    chapters: GNericCompChapterModel[] = [];
 
     getChapterById(id: string): GNericCompChapterModel | undefined {
+        // TODO: use map
         for (const chapter of this.chapters) {
             if(chapter.getId() === id) {
                 return chapter;

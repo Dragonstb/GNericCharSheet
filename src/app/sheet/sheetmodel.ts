@@ -13,11 +13,6 @@ export class GNericSheetModel {
     constructor(id: string, charname: string | undefined = undefined) {
         this.id = id;
         this.charname.setValue(charname ?? this.id);
-        this.pages = [
-            new GNericPageModel('page-0', 'General'),
-            new GNericPageModel('page-1', 'Items'),
-            new GNericPageModel('page-2', 'Spells')
-        ]
     }
 
     getId(): string {
