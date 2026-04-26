@@ -9,11 +9,12 @@ import { Utils } from "../../services/utils";
 import { GNericDeletionModal } from "../deletionmodal/delmodal.component";
 import { Player } from "@owlbear-rodeo/sdk";
 import { GNericSheetPlayerAssignment } from "../../services/sheetPlayerAssignment";
+import { TranslateDirective, TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-sheetcollection',
     templateUrl: './sheetcollection.component.html',
-    imports: [GNericSheet, ReactiveFormsModule, GNericDeletionModal]
+    imports: [GNericSheet, ReactiveFormsModule, GNericDeletionModal, TranslatePipe, TranslateDirective]
 })
 export class GNericSheetCollection {
 

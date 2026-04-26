@@ -3,22 +3,35 @@ import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { CompendiumService } from "../../services/compendium";
 import { GNericCompendiumModel } from "../compendium/compendiummodel";
 import { GNericSheetCollectionModel } from "../sheetcollection/sheetcollectionmodel";
+import { LanguageService } from "../i18n/LanguageService";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-settings',
     templateUrl: './settings.component.html',
-    imports: [ReactiveFormsModule]
+    imports: [ReactiveFormsModule, TranslatePipe]
 })
 export class GNericSettings {
 
     @Input() sheets: GNericSheetCollectionModel = new GNericSheetCollectionModel();
     compService = inject(CompendiumService);
 
+    langService = inject(LanguageService);
+    langSelect = new FormControl();
+
     downloadLink: HTMLAnchorElement | null = null;
     uploadInput = new FormControl('');
     errMsg = signal('');
 
     uploadMergeEvent = output<any>();
+
+    // _______________  language  _______________
+
+    selectLanguage(): void {
+        this.langService.setLang(this.langSelect.value);
+    }
+
+    // _______________  upload/download content  _______________
 
     downloadCompendium(): void {
         const compModel: GNericCompendiumModel = this.compService.getCompendium();

@@ -1,7 +1,7 @@
 <div>
     <div>
         <div>
-            <label for="sheet-select" class="spacingrightsmall">Show sheet:</label>
+            <label for="sheet-select" class="spacingrightsmall">{{'sheetcollection.select_sheet'|translate}}</label>
             <select id="sheet-select" [formControl]="sheetSelect" (change)="selectSheet()">
                 @for(sheet of sheets.sheets; track sheet.getId()) {
                     <option value="{{sheet.getId()}}">{{sheet.getCharName()}}</option>
@@ -10,9 +10,9 @@
         </div>
         @if(isGM) {
             <div>
-                <label for="player-select" class="spacingrightsmall">Played by:</label>
+                <label for="player-select" class="spacingrightsmall">{{'sheetcollection.played_by'|translate}}</label>
                 <select id="player-select" [formControl]="playerSelect" (change)="selectPlayer()">
-                    <option value="">- no one -</option>
+                    <option value="">{{'sheetcollection.no_one'|translate}}</option>
                     @for(player of otherPlayers; track player.id) {
                         @if(player.role === 'PLAYER') {
                             <option value="{{player.id}}">{{player.name}}</option>
@@ -24,12 +24,12 @@
     </div>
     @if(editable && isGM) {
         <div class="spacingtopsmall">
-            <label for="sheet-newCharName">Add new Character:</label>
+            <label for="sheet-newCharName">{{'sheetcollection.add_character'|translate}}</label>
             <input class="spacingrightsmall spacingleftsmall" type="text" id="sheet-newCharName" [formControl]="newCharName">
-            <button [disabled]="!newCharName.valid" (click)="addSheet()">Create sheet</button>
+            <button [disabled]="!newCharName.valid" (click)="addSheet()">{{'sheetcollection.create_sheet'|translate}}</button>
         </div>
         <div class="spacingtopsmall">
-            <button [disabled]="!currentSheet" (click)="copySheet()">Copy {{getPossesiveFormOfName()}} sheet</button>
+            <button [disabled]="!currentSheet" [translate]="'sheetcollection.copy_sheet'" [translateParams]="{name: getPossesiveFormOfName()}" (click)="copySheet()"></button>
         </div>
     }
     <hr class="spacingtopmedium spacingbottomlarge">
@@ -37,9 +37,9 @@
         <gneric-sheet [sheetModel]="currentSheet" [editable]="editable" (gNericElemChangedEvent)="reactOnSheetUpdate($event)"/>
     }
     @else {
-        <p>No character sheet selected</p>
+        <p>{{'sheetcollection.no_sheet'|translate}}</p>
         @if(!isGM) {
-            <p>As a player, you cannot create or delete sheets by yourself. A GM will assign one or more sheets to you.</p>
+            <p>{{'sheetcollection.player_constraint'|translate}}</p>
         }
     }
     @if(editable && isGM) {

@@ -1,0 +1,36 @@
+{
+    "app": {
+        "elems_editable": "Elements editable",
+        "sheets": "Sheets",
+        "compendium": "Compendium",
+        "settings": "Settings"
+    },
+    "sheetcollection": {
+        "select_sheet": "Show sheet:",
+        "played_by": "Played by",
+        "no_one": "- no one -",
+        "no_sheet": "No character sheet selected",
+        "player_constraint": "As a player, you cannot create or delete sheets by yourself. A GM will assign one or more sheets to you.",
+        "add_character": "Add new Character",
+        "create_sheet": "Create sheet",
+        "copy_sheet": "Copy {{name}} sheet",
+        "delete_sheet": "Delete sheet"
+    },
+    "settings": {
+        "locale": {
+            "title": "Set language",
+            "label": "Select language"
+        }
+    },
+    "gm": {
+        "contentload": {
+            "title": "Upload/Download Content",
+            "download_all": "Download sheets and compendium",
+            "download_sheets": "Download just the sheets",
+            "download_compendium": "download just the compendium",
+            "upload": "Upload sheets and/or compendium",
+            "upload_success": "Uploaded data",
+            "upload_json_fail": "File content is not a proper json"
+        }
+    }
+}

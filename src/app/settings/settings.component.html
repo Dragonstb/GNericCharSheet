@@ -1,19 +1,28 @@
 <div>
-    <h3>Upload/Download Content</h3>
+    <h3>{{ 'settings.locale.title' | translate }}</h3>
+    <div>
+        <label for="lang-select">{{ 'settings.locale.label' | translate }}</label>
+        <select id="lang-select" class="spacingleftsmall" [formControl]="langSelect" (change)="selectLanguage()">
+            @for (lang of langService.getAvailabelLangs(); track lang) {
+                <option value="{{lang}}">{{langService.getLangName(lang)}}</option>
+            }
+        </select>
+    </div>
+    <h3>{{'gm.contentload.title'|translate}}</h3>
     <div class="spacingbottommedium">
         <div class="spacingbottomsmall">
-            <button (click)="downloadData()">Download sheets and compendium</button>
+            <button (click)="downloadData()">{{'gm.contentload.download_all'|translate}}</button>
         </div>
         <div class="spacingbottomsmall">
-            <button (click)="downloadSheets()">Download just the sheets</button>
+            <button (click)="downloadSheets()">{{'gm.contentload.download_sheets'|translate}}</button>
         </div>
         <div class="spacingbottomsmall">
-            <button (click)="downloadCompendium()">Download just the compendium</button>
+            <button (click)="downloadCompendium()">{{'gm.contentload.download_compendium'|translate}}</button>
         </div>
     </div>
     <div>
         <div class="spacingbottomsmall">
-            <label for="upload-ttrpg-data">Upload sheets and/or compendium</label>
+            <label for="upload-ttrpg-data">{{'gm.contentload.upload'|translate}}</label>
         </div>
         <div class="spacingbottomsmall">
             <input type="file" id="upload-ttrpg-data" accept=".json" [formControl]="uploadInput" (change)="upload($event)">

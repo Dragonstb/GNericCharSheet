@@ -11,10 +11,11 @@ import { Tab, TabContent, TabList, TabPanel, Tabs } from '@angular/aria/tabs';
 import { GNericCompendium } from './compendium/compendium.component';
 import { CompendiumService } from '../services/compendium';
 import { GNericSettings } from './settings/settings.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
-  imports: [GNericSheetCollection, GNericCompendium, GNericSettings, ReactiveFormsModule, TabList, Tab, Tabs, TabPanel, TabContent],
+  imports: [GNericSheetCollection, GNericCompendium, GNericSettings, ReactiveFormsModule, TabList, Tab, Tabs, TabPanel, TabContent, TranslatePipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })

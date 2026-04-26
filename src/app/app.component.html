@@ -1,15 +1,15 @@
 <main class="main">
   <div>
     <input type="checkbox" id="elemEdit" [formControl]="editableCheckbox">
-    <label for="elemEdit">Elements editable</label>
+    <label for="elemEdit">{{'app.elems_editable'|translate}}</label>
   </div>
 
   <div ngTabs>
     <div ngTabList class="flexbox wrapping spacingbottomlarge">
-      <div ngTab class="tab" value="sheets">Sheets</div>
-      <div ngTab class="tab" value="compendium">Compendium</div>
+      <div ngTab class="tab" value="sheets">{{'app.sheets'|translate}}</div>
+      <div ngTab class="tab" value="compendium">{{'app.compendium'|translate}}</div>
       @if(isGM()) {
-        <div ngTab class="tab" value="settings">Settings</div>
+        <div ngTab class="tab" value="settings">{{'app.settings'|translate}}</div>
       }
     </div>
 
