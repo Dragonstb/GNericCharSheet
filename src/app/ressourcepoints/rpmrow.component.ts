@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, signal, Signal, ViewChild } from "@angular/core";
+import { Component, Input, } from "@angular/core";
 import { GNericCross1 } from "./cross1.component";
 import { GNericCross2 } from "./cross2.component";
 import { GNericCross3 } from "./cross3.component";

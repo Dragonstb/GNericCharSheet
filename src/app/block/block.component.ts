@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, Input, NgZone, output, signal, ViewChild, viewChildren } from "@angular/core";
+import { Component, inject, Input, NgZone, output, ViewChild, viewChildren } from "@angular/core";
 import { GnericTextfield } from "../textfield/textfield.component";
 import { GNericTable } from "../table/table.component";
 import { GNericRessourcePointsManager } from "../ressourcepoints/rpm.component";
