@@ -86,6 +86,18 @@ describe( 'GNericPageModel', () => {
         expect(page.validateBaseModel(model)).toBeFalse();
     });
 
+    it('base validation: should reject a model with an id containing illegal cahracters', () => {
+        const id2 = 'hello123?';
+        const page2 = new GNericPageModel(id2, title);
+        const model = {
+            id: id2,
+            type: ElemTypes.page,
+            action: ActionTypes.pageupdate
+        }
+
+        expect(page2.validateBaseModel(model)).toBeFalse();
+    });
+
     // ..... type problems .....
 
     it('base validation: should reject a model with missing type', () => {

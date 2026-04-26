@@ -77,6 +77,21 @@ describe( 'ItemListModel', () => {
         expect(model.validateListModel(json)).toBeFalse();
     });
 
+    it('Should reject a model with id containing invalid characters', () => {
+        const name2 = 'itemlist123&';
+        const model2 = new ItemListModel(name2, title);
+        const json = {
+            id: name2,
+            listname: title,
+            type: ElemTypes.itemlist,
+            items: [
+                new GNericItemModel('item1', 'name1', 'text1').getModel(),
+                new GNericItemModel('item2', 'name2', 'text2').getModel()
+            ]
+        };
+        expect(model2.validateListModel(json)).toBeFalse();
+    });
+
     it('Should reject a model with wrong type', () => {
         const json = {
             id: name,
@@ -288,7 +303,7 @@ describe( 'ItemListModel', () => {
             type: ElemTypes.itementry,
             text: 'some cute text here'
         };
-        expect(model.validateListModel(json)).toBeFalse();
+        expect(model.validateEntryModel(json)).toBeFalse();
     });
 
     it('item entries: should reject a model with falsy id', () => {
@@ -298,7 +313,7 @@ describe( 'ItemListModel', () => {
             type: ElemTypes.itementry,
             text: 'some cute text here'
         };
-        expect(model.validateListModel(json)).toBeFalse();
+        expect(model.validateEntryModel(json)).toBeFalse();
     });
 
     it('item entries: should reject a model with empty id', () => {
@@ -308,7 +323,7 @@ describe( 'ItemListModel', () => {
             type: ElemTypes.itementry,
             text: 'some cute text here'
         };
-        expect(model.validateListModel(json)).toBeFalse();
+        expect(model.validateEntryModel(json)).toBeFalse();
     });
 
     it('item entries: should reject a model with id of wrong type', () => {
@@ -318,7 +333,17 @@ describe( 'ItemListModel', () => {
             type: ElemTypes.itementry,
             text: 'some cute text here'
         };
-        expect(model.validateListModel(json)).toBeFalse();
+        expect(model.validateEntryModel(json)).toBeFalse();
+    });
+
+    it('item entries: should reject a model with id containing invalid chars', () => {
+        const json = {
+            id: 'id-123-!',
+            name: name,
+            type: ElemTypes.itementry,
+            text: 'some cute text here'
+        };
+        expect(model.validateEntryModel(json)).toBeFalse();
     });
 
     // _______________ entry: type problems _______________

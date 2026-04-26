@@ -181,4 +181,15 @@ export class ValidatorService {
 
         return this.coreTypes.indexOf(type) >= 0;
     }
+
+    /** Checks if the given id fullfills constraints on the characters (alphanumeric and hyphen).
+     * 
+     * @param id Id under test.
+     * @returns Does the id consists of alphanumeric chars and hyphens only, with aminimum lenght of unity?
+     */
+    static checkElementId(id: string): boolean {
+        const checkPattern = /^[\-a-zA-Z0-9]+$/;
+        return checkPattern.test(id);
+    }
+
 }

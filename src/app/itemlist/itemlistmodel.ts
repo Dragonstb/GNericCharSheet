@@ -148,6 +148,10 @@ export class ItemListModel extends ElemModel {
             return false;
         }
 
+        if(!ValidatorService.checkElementId(model.id)) {
+            return false;
+        }
+
         if(!ValidatorService.hasStringProperty('listname', model)) {
             return false;
         }
@@ -181,6 +185,10 @@ export class ItemListModel extends ElemModel {
     validateEntryModel(model: any): boolean {
         // id === '' is not ok here
         if(!model.hasOwnProperty('id') || !model.id || typeof model.id !== 'string') {
+            return false;
+        }
+
+        if(!ValidatorService.checkElementId(model.id)) {
             return false;
         }
 

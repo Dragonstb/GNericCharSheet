@@ -429,4 +429,21 @@ describe( 'ValidatorService', () => {
         expect(ValidatorService.isCoreElemType(null!)).toBeFalse();
     });
 
+    // _______________  checkElementId  _______________
+
+    it('checkElementId: should accept proper id', () => {
+        const id = 'abc-DEF-123';
+        expect(ValidatorService.checkElementId(id)).toBeTrue();
+    });
+
+    it('checkElementId: should reject id with invalid chars', () => {
+        const id = 'abc-DEF-<script>alert("aha!")</script>-123';
+        expect(ValidatorService.checkElementId(id)).toBeFalse();
+    });
+
+    it('checkElementId: should reject the empty string', () => {
+        const id = '';
+        expect(ValidatorService.checkElementId(id)).toBeFalse();
+    });
+
 });

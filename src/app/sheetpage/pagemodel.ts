@@ -132,6 +132,10 @@ export class GNericPageModel {
             return false;
         }
 
+        if(!ValidatorService.checkElementId(model.id)) {
+            return false;
+        }
+
         if(!ValidatorService.hasNonEmptyStringProperty('action', model)) {
             return false;
         }

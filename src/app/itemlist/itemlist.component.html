@@ -7,7 +7,7 @@
         </div>
     }
     <div>
-        <button class="accordeonhead" (click)="toggleExpansion()" [attr.aria-controls]="'item-list-'+getTitle()" [attr.aria-expanded]="expanded()">
+        <button class="accordeonhead" (click)="toggleExpansion()" [attr.aria-controls]="'item-list-'+getId()" [attr.aria-expanded]="expanded()">
         <h4 class="inheritbg">{{getTitle()}}</h4>
         <svg class="svgicon size20 inheritbg" aria-hidden="true"
             viewBox="0 0 10 10"
@@ -26,10 +26,10 @@
             </svg>
         </button>
         @if(expanded()) {
-            <div id="item-list-{{getTitle()}}">
-            @for(item of elemModel.items; track item.getId()) {
-                <gneric-itementry [deletable]="extendable" (gNericElemChangedEvent)="fireEntryChangeEvent($event)" (deleteEntryEvent)="deleteItem(item.getId())" [model]="item" [editable]="editable" />
-            }
+            <div id="item-list-{{getId()}}">
+                @for(item of elemModel.items; track item.getId()) {
+                    <gneric-itementry [deletable]="extendable" (gNericElemChangedEvent)="fireEntryChangeEvent($event)" (deleteEntryEvent)="deleteItem(item.getId())" [model]="item" [editable]="editable" />
+                }
             </div>
             @if(editable || extendable) {
                 <div class="spacingtopmedium">
