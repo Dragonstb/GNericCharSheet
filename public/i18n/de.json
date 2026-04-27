@@ -1,8 +1,139 @@
 {
+    "app": {
+        "elems_editable": "Elemente editiebar",
+        "sheets": "Charakterbögen",
+        "compendium": "Kompendium",
+        "settings": "Einstellungen"
+    },
+    "sheetcollection": {
+        "select_sheet": "Charakterbogen anzeigen:",
+        "played_by": "Gespielt von",
+        "no_one": "- niemanden -",
+        "no_sheet": "Kein Charakterbogen ausgewählt",
+        "player_constraint": "Als Spieler*in kannst du Charakterbögen nicht selbst erstellen oder löschen. Eine Spielleitung wird dir einen oder mehrere Bögen zuweisen.",
+        "add_character": "Neuen Charakter hinzufügen",
+        "create_sheet": "Bogen erstellen",
+        "copy_sheet": "{{name}} Bogen kopieren",
+        "delete_sheet": "Bogen löschen",
+        "delete_headline": "{{name}} Bogen löschen?"
+    },
+    "sheet": {
+        "edit_name": "Name bearbeiten:",
+        "new_page": "Name der neuen Seite",
+        "add_page": "Seite hinzufügen",
+        "no_page": "Keine Seiten vorhanden"
+    },
+    "page": {
+        "delete_block": "Block löschen",
+        "add_block": "Block von Elementen hinzufügen",
+        "delete_page": "Seite {{title}} löschen",
+        "delete_page_headline": "Seite \"{{title}}\" löschen?",
+        "delete_block_headline": "Block löschen?"
+    },
+    "block": {
+        "add_textfield": "Textfeld hinzufügen",
+        "add_table": "Tabelle hinzufügen",
+        "add_rpm": "Ressourcenpunkte hinzufügen",
+        "add_itemlist": "Liste hinzufügen",
+        "add_checkboxes": "Checkboxen hinzufügen"
+    },
+    "checkboxes": {
+        "change_title": "Titel ändern zu:",
+        "add_row": "Zeile hinzufügen",
+        "remove_row": "Zeile entfernen",
+        "delete_boxes": "Checkboxen löschen"
+    },
+    "itementry": {
+        "name": "Name:",
+        "delete": "{{name}} löschen"
+    },
+    "itemlist": {
+        "name": "Listenname:",
+        "new": "Neuen Eintrag zu {{name}} hinzufügen",
+        "delete": "Liste löschen",
+        "add_modal": {
+            "headline": "Eintrag zu {{listname}} hinzufügen",
+            "show_compendium": "Kompendium zum Kopieren anzeigen",
+            "name": "Name:",
+            "description": "Beschreibung",
+            "cancel": "Abbrechen",
+            "add": "Hinzufügen"
+        },
+        "delete_modal": {
+            "headline": "Eintrag löschen",
+            "cancel": "Abbrechen",
+            "accept": "Ja"
+        }
+    },
+    "rpm": {
+        "change_title": "Titel ändern zu:",
+        "configure": "Schadensstufen konfigurieren",
+        "add_row": "Zeile hinzufügen",
+        "remove_row": "Zeile entfernen",
+        "add_column": "Spalte hinzufügen",
+        "remove_column": "Spalte entfernen",
+        "show_texts": "Texte anzeigen",
+        "damage_absorbtion": "Höhere Schadensstufen absorbieren niedrigere",
+        "damage": "Schaden:",
+        "delete": "Ressourcenpunkte löschen",
+        "config_modal": {
+            "headline": "Schadensstufen konfigurieren",
+            "tier": "Stufe {{tier}}",
+            "enabled": "Aktiviert",
+            "key": "Präfix:",
+            "cancel": "Abbrechen",
+            "confirm": "Bestätigen"
+        }
+    },
+    "table": {
+        "change_title": "Titel ändern zu:",
+        "add_row_above": "Zeile oberhalb der aktuellen hinzufügen",
+        "add_row_below": "Zeile unterhalb der aktuellen hinzufügen",
+        "remove_row": "Aktuelle Zeile entfernen",
+        "add_col_left": "Spalte links von der aktuellen hinzufügen",
+        "add_col_right": "Spalte rechts von der aktuellen hinzufügen",
+        "remove_col": "Aktuelle Spalte entfernen",
+        "equal_width": "Spaltenbreiten angleichen",
+        "delete": "Tabelle löschen"
+    },
+    "textfield": {
+        "change_title": "Titel ändern zu:",
+        "row_count": "Nun {{count}} Zeilen",
+        "expand": "Um eine Zeile erweitern",
+        "shrink": "Um eine Zeile verkleinern",
+        "delete": "Textfeld löschen"
+    },
+    "compendium": {
+        "add_chapter": "Neues Kapitel hinzufügen",
+        "create_chapter": "Kapitel erstellen",
+        "select_chapter": "Kapitel auswählen",
+        "delete_chapter": "Kapitel löschen",
+        "delete_chapter_headline": "Kapitel aus dem Kompendium löschen?",
+        "ro": {
+            "copy_item": "Text kopieren"
+        }
+    },
+    "chapter": {
+        "edit_name":"Kapitelnamen bearbeiten:",
+        "add_list": "Neue Liste hinzufügen",
+        "no_selection": "Kein Kapitel ausgewählt.",
+        "delete_list_headline": "\"{{listtitle}}\" löschen?"
+    },
     "settings": {
         "locale": {
-            "title": "Sprachauswahl",
-            "label": "Sprache wählen"
+            "title": "Sprache festlegen",
+            "label": "Sprache auswählen"
+        }
+    },
+    "gm": {
+        "contentload": {
+            "title": "Inhalte hoch-/herunterladen",
+            "download_all": "Charakterbögen und Kompendium herunterladen",
+            "download_sheets": "Nur die Charakterbögen herunterladen",
+            "download_compendium": "Nur das Kompendium herunterladen",
+            "upload": "Charakterbögen und/oder Kompendium hochladen",
+            "upload_success": "Daten hochgeladen",
+            "upload_json_fail": "Dateiinhalt ist kein gültiges JSON"
         }
     }
 }
