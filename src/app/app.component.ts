@@ -12,6 +12,7 @@ import { GNericCompendium } from './compendium/compendium.component';
 import { CompendiumService } from '../services/compendium';
 import { GNericSettings } from './settings/settings.component';
 import { TranslatePipe } from '@ngx-translate/core';
+import { LanguageService } from './i18n/LanguageService';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +28,8 @@ export class GNericMainComponent {
   private SUBJECT_COMPENDIUM: string = "compendium";
   private SUBJECT_MERGE: string = "merge";
 
-  compService = inject(CompendiumService);
+  langService = inject(LanguageService);
+  compService = inject(CompendiumService); // this also initializes the language settings
 
   title = 'GNericCharSheet';
   broadcaster: BroadCaster = inject(BroadCaster);

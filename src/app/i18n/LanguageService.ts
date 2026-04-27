@@ -5,25 +5,43 @@ import {TranslateService} from "@ngx-translate/core";
     providedIn: 'root'
 })
 export class LanguageService {
+    private LANG_STORAGE = 'GNericCharSheet_language';
     private langNames: Map<string, string> = new Map();
 
     constructor(private translator: TranslateService) {
-        const useLang: string = 'en';
-        this.translator.setFallbackLang(useLang);
-        this.translator.use(useLang);
-
         this.langNames.set('de', 'Deutsch');
         this.langNames.set('en', 'English');
-
+        
         const arr: Array<string> = [];
         this.langNames.forEach((val,key) => {
             arr.push(key);
         });
         this.translator.addLangs(arr);
+        this.translator.setFallbackLang('en');
+        
+        let useLang: string | undefined | null = undefined;
+        try {
+            useLang = localStorage.getItem(this.LANG_STORAGE);
+        } catch (error) {
+            console.log('GNericCharSheet: Error when loading language data. Falling back to defaults now. You can cahnge the language in the setting panel.');
+        }
+
+        if(!useLang || !this.translator.getLangs().includes(useLang)) {
+            useLang = this.translator.getBrowserLang();
+            if(!useLang || !this.translator.getLangs().includes(useLang)) {
+                useLang = 'en';
+            }
+        }
+
+        this.translator.use(useLang);
+        localStorage.setItem(this.LANG_STORAGE, useLang);
     }
 
     setLang(lang: string): void {
-        this.translator.use(lang);
+        if(this.translator.getLangs().includes(lang)) {
+            this.translator.use(lang);
+            localStorage.setItem(this.LANG_STORAGE, lang);
+        }
     }
 
     getLang(): string {
