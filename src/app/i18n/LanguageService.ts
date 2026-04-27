@@ -38,4 +38,28 @@ export class LanguageService {
     getAvailabelLangs() {
         return this.translator.getLangs();
     }
+
+    /** Gets the possesive form (genitive) of a noun based on the current language.
+     * 
+     * @param name The noun of interest.
+     * @returns Possesive form if one exists, or 'name' itself.
+     */
+    getPossesiveForm(name: string): string {
+        let result = name;
+        switch(this.translator.getCurrentLang()) {
+            case 'de': result = this.getPossesiveFormGerman(name); break;
+            case 'en': result = this.getPossessiveFormEnglish(name); break;
+        }
+        return result;
+    }
+
+    private getPossessiveFormEnglish(name: string): string {
+        const lastLetter = name[name.length-1];
+        return lastLetter === 's' || lastLetter === 'x' ? name+"'" : name+"'s";
+    }
+
+    private getPossesiveFormGerman(name: string): string {
+        const lastLetter = name[name.length-1];
+        return lastLetter === 's' || lastLetter === 'x' || lastLetter === 'z' ? name+"'" : name+"s";
+    }
 }

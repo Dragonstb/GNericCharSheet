@@ -49,4 +49,4 @@
         </div>
     }
 </div>
-<gneric-deldialog #dialog [text]="'Delete '+getPossesiveFormOfName()+' sheet?'" (acceptDeletionEvent)="deleteSheet()" />
+<gneric-deldialog #dialog [text]="'sheetcollection.delete_headline'|translate:{name: getPossesiveFormOfName()}" (acceptDeletionEvent)="deleteSheet()" />

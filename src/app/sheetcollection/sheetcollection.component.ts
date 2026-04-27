@@ -10,6 +10,7 @@ import { GNericDeletionModal } from "../deletionmodal/delmodal.component";
 import { Player } from "@owlbear-rodeo/sdk";
 import { GNericSheetPlayerAssignment } from "../../services/sheetPlayerAssignment";
 import { TranslateDirective, TranslatePipe } from "@ngx-translate/core";
+import { LanguageService } from "../i18n/LanguageService";
 
 @Component({
     selector: 'gneric-sheetcollection',
@@ -17,6 +18,8 @@ import { TranslateDirective, TranslatePipe } from "@ngx-translate/core";
     imports: [GNericSheet, ReactiveFormsModule, GNericDeletionModal, TranslatePipe, TranslateDirective]
 })
 export class GNericSheetCollection {
+
+    private langService: LanguageService = inject(LanguageService);
 
     @Input() sheets: GNericSheetCollectionModel = new GNericSheetCollectionModel();
     @Input() editable: boolean = true;
@@ -64,8 +67,7 @@ export class GNericSheetCollection {
         // TODO: internationalization of possesive form
         if(this.currentSheet) {
             const name = this.currentSheet.getCharName();
-            const lastLetter = name[name.length-1];
-            return lastLetter === 's' || lastLetter === 'x' ? name+"'" : name+"'s";
+            return this.langService.getPossesiveForm(name);
         }
         else {
             return '';

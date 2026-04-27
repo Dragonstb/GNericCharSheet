@@ -28,5 +28,5 @@
             <button [disabled]="!currentChapter()" (click)="openDeleteDialog()">{{'compendium.delete_chapter'|translate}}</button>
         </div>
     }
-    <gneric-deldialog #dialog [text]="'Delete chapter from compendium?'" (acceptDeletionEvent)="deleteChapter()" />
+    <gneric-deldialog #dialog [text]="'compendium.delete_chapter_headline'|translate" (acceptDeletionEvent)="deleteChapter()" />
 </div>

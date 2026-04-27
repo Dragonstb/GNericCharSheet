@@ -21,6 +21,6 @@
             <button [translate]="'page.delete_page'" [translateParams]="{title: getTitle()}" (click)="openDeletePageDialog()"></button>
         </div>
     }
-    <gneric-deldialog #dialog [text]="'Delete block?'" (acceptDeletionEvent)="deleteBlock()" />
-    <gneric-deldialog #delPageDialog [text]="'Delete page '+getTitle()+'?'" (acceptDeletionEvent)="deletePage()" />
+    <gneric-deldialog #dialog [text]="'page.delete_block_headline'|translate" (acceptDeletionEvent)="deleteBlock()" />
+    <gneric-deldialog #delPageDialog [text]="'page.delete_page_headline'|translate:{title:getTitle()}" (acceptDeletionEvent)="deletePage()" />
 </div>

@@ -23,5 +23,5 @@
             </p>
         }
     </div>
-    <gneric-deldialog #dialog [text]="'Delete '+getToBeDeletedTitle()+'?'" (acceptDeletionEvent)="deleteItemList()" />
+    <gneric-deldialog #dialog [text]="'chapter.delete_list_headline'|translate:{listtitle:getToBeDeletedTitle()}" (acceptDeletionEvent)="deleteItemList()" />
 </div>

@@ -14,7 +14,8 @@
         "add_character": "Add new Character",
         "create_sheet": "Create sheet",
         "copy_sheet": "Copy {{name}} sheet",
-        "delete_sheet": "Delete sheet"
+        "delete_sheet": "Delete sheet",
+        "delete_headline": "Delete {{name}} sheet?"
     },
     "sheet": {
         "edit_name": "Edit name:",
@@ -25,7 +26,9 @@
     "page": {
         "delete_block": "Delete block",
         "add_block": "Add block of elements",
-        "delete_page": "Delete page {{title}}"
+        "delete_page": "Delete page {{title}}",
+        "delete_page_headline": "Delete page \"{{title}}\"?",
+        "delete_block_headline": "Delete block?"
     },
     "block": {
         "add_textfield": "Add textfield",
@@ -105,6 +108,7 @@
         "create_chapter": "Create this chapter",
         "select_chapter": "Select a chapter",
         "delete_chapter": "Delete chapter",
+        "delete_chapter_headline": "Delete chapter from compendium?",
         "ro": {
             "copy_item": "Copy text"
         }
@@ -112,7 +116,8 @@
     "chapter": {
         "edit_name":"Edit chapter name:",
         "add_list": "Add new list",
-        "no_selection": "No chapter selected."
+        "no_selection": "No chapter selected.",
+        "delete_list_headline": "Delete \"{{listtitle}}\"?"
     },
     "settings": {
         "locale": {
