@@ -1,11 +1,10 @@
 <div>
-
     <div>
         @if(chapter) {
             <h2>{{chapter.getName()}}</h2>
             @if(editable && isGM) {
                 <div class="spacingbottomlarge">
-                    <label for="compchapter-{{chapter.getId()}}">Edit chapter name:</label>
+                    <label for="compchapter-{{chapter.getId()}}">{{'chapter.edit_name'|translate}}</label>
                     <input class="spacingleftsmall spacingrightsmall" type="text" id="compchapter-{{chapter.getId()}}" [formControl]="chapter.name" (input)="fireChapterPatchEvent()">
                 </div>
             }
@@ -14,13 +13,13 @@
                     <gneric-itemlist [elem]="list" [editable]="editable && isGM" [extendable]="isGM" [showCompendium]="false" (deleteCoreElemEvent)="openDeleteListDialog($event)" (gNericElemChangedEvent)="reactOnChange($event)" />
                 }
                 @if(editable && isGM) {
-                    <button class="spacingtopmedium" (click)="addItemList()">Add new list</button>
+                    <button class="spacingtopmedium" (click)="addItemList()">{{'chapter.add_list'|translate}}</button>
                 }
             </div>
         }
         @else {
             <p>
-                No chapter selected.
+                {{'chapter.no_selection'|translate}}
             </p>
         }
     </div>

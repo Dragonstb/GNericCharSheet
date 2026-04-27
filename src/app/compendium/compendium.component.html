@@ -2,13 +2,13 @@
     <div class="spacingbottomlarge">
         @if(editable && isGM) {
             <div>
-                <label for="new-chapter-name-input">Add new chapter</label>
+                <label for="new-chapter-name-input">{{'compendium.add_chapter'|translate}}</label>
                 <input id="new-chapter-name-input" class="spacingleftsmall spacingrightsmall" type="text" [formControl]="newChapterInput" >
-                <button [disabled]="!newChapterInput.valid" (click)="createChapter()">Create this chapter</button>
+                <button [disabled]="!newChapterInput.valid" (click)="createChapter()">{{'compendium.create_chapter'|translate}}</button>
             </div>
         }
         <div>
-            <label for="compendiumChapterSelect">Select a chapter</label>
+            <label for="compendiumChapterSelect">{{'compendium.select_chapter'|translate}}</label>
             <select id="compendiumChapterSelect" class="spacingleftsmall spacingrightsmall" [formControl]="chapterSelect" (change)="selectChapter()">
                 @for(chapter of compModel.chapters; track chapter.getId()) {
                     <option value="{{chapter.getId()}}">
@@ -25,7 +25,7 @@
     @if(editable && isGM) {
         <hr class="spacingtoplarge spacingbottommedium">
         <div class="flexend">
-            <button [disabled]="!currentChapter()" (click)="openDeleteDialog()">Delete chapter</button>
+            <button [disabled]="!currentChapter()" (click)="openDeleteDialog()">{{'compendium.delete_chapter'|translate}}</button>
         </div>
     }
     <gneric-deldialog #dialog [text]="'Delete chapter from compendium?'" (acceptDeletionEvent)="deleteChapter()" />

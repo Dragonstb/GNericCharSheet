@@ -1,5 +1,5 @@
 <dialog #dialog>
-    <h2>Configure damage tiers</h2>
+    <h2>{{'rpm.config_modal.headline'|translate}}</h2>
     @for(tier of tiers; track tier.tier) {
         <fieldset class="editable">
             <legend class="flexbox">
@@ -11,16 +11,16 @@
                     @case(5){<gneric-cross5 class="size15 spacingleftsmall" />}
                     @case(6){<gneric-cross6 class="size15 spacingleftsmall" />}
                 }
-                <span class="spacingrightsmall spacingleftsmall">Tier {{tier.tier}}</span>
+                <span class="spacingrightsmall spacingleftsmall" [translate]="'rpm.config_modal.tier'" [translateParams]="{tier: tier.tier}"></span>
             </legend>
             <div>
                 <form [formGroup]="tier.form">
                     <div class="ctrl-elem spacingbottomsmall flexbetween">
-                        <label for="check-{{tier.tier}}">Enabled:</label>
+                        <label for="check-{{tier.tier}}">{{'rpm.config_modal.enabled'|translate}}</label>
                         <input type="checkbox" id="check-{{tier.tier}}" formControlName="checked" />
                     </div>
                     <div class="ctrl-elem spacingbottommedium flexbetween">
-                        <label for="key-{{tier.tier}}">Key:</label>
+                        <label for="key-{{tier.tier}}">{{'rpm.config_modal.key'|translate}}</label>
                         <input type="text" id="key-{{tier.tier}}" maxlength="1" formControlName="keyLetter" />
                     </div>
                 </form>
@@ -28,7 +28,7 @@
         </fieldset>
     }
     <div class="flexbetween spacingtopmedium">
-        <button (click)="cancel()">Cancel</button>
-        <button (click)="confirm()" [disabled]="!form.valid">Confirm</button>
+        <button (click)="cancel()">{{'rpm.config_modal.cancel'|translate}}</button>
+        <button (click)="confirm()" [disabled]="!form.valid">{{'rpm.config_modal.confirm'|translate}}</button>
     </div>
 </dialog>

@@ -62,6 +62,58 @@
             "accept": "Yes"
         }
     },
+    "rpm": {
+        "change_title": "Change title to:",
+        "configure": "Configure damage tiers",
+        "add_row": "Add row",
+        "remove_row": "Remove row",
+        "add_column": "Add column",
+        "remove_column": "Remove column",
+        "show_texts": "Show texts",
+        "damage_absorbtion": "Higher tiered damage absorbs lower tiered damage",
+        "damage": "Damage:",
+        "delete": "Delete ressource points",
+        "config_modal": {
+            "headline": "Configure damage tiers",
+            "tier": "Tier {{tier}}",
+            "enabled": "Enabled",
+            "key": "Key:",
+            "cancel": "Cancel",
+            "confirm": "Confirm"
+        }
+    },
+    "table": {
+        "change_title": "Change title to:",
+        "add_row_above": "Add row above current",
+        "add_row_below": "Add row below current",
+        "remove_row": "Remove current row",
+        "add_col_left": "Add column left of current",
+        "add_col_right": "Add column right of current",
+        "remove_col": "Remove current column",
+        "equal_width": "Equal column width",
+        "delete": "Delete table"
+    },
+    "textfield": {
+        "change_title": "Change title to:",
+        "row_count": "Currently {{count}} rows",
+        "expand": "Expand by one row",
+        "shrink": "Shrink by one row",
+        "delete": "Delete textfield"
+    },
+    "compendium": {
+        "add_chapter": "Add new chapter",
+        "create_chapter": "Create this chapter",
+        "select_chapter": "Select a chapter",
+        "delete_chapter": "Delete chapter",
+        "ro": {
+            "copy_item": "Copy text"
+        }
+    },
+    "chapter": {
+        "edit_name":"Edit chapter name:",
+        "add_list": "Add new list",
+        "no_selection": "No chapter selected."
+    },
     "settings": {
         "locale": {
             "title": "Set language",

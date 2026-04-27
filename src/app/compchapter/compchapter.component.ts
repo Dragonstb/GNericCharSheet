@@ -1,5 +1,5 @@
 import { Component, inject, Input, output, signal, ViewChild, WritableSignal } from "@angular/core";
-import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from "@angular/forms";
 import { GNericCompChapterModel } from "./compchaptermodel";
 import { GNericItemList } from "../itemlist/itemlist.component";
 import { ActionTypes } from "../ActionTypes";
@@ -7,11 +7,12 @@ import { Utils } from "../../services/utils";
 import { ItemListModel } from "../itemlist/itemlistmodel";
 import { ElemTypes } from "../elemtypes";
 import { GNericDeletionModal } from "../deletionmodal/delmodal.component";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-compchapter',
     templateUrl: './compchapter.component.html',
-    imports: [ReactiveFormsModule, GNericItemList, GNericDeletionModal]
+    imports: [ReactiveFormsModule, GNericItemList, GNericDeletionModal, TranslatePipe]
 })
 export class GNericCompChapter {
 

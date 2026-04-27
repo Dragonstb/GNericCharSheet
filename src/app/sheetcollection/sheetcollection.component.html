@@ -45,7 +45,7 @@
     @if(editable && isGM) {
         <hr class="spacingtoplarge spacingbottommedium">
         <div class="flexend">
-            <button [disabled]="!currentSheet" (click)="openDeleteDialog()">Delete sheet</button>
+            <button [disabled]="!currentSheet" (click)="openDeleteDialog()">{{'sheetcollection.delete_sheet'|translate}}</button>
         </div>
     }
 </div>

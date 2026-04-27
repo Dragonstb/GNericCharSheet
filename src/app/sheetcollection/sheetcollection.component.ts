@@ -61,6 +61,7 @@ export class GNericSheetCollection {
     }
 
     getPossesiveFormOfName(): string {
+        // TODO: internationalization of possesive form
         if(this.currentSheet) {
             const name = this.currentSheet.getCharName();
             const lastLetter = name[name.length-1];

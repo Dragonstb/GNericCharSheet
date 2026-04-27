@@ -5,11 +5,12 @@ import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { GNericDmgConfModal } from "./dmgconfmodal.component";
 import { RPMModel } from "./rpmmodel";
 import { ElemModel } from "../block/elemmodel";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-rpm',
     templateUrl: './rpm.component.html',
-    imports: [GNericRPMRow, GNericDmgConfModal, ReactiveFormsModule]
+    imports: [GNericRPMRow, GNericDmgConfModal, ReactiveFormsModule, TranslatePipe]
 })
 export class GNericRessourcePointsManager {
 

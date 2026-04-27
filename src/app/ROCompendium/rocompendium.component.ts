@@ -4,11 +4,12 @@ import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { GNericCompChapterModel } from "../compchapter/compchaptermodel";
 import { ItemListModel } from "../itemlist/itemlistmodel";
 import { GNericRoItemlist } from "./roitemlist.component";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-ro-compendium',
     templateUrl: './rocompendium.component.html',
-    imports: [ReactiveFormsModule, GNericRoItemlist]
+    imports: [ReactiveFormsModule, GNericRoItemlist, TranslatePipe]
 })
 export class GNericRoCompendium {
 

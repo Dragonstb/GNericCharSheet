@@ -3,15 +3,15 @@
         <legend class="ctrl-elem">textfield-{{elemModel.getId()}}</legend>
         <div class="spacingbottommedium ctrl-elem" id="{{elemModel.getId()}}-editPanel">
             <div class="spacingbottomsmall">
-                <label class="spacingrightsmall" for="titleform-{{elemModel.getId()}}">Change title to:</label>
+                <label class="spacingrightsmall" for="titleform-{{elemModel.getId()}}">{{'textfield.change_title'|translate}}</label>
                 <input type="text" id="titleform-{{elemModel.getId()}}" [formControl]="elemModel.title" (input)="fireElemChangedEvent()">
             </div>
             <div>
-                <span class="aria-visible" aria-live="polite" >Currently {{elemModel.getRows()}} rows</span>
-                <button (click)="addRow()">Expand by one row</button>
+                <span class="aria-visible" aria-live="polite" [translate]="'textfield.row_count'" [translateParams]="{count: elemModel.getRows()}"></span>
+                <button (click)="addRow()">{{'textfield.expand'|translate}}</button>
             </div>
             <div>
-                <button id="{{elemModel.getId()}}-shrink" [disabled]="elemModel.getRows()<2" (click)="deleteRow()">Shrink by one row</button>
+                <button id="{{elemModel.getId()}}-shrink" [disabled]="elemModel.getRows()<2" (click)="deleteRow()">{{'textfield.shrink'|translate}}</button>
             </div>
         </div>
     }
@@ -23,7 +23,7 @@
     </div>
     @if(editable) {
         <div class="ctrl-elem flexend spacingbottomsmall spacingtopmedium">
-            <button (click)="deleteTextfield()">Delete textfield</button>
+            <button (click)="deleteTextfield()">{{'textfield.delete'|translate}}</button>
         </div>
     }
 </fieldset>

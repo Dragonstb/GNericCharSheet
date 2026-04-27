@@ -6,12 +6,13 @@ import { ElemTypes } from "../elemtypes";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { TableModel } from "./tablemodel";
 import { ElemModel } from "../block/elemmodel";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-table',
     templateUrl: './table.component.html',
     styleUrl: './table.component.less',
-    imports: [CdkDrag, ReactiveFormsModule]
+    imports: [CdkDrag, ReactiveFormsModule, TranslatePipe]
 })
 export class GNericTable {
 

@@ -7,11 +7,12 @@ import { Utils } from "../../services/utils";
 import { ActionTypes } from "../ActionTypes";
 import { GNericDeletionModal } from "../deletionmodal/delmodal.component";
 import { ElemTypes } from "../elemtypes";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-compendium',
     templateUrl: './compendium.component.html',
-    imports: [GNericCompChapter, GNericDeletionModal, ReactiveFormsModule]
+    imports: [GNericCompChapter, GNericDeletionModal, ReactiveFormsModule, TranslatePipe]
 })
 export class GNericCompendium {
 

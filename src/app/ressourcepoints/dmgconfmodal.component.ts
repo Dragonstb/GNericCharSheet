@@ -8,11 +8,12 @@ import { GNericCross4 } from "./cross4.component";
 import { GNericCross5 } from "./cross5.component";
 import { GNericCross6 } from "./cross6.component";
 import { dmgConfValidator } from "./dmgconfvalid.directive";
+import { TranslateDirective, TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-dcm',
     templateUrl: './dmgconfmodal.component.html',
-    imports: [ReactiveFormsModule, GNericCross1, GNericCross2, GNericCross3, GNericCross4, GNericCross5, GNericCross6]
+    imports: [ReactiveFormsModule, GNericCross1, GNericCross2, GNericCross3, GNericCross4, GNericCross5, GNericCross6, TranslatePipe, TranslateDirective]
 })
 export class GNericDmgConfModal {
 

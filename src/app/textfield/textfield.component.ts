@@ -3,11 +3,12 @@ import { ElemTypes } from "../elemtypes";
 import { ReactiveFormsModule } from "@angular/forms";
 import { TextfieldModel } from "./textfieldmodel";
 import { ElemModel } from "../block/elemmodel";
+import { TranslateDirective, TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-textfield',
     templateUrl: './textfield.component.html',
-    imports: [ReactiveFormsModule]
+    imports: [ReactiveFormsModule, TranslatePipe, TranslateDirective]
 })
 export class GnericTextfield {
 

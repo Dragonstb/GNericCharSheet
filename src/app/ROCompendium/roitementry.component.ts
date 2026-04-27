@@ -1,9 +1,11 @@
 import { Component, Input, output, signal } from "@angular/core";
 import { GNericItemModel } from "../itemlist/itemmodel";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-ro-itementry',
-    templateUrl: './roitementry.component.html'
+    templateUrl: './roitementry.component.html',
+    imports: [TranslatePipe]
 })
 export class GNericRoItemEntry {
 
