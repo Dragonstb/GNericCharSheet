@@ -35,7 +35,10 @@
         "add_table": "Add table",
         "add_rpm": "Add ressource points",
         "add_itemlist": "Add item list",
-        "add_checkboxes": "Add checkboxes"
+        "add_checkboxes": "Add checkboxes",
+        "delete_headline": "Delete sheet element?",
+        "cancel": "Cancel",
+        "yes": "Yes"
     },
     "checkboxes": {
         "change_title": "Change title to:",

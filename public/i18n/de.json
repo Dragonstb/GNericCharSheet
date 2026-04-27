@@ -35,7 +35,10 @@
         "add_table": "Tabelle hinzufügen",
         "add_rpm": "Ressourcenpunkte hinzufügen",
         "add_itemlist": "Liste hinzufügen",
-        "add_checkboxes": "Checkboxen hinzufügen"
+        "add_checkboxes": "Checkboxen hinzufügen",
+        "delete_headline": "Element löschen?",
+        "cancel": "Abbrechen",
+        "yes": "Bestätigen"
     },
     "checkboxes": {
         "change_title": "Titel ändern zu:",
@@ -62,7 +65,7 @@
         "delete_modal": {
             "headline": "Eintrag löschen",
             "cancel": "Abbrechen",
-            "accept": "Ja"
+            "accept": "Bestätigen"
         }
     },
     "rpm": {

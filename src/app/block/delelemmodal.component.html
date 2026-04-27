@@ -1,7 +1,7 @@
 <dialog #dialog>
-    <h2>Delete sheet element?</h2>
+    <h2>{{'block.delete_headline'|translate}}</h2>
     <div class="flexbetween">
-        <button (click)="cancelDialog()">Cancel</button>
-        <button (click)="acceptDialog()">Yes</button>
+        <button (click)="cancelDialog()">{{'block.cancel'|translate}}</button>
+        <button (click)="acceptDialog()">{{'block.yes'|translate}}</button>
     </div>
 </dialog>
