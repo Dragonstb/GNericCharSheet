@@ -3,12 +3,12 @@
         <legend class="ctrl-elem">checkboxes-{{getId()}}</legend>
         <div class="ctrl-elem spacingbottommedium spacingtopsmall">
             <div class="spacingbottomsmall">
-                <label class="spacingrightsmall" for="titleform">Change title to:</label>
+                <label class="spacingrightsmall" for="titleform">{{'checkboxes.change_title'|translate}}</label>
                 <input type="text" id="titleform" (input)="this.fireElemChangeEvent()" [formControl]="elemModel.title">
             </div>
             <div>
-                <button (click)="addRow()">Add row</button>
-                <button (click)="removeRow()" [disabled]="elemModel.rows.length<2">Remove row</button>
+                <button (click)="addRow()">{{'checkboxes.add_row'|translate}}</button>
+                <button (click)="removeRow()" [disabled]="elemModel.rows.length<2">{{'checkboxes.remove_row'|translate}}</button>
             </div>
         </div>
     }
@@ -32,7 +32,7 @@
     </div>
     @if(editable) {
         <div class="ctrl-elem flexend spacingbottomsmall spacingtopmedium">
-            <button (click)="fireDeleteCheckboxesEvent()">Delete checkboxes</button>
+            <button (click)="fireDeleteCheckboxesEvent()">{{'checkboxes.delete_boxes'|translate}}</button>
         </div>
     }
 </fieldset>

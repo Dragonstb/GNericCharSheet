@@ -2,11 +2,12 @@ import { Component, Input, output, ViewChild } from "@angular/core";
 import { GNericItemModel } from "./itemmodel";
 import { ReactiveFormsModule } from "@angular/forms";
 import { GNericDelItemModal } from "./delitemmodal.component";
+import { TranslateDirective, TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-itementry',
     templateUrl: './itementry.component.html',
-    imports: [GNericDelItemModal, ReactiveFormsModule]
+    imports: [GNericDelItemModal, ReactiveFormsModule, TranslatePipe, TranslateDirective]
 })
 export class GNericItemEntry {
 

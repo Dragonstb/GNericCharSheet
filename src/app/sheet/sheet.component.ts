@@ -1,4 +1,4 @@
-import { Component, inject, Input, Output, output, signal, viewChildren } from "@angular/core";
+import { Component, inject, Input, output, viewChildren } from "@angular/core";
 import { Utils } from "../../services/utils";
 import { GNericSheetPage } from "../sheetpage/sheetpage.component";
 import { GNericSheetModel } from "./sheetmodel";
@@ -6,11 +6,12 @@ import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
 import { GNericPageModel } from "../sheetpage/pagemodel";
 import { ElemTypes } from "../elemtypes";
 import { ActionTypes } from "../ActionTypes";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-sheet',
     templateUrl: './sheet.component.html',
-    imports: [GNericSheetPage, ReactiveFormsModule]
+    imports: [GNericSheetPage, ReactiveFormsModule, TranslatePipe]
 })
 export class GNericSheet {
 

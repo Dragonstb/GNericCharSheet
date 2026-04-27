@@ -3,11 +3,12 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { ElemTypes } from "../elemtypes";
 import { CheckboxModel } from "./checkboxmodel";
 import { ElemModel } from "../block/elemmodel";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-checkboxes',
     templateUrl: './checkboxes.component.html',
-    imports: [ReactiveFormsModule]
+    imports: [ReactiveFormsModule, TranslatePipe]
 })
 export class GNericCheckboxList {
 

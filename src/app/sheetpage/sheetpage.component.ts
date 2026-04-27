@@ -1,18 +1,17 @@
-import { Component, inject, viewChildren, ViewChild, output, signal, NgZone, Input } from "@angular/core";
+import { Component, inject, viewChildren, ViewChild, output, NgZone, Input } from "@angular/core";
 import { GNericBlockModel } from "../block/blockmodel";
 import { GNericBlock } from "../block/block.component";
 import { Utils } from "../../services/utils";
 import { GNericDeletionModal } from "../deletionmodal/delmodal.component";
 import { ElemTypes } from "../elemtypes";
 import { ActionTypes } from "../ActionTypes";
-import { ValidatorService } from "../../services/validator";
 import { GNericPageModel } from "./pagemodel";
-import { InputModalityDetector } from "@angular/cdk/a11y";
+import { TranslateDirective, TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-sheetpage',
     templateUrl: './sheetpage.component.html',
-    imports: [GNericBlock, GNericDeletionModal]
+    imports: [GNericBlock, GNericDeletionModal, TranslatePipe, TranslateDirective]
 })
 export class GNericSheetPage {
 

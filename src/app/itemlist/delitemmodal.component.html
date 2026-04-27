@@ -1,7 +1,7 @@
 <dialog #dialog>
-    <h2>Delete item?</h2>
+    <h2>{{'itemlist.delete_modal.headline'|translate}}</h2>
     <div class="flexbetween">
-        <button (click)="cancelDialog()">Cancel</button>
-        <button (click)="acceptDialog()">Yes</button>
+        <button (click)="cancelDialog()">{{'itemlist.delete_modal.cancel'|translate}}</button>
+        <button (click)="acceptDialog()">{{'itemlist.delete_modal.accept'|translate}}</button>
     </div>
 </dialog>

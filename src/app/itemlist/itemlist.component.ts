@@ -6,11 +6,12 @@ import { GNericAddItemModal } from "./additemmodal.component";
 import { ElemTypes } from "../elemtypes";
 import { ItemListModel } from "./itemlistmodel";
 import { ElemModel } from "../block/elemmodel";
+import { TranslateDirective, TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-itemlist',
     templateUrl: './itemlist.component.html',
-    imports: [GNericItemEntry, GNericAddItemModal, ReactiveFormsModule]
+    imports: [GNericItemEntry, GNericAddItemModal, ReactiveFormsModule, TranslatePipe, TranslateDirective]
 })
 export class GNericItemList {
 

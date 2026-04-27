@@ -3,13 +3,13 @@
     @if(editable) {
         <div class="spacingbottomlarge">
             <div class="spacingbottommedium">
-                <label class="spacingrightsmall" for="editName-{{sheetModel.getId()}}">Edit name:</label>
+                <label class="spacingrightsmall" for="editName-{{sheetModel.getId()}}">{{'sheet.edit_name'|translate}}</label>
                 <input type="text" id="editName-{{sheetModel.getId()}}" [formControl]="sheetModel.charname" (input)="reactOnSheetUpdate()">
             </div>
             <div>
-                <label for="addPage-{{sheetModel.getId()}}">Name of new page</label>
+                <label for="addPage-{{sheetModel.getId()}}">{{'sheet.new_page'|translate}}</label>
                 <input class="spacingleftsmall spacingrightsmall" type="text" id="addPage-{{sheetModel.getId()}}" [formControl]="newPageTitle">
-                <button (click)="addPage()" [disabled]="!newPageTitle.valid">Add page</button>
+                <button (click)="addPage()" [disabled]="!newPageTitle.valid">{{'sheet.add_page'|translate}}</button>
             </div>
         </div>
     }
@@ -34,7 +34,7 @@
             }
         }
         @empty {
-            <div>No pages</div>
+            <div>{{'sheet.no_page'|translate}}</div>
         }
     </div>
 </div>

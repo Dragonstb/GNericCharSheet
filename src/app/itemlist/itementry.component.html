@@ -25,7 +25,7 @@
         }
         @else{
             <div>
-                <label for="item-name-{{model.getId()}}">Name:</label>
+                <label for="item-name-{{model.getId()}}">{{'itementry.name'|translate}}</label>
                 <input type="text" id="item-name-{{model.getId()}}" (input)="fireElemChangeEvent()" [formControl]="model.name">
             </div>
             <textarea rows="7" (input)="fireElemChangeEvent()" [formControl]="model.text"></textarea>
@@ -33,7 +33,7 @@
     </div>
     @if(deletable) {
         <div class="flexend spacingbottommedium spacingtopmedium">
-            <button (click)="requestDeletionOfEntry()">Delete {{model.name.value}}</button>
+            <button [translate]="'itementry.delete'" [translateParams]="{name: model.name.value}" (click)="requestDeletionOfEntry()"></button>
         </div>
     }
 }

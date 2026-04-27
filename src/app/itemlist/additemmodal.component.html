@@ -1,9 +1,9 @@
 <dialog #dialog>
-    <h2>Add item to {{listname}}</h2>
+    <h2 [translate]="'itemlist.add_modal.headline'" [translateParams]="{listname: listname}"></h2>
     @if(showCompendium){
         <div class="spacingbottommedium">
             <input type="checkbox" id="add-item-display-compendium" [formControl]="displayCompendium">
-            <label for="add-item-display-compendium">Show compendium to copy from</label>
+            <label for="add-item-display-compendium">{{'itemlist.add_modal.show_compendium'|translate}}</label>
         </div>
     }
     <div class="flexbetween">
@@ -11,7 +11,7 @@
             <form [formGroup]="form">
                 <div class="spacingbottommedium">
                     <div class="spacingbottomsmall">
-                        <label class="spacingrightsmall" for="add-item-name">Item name:</label>
+                        <label class="spacingrightsmall" for="add-item-name">{{'itemlist.add_modal.name'|translate}}</label>
                     </div>
                     <div>
                         <input class="width100" type="text" id="add-item-name" formControlName="name">
@@ -19,7 +19,7 @@
                 </div>
                 <div class="spacingbottommedium">
                     <div class="spacingbottomsmall">
-                        <label for="add-item-text">Item description</label>
+                        <label for="add-item-text">{{'itemlist.add_modal.description'|translate}}</label>
                     </div>
                     <div>
                         <textarea id="add-item-text" rows="7" formControlName="text"></textarea>
@@ -27,8 +27,8 @@
                 </div>
             </form>
             <div class="flexbetween">
-                <button (click)="cancel()">Cancel</button>
-                <button (click)="addNewItem()" [disabled]="!form.valid">Add</button>
+                <button (click)="cancel()">{{'itemlist.add_modal.cancel'|translate}}</button>
+                <button (click)="addNewItem()" [disabled]="!form.valid">{{'itemlist.add_modal.add'|translate}}</button>
             </div>
         </div>
         @if(showCompendium && displayCompendium.value) {

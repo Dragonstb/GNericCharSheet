@@ -15,11 +15,12 @@ import { TableModel } from "../table/tablemodel";
 import { RPMModel } from "../ressourcepoints/rpmmodel";
 import { ItemListModel } from "../itemlist/itemlistmodel";
 import { CheckboxModel } from "../checkboxes/checkboxmodel";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-block',
     templateUrl: './block.component.html',
-    imports: [GnericTextfield, GNericTable, GNericRessourcePointsManager, GNericItemList, GNericCheckboxList, GNericDelElemModal]
+    imports: [GnericTextfield, GNericTable, GNericRessourcePointsManager, GNericItemList, GNericCheckboxList, GNericDelElemModal, TranslatePipe]
 })
 export class GNericBlock {
     

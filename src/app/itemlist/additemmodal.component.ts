@@ -4,11 +4,12 @@ import { GNericItemModel } from "./itemmodel";
 import { GNericRoCompendium } from "../ROCompendium/rocompendium.component";
 import { ValidatorService } from "../../services/validator";
 import { Utils } from "../../services/utils";
+import { TranslateDirective, TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-additemmodal',
     templateUrl: './additemmodal.component.html',
-    imports: [GNericRoCompendium, ReactiveFormsModule]
+    imports: [GNericRoCompendium, ReactiveFormsModule, TranslatePipe, TranslateDirective]
 })
 export class GNericAddItemModal {
 

@@ -1,8 +1,10 @@
 import { Component, ElementRef, output, ViewChild } from "@angular/core";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-delitemdialog',
-    templateUrl: './delitemmodal.component.html'
+    templateUrl: './delitemmodal.component.html',
+    imports: [TranslatePipe]
 })
 export class GNericDelItemModal {
 

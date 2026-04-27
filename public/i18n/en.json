@@ -16,6 +16,52 @@
         "copy_sheet": "Copy {{name}} sheet",
         "delete_sheet": "Delete sheet"
     },
+    "sheet": {
+        "edit_name": "Edit name:",
+        "new_page": "Name of new page",
+        "add_page": "Add page",
+        "no_page": "No pages"
+    },
+    "page": {
+        "delete_block": "Delete block",
+        "add_block": "Add block of elements",
+        "delete_page": "Delete page {{title}}"
+    },
+    "block": {
+        "add_textfield": "Add textfield",
+        "add_table": "Add table",
+        "add_rpm": "Add ressource points",
+        "add_itemlist": "Add item list",
+        "add_checkboxes": "Add checkboxes"
+    },
+    "checkboxes": {
+        "change_title": "Change title to:",
+        "add_row": "Add row",
+        "remove_row": "Remove row",
+        "delete_boxes": "Delete checkboxes"
+    },
+    "itementry": {
+        "name": "Name:",
+        "delete": "Delete {{name}}"
+    },
+    "itemlist": {
+        "name": "List name:",
+        "new": "Add new entry to {{name}}",
+        "delete": "Delete item list",
+        "add_modal": {
+            "headline": "Add item to {{listname}}",
+            "show_compendium": "Show compendium to copy from",
+            "name": "Item name:",
+            "description": "Item description",
+            "cancel": "Cancel",
+            "add": "Add"
+        },
+        "delete_modal": {
+            "headline": "Delete item",
+            "cancel": "Cancel",
+            "accept": "Yes"
+        }
+    },
     "settings": {
         "locale": {
             "title": "Set language",
