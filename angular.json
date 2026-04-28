@@ -70,7 +70,13 @@
               "buildTarget": "GNericCharSheet:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "headers": {
+              "Content-Security-Policy": "trusted-types angular; require-trusted-types-for 'script'; default-src 'self';",
+              "Access-Control-Allow-Origin": "https://www.owlbear.rodeo"
+            }
+          }
         },
         "extract-i18n": {
           "builder": "@angular/build:extract-i18n"

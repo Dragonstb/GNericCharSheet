@@ -60,7 +60,6 @@ export class GNericSheetCollection {
 
         const sheetId = this.currentSheet.getId();
         const playerId = this.playerSelect.value ?? '';
-        console.log('selected player '+playerId);
         const assignment = new GNericSheetPlayerAssignment(sheetId, playerId);
         this.playerSelectEvent.emit(assignment);
     }

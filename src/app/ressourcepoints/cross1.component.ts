@@ -7,7 +7,7 @@ import { Component } from "@angular/core";
         xmlns="http://www.w3.org/2000/svg" \
         xmlns:svg="http://www.w3.org/2000/svg"> \
         <rect \
-            style="fill:inherit;fill-opacity:1;stroke:none;stroke-width:5.68579" \
+            class="crosspoint" \
             width="2" \
             height="2" \
             x="4" \

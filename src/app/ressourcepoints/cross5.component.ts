@@ -7,16 +7,16 @@ import { Component } from "@angular/core";
         xmlns="http://www.w3.org/2000/svg" \
         xmlns:svg="http://www.w3.org/2000/svg"> \
         <path \
-            style="fill:none;stroke:inherit;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1" \
+            class="crossbar" \
             d="M 1,9 9,1" /> \
         <path \
-            style="fill:none;stroke:inherit;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1" \
+            class="crossbar" \
             d="M 9,9 1,1" /> \
         <path \
-            style="fill:none;stroke:inherit;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1" \
+            class="crossbar" \
             d="M 1,5 H 9" /> \
         <path \
-            style="fill:none;stroke:inherit;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1" \
+            class="crossbar" \
             d="M 5,9 5,1" /> \
     </svg>'
 })

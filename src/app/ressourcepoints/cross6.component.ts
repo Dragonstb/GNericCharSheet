@@ -7,7 +7,7 @@ import { Component } from "@angular/core";
         xmlns="http://www.w3.org/2000/svg" \
         xmlns:svg="http://www.w3.org/2000/svg"> \
         <rect \
-            style="fill:#inherit;fill-opacity:1;stroke:none;stroke-width:1.24819;stroke-linecap:round;stroke-dasharray:none" \
+            class="crosssquare" \
             width="8" \
             height="8" \
             x="1" \
