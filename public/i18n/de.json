@@ -3,7 +3,8 @@
         "elems_editable": "Elemente editiebar",
         "sheets": "Charakterbögen",
         "compendium": "Kompendium",
-        "settings": "Einstellungen"
+        "settings": "Einstellungen",
+        "gm": "SL"
     },
     "sheetcollection": {
         "select_sheet": "Charakterbogen anzeigen:",

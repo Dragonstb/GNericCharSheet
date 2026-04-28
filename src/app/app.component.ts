@@ -13,10 +13,11 @@ import { CompendiumService } from '../services/compendium';
 import { GNericSettings } from './settings/settings.component';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from './i18n/LanguageService';
+import { GNericGMSettings } from './gm/gm.component';
 
 @Component({
   selector: 'app-root',
-  imports: [GNericSheetCollection, GNericCompendium, GNericSettings, ReactiveFormsModule, TabList, Tab, Tabs, TabPanel, TabContent, TranslatePipe],
+  imports: [GNericSheetCollection, GNericCompendium, GNericSettings, GNericGMSettings, ReactiveFormsModule, TabList, Tab, Tabs, TabPanel, TabContent, TranslatePipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })

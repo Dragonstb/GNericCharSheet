@@ -1,0 +1,27 @@
+<div>
+    <h3>{{'gm.contentload.title'|translate}}</h3>
+    <div class="spacingbottommedium">
+        <div class="spacingbottomsmall">
+            <button (click)="downloadData()">{{'gm.contentload.download_all'|translate}}</button>
+        </div>
+        <div class="spacingbottomsmall">
+            <button (click)="downloadSheets()">{{'gm.contentload.download_sheets'|translate}}</button>
+        </div>
+        <div class="spacingbottomsmall">
+            <button (click)="downloadCompendium()">{{'gm.contentload.download_compendium'|translate}}</button>
+        </div>
+    </div>
+    <div>
+        <div class="spacingbottomsmall">
+            <label for="upload-ttrpg-data">{{'gm.contentload.upload'|translate}}</label>
+        </div>
+        <div class="spacingbottomsmall">
+            <input type="file" id="upload-ttrpg-data" accept=".json" [formControl]="uploadInput" (change)="upload($event)">
+        </div>
+        @if(errMsg().length > 0) {
+            <div>
+                {{ errMsg() }}
+            </div>
+        }
+    </div>
+</div>

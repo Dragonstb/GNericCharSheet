@@ -8,8 +8,9 @@
     <div ngTabList class="flexbox wrapping spacingbottomlarge">
       <div ngTab class="tab" value="sheets">{{'app.sheets'|translate}}</div>
       <div ngTab class="tab" value="compendium">{{'app.compendium'|translate}}</div>
+      <div ngTab class="tab" value="settings">{{'app.settings'|translate}}</div>
       @if(isGM()) {
-        <div ngTab class="tab" value="settings">{{'app.settings'|translate}}</div>
+        <div ngTab class="tab" value="gm">{{'app.gm'|translate}}</div>
       }
     </div>
 
@@ -26,10 +27,16 @@
         </ng-template>
       </div>
 
+      <div ngTabPanel value="settings" [preserveContent]="false">
+        <ng-template ngTabContent>
+          <gneric-settings #settingsPanel />
+        </ng-template>
+      </div>
+
       @if(isGM()) {
-        <div ngTabPanel value="settings" [preserveContent]="false">
+        <div ngTabPanel value="gm" [preserveContent]="false">
           <ng-template ngTabContent>
-            <gneric-settings #settingsPanel [sheets]="sheets" (uploadMergeEvent)="mergeUpload($event, true)" />
+            <gneric-gm #gmPanel [sheets]="sheets" (uploadMergeEvent)="mergeUpload($event, true)" />
           </ng-template>
         </div>
       }

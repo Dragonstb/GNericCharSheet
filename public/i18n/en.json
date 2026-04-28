@@ -3,7 +3,8 @@
         "elems_editable": "Elements editable",
         "sheets": "Sheets",
         "compendium": "Compendium",
-        "settings": "Settings"
+        "settings": "Settings",
+        "gm": "GM"
     },
     "sheetcollection": {
         "select_sheet": "Show sheet:",
