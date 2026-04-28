@@ -19,6 +19,8 @@ import { LanguageService } from "../i18n/LanguageService";
 })
 export class GNericSheetCollection {
 
+    private LAST_SHEET_STORAGE: string = 'GNericCharSheet_last_sheet';
+
     private langService: LanguageService = inject(LanguageService);
 
     @Input() sheets: GNericSheetCollectionModel = new GNericSheetCollectionModel();
@@ -146,6 +148,8 @@ export class GNericSheetCollection {
             this.playerSelect.disable();
             this.playerSelect.setValue('');
         }
+
+        localStorage.setItem(this.LAST_SHEET_STORAGE, sheet ? sheet.getId() : '');
     }
 
     clearCurrentSheet(): void {
@@ -187,6 +191,20 @@ export class GNericSheetCollection {
         const model = this.sheets.getModel();
         const json = {...model, action: ActionTypes.collectionupdate};
         this.gNericElemChangedEvent.emit(json);
+    }
+
+    // _______________  stuff  _______________
+
+    ngOnInit() {
+        try {
+            const lastSheet = localStorage.getItem(this.LAST_SHEET_STORAGE);
+            if(lastSheet) {
+                this.sheetSelect.setValue(lastSheet);
+                this.selectSheet();
+            }
+        } catch (error) {
+            console.dir('GNericCharSheet: Could not restore last sheet. Do not worry. This will not hinder you from selecting any sheet.');
+        }
     }
 
 }

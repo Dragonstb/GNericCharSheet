@@ -16,6 +16,8 @@ import { TranslatePipe } from "@ngx-translate/core";
 })
 export class GNericCompendium {
 
+    private CHAPTER_STORAGE: string = 'GNericCharSheet_last_chapter';
+
     @Input() editable: boolean = true;
     @Input() isGM: boolean = false;
     @Input() compModel: GNericCompendiumModel = new GNericCompendiumModel();
@@ -33,6 +35,7 @@ export class GNericCompendium {
     selectChapter(): void {
         const id = this.chapterSelect.value ?? '';
         this.currentChapter.set(this.compModel.getChapterById(id));
+        localStorage.setItem(this.CHAPTER_STORAGE, id);
     }
 
     createChapter(): void {
@@ -114,5 +117,17 @@ export class GNericCompendium {
         }
 
         this.gNericElemChangedEvent.emit(json);
+    }
+
+    ngOnInit() {
+        try {
+            const lastChapter = localStorage.getItem(this.CHAPTER_STORAGE);
+            if(lastChapter) {
+                this.chapterSelect.setValue(lastChapter);
+                this.selectChapter();
+            }
+        } catch (error) {
+            console.dir('GNericCharSheet: Could not restore last chapter. Nevertheless, this will not hinder you from selecting any chapter.');
+        }
     }
 }
