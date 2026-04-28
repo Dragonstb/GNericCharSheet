@@ -105,7 +105,9 @@ export class GNericMainComponent {
     const fullModel = this.sheets.getModelRestrainedToSheets(sheetIds);
     const json = {...fullModel, action: ActionTypes.collectionupdate};
     const channel = this.broadcaster.getPersonalChannelById(playerId);
-    this.broadcaster.handleOutgoingMessage(channel, json);
+    const envelope = {} as any;
+    envelope[this.SUBJECT_SHEETS] = json;
+    this.broadcaster.handleOutgoingMessage(channel, envelope);
   }
 
   // _______________  receive and process model updates  _______________
@@ -263,12 +265,10 @@ export class GNericMainComponent {
     try {
       this.ngZone.runGuarded(() => {
         // TODO: unassign sheets that are assigned to a player who becomes promoted to GM
-        console.log('collecting ids');
         const playerIds: Set<string> = new Set();
         party.forEach(player => playerIds.add(player.id));
 
         // unassign sheets that are assigned to players who are not in the party anymore (presumably on account of having left the session)
-        console.log('unassigning sheets');
         this.sheetAssignments.forEach((playerId, sheetId) => {
           if(!playerIds.has(playerId)) {
             this.sheetAssignments.delete(sheetId);
@@ -276,7 +276,6 @@ export class GNericMainComponent {
         });
 
         // update data structure
-        console.log('updating data');
         this.otherPlayers = party;
       });
     } catch (error) {
