@@ -13,6 +13,8 @@ For speeding up development, we got a bit sloppy and neglected automated tests e
 
 For speeding up development, we have skipped internationalization and localization. Once a first stable version exists, get rid of this technical debt.
 
+Pluralization is something that has not been included yet.
+
 ### a11y ###
 
 Like the multi-language support, accessibility has been neglected for speeding up things. Once a first stable version exists, get rid if this technical debt.
