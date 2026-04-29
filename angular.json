@@ -34,7 +34,10 @@
             "styles": [
               "src/styles.less"
             ],
-            "scripts": []
+            "scripts": [],
+            "security": {
+              "autoCsp": false
+            }
           },
           "configurations": {
             "production": {
@@ -73,7 +76,7 @@
           "defaultConfiguration": "development",
           "options": {
             "headers": {
-              "Content-Security-Policy": "trusted-types angular; require-trusted-types-for 'script'; default-src 'self';",
+              "Content-Security-Policy": "trusted-types angular; require-trusted-types-for 'script'; default-src 'self'; style-src 'self' 'sha256-V5/YjAvVV4xIZ9HzD1LO/lAeZdKYapw7kfqXrbUpBJc=' 'sha256-tI5OGjOXfdbkxj5dcNYAmqoTrzYFQ1Ja3nPYyhMPafM='",
               "Access-Control-Allow-Origin": "https://www.owlbear.rodeo"
             }
           }
