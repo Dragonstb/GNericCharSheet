@@ -14,7 +14,7 @@
     }
     <div class="boxed paddingsmall">
         @if(editable || hasTitle()) {
-            <h3 class="elemtitle">{{elemModel.getTitle()}}</h3>
+            <h4 class="elemtitle">{{elemModel.getTitle()}}</h4>
         }
         @for(row of elemModel.rows; track $index) {
             <div class="flexbetween">

@@ -9,7 +9,7 @@
             </select>
         </div>
         @if(isGM) {
-            <div>
+            <div class="spacingtopsmall">
                 <label for="player-select" class="spacingrightsmall">{{'sheetcollection.played_by'|translate}}</label>
                 <select id="player-select" [formControl]="playerSelect" (change)="selectPlayer()">
                     <option value="">{{'sheetcollection.no_one'|translate}}</option>

@@ -1,7 +1,7 @@
 <div>
     <div class="spacingbottomlarge">
         @if(editable && isGM) {
-            <div>
+            <div class="spacingbottomsmall">
                 <label for="new-chapter-name-input">{{'compendium.add_chapter'|translate}}</label>
                 <input id="new-chapter-name-input" class="spacingleftsmall spacingrightsmall" type="text" [formControl]="newChapterInput" >
                 <button [disabled]="!newChapterInput.valid" (click)="createChapter()">{{'compendium.create_chapter'|translate}}</button>
