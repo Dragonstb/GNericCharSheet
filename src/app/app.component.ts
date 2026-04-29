@@ -35,7 +35,7 @@ export class GNericMainComponent {
   title = 'GNericCharSheet';
   broadcaster: BroadCaster = inject(BroadCaster);
   ngZone = inject(NgZone);
-  editableCheckbox = new FormControl(true);
+  editableCheckbox = new FormControl(false);
 
   @ViewChild('sheetCollection') sheetCollectionElem: GNericSheetCollection | undefined;
   @ViewChild('compendiumElement') compendiumElem: GNericCompendium | undefined;
