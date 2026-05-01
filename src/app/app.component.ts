@@ -57,7 +57,7 @@ export class GNericMainComponent {
       const playerId = this.sheetAssignments.get(sheetId);
       if(playerId) {
         const channel = this.broadcaster.getPersonalChannelById(playerId);
-        this.broadcaster.handleOutgoingMessage(channel, json);
+        this.broadcaster.handleOutgoingMessage(channel, envelope);
       }
     }
   }

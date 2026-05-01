@@ -1,6 +1,6 @@
 {
-    "name": "GNeric Char Sheet",
-    "version": "0.0.1",
+    "name": "GNeric Char Sheet Dev",
+    "version": "0.1.0",
     "manifest_version": 1,
     "description": "Generic character sheets.",
     "action": {
