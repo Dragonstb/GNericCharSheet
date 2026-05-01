@@ -107,6 +107,10 @@
         "shrink": "Um eine Zeile verkleinern",
         "delete": "Textfeld löschen"
     },
+    "del_modal": {
+        "cancel": "Abbrechen",
+        "accept": "Bestätigen"
+    },
     "compendium": {
         "add_chapter": "Neues Kapitel hinzufügen",
         "create_chapter": "Kapitel erstellen",

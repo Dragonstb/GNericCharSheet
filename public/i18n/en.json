@@ -107,6 +107,10 @@
         "shrink": "Shrink by one row",
         "delete": "Delete textfield"
     },
+    "del_modal": {
+        "cancel": "Cancel",
+        "accept": "Yes"
+    },
     "compendium": {
         "add_chapter": "Add new chapter",
         "create_chapter": "Create this chapter",

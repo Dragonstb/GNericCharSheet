@@ -1,8 +1,10 @@
 import { Component, ElementRef, Input, output, ViewChild } from "@angular/core";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
     selector: 'gneric-deldialog',
-    templateUrl: './delmodal.component.html'
+    templateUrl: './delmodal.component.html',
+    imports: [TranslatePipe]
 })
 export class GNericDeletionModal {
 
