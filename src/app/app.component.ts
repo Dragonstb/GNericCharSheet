@@ -45,6 +45,7 @@ export class GNericMainComponent {
   // TODO: Broadcast changes in the assignments among the GMs
   sheetAssignments = new Map<string, string>; // assignment of sheet id -> player id
   isGM = signal(window.location.hostname === 'localhost');
+  lightTheme = signal(!false);
 
   reactOnSheetChange(json: any) {
     const envelope = {} as any;

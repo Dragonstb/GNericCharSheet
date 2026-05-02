@@ -1,4 +1,4 @@
-<main class="main">
+<main class="main" [class.light]="lightTheme()">
   <div>
     <input type="checkbox" id="elemEdit" [formControl]="editableCheckbox">
     <label for="elemEdit">{{'app.elems_editable'|translate}}</label>
