@@ -45,7 +45,7 @@ export class GNericMainComponent {
   // TODO: Broadcast changes in the assignments among the GMs
   sheetAssignments = new Map<string, string>; // assignment of sheet id -> player id
   isGM = signal(window.location.hostname === 'localhost');
-  lightTheme = signal(!false);
+  lightTheme = signal(false);
 
   reactOnSheetChange(json: any) {
     const envelope = {} as any;
@@ -284,7 +284,33 @@ export class GNericMainComponent {
     }
   }
 
+  // _______________  theme management  _______________
+
+  private setBackground(useLightTheme: boolean): void {
+    const elem = document.querySelector('body') as HTMLBodyElement;
+    if(!elem) {
+      return;
+    }
+
+    const LIGHTBG = 'lightbg';
+    const hasLightTheme = elem.classList.contains(LIGHTBG);
+    if(useLightTheme && !hasLightTheme) {
+      elem.classList.add('lightbg');
+    }
+    else if(!useLightTheme && hasLightTheme) {
+      elem.classList.remove(LIGHTBG);
+    }
+  }
+
+  private updateTheme(useLightTheme: boolean): void {
+    this.lightTheme.set(useLightTheme);
+    this.setBackground(useLightTheme);
+  }
+
+  // _______________  init  _______________
+
   ngOnInit() {
+    this.setBackground(this.lightTheme());
     this.broadcaster.setApp(this);
     this.loadSheets();
     this.loadAssignments();
@@ -292,9 +318,23 @@ export class GNericMainComponent {
     OBR.onReady(
       ()=>{
         this.broadcaster.setReady();
+
+        // === theme ===
+
+        OBR.theme.getTheme().then(theme => {
+          this.updateTheme(theme.mode === 'LIGHT');
+        });
+
+        OBR.theme.onChange(theme => {
+          this.updateTheme(theme.mode === 'LIGHT');
+        });
+
+        // === player ===
+
         OBR.player.getId().then(id => {
           this.broadcaster.setPersonalChannelById(id);
         });
+
         // TODO: also set 'isGM' when the role changes later on
         // TODO: Show alert that multi-GM support has not been implemented yet (until this feature becomes true)
         // TODO: send all sheets to a player when he/she becomes promoted to GM
@@ -311,9 +351,13 @@ export class GNericMainComponent {
             });
           }
         });
+
+        // === party ===
+
         OBR.party.getPlayers().then(party => {
           this.updatePlayers(party);
         });
+
         OBR.party.onChange(party => {
           this.updatePlayers(party);
         });

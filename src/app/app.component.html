@@ -1,46 +1,49 @@
 <main class="main" [class.light]="lightTheme()">
-  <div>
-    <input type="checkbox" id="elemEdit" [formControl]="editableCheckbox">
-    <label for="elemEdit">{{'app.elems_editable'|translate}}</label>
-  </div>
-
-  <div ngTabs>
-    <div ngTabList class="flexbox wrapping spacingbottomlarge">
-      <div ngTab class="tab" value="sheets">{{'app.sheets'|translate}}</div>
-      <div ngTab class="tab" value="compendium">{{'app.compendium'|translate}}</div>
-      <div ngTab class="tab" value="settings">{{'app.settings'|translate}}</div>
-      @if(isGM()) {
-        <div ngTab class="tab" value="gm">{{'app.gm'|translate}}</div>
-      }
-    </div>
+  <!-- <div class="mainframe"> -->
 
     <div>
-      <div ngTabPanel value="sheets" [preserveContent]="false">
-        <ng-template ngTabContent>
-          <gneric-sheetcollection #sheetCollection [sheets]="sheets" [isGM]="isGM()" [assignments]="sheetAssignments" [editable]="editableCheckbox.value ?? false" [otherPlayers]="otherPlayers" (gNericElemChangedEvent)="reactOnSheetChange($event)" (playerSelectEvent)="reactOnPlayerSelection($event)" />
-        </ng-template>
-      </div>
-
-      <div ngTabPanel value="compendium" [preserveContent]="false">
-        <ng-template ngTabContent>
-          <gneric-compendium #compendiumElement [compModel]="compService.getCompendium()" [isGM]="isGM()" [editable]="editableCheckbox.value ?? false" (gNericElemChangedEvent)="reactOnCompendiumChange($event)" />
-        </ng-template>
-      </div>
-
-      <div ngTabPanel value="settings" [preserveContent]="false">
-        <ng-template ngTabContent>
-          <gneric-settings #settingsPanel />
-        </ng-template>
-      </div>
-
-      @if(isGM()) {
-        <div ngTabPanel value="gm" [preserveContent]="false">
-          <ng-template ngTabContent>
-            <gneric-gm #gmPanel [sheets]="sheets" (uploadMergeEvent)="mergeUpload($event, true)" />
-          </ng-template>
-        </div>
-      }
+      <input type="checkbox" id="elemEdit" [formControl]="editableCheckbox">
+      <label for="elemEdit">{{'app.elems_editable'|translate}}</label>
     </div>
 
-  </div>  
+    <div ngTabs>
+      <div ngTabList class="flexbox wrapping spacingbottomlarge">
+        <div ngTab class="tab" value="sheets">{{'app.sheets'|translate}}</div>
+        <div ngTab class="tab" value="compendium">{{'app.compendium'|translate}}</div>
+        <div ngTab class="tab" value="settings">{{'app.settings'|translate}}</div>
+        @if(isGM()) {
+          <div ngTab class="tab" value="gm">{{'app.gm'|translate}}</div>
+        }
+      </div>
+
+      <div>
+        <div ngTabPanel value="sheets" [preserveContent]="false">
+          <ng-template ngTabContent>
+            <gneric-sheetcollection #sheetCollection [sheets]="sheets" [isGM]="isGM()" [assignments]="sheetAssignments" [editable]="editableCheckbox.value ?? false" [otherPlayers]="otherPlayers" (gNericElemChangedEvent)="reactOnSheetChange($event)" (playerSelectEvent)="reactOnPlayerSelection($event)" />
+          </ng-template>
+        </div>
+
+        <div ngTabPanel value="compendium" [preserveContent]="false">
+          <ng-template ngTabContent>
+            <gneric-compendium #compendiumElement [compModel]="compService.getCompendium()" [isGM]="isGM()" [editable]="editableCheckbox.value ?? false" (gNericElemChangedEvent)="reactOnCompendiumChange($event)" />
+          </ng-template>
+        </div>
+
+        <div ngTabPanel value="settings" [preserveContent]="false">
+          <ng-template ngTabContent>
+            <gneric-settings #settingsPanel />
+          </ng-template>
+        </div>
+
+        @if(isGM()) {
+          <div ngTabPanel value="gm" [preserveContent]="false">
+            <ng-template ngTabContent>
+              <gneric-gm #gmPanel [sheets]="sheets" (uploadMergeEvent)="mergeUpload($event, true)" />
+            </ng-template>
+          </div>
+        }
+      </div>
+
+    </div>  
+  <!-- </div> -->
 </main>

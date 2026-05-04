@@ -35,6 +35,7 @@
 
 @tiny: 2px;
 @small: 4px;
+@little: 6px;
 @medium: 10px;
 @large: 25px;
 @huge: 50px;
@@ -45,21 +46,41 @@
     background-color: @obr-dark-bg-default;
 }
 
+body {
+    margin: 0;
+    padding: @little;
+    min-height: 100vh;
+}
+
+.lightbg {
+    background-color: @obr-light-bg-default;
+}
+
 .light {
     * {
         color: @obr-light-text-prim;
         background-color: @obr-light-bg-default;
     }
 
-    .accordeonhead > h4,h5,span,svg {
-        color: @obr-light-prim-contrast;
-        fill: @obr-light-prim-contrast;
-        stroke: @obr-light-prim-contrast;
+    .accordeonhead {
+        > h4,h5,span,svg {
+            color: @obr-light-prim-contrast;
+            fill: @obr-light-prim-contrast;
+            stroke: @obr-light-prim-contrast;
+        }
+        
+        &.secondarycol {
+            > h4,h5,span,svg {
+                color: @obr-light-text-sec;
+                fill: @obr-light-sec-contrast;
+                stroke: @obr-light-sec-contrast;
+            }
+        }
     }
 
     .accordeonarrow {
-        fill: @obr-light-prim-contrast;
-        stroke: @obr-light-prim-contrast;
+        fill: @obr-light-text-sec;
+        stroke: @obr-light-text-sec;
     }
 
     .blockbox {
@@ -85,9 +106,11 @@
     }
 
     .tab {
+        color: @obr-light-text-prim;
         border-left-color: @obr-light-text-prim;
         border-top-color: @obr-light-text-prim;
         border-right-color: @obr-light-text-prim;
+        .inheritbg;
 
         &:hover {
             color: @obr-light-prim-contrast;
@@ -123,7 +146,7 @@
     
         &:disabled {
             color: @obr-light-text-disabled;
-            background-color: @light-prim-disabled;
+            background-color: @obr-light-prim-main;
         }
     }
 
@@ -389,7 +412,7 @@
 
 .tab {
 
-    //color: @obr-dark-text-prim;
+    color: @obr-dark-text-prim;
     border-left: 2px solid @obr-dark-text-prim;
     border-right: 2px solid @obr-dark-text-prim;
     border-top: 2px solid @obr-dark-text-prim;
@@ -418,27 +441,6 @@
             background-color: @obr-dark-prim-light;
         }    
     }
-
-    // &.light {
-    //     border-left-color: @obr-light-text-prim;
-    //     border-top-color: @obr-light-text-prim;
-    //     border-right-color: @obr-light-text-prim;
-
-    //     &:hover {
-    //         color: @obr-light-prim-contrast;
-    //         background-color: @obr-light-prim-light;
-    //     }
-
-    //     &.selected, &[aria-selected="true"] {
-    //         color: @obr-light-prim-contrast;
-    //         background-color: @obr-light-prim-dark;
-
-    //         &:hover {
-    //             color: @obr-light-prim-contrast;
-    //             background-color: @obr-light-prim-light;
-    //         }    
-    //     }
-    // }
 }
 
 .thintopborder {
