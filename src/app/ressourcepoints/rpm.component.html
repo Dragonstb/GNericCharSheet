@@ -37,8 +37,8 @@
         }
         @if(!editable) {
             <div class="spacingtopmedium spacingbottommedium spacingleftsmall">
-                <label class="spacingrightsmall" for="{{elemModel.getId()}}-dmg-input">{{'rpm.damage'|translate}}</label>
-                <input id="{{elemModel.getId()}}-dmg-input" type="text" [formControl]="dmgInput" (input)="onDmgInput()" (keyup.enter)="onSubmitDamage()">
+                <label for="{{elemModel.getId()}}-dmg-input">{{'rpm.damage'|translate}}</label>
+                <input class="spacingleftsmall spacingrightlittle"  id="{{elemModel.getId()}}-dmg-input" type="text" [formControl]="dmgInput" (input)="onDmgInput()" (keyup.enter)="onSubmitDamage()">
                 <svg #checkmark width="15px" height="15px" class="svgokicon hidden"
                     viewBox="0 0 10 10"
                     xmlns="http://www.w3.org/2000/svg"

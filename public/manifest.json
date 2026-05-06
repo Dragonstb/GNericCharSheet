@@ -1,10 +1,10 @@
 {
     "name": "GNeric Char Sheet Dev",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "manifest_version": 1,
     "description": "Generic character sheets.",
     "action": {
-      "title": "GNeric Char Sheet",
+      "title": "GNeric Char Sheet Dev 0.2.1",
       "icon": "/icon.svg",
       "popover": "/src/index.html",
       "height": 600,
