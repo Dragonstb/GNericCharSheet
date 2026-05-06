@@ -36,7 +36,6 @@ export class GNericTable {
     curCol: number = -1;
 
     widthController: WidthController = new WidthController(this);
-    title = new FormControl('Table title');
 
     @ViewChild('tableBody', {static: true}) tableBody!: ElementRef<HTMLTableSectionElement>;
     @ViewChild('dragContainer', {static: true}) dragContainer: ElementRef<HTMLDivElement> | undefined;
@@ -259,7 +258,7 @@ export class GNericTable {
     }
 
     hasTitle(): boolean {
-        return Boolean(this.title.value);
+        return Boolean(this.elemModel.getTitle());
     }
 
     getType(): ElemTypes {

@@ -22,9 +22,9 @@
             <div class="spacingtopsmall" aria-live="polite">{{lockInfo}}</div>
         </div>
     }
-    <div class="boxed paddingtopsmall">
-        @if(hasTitle() || editable) {
-            <div class="paddingleftsmall">
+    <div class="boxed paddingtopnone">
+        @if(hasTitle()) {
+            <div class="paddingleftsmall paddingtopsmall paddingrightsmall">
                 <h4 class="elemtitle">{{elemModel.title.value}}</h4>
             </div>
         }
